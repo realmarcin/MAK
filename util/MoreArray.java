@@ -1516,7 +1516,7 @@ public class MoreArray {
         //System.out.println("getArrayInd start " + s);
         for (int i = 0; i < a.length; i++) {
             //System.out.println("getArrayInd " + i + "\t" + n);
-            if (a[i] == s && done[i] != 1) {
+            if ((a[i] == s || (Double.isNaN(s) && Double.isNaN(a[i]))) && done[i] != 1) {
                 //System.out.println("getArrayInd found " + i + "\t" + n + "\t" + s);
                 return i;
             }

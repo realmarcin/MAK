@@ -33,7 +33,7 @@ public class RecomputeTrajectory {
                 for (int j = 0; j < vbl.size(); j++) {
 
                     ValueBlock vb = (ValueBlock) vbl.get(j);
-                    ValueBlock test = BlockMethods.computeBlockOverlapWithRef(EvaluateBasic.true1, vb);
+                    ValueBlock test = BlockMethods.computeBlockOverlapWithRef(EvaluateBasic.true1, vb, false);
                     vb.percentOrigGenes = test.percentOrigGenes;
                     vb.percentOrigExp = test.percentOrigExp;
                     vbl.set(j, vb);
@@ -51,6 +51,8 @@ public class RecomputeTrajectory {
                 v.all_criteria[ValueBlock_STATIC.expr_FEM_IND] = 1.0;
                 v.all_criteria[ValueBlock_STATIC.expr_KEND_IND] = 1.0;
                 v.all_criteria[ValueBlock_STATIC.expr_COR_IND] = 1.0;
+                v.all_criteria[ValueBlock_STATIC.expr_EUC_IND] = 1.0;
+                v.all_criteria[ValueBlock_STATIC.expr_SPEARMAN_IND] = 1.0;
                 v.all_criteria[ValueBlock_STATIC.interact_IND] = 1.0;
                 v.all_criteria[ValueBlock_STATIC.feat_IND] = 1.0;
                 v.all_criteria[ValueBlock_STATIC.TF_IND] = 1.0;

@@ -162,7 +162,8 @@ public class Summarizer {
         out[0] = "RANDOM_SEED\tfirst.block_id\tfirst.gene_num\tfirst.exp_num\tfirst.pre_criterion\tfirst.full_criterion\t" +
                 "first.expr_mean\tfirst.expr_cor\tfirst.expr_reg\tfirst.interact_crit\tfirst.feature\tfirst.TF\t" +
                 "last.block_id\tlast.gene_num\tlast.exp_num\tlast.pre_criterion\tlast.full_criterion\t" +
-                "last.expr_mean\tlast.expr_mse\tlast.expr_reg\tlast.expr_kend\tlast.expr_cor\tlast.PPI_crit\tlast.feature\tlast.TF";
+                "last.expr_mean\tlast.expr_mse\tlast.expr_reg\tlast.expr_kend\tlast.expr_cor\tlast.expr_euc\tlast.expr_spearman" +
+                "\tlast.PPI_crit\tlast.feature\tlast.TF";
         for (int i = 0; i < store.size(); i++) {
             ValueBlockList vbl = (ValueBlockList) store.get(i);
             ValueBlock first = (ValueBlock) vbl.get(0);
@@ -171,8 +172,12 @@ public class Summarizer {
                     first.genes.length + "\t" + first.exps.length + "\t" +
                     first.pre_criterion + "\t" + first.full_criterion + "\t";
             if (first.all_criteria != null)
-                out[i + 1] += first.all_criteria[ValueBlock_STATIC.expr_MEAN_IND] + "\t" + first.all_criteria[ValueBlock_STATIC.expr_MSE_IND] + "\t" + first.all_criteria[ValueBlock_STATIC.expr_FEM_IND] + "\t" +
-                        first.all_criteria[ValueBlock_STATIC.expr_KEND_IND] + "\t" + first.all_criteria[ValueBlock_STATIC.expr_COR_IND] + "\t" + first.all_criteria[ValueBlock_STATIC.interact_IND] +
+                out[i + 1] += first.all_criteria[ValueBlock_STATIC.expr_MEAN_IND] + "\t" + first.all_criteria[ValueBlock_STATIC.expr_MSE_IND] + "\t" +
+                        first.all_criteria[ValueBlock_STATIC.expr_FEM_IND] + "\t" +
+                        first.all_criteria[ValueBlock_STATIC.expr_KEND_IND] + "\t" +
+                        first.all_criteria[ValueBlock_STATIC.expr_COR_IND] + "\t" + first.all_criteria[ValueBlock_STATIC.expr_EUC_IND] + "\t" +
+                        first.all_criteria[ValueBlock_STATIC.expr_SPEARMAN_IND] + "\t" +
+                        first.all_criteria[ValueBlock_STATIC.interact_IND] +
                         "\t" + first.all_criteria[ValueBlock_STATIC.feat_IND] + "\t" + first.all_criteria[ValueBlock_STATIC.TF_IND] + "\t";
             else
                 out[i + 1] += "\t\t\t\t\t\t\t\t";
@@ -181,8 +186,12 @@ public class Summarizer {
                     last.pre_criterion + "\t" + last.full_criterion
                     + "\t";
             if (last.all_criteria != null)
-                out[i + 1] += last.all_criteria[ValueBlock_STATIC.expr_MEAN_IND] + "\t" + last.all_criteria[ValueBlock_STATIC.expr_MSE_IND] + "\t" + last.all_criteria[ValueBlock_STATIC.expr_FEM_IND] + "\t" +
-                        last.all_criteria[ValueBlock_STATIC.expr_KEND_IND] + "\t" + last.all_criteria[ValueBlock_STATIC.expr_COR_IND] + "\t" + last.all_criteria[ValueBlock_STATIC.interact_IND]
+                out[i + 1] += last.all_criteria[ValueBlock_STATIC.expr_MEAN_IND] + "\t" + last.all_criteria[ValueBlock_STATIC.expr_MSE_IND] + "\t" +
+                        last.all_criteria[ValueBlock_STATIC.expr_FEM_IND] + "\t" +
+                        last.all_criteria[ValueBlock_STATIC.expr_KEND_IND] + "\t" +
+                        last.all_criteria[ValueBlock_STATIC.expr_COR_IND] + "\t" + last.all_criteria[ValueBlock_STATIC.expr_EUC_IND] + "\t" +
+                        last.all_criteria[ValueBlock_STATIC.expr_SPEARMAN_IND] + "\t" +
+                        last.all_criteria[ValueBlock_STATIC.interact_IND]
                         + "\t" + last.all_criteria[ValueBlock_STATIC.feat_IND] + "\t" + last.all_criteria[ValueBlock_STATIC.TF_IND];
             else
                 out[i + 1] += "\t\t\t\t\t\t\t\t";

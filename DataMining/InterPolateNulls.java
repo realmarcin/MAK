@@ -182,6 +182,14 @@ public class InterPolateNulls {
             "EXPR_EUC_MEDIAN",
             "EXPR_EUC_0.5IQR",
 
+
+            "EXPR_SPEARMANR_MEDIAN",
+            "EXPR_SPEARMANR_0.5IQR",
+            "EXPR_SPEARMANC_MEDIAN",
+            "EXPR_SPEARMANC_0.5IQR",
+            "EXPR_SPEARMAN_MEDIAN",
+            "EXPR_SPEARMAN_0.5IQR"
+
             /*"EXPR_MSE_MAXTF_MEDIAN",
             "EXPR_MSE_MAXTF_0.5IQR",
             "EXPR_MSE_MEAN_MAXTF_MEDIAN",
@@ -352,6 +360,13 @@ public class InterPolateNulls {
             "EUC",
             "EUC",
 
+            "SPEARMANR",
+            "SPEARMANR",
+            "SPEARMANC",
+            "SPEARMANC",
+            "SPEARMAN",
+            "SPEARMAN"
+
 
             /* "MSE_MAXTF",
             "MSE_MAXTF",
@@ -472,6 +487,10 @@ public class InterPolateNulls {
 
             if (rawmean != null || rawsd != null) {
                 if (countfiles[0] > 0 && j % 2 == meanindex) {
+                    if (debug) {
+                        System.out.println("norm " + countfiles[0]);
+                        MoreArray.printArray(rawmean);
+                    }
                     rawmean = stat.norm(rawmean, ((double) countfiles[0]));
                     String[][] strings = MoreArray.toString(rawmean, "", "");
                     String f = outf + critlabels[j] + "_median_raw.txt";
@@ -549,7 +568,13 @@ public class InterPolateNulls {
                             rawmean = MoreArray.convfromString(TabFile.readtoArray(dir + "/" + list[i]));
                             countfiles[0]++;
                         } else {
-                            double[][] rawexprmeantmp = MoreArray.convfromString(TabFile.readtoArray(dir + "/" + list[i]));
+                            double[][] rawexprmeantmp = new double[0][];
+                            try {
+                                rawexprmeantmp = MoreArray.convfromString(TabFile.readtoArray(dir + "/" + list[i]));
+                            } catch (Exception e) {
+                                System.out.println("tried reading " + dir + "/" + list[i]);
+                                e.printStackTrace();
+                            }
                             rawmean = Matrix.add(rawmean, rawexprmeantmp);
                             countfiles[0]++;
                         }
@@ -668,7 +693,7 @@ public class InterPolateNulls {
             InterPolateNulls rm = new InterPolateNulls(args);
         } else {
             System.out.println("syntax: java DataMining.InterPolateNulls\n" +
-                    "<dir> <outfile prefix> <OPTIONAL debug>"
+                    "<dir> <outfile prefix> <OPTIONAL debug y/n>"
             );
         }
     }

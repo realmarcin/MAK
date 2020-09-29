@@ -254,7 +254,7 @@ public class MinerView extends JFrame {
                 }
                 ValueBlockList vbl = null;
                 try {
-                    vbl = ValueBlockListMethods.readAny(ctrajpath, false);
+                    vbl = ValueBlockListMethods.readAny(ctrajpath, debug);
                 } catch (Exception e) {
                     e.printStackTrace();
                     /*try {

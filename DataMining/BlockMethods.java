@@ -2166,7 +2166,7 @@ overlap_count + "\tref.coords[0].size() " + ref.coords[0].size()
      * @param test
      * @return
      */
-    public final static ValueBlock computeBlockOverlapWithRef(ValueBlock ref, ValueBlock test) {
+    public final static ValueBlock computeBlockOverlapWithRef(ValueBlock ref, ValueBlock test, boolean debug) {
         double remxcount = 0, remycount = 0;
         String ref_block_id = BlockMethods.IcJctoijID(ref.genes, ref.exps);
         // int startBlockSlashInd = ref_block_id.indexOf("/");
@@ -2204,8 +2204,9 @@ overlap_count + "\tref.coords[0].size() " + ref.coords[0].size()
         }
         test.percentOrigGenes = remxcount / (double) ref.genes.length;
         test.percentOrigExp = remycount / (double) ref.exps.length;
-        System.out.println("\ncomputeBlockOverlapWithRef " + test.percentOrigGenes + "\t" +
-                test.percentOrigExp + "\t" + remxcount + "\t" + remycount + "\t" + ref.genes.length + "\t" + ref.exps.length);
+        if (debug)
+            System.out.println("\ncomputeBlockOverlapWithRef " + test.percentOrigGenes + "\t" +
+                    test.percentOrigExp + "\t" + remxcount + "\t" + remycount + "\t" + ref.genes.length + "\t" + ref.exps.length);
         return test;
     }
 

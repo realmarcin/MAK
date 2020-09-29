@@ -100,7 +100,8 @@ public class MoveParams {
         pA = MINER_STATIC.DEFAULT_pA;
         pG = MINER_STATIC.DEFAULT_pG;
         pBatch = 0.5;
-        System.out.println("MoveParams init " + pA + "\t" + pG + "\t" + pBatch);
+        if (debug)
+            System.out.println("MoveParams init " + pA + "\t" + pG + "\t" + pBatch);
         tried_moves = new int[4];
         stop = false;
         move_count = 0;

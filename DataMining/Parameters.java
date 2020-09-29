@@ -19,7 +19,7 @@ import java.util.HashMap;
  */
 public class Parameters {
 
-    public int debug = 0;
+    public int debug = MINER_STATIC.DEFAULT_DEBUG;
 
     public java.lang.String EXPR_DATA_PATH, INTERACT_DATA_PATH, FEAT_DATA_PATH,
             R_DATA_PATH, MOVES_PATH = "", param_path,
@@ -27,10 +27,11 @@ public class Parameters {
 
     //The current code uses the median instead of mean and 0.5IQR instead of sd, so variable names are not exactly reflective.
     public String MEANKEND_PATH, MEANKENDR_PATH, MEANKENDC_PATH, MEANCORR_PATH, MEANCORC_PATH, MEANMADR_PATH, MEANMSE_PATH, MEANMSER_PATH, MEANMSEC_PATH, MEANINTERACT_PATH,
-            MEANGEE_PATH, MEANGEERE_PATH, MEANGEECE_PATH, MEANLARSRE_PATH, MEANLARSCE_PATH, MEANCOR_PATH, MEANLARS_PATH, MEANEUC_PATH,
+            MEANGEE_PATH, MEANGEERE_PATH, MEANGEECE_PATH, MEANLARSRE_PATH, MEANLARSCE_PATH, MEANCOR_PATH, MEANLARS_PATH, MEANEUC_PATH, MEANSPEAR_PATH,
             SDMADR_PATH, SDMSE_PATH, SDMSER_PATH, SDMSEC_PATH, SDKEND_PATH, SDKENDR_PATH, SDKENDC_PATH, SDCORR_PATH, SDCORC_PATH, SDINTERACT_PATH,
-            SDGEE_PATH, SDGEERE_PATH, SDGEECE_PATH, SDLARSRE_PATH, SDLARSCE_PATH, MEANEUCR_PATH, MEANEUCC_PATH, SDEUCR_PATH, SDEUCC_PATH, MEANMEAN_PATH, SDMEAN_PATH,
-            MEANRMEAN_PATH, SDRMEAN_PATH, MEANCMEAN_PATH, SDCMEAN_PATH, SDCOR_PATH, SDLARS_PATH, SDEUC_PATH,
+            SDGEE_PATH, SDGEERE_PATH, SDGEECE_PATH, SDLARSRE_PATH, SDLARSCE_PATH, MEANEUCR_PATH, MEANEUCC_PATH, SDEUCR_PATH, SDEUCC_PATH,
+            MEANSPEARR_PATH, MEANSPEARC_PATH, SDSPEARR_PATH, SDSPEARC_PATH, MEANMEAN_PATH, SDMEAN_PATH,
+            MEANRMEAN_PATH, SDRMEAN_PATH, MEANCMEAN_PATH, SDCMEAN_PATH, SDCOR_PATH, SDLARS_PATH, SDEUC_PATH, SDSPEAR_PATH,
             MEANFEAT_PATH, SDFEAT_PATH, MEANTF_PATH, SDTF_PATH, MEANBINARY_PATH, SDBINARY_PATH, MEANBINARYR_PATH, SDBINARYR_PATH, MEANBINARYC_PATH, SDBINARYC_PATH,
             TRAJECTORY_PATH, EXCLUDE_LIST_PATH;
     //##Required info
@@ -166,6 +167,8 @@ public class Parameters {
             "MEANLARSCE_PATH",
             "MEANEUCR_PATH",
             "MEANEUCC_PATH",
+            "MEANSPEARR_PATH",
+            "MEANSPEARC_PATH",
             "MEANINTERACT_PATH",
             "MEANMEAN_PATH",
             "MEANRMEAN_PATH",
@@ -175,6 +178,7 @@ public class Parameters {
             "MEANCOR_PATH",
             "MEANLARS_PATH",
             "MEANEUC_PATH",
+            "MEANSPEAR_PATH",
 
             "SDKENDALL_PATH",
             "SDKENDALLR_PATH",
@@ -192,12 +196,15 @@ public class Parameters {
             "SDLARSCE_PATH",
             "SDEUCR_PATH",
             "SDEUCC_PATH",
+            "SDSPEARR_PATH",
+            "SDSPEARC_PATH",
             "SDINTERACT_PATH",
             "SDFEAT_PATH",
             "SDTF_PATH",
             "SDCOR_PATH",
             "SDLARS_PATH",
             "SDEUC_PATH",
+            "SDSPEAR_PATH",
 
             "TRAJECTORY_PATH",
             "R_METHODS_PATH",
@@ -339,6 +346,8 @@ public class Parameters {
         MEANLARSCE_PATH = p.MEANLARSCE_PATH;
         MEANEUCR_PATH = p.MEANEUCR_PATH;
         MEANEUCC_PATH = p.MEANEUCC_PATH;
+        MEANSPEARR_PATH = p.MEANSPEARR_PATH;
+        MEANSPEARC_PATH = p.MEANSPEARC_PATH;
         MEANMEAN_PATH = p.MEANMEAN_PATH;
         MEANRMEAN_PATH = p.MEANRMEAN_PATH;
         MEANCMEAN_PATH = p.MEANCMEAN_PATH;
@@ -347,6 +356,7 @@ public class Parameters {
         MEANCOR_PATH = p.MEANCOR_PATH;
         MEANLARS_PATH = p.MEANLARS_PATH;
         MEANEUC_PATH = p.MEANEUC_PATH;
+        MEANSPEAR_PATH = p.MEANSPEAR_PATH;
 
         SDKEND_PATH = p.SDKEND_PATH;
         SDKENDR_PATH = p.SDKENDR_PATH;
@@ -368,6 +378,8 @@ public class Parameters {
         SDLARSCE_PATH = p.SDLARSCE_PATH;
         SDEUCR_PATH = p.SDEUCR_PATH;
         SDEUCC_PATH = p.SDEUCC_PATH;
+        SDSPEARR_PATH = p.SDSPEARR_PATH;
+        SDSPEARC_PATH = p.SDSPEARC_PATH;
         SDMEAN_PATH = p.SDMEAN_PATH;
         SDRMEAN_PATH = p.SDRMEAN_PATH;
         SDCMEAN_PATH = p.SDCMEAN_PATH;
@@ -376,6 +388,7 @@ public class Parameters {
         SDCOR_PATH = p.SDCOR_PATH;
         SDLARS_PATH = p.SDLARS_PATH;
         SDEUC_PATH = p.SDEUC_PATH;
+        SDSPEAR_PATH = p.SDSPEAR_PATH;
 
         TRAJECTORY_PATH = p.TRAJECTORY_PATH;
         EXCLUDE_LIST_PATH = p.EXCLUDE_LIST_PATH;
@@ -520,6 +533,9 @@ public class Parameters {
         MEANEUC_PATH = null;
         MEANEUCR_PATH = null;
         MEANEUCC_PATH = null;
+        MEANSPEAR_PATH = null;
+        MEANSPEARR_PATH = null;
+        MEANSPEARC_PATH = null;
 
         SDKEND_PATH = null;
         SDKENDR_PATH = null;
@@ -549,6 +565,9 @@ public class Parameters {
         SDEUC_PATH = null;
         SDEUCR_PATH = null;
         SDEUCC_PATH = null;
+        SDSPEAR_PATH = null;
+        SDSPEARR_PATH = null;
+        SDSPEARC_PATH = null;
 
         TRAJECTORY_PATH = null;
         EXCLUDE_LIST_PATH = null;
@@ -708,10 +727,12 @@ public class Parameters {
 
                                 File test = new File(OUTDIR);
                                 if (!test.exists()) {
-                                    System.out.println("Attempting to create output dir");
+                                    if (debug >= 0)
+                                        System.out.println("Attempting to create output dir");
                                     try {
                                         test.mkdir();
-                                        System.out.println("succeeded");
+                                        if (debug >= 0)
+                                            System.out.println("succeeded");
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -720,7 +741,8 @@ public class Parameters {
                             //System.out.println("Parameters read OUTDIR " + OUTDIR);
                         } else if (cur.matches("(?i)OUTPREFIX =.*")) {
                             OUTPREFIX = extractStr;
-                            System.out.println("Parameters read OUTPREFIX " + OUTPREFIX);
+                            if (debug >= 0)
+                                System.out.println("Parameters read OUTPREFIX " + OUTPREFIX);
                         } else if (cur.matches("(?i)EXPR_DATA_PATH =.*")) {
                             EXPR_DATA_PATH = extractStr;
                         } else if (cur.matches("(?i)INTERACT_DATA_PATH =.*")) {
@@ -786,6 +808,12 @@ public class Parameters {
                             MEANEUCR_PATH = extractStr;
                         } else if (cur.matches("(?i)MEANEUCC_PATH =.*")) {
                             MEANEUCC_PATH = extractStr;
+                        } else if (cur.matches("(?i)MEANSPEAR_PATH =.*")) {
+                            MEANSPEAR_PATH = extractStr;
+                        } else if (cur.matches("(?i)MEANSPEARR_PATH =.*")) {
+                            MEANSPEARR_PATH = extractStr;
+                        } else if (cur.matches("(?i)MEANSPEARC_PATH =.*")) {
+                            MEANSPEARC_PATH = extractStr;
                         } else if (cur.matches("(?i)SDKENDALL_PATH =.*") || cur.matches("(?i)SDKEND_PATH =.*")) {
                             SDKEND_PATH = extractStr;
                         } else if (cur.matches("(?i)SDKENDALLR_PATH =.*") || cur.matches("(?i)SDKENDR_PATH =.*")) {
@@ -832,6 +860,12 @@ public class Parameters {
                             SDEUCR_PATH = extractStr;
                         } else if (cur.matches("(?i)SDEUCC_PATH =.*")) {
                             SDEUCC_PATH = extractStr;
+                        } else if (cur.matches("(?i)SDSPEAR_PATH =.*")) {
+                            SDSPEAR_PATH = extractStr;
+                        } else if (cur.matches("(?i)SDSPEARR_PATH =.*")) {
+                            SDSPEARR_PATH = extractStr;
+                        } else if (cur.matches("(?i)SDSPEARC_PATH =.*")) {
+                            SDSPEARC_PATH = extractStr;
                         } else if (cur.matches("(?i)MEANMEAN_PATH =.*")) {
                             MEANMEAN_PATH = extractStr;
                         } else if (cur.matches("(?i)SDMEAN_PATH =.*")) {
@@ -850,10 +884,12 @@ public class Parameters {
                             SDFEAT_PATH = extractStr;
                         } else if (cur.matches("(?i)MEANTF_PATH =.*")) {
                             MEANTF_PATH = extractStr;
-                            System.out.println("MEANTF_PATH " + MEANTF_PATH);
+                            if (debug >= 0)
+                                System.out.println("MEANTF_PATH " + MEANTF_PATH);
                         } else if (cur.matches("(?i)SDTF_PATH =.*")) {
                             SDTF_PATH = extractStr;
-                            System.out.println("SDTF_PATH " + SDTF_PATH);
+                            if (debug >= 0)
+                                System.out.println("SDTF_PATH " + SDTF_PATH);
                         } else if (cur.matches("(?i)TRAJECTORY_PATH =.*")) {
                             TRAJECTORY_PATH = extractStr;
                         } else if (cur.matches("(?i)EXCLUDE_LIST_PATH =.*")) {
@@ -902,41 +938,50 @@ public class Parameters {
                             NOISE_LEVEL = Double.parseDouble(extractStr);
                         } else if (cur.matches("(?i)INITPA =.*")) {
                             INITPA = Double.parseDouble(extractStr);
-                            System.out.println("Parameters read INITPA " + INITPA);
+                            if (debug >= 0)
+                                System.out.println("Parameters read INITPA " + INITPA);
                             if (Double.isNaN(INITPA)) {
                                 INITPA = MINER_STATIC.DEFAULT_pA;
-                                System.out.println("Parameters read INITPA was NA, set to " + INITPA);
+                                if (debug >= 0)
+                                    System.out.println("Parameters read INITPA was NA, set to " + INITPA);
                             }
                         } else if (cur.matches("(?i)INITPG =.*")) {
                             INITPG = Double.parseDouble(extractStr);
-                            System.out.println("Parameters read INITPG " + INITPG);
+                            if (debug >= 0)
+                                System.out.println("Parameters read INITPG " + INITPG);
                             if (Double.isNaN(INITPG)) {
                                 INITPG = MINER_STATIC.DEFAULT_pG;
-                                System.out.println("Parameters read INITPG was NA, set to " + INITPG);
+                                if (debug >= 0)
+                                    System.out.println("Parameters read INITPG was NA, set to " + INITPG);
                             }
                         } else if (cur.matches("(?i)PA =.*")) {
                             PA = Double.parseDouble(extractStr);
-                            System.out.println("Parameters read PA " + PA);
+                            if (debug >= 0)
+                                System.out.println("Parameters read PA " + PA);
                             if (Double.isNaN(PA)) {
                                 if (!Double.isNaN(INITPA))
                                     PA = INITPA;
                                 else
                                     PA = MINER_STATIC.DEFAULT_pA;
-                                System.out.println("Parameters read PA was NA, set to " + PA);
+                                if (debug >= 0)
+                                    System.out.println("Parameters read PA was NA, set to " + PA);
                             }
                         } else if (cur.matches("(?i)PG =.*")) {
                             PG = Double.parseDouble(extractStr);
-                            System.out.println("Parameters read PG " + PG);
+                            if (debug >= 0)
+                                System.out.println("Parameters read PG " + PG);
                             if (Double.isNaN(PG)) {
                                 if (!Double.isNaN(INITPG))
                                     PG = INITPG;
                                 else
                                     PG = MINER_STATIC.DEFAULT_pG;
-                                System.out.println("Parameters read PG was NA, set to " + PG);
+                                if (debug >= 0)
+                                    System.out.println("Parameters read PG was NA, set to " + PG);
                             }
                         } else if (cur.matches("(?i)PBATCH =.*")) {
                             PBATCH = Double.parseDouble(extractStr);
-                            System.out.println("Parameters read PBATCH " + PBATCH);
+                            if (debug >= 0)
+                                System.out.println("Parameters read PBATCH " + PBATCH);
                             setMoveClass();
                         } else if (cur.matches("(?i)SIZE_PRECRIT_LIST =.*")) {
                             SIZE_PRECRIT_LIST = (int) Double.parseDouble(extractStr);
@@ -1082,7 +1127,8 @@ public class Parameters {
                                 USE_MEAN = true;
                             }
                         } else if (cur.matches("(?i)USE_ABS =.*")) {
-                            System.out.println("USE_ABS " + extractStr);
+                            if (debug >= 0)
+                                System.out.println("USE_ABS " + extractStr);
                             if (extractStr.equalsIgnoreCase("T") || extractStr.equalsIgnoreCase("true") ||
                                     extractStr.equalsIgnoreCase("y") || extractStr.equalsIgnoreCase("yes")) {
                                 USE_ABS = true;
@@ -1097,10 +1143,12 @@ public class Parameters {
                                 if (extractStr.indexOf(",") != -1) {
                                     USE_ABS_AR = MoreArray.ArrayListtoInt(MoreArray.convtoArrayList(extractStr.split(",")));
                                 }
-                                System.out.println("USE_ABS " + USE_ABS + "\t" + MoreArray.toString(USE_ABS_AR));
+                                if (debug >= 0)
+                                    System.out.println("USE_ABS " + USE_ABS + "\t" + MoreArray.toString(USE_ABS_AR));
                             }
                         } else if (cur.matches("(?i)USE_NULL =.*")) {
-                            System.out.println("USE_NULL_AR " + extractStr);
+                            if (debug >= 0)
+                                System.out.println("USE_NULL_AR " + extractStr);
                             /*if (extractStr.equalsIgnoreCase("T") || extractStr.equalsIgnoreCase("true") ||
                                     extractStr.equalsIgnoreCase("y") || extractStr.equalsIgnoreCase("yes")) {
                                 USE_ABS = true;
@@ -1116,10 +1164,12 @@ public class Parameters {
                                 if (extractStr.indexOf(",") != -1) {
                                     USE_NULL_AR = MoreArray.ArrayListtoInt(MoreArray.convtoArrayList(extractStr.split(",")));
                                 }
-                                System.out.println("USE_NULL_AR " + USE_NULL_AR + "\t" + MoreArray.toString(USE_NULL_AR));
+                                if (debug >= 0)
+                                    System.out.println("USE_NULL_AR " + USE_NULL_AR + "\t" + MoreArray.toString(USE_NULL_AR));
                             }
                         } else if (cur.matches("(?i)FRXN_SIGN =.*")) {
-                            System.out.println("FRXN_SIGN " + extractStr);
+                            if (debug >= 0)
+                                System.out.println("FRXN_SIGN " + extractStr);
                             if (extractStr.equalsIgnoreCase("T") || extractStr.equalsIgnoreCase("true") ||
                                     extractStr.equalsIgnoreCase("y") || extractStr.equalsIgnoreCase("yes")) {
                                 FRXN_SIGN = true;
@@ -1132,7 +1182,8 @@ public class Parameters {
                                 setAbsAr();
                             }
                         } else if (cur.matches("(?i)OVERRIDE_SHAVING =.*")) {
-                            System.out.println("OVERRIDE_SHAVING " + extractStr);
+                            if (debug >= 0)
+                                System.out.println("OVERRIDE_SHAVING " + extractStr);
                             if (extractStr.equalsIgnoreCase("T") || extractStr.equalsIgnoreCase("true") ||
                                     extractStr.equalsIgnoreCase("y") || extractStr.equalsIgnoreCase("yes")) {
                                 OVERRIDE_SHAVING = true;
@@ -1160,13 +1211,15 @@ public class Parameters {
                             PRECRIT_TYPE_INDEX = Integer.parseInt(extractStr);
                             //System.out.println("precrit " + PRECRIT_TYPE_INDEX);
                         } else if (cur.matches("FEATURES")) {
-                            System.out.println("Parameters FEATURE_INDICES " + extractStr);
+                            if (debug >= 0)
+                                System.out.println("Parameters FEATURE_INDICES " + extractStr);
                             if (extractStr != null && !extractStr.equals("null") && extractStr.length() > 0) {
                                 extractStr = util.StringUtil.replace(extractStr, " ", "");
                                 int com = cur.indexOf(",");
                                 if (com != -1) {
                                     String[] split = extractStr.split(",");
-                                    System.out.println("FEATURES " + split.length);
+                                    if (debug >= 0)
+                                        System.out.println("FEATURES " + split.length);
                                     if (split != null) {
                                         for (int k = 0; k < split.length; k++) {
                                             if (!split[k].equals("null")) {
@@ -1185,7 +1238,8 @@ public class Parameters {
                                     addtoFeatureMap(extractStr);
                                 }*/
                             } else {
-                                System.out.println("FEATURES null");
+                                if (debug >= 0)
+                                    System.out.println("FEATURES null");
                                 FEATURE_INDICES = null;
                                 feature_map = null;
                             }
@@ -1237,7 +1291,8 @@ public class Parameters {
         if (TFTARGETMAP_PATH == null && (MEANTF_PATH != null && SDTF_PATH != null)) {
             throw new IllegalStateException("ERROR TFcrit data missing");
         }
-        System.out.println("TFTARGETMAP_PATH set " + TFcrit);
+        if (debug >= 0)
+            System.out.println("TFTARGETMAP_PATH set " + TFcrit);
         /*TODO separate use of TF crit for precrit and full crit */
 
 
@@ -1264,7 +1319,8 @@ public class Parameters {
         crit = new Criterion(CRIT_TYPE_INDEX, USE_MEAN, WEIGH_EXPR, USE_ABS_AR, TFcrit, needinv, true, FRXN_SIGN, debug > 0 ? true : false);
         //crit = new Criterion(CRIT_TYPE_INDEX, USE_MEAN, WEIGH_EXPR, USE_ABS_AR, USE_NULL_AR, TFcrit, needinv, true, FRXN_SIGN, debug > 0 ? true : false);
 
-        System.out.println("Parameters a/f read\n" + toString());
+        if (debug >= 0)
+            System.out.println("Parameters a/f read\n" + toString());
     }
 
     /**
@@ -1303,10 +1359,12 @@ public class Parameters {
 
                                 File test = new File(OUTDIR);
                                 if (!test.exists()) {
-                                    System.out.println("Attempting to create output dir");
+                                    if (debug >= 0)
+                                        System.out.println("Attempting to create output dir");
                                     try {
                                         test.mkdir();
-                                        System.out.println("succeeded");
+                                        if (debug >= 0)
+                                            System.out.println("succeeded");
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -1315,7 +1373,8 @@ public class Parameters {
                             //System.out.println("Parameters read OUTDIR " + OUTDIR);
                         } else if (cur.matches("(?i)OUTPREFIX =.*")) {
                             OUTPREFIX = extractStr;
-                            System.out.println("Parameters read OUTPREFIX " + OUTPREFIX);
+                            if (debug >= 0)
+                                System.out.println("Parameters read OUTPREFIX " + OUTPREFIX);
                         } else if (cur.matches("(?i)EXPR_DATA_PATH =.*")) {
                             EXPR_DATA_PATH = extractStr;
                         } else if (cur.matches("(?i)INTERACT_DATA_PATH =.*")) {
@@ -1381,6 +1440,12 @@ public class Parameters {
                             MEANEUCR_PATH = extractStr;
                         } else if (cur.matches("(?i)MEANEUCC_PATH =.*")) {
                             MEANEUCC_PATH = extractStr;
+                        } else if (cur.matches("(?i)MEANSPEAR_PATH =.*")) {
+                            MEANSPEAR_PATH = extractStr;
+                        } else if (cur.matches("(?i)MEANSPEARR_PATH =.*")) {
+                            MEANSPEARR_PATH = extractStr;
+                        } else if (cur.matches("(?i)MEANSPEARC_PATH =.*")) {
+                            MEANSPEARC_PATH = extractStr;
                         } else if (cur.matches("(?i)SDKENDALL_PATH =.*")) {
                             SDKEND_PATH = extractStr;
                         } else if (cur.matches("(?i)SDKENDALLR_PATH =.*")) {
@@ -1427,6 +1492,12 @@ public class Parameters {
                             SDEUCR_PATH = extractStr;
                         } else if (cur.matches("(?i)SDEUCC_PATH =.*")) {
                             SDEUCC_PATH = extractStr;
+                        } else if (cur.matches("(?i)SDSPEAR_PATH =.*")) {
+                            SDSPEAR_PATH = extractStr;
+                        } else if (cur.matches("(?i)SDSPEARR_PATH =.*")) {
+                            SDSPEARR_PATH = extractStr;
+                        } else if (cur.matches("(?i)SDSPEARC_PATH =.*")) {
+                            SDSPEARC_PATH = extractStr;
                         } else if (cur.matches("(?i)MEANMEAN_PATH =.*")) {
                             MEANMEAN_PATH = extractStr;
                         } else if (cur.matches("(?i)SDMEAN_PATH =.*")) {
@@ -1445,10 +1516,12 @@ public class Parameters {
                             SDFEAT_PATH = extractStr;
                         } else if (cur.matches("(?i)MEANTF_PATH =.*")) {
                             MEANTF_PATH = extractStr;
-                            System.out.println("MEANTF_PATH " + MEANTF_PATH);
+                            if (debug >= 0)
+                                System.out.println("MEANTF_PATH " + MEANTF_PATH);
                         } else if (cur.matches("(?i)SDTF_PATH =.*")) {
                             SDTF_PATH = extractStr;
-                            System.out.println("SDTF_PATH " + SDTF_PATH);
+                            if (debug >= 0)
+                                System.out.println("SDTF_PATH " + SDTF_PATH);
                         } else if (cur.matches("(?i)TRAJECTORY_PATH =.*")) {
                             TRAJECTORY_PATH = extractStr;
                         } else if (cur.matches("(?i)EXCLUDE_LIST_PATH =.*")) {
@@ -1497,41 +1570,50 @@ public class Parameters {
                             NOISE_LEVEL = Double.parseDouble(extractStr);
                         } else if (cur.matches("(?i)INITPA =.*")) {
                             INITPA = Double.parseDouble(extractStr);
-                            System.out.println("Parameters read INITPA " + INITPA);
+                            if (debug >= 0)
+                                System.out.println("Parameters read INITPA " + INITPA);
                             if (Double.isNaN(INITPA)) {
                                 INITPA = MINER_STATIC.DEFAULT_pA;
-                                System.out.println("Parameters read INITPA was NA, set to " + INITPA);
+                                if (debug >= 0)
+                                    System.out.println("Parameters read INITPA was NA, set to " + INITPA);
                             }
                         } else if (cur.matches("(?i)INITPG =.*")) {
                             INITPG = Double.parseDouble(extractStr);
-                            System.out.println("Parameters read INITPG " + INITPG);
+                            if (debug >= 0)
+                                System.out.println("Parameters read INITPG " + INITPG);
                             if (Double.isNaN(INITPG)) {
                                 INITPG = MINER_STATIC.DEFAULT_pG;
-                                System.out.println("Parameters read INITPG was NA, set to " + INITPG);
+                                if (debug >= 0)
+                                    System.out.println("Parameters read INITPG was NA, set to " + INITPG);
                             }
                         } else if (cur.matches("(?i)PA =.*")) {
                             PA = Double.parseDouble(extractStr);
-                            System.out.println("Parameters read PA " + PA);
+                            if (debug >= 0)
+                                System.out.println("Parameters read PA " + PA);
                             if (Double.isNaN(PA)) {
                                 if (!Double.isNaN(INITPA))
                                     PA = INITPA;
                                 else
                                     PA = MINER_STATIC.DEFAULT_pA;
-                                System.out.println("Parameters read PA was NA, set to " + PA);
+                                if (debug >= 0)
+                                    System.out.println("Parameters read PA was NA, set to " + PA);
                             }
                         } else if (cur.matches("(?i)PG =.*")) {
                             PG = Double.parseDouble(extractStr);
-                            System.out.println("Parameters read PG " + PG);
+                            if (debug >= 0)
+                                System.out.println("Parameters read PG " + PG);
                             if (Double.isNaN(PG)) {
                                 if (!Double.isNaN(INITPG))
                                     PG = INITPG;
                                 else
                                     PG = MINER_STATIC.DEFAULT_pG;
-                                System.out.println("Parameters read PG was NA, set to " + PG);
+                                if (debug >= 0)
+                                    System.out.println("Parameters read PG was NA, set to " + PG);
                             }
                         } else if (cur.matches("(?i)PBATCH =.*")) {
                             PBATCH = Double.parseDouble(extractStr);
-                            System.out.println("Parameters read PBATCH " + PBATCH);
+                            if (debug >= 0)
+                                System.out.println("Parameters read PBATCH " + PBATCH);
                             setMoveClass();
                         } else if (cur.matches("(?i)SIZE_PRECRIT_LIST =.*")) {
                             SIZE_PRECRIT_LIST = (int) Double.parseDouble(extractStr);
@@ -1677,7 +1759,8 @@ public class Parameters {
                                 USE_MEAN = true;
                             }
                         } else if (cur.matches("(?i)USE_ABS =.*")) {
-                            System.out.println("USE_ABS " + extractStr);
+                            if (debug >= 0)
+                                System.out.println("USE_ABS " + extractStr);
                             if (extractStr.equalsIgnoreCase("T") || extractStr.equalsIgnoreCase("true") ||
                                     extractStr.equalsIgnoreCase("y") || extractStr.equalsIgnoreCase("yes")) {
                                 USE_ABS = true;
@@ -1692,10 +1775,12 @@ public class Parameters {
                                 if (extractStr.indexOf(",") != -1) {
                                     USE_ABS_AR = MoreArray.ArrayListtoInt(MoreArray.convtoArrayList(extractStr.split(",")));
                                 }
-                                System.out.println("USE_ABS " + USE_ABS + "\t" + MoreArray.toString(USE_ABS_AR));
+                                if (debug >= 0)
+                                    System.out.println("USE_ABS " + USE_ABS + "\t" + MoreArray.toString(USE_ABS_AR));
                             }
                         } else if (cur.matches("(?i)FRXN_SIGN =.*")) {
-                            System.out.println("FRXN_SIGN " + extractStr);
+                            if (debug >= 0)
+                                System.out.println("FRXN_SIGN " + extractStr);
                             if (extractStr.equalsIgnoreCase("T") || extractStr.equalsIgnoreCase("true") ||
                                     extractStr.equalsIgnoreCase("y") || extractStr.equalsIgnoreCase("yes")) {
                                 FRXN_SIGN = true;
@@ -1708,7 +1793,8 @@ public class Parameters {
                                 setAbsAr();
                             }
                         } else if (cur.matches("(?i)OVERRIDE_SHAVING =.*")) {
-                            System.out.println("OVERRIDE_SHAVING " + extractStr);
+                            if (debug >= 0)
+                                System.out.println("OVERRIDE_SHAVING " + extractStr);
                             if (extractStr.equalsIgnoreCase("T") || extractStr.equalsIgnoreCase("true") ||
                                     extractStr.equalsIgnoreCase("y") || extractStr.equalsIgnoreCase("yes")) {
                                 OVERRIDE_SHAVING = true;
@@ -1736,13 +1822,15 @@ public class Parameters {
                             PRECRIT_TYPE_INDEX = Integer.parseInt(extractStr);
                             //System.out.println("precrit " + PRECRIT_TYPE_INDEX);
                         } else if (cur.matches("FEATURES")) {
-                            System.out.println("Parameters FEATURE_INDICES " + extractStr);
+                            if (debug >= 0)
+                                System.out.println("Parameters FEATURE_INDICES " + extractStr);
                             if (extractStr != null && !extractStr.equals("null") && extractStr.length() > 0) {
                                 extractStr = util.StringUtil.replace(extractStr, " ", "");
                                 int com = cur.indexOf(",");
                                 if (com != -1) {
                                     String[] split = extractStr.split(",");
-                                    System.out.println("FEATURES " + split.length);
+                                    if (debug >= 0)
+                                        System.out.println("FEATURES " + split.length);
                                     if (split != null) {
                                         for (int k = 0; k < split.length; k++) {
                                             if (!split[k].equals("null")) {
@@ -1761,7 +1849,8 @@ public class Parameters {
                                     addtoFeatureMap(extractStr);
                                 }*/
                             } else {
-                                System.out.println("FEATURES null");
+                                if (debug >= 0)
+                                    System.out.println("FEATURES null");
                                 FEATURE_INDICES = null;
                                 feature_map = null;
                             }
@@ -1819,7 +1908,8 @@ public class Parameters {
         if (TFTARGETMAP_PATH == null && (MEANTF_PATH != null && SDTF_PATH != null)) {
             throw new IllegalStateException("ERROR TFcrit data missing " + TFTARGETMAP_PATH);
         }
-        System.out.println("TFTARGETMAP_PATH set " + TFcrit);
+        if (debug >= 0)
+            System.out.println("TFTARGETMAP_PATH set " + TFcrit);
         /*TODO separate use of TF crit for precrit and full crit */
 
         // if (!TemplateFile) {
@@ -1830,14 +1920,16 @@ public class Parameters {
 
         if (PRECRIT_TYPE_INDEX == -1) {
             PRECRIT_TYPE_INDEX = CRIT_TYPE_INDEX;
-            System.out.println("WARNING: PRECRIT_TYPE_INDEX UNDEFINED, SETTING TO CRIT_TYPE_INDEX = NO PRECRIT SCORING");
+            if (debug >= 0)
+                System.out.println("WARNING: PRECRIT_TYPE_INDEX UNDEFINED, SETTING TO CRIT_TYPE_INDEX = NO PRECRIT SCORING");
         }
 
         precrit = new Criterion(PRECRIT_TYPE_INDEX, USE_MEAN, WEIGH_EXPR, USE_ABS_AR, TFcrit, needinv, true, FRXN_SIGN, debug > 0 ? true : false);
 
         crit = new Criterion(CRIT_TYPE_INDEX, USE_MEAN, WEIGH_EXPR, USE_ABS_AR, TFcrit, needinv, true, FRXN_SIGN, debug > 0 ? true : false);
 
-        System.out.println("Parameters a/f read\n" + toString());
+        if (debug >= 0)
+            System.out.println("Parameters a/f read\n" + toString());
     }
 
     private void checkParameterFileArguments() {
@@ -1872,7 +1964,8 @@ public class Parameters {
         if (USE_ABS)
             FRXN_SIGN = false;
 
-        System.out.println("setAbsAr " + MoreArray.toString(USE_ABS_AR, ","));
+        if (debug >= 0)
+            System.out.println("setAbsAr " + MoreArray.toString(USE_ABS_AR, ","));
     }
 
     /**
@@ -1903,19 +1996,23 @@ public class Parameters {
     public void read(String file, boolean TemplateFile) {
         ArrayList pass = TextFile.readtoList(file);
         String file_separator = System.getProperty("file.separator");
-        System.out.println("Parameters read " + file);
+        if (debug >= 0)
+            System.out.println("Parameters read " + file);
         read(pass, file_separator, TemplateFile);
         if (Double.isNaN(PA)) {
             PA = INITPA;
-            System.out.println("Parameters read set PA " + PA);
+            if (debug >= 0)
+                System.out.println("Parameters read set PA " + PA);
         } else {
-            System.out.println("Parameters read PA " + PA);
+            if (debug >= 0)
+                System.out.println("Parameters read PA " + PA);
         }
         if (Double.isNaN(PG) && DATA_LEN_GENES != -1 && DATA_LEN_EXPS != -1) {
             //PG = INITPG;
             setpG();
         } else {
-            System.out.println("Parameters read PG " + PG);
+            if (debug >= 0)
+                System.out.println("Parameters read PG " + PG);
         }
     }
 
@@ -1925,19 +2022,23 @@ public class Parameters {
     public void read(String file) {
         ArrayList pass = TextFile.readtoList(file);
         String file_separator = System.getProperty("file.separator");
-        System.out.println("Parameters read " + file);
+        if (debug >= 0)
+            System.out.println("Parameters read " + file);
         read(pass, file_separator);
         if (Double.isNaN(PA)) {
             PA = INITPA;
-            System.out.println("Parameters read set PA " + PA);
+            if (debug >= 0)
+                System.out.println("Parameters read set PA " + PA);
         } else {
-            System.out.println("Parameters read PA " + PA);
+            if (debug >= 0)
+                System.out.println("Parameters read PA " + PA);
         }
         if (Double.isNaN(PG) && DATA_LEN_GENES != -1 && DATA_LEN_EXPS != -1) {
             //PG = INITPG;
             setpG();
         } else {
-            System.out.println("Parameters read PG " + PG);
+            if (debug >= 0)
+                System.out.println("Parameters read PG " + PG);
         }
     }
 
@@ -1946,7 +2047,8 @@ public class Parameters {
      */
     public void setpG() {
         PG = (((double) (DATA_LEN_GENES)) / (double) (DATA_LEN_GENES + DATA_LEN_EXPS));
-        System.out.println("Parameters setpG " + PG + "\t" + DATA_LEN_GENES + "\t" + DATA_LEN_EXPS);
+        if (debug >= 0)
+            System.out.println("Parameters setpG " + PG + "\t" + DATA_LEN_GENES + "\t" + DATA_LEN_EXPS);
     }
 
     /**
@@ -1998,6 +2100,7 @@ public class Parameters {
         FEAT_DATA_PATH = replace(FEAT_DATA_PATH);
         EXCLUDE_LIST_PATH = replace(EXCLUDE_LIST_PATH);
         INTERACT_DATA_PATH = replace(INTERACT_DATA_PATH);
+
         MEANBINARY_PATH = replace(MEANBINARY_PATH);
         MEANBINARYC_PATH = replace(MEANBINARYC_PATH);
         MEANBINARYR_PATH = replace(MEANBINARYR_PATH);
@@ -2010,6 +2113,9 @@ public class Parameters {
         MEANEUC_PATH = replace(MEANEUC_PATH);
         MEANEUCC_PATH = replace(MEANEUCC_PATH);
         MEANEUCR_PATH = replace(MEANEUCR_PATH);
+        MEANSPEAR_PATH = replace(MEANSPEAR_PATH);
+        MEANSPEARR_PATH = replace(MEANSPEARR_PATH);
+        MEANSPEARC_PATH = replace(MEANSPEARC_PATH);
         MEANFEAT_PATH = replace(MEANFEAT_PATH);
         MEANGEE_PATH = replace(MEANGEE_PATH);
         MEANGEECE_PATH = replace(MEANGEECE_PATH);
@@ -2026,33 +2132,36 @@ public class Parameters {
         MEANMSER_PATH = replace(MEANMSER_PATH);
         MEANTF_PATH = replace(MEANTF_PATH);
 
-        SDBINARY_PATH = replace(MEANBINARY_PATH);
-        SDBINARYC_PATH = replace(MEANBINARYC_PATH);
-        SDBINARYR_PATH = replace(MEANBINARYR_PATH);
-        SDMEAN_PATH = replace(MEANMEAN_PATH);
-        SDCMEAN_PATH = replace(MEANCMEAN_PATH);
-        SDRMEAN_PATH = replace(MEANRMEAN_PATH);
-        SDCOR_PATH = replace(MEANCOR_PATH);
-        SDCORC_PATH = replace(MEANCORC_PATH);
-        SDCORR_PATH = replace(MEANCORR_PATH);
-        SDEUC_PATH = replace(MEANEUC_PATH);
-        SDEUCC_PATH = replace(MEANEUCC_PATH);
-        SDEUCR_PATH = replace(MEANEUCR_PATH);
-        SDFEAT_PATH = replace(MEANFEAT_PATH);
-        SDGEE_PATH = replace(MEANGEE_PATH);
-        SDGEECE_PATH = replace(MEANGEECE_PATH);
-        SDGEERE_PATH = replace(MEANGEERE_PATH);
-        SDKEND_PATH = replace(MEANKEND_PATH);
-        SDKENDR_PATH = replace(MEANKENDR_PATH);
-        SDKENDC_PATH = replace(MEANKENDC_PATH);
-        SDLARS_PATH = replace(MEANLARS_PATH);
-        SDLARSCE_PATH = replace(MEANLARSCE_PATH);
-        SDLARSRE_PATH = replace(MEANLARSRE_PATH);
-        SDMADR_PATH = replace(MEANMADR_PATH);
-        SDMSE_PATH = replace(MEANMSE_PATH);
-        SDMSEC_PATH = replace(MEANMSEC_PATH);
-        SDMSER_PATH = replace(MEANMSER_PATH);
-        SDTF_PATH = replace(MEANTF_PATH);
+        SDBINARY_PATH = replace(SDBINARY_PATH);
+        SDBINARYC_PATH = replace(SDBINARYC_PATH);
+        SDBINARYR_PATH = replace(SDBINARYR_PATH);
+        SDMEAN_PATH = replace(SDMEAN_PATH);
+        SDCMEAN_PATH = replace(SDCMEAN_PATH);
+        SDRMEAN_PATH = replace(SDRMEAN_PATH);
+        SDCOR_PATH = replace(SDCOR_PATH);
+        SDCORC_PATH = replace(SDCORC_PATH);
+        SDCORR_PATH = replace(SDCORR_PATH);
+        SDEUC_PATH = replace(SDEUC_PATH);
+        SDEUCC_PATH = replace(SDEUCC_PATH);
+        SDEUCR_PATH = replace(SDEUCR_PATH);
+        SDSPEAR_PATH = replace(SDSPEAR_PATH);
+        SDSPEARC_PATH = replace(SDSPEARC_PATH);
+        SDSPEARR_PATH = replace(SDSPEARR_PATH);
+        SDFEAT_PATH = replace(SDFEAT_PATH);
+        SDGEE_PATH = replace(SDGEE_PATH);
+        SDGEECE_PATH = replace(SDGEECE_PATH);
+        SDGEERE_PATH = replace(SDGEERE_PATH);
+        SDKEND_PATH = replace(SDKEND_PATH);
+        SDKENDR_PATH = replace(SDKENDR_PATH);
+        SDKENDC_PATH = replace(SDKENDC_PATH);
+        SDLARS_PATH = replace(SDLARS_PATH);
+        SDLARSCE_PATH = replace(SDLARSCE_PATH);
+        SDLARSRE_PATH = replace(SDLARSRE_PATH);
+        SDMADR_PATH = replace(SDMADR_PATH);
+        SDMSE_PATH = replace(SDMSE_PATH);
+        SDMSEC_PATH = replace(SDMSEC_PATH);
+        SDMSER_PATH = replace(SDMSER_PATH);
+        SDTF_PATH = replace(SDTF_PATH);
     }
 
     /**
@@ -2230,6 +2339,21 @@ public class Parameters {
                 s4fa += MEANEUCC_PATH;
             pw.println(s4fa + " #EUCC mean null distribution");
 
+            String s4eaxx = "MEANSPEAR_PATH = ";
+            if (MEANSPEAR_PATH != null)
+                s4eaxx += MEANSPEAR_PATH;
+            pw.println(s4eaxx + " #Spearman mean null distribution");
+
+            String s4eaxxx = "MEANSPEARR_PATH = ";
+            if (MEANSPEARR_PATH != null)
+                s4eaxxx += MEANSPEARR_PATH;
+            pw.println(s4eaxxx + " #Spearman mean null distribution");
+
+            String s4faxxxx = "MEANSPEARC_PATH = ";
+            if (MEANSPEARC_PATH != null)
+                s4faxxxx += MEANSPEARC_PATH;
+            pw.println(s4faxxxx + " #Spearman mean null distribution");
+
             String s5ha = "MEANMEAN_PATH = ";
             if (MEANMEAN_PATH != null)
                 s5ha += MEANMEAN_PATH;
@@ -2371,6 +2495,23 @@ public class Parameters {
             if (SDEUCC_PATH != null)
                 s5gaaa += SDEUCC_PATH;
             pw.println(s5gaaa + " #EUCC SD null distribution");
+
+
+            String s5gaaxx = "SDSPEAR_PATH = ";
+            if (SDSPEAR_PATH != null)
+                s5gaaxx += SDSPEAR_PATH;
+            pw.println(s5gaaxx + " #Spearman SD null distribution");
+
+            String s5gaaxxx = "SDSPEARR_PATH = ";
+            if (SDSPEARR_PATH != null)
+                s5gaaxxx += SDSPEARR_PATH;
+            pw.println(s5gaaxxx + " #SpearmanR SD null distribution");
+
+            String s5gaaaxxxxx = "SDSPEARC_PATH = ";
+            if (SDSPEARC_PATH != null)
+                s5gaaaxxxxx += SDSPEARC_PATH;
+            pw.println(s5gaaaxxxxx + " #SpearmanC SD null distribution");
+
 
             String s5hb = "SDMEAN_PATH = ";
             if (SDMEAN_PATH != null)
@@ -2647,7 +2788,8 @@ public class Parameters {
      * @param str
      */
     public void extractCoords(String str) {
-        System.out.println("Parameters " + str);
+        if (debug >= 0)
+            System.out.println("Parameters " + str);
         int[][] get = extractGenesandExpsfromString(str);
 
         Arrays.sort(get[0]);
@@ -2819,7 +2961,7 @@ public class Parameters {
             }
             */
             if (PRECRIT_TYPE_INDEX != -1) {
-                System.out.println("Pre-criterion set " + PRECRIT_TYPE_INDEX);
+                //System.out.println("Pre-criterion set " + PRECRIT_TYPE_INDEX);
                 setInvert();
 
                 precrit = new Criterion(PRECRIT_TYPE_INDEX, true, true, USE_ABS_AR, TFTARGETMAP_PATH != null ? true : false,
@@ -2879,6 +3021,9 @@ public class Parameters {
         ret += "MEANEUC_PATH = " + MEANEUC_PATH + "\n";
         ret += "MEANEUCR_PATH = " + MEANEUCR_PATH + "\n";
         ret += "MEANEUCC_PATH = " + MEANEUCC_PATH + "\n";
+        ret += "MEANSPEAR_PATH = " + MEANSPEAR_PATH + "\n";
+        ret += "MEANSPEARR_PATH = " + MEANSPEARR_PATH + "\n";
+        ret += "MEANSPEARC_PATH = " + MEANSPEARC_PATH + "\n";
         ret += "MEANMEAN_PATH = " + MEANMEAN_PATH + "\n";
         ret += "MEANRMEAN_PATH = " + MEANRMEAN_PATH + "\n";
         ret += "MEANCMEAN_PATH = " + MEANCMEAN_PATH + "\n";
@@ -2908,6 +3053,9 @@ public class Parameters {
         ret += "SDEUC_PATH = " + SDEUC_PATH + "\n";
         ret += "SDEUCR_PATH = " + SDEUCR_PATH + "\n";
         ret += "SDEUCC_PATH = " + SDEUCC_PATH + "\n";
+        ret += "SDSPEAR_PATH = " + SDSPEAR_PATH + "\n";
+        ret += "SDSPEARR_PATH = " + SDSPEARR_PATH + "\n";
+        ret += "SDSPEARC_PATH = " + SDSPEARC_PATH + "\n";
         ret += "SDMEAN_PATH = " + SDMEAN_PATH + "\n";
         ret += "SDRMEAN_PATH = " + SDRMEAN_PATH + "\n";
         ret += "SDCMEAN_PATH = " + SDCMEAN_PATH + "\n";
@@ -2930,7 +3078,7 @@ public class Parameters {
                     MoreArray.toString(MoreArray.ArrayListtoInt(INIT_BLOCKS[1]), ",") + "\n";
             //System.exit(0);
         } else {
-            System.out.println("toString init_block_list is not null " + init_block_list.size());
+            //System.out.println("toString init_block_list is not null " + init_block_list.size());
             for (int i = 0; i < init_block_list.size(); i++) {
                 ArrayList[] curblock = (ArrayList[]) init_block_list.get(i);
                 ret += "INIT_BLOCKS " + i + " = " + MoreArray.toString(MoreArray.ArrayListtoInt(curblock[0]), ",") + "/" +

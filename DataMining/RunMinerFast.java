@@ -24,7 +24,7 @@ public class RunMinerFast extends util.Program {
     // {"-null", "-rdata", "-prev", "-param",
     // "-method", "-mse", "-msesd", "-int", "-PRECRITERIA", "-annot"};
 
-    int debug = 0;
+    int debug = MINER_STATIC.DEFAULT_DEBUG;
 
     /**
      * @param prmfile

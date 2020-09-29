@@ -581,6 +581,7 @@ public class MinerViewCanvas extends JComponent implements javax.swing.Scrollabl
                     vblock.all_criteria[ValueBlock_STATIC.expr_KEND_IND],
                     vblock.all_criteria[ValueBlock_STATIC.expr_COR_IND],
                     vblock.all_criteria[ValueBlock_STATIC.expr_EUC_IND],
+                    vblock.all_criteria[ValueBlock_STATIC.expr_SPEARMAN_IND],
                     vblock.all_criteria[ValueBlock_STATIC.interact_IND],
                     vblock.all_criteria[ValueBlock_STATIC.feat_IND],
                     vblock.all_criteria[ValueBlock_STATIC.TF_IND]};

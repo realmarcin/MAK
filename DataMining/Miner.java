@@ -18,10 +18,12 @@ import java.util.*;
  * Date: Jul 6, 2007
  * Time: 12:51:06 PM
  */
-public class Miner {
+public class
+        Miner {
     boolean debug = false;
     boolean debug_createPreCritTopList = false;
     boolean debug_getCriteriaForBlock = false;
+    boolean debug_silent = false;
 
     boolean doVariance = false;
 
@@ -75,7 +77,8 @@ public class Miner {
      */
     public Miner(RunMinerBack r) {
         super();
-        System.out.println("Starting Miner from RunMinerBack");
+        if (debug)
+            System.out.println("Starting Miner from RunMinerBack");
         //gd = new GiveDate();
         start_time = System.currentTimeMillis();//gd.giveMilli();
         rmb = r;
@@ -88,7 +91,8 @@ public class Miner {
      */
     private void init() {
         workdir = System.getProperty("user.dir");
-        System.out.println("setting java seed " + rmb.irv.prm.RANDOM_SEED);
+        if (debug)
+            System.out.println("setting java seed " + rmb.irv.prm.RANDOM_SEED);
         rand = new Random(rmb.irv.prm.RANDOM_SEED);
         initDebug();
     }
@@ -106,7 +110,14 @@ public class Miner {
      *
      */
     public void initDebug() {
-        if (rmb.irv.prm.debug > 0 || rmb.debug > 0) {
+        if (rmb.irv.prm.debug == -1 || rmb.debug == -1) {
+            debug_silent = true;
+
+            debug = false;
+            debug_getCriteriaForBlock = false;
+            debug_createPreCritTopList = false;
+
+        } else if (rmb.irv.prm.debug > 0 || rmb.debug > 0) {
             if (rmb.irv.prm.debug >= 1 || rmb.debug >= 1) {
                 debug = true;
                 if (rmb.irv.prm.debug >= 2 || rmb.debug >= 2) {
@@ -169,34 +180,19 @@ public class Miner {
             VBPInitial.trimNAN(rmb.expr_matrix.data, rmb.irv.prm.PERCENT_ALLOWED_MISSING_GENES, rmb.irv.prm.PERCENT_ALLOWED_MISSING_EXP, debug_createPreCritTopList);
 
             if (VBPInitial.genes.length < rmb.irv.prm.IMIN || VBPInitial.exps.length < rmb.irv.prm.JMIN) {
-                System.out.println("starting point is below the minimum data size after trimming " + rmb.irv.prm.IMIN + "\t" + rmb.irv.prm.JMIN);
+                System.out.println("ERROR starting point is below the minimum data size after trimming " + rmb.irv.prm.IMIN + "\t" + rmb.irv.prm.JMIN);
                 System.exit(0);
             }
 
             boolean aboveNaNThreshold = VBPInitial.isAboveNaN(rmb.irv.prm.PERCENT_ALLOWED_MISSING_IN_BLOCK);
             if (!aboveNaNThreshold) {
                 double frxn = VBPInitial.frxnNaN();
-                System.out.println("WARNING starting point exceeds the missing data limit: " + frxn + "\tlimit " +
-                        rmb.irv.prm.PERCENT_ALLOWED_MISSING_IN_BLOCK);
+                if (debug)
+                    System.out.println("WARNING starting point exceeds the missing data limit: " + frxn + "\tlimit " +
+                            rmb.irv.prm.PERCENT_ALLOWED_MISSING_IN_BLOCK);
                 VBPInitial.trimNAN(rmb.expr_matrix.data, rmb.irv.prm.PERCENT_ALLOWED_MISSING_GENES, rmb.irv.prm.PERCENT_ALLOWED_MISSING_EXP, debug_createPreCritTopList);
                 //System.exit(0);
             }
-
-            //remove last 2 experiments if all exps in starting block for any LARSRE or GEERE criterion
-            /*if ((rmb.irv.prm.DATA_LEN_EXPS - VBPInitial.exps.length) < 2 &&
-                    (MoreArray.getArrayInd(MINER_STATIC.LARSCrit, rmb.irv.prm.CRIT_TYPE_INDEX) != -1
-                            || MoreArray.getArrayInd(MINER_STATIC.GEECrit, rmb.irv.prm.CRIT_TYPE_INDEX) != -1)) {
-                System.out.println("Too many exps for LARSRE or GEERE in starting block, removed last 2 exps. " +
-                        VBPInitial.exps.length + "\t" + rmb.irv.prm.DATA_LEN_EXPS);
-                ArrayList a = MoreArray.convtoArrayList(VBPInitial.exps);
-                while ((rmb.irv.prm.DATA_LEN_EXPS - a.size()) < 2) {
-                    a.remove(a.size() - 1);
-                }
-                rmb.irv.prm.INIT_BLOCKS[1] = MoreArray.copyArrayList(a);
-                VBPInitial = new ValueBlockPre(rmb.irv.prm.INIT_BLOCKS, move_params.current_move_class);
-                VBPInitial.setDataAndMean(rmb.expr_matrix.data);
-            }*/
-
 
             VBPInitialSTART = new ValueBlockPre(VBPInitial);
             VBPInitialSTART.setDataAndMean(rmb.expr_matrix.data);
@@ -209,7 +205,7 @@ public class Miner {
 
                 for (int i = 0; i < rmb.irv.prm.RUN_SEQUENCE.length(); i++) {
                     char cur = rmb.irv.prm.RUN_SEQUENCE.charAt(i);
-                    if (cur != 'N' && cur != 'n') {
+                    if (cur != 'N' && cur != 'n' && cur != 'O' && cur != 'o') {
                         setMoveModeAndRun(cur, i, false);
                     } else {
                         boolean converged = false;
@@ -220,7 +216,7 @@ public class Miner {
                             setMoveModeAndRun(rmb.irv.prm.RUN_SEQUENCE.charAt(i), round, true);
                             cursize = trajectory.size();
                             if (debug) {
-                                System.out.println("N single move mode " + round + "\t" + lastsize + "\t" + cursize);
+                                System.out.println("N/n/O/o single move mode " + round + "\t" + lastsize + "\t" + cursize);
                             }
                             if (cursize == lastsize) {
                                 converged = true;
@@ -352,7 +348,8 @@ public class Miner {
         }
 
         long end_time = System.currentTimeMillis();
-        ;//gd.giveMilli();
+        //gd.giveMilli();
+
         System.out.println("Total time  " + ((end_time - start_time) / 1000.0) + " s");
     }
 
@@ -366,8 +363,9 @@ public class Miner {
         boolean added_initial = false;
         if (count > 0 || trajectory.size() > 0)
             added_initial = true;
-        if (cur == 'b') {
-            System.out.println("run batch mode pre+full");
+        if (cur == 'b' || cur == 'o') {
+            if (debug)
+                System.out.println("run batch mode pre+full");
             rmb.irv.prm.PBATCH = 1.0;
             initMoveParam(move_params.move_count);
             int movecount = 0;
@@ -379,9 +377,11 @@ public class Miner {
             }
             move_params.current_move_class = "b_" + count;
             runLoop(added_initial, last);
-            System.out.println("setMoveModeAndRun 'batch mode pre+full' did moves " + (trajectory.size() - movecount));
+            if (debug)
+                System.out.println("setMoveModeAndRun 'batch mode pre+full' did moves " + (trajectory.size() - movecount));
         } else if (cur == 's' || cur == 'n') {
-            System.out.println("run single mode pre+full");
+            if (debug)
+                System.out.println("run single mode pre+full");
             rmb.irv.prm.PBATCH = 0.0;
 
             /*if (toCompletion)
@@ -401,9 +401,11 @@ public class Miner {
                 lab = "n_";
             move_params.current_move_class = lab + count;
             runLoop(added_initial, last);
-            System.out.println("setMoveModeAndRun 'single mode pre+full' did moves " + (trajectory.size() - movecount));
+            if (debug)
+                System.out.println("setMoveModeAndRun 'single mode pre+full' did moves " + (trajectory.size() - movecount));
         } else if (cur == 'm') {
-            System.out.println("run mixed mode pre+full");
+            if (debug)
+                System.out.println("run mixed mode pre+full");
             rmb.irv.prm.PBATCH = 0.5;
             initMoveParam(move_params.move_count);
             int movecount = 0;
@@ -415,14 +417,21 @@ public class Miner {
             }
             move_params.current_move_class = "m_" + count;
             runLoop(added_initial, last);
-            System.out.println("setMoveModeAndRun 'mixed mode pre+full' did moves " + (trajectory.size() - movecount));
-        } else if (cur == 'B') {
-            System.out.println("run batch mode full");
+            if (debug)
+                System.out.println("setMoveModeAndRun 'mixed mode pre+full' did moves " + (trajectory.size() - movecount));
+        } else if (cur == 'B' || cur == 'O') {
+            if (debug)
+                System.out.println("run batch mode full " + cur);
             //set precrit to orig full
             rmb.irv.prm.PRECRIT_TYPE_INDEX = rmb.irv.prm.CRIT_TYPE_INDEX;
             boolean b = rmb.irv.TFtargetmap != null ? true : false;
             //System.out.println("run batch mode full " + b);
             boolean require_null = true;
+
+            if (debug || debug_createPreCritTopList || debug_getCriteriaForBlock) {
+                MoreArray.printArray(MINER_STATIC.CRIT_LABELS);
+            }
+
             if (MINER_STATIC.CRIT_LABELS[rmb.irv.prm.PRECRIT_TYPE_INDEX].indexOf("nonull") == -1)
                 require_null = false;
             rmb.irv.prm.precrit = new Criterion(rmb.irv.prm.PRECRIT_TYPE_INDEX, rmb.irv.prm.crit.usemean, true, rmb.irv.prm.USE_ABS_AR,
@@ -438,7 +447,7 @@ public class Miner {
                 //VBPInitial = new ValueBlockPre(last);
                 movecount = trajectory.size();
             }
-            move_params.current_move_class = "B_" + count;
+            move_params.current_move_class = cur + "_" + count;
             runLoop(added_initial, last);
             //set precrit to orig, batch to orig
             rmb.irv.prm.PRECRIT_TYPE_INDEX = rmb.orig_prm.PRECRIT_TYPE_INDEX;
@@ -447,9 +456,11 @@ public class Miner {
                     rmb.irv.TFtargetmap != null ? true : false, rmb.irv.prm.needinv, require_null, rmb.irv.prm.FRXN_SIGN, debug);
             rmb.irv.onv.setPreCriteriaNull();
             rmb.irv.prm.batch = rmb.orig_prm.batch;
-            System.out.println("setMoveModeAndRun 'batch mode full' did moves " + (trajectory.size() - movecount));
+            if (debug)
+                System.out.println("setMoveModeAndRun 'batch mode full' did moves " + (trajectory.size() - movecount));
         } else if (cur == 'S' || cur == 'N') {
-            System.out.println("run single mode full");
+            if (debug)
+                System.out.println("run single mode full " + cur);
             //set precrit to orig full
             rmb.irv.prm.PRECRIT_TYPE_INDEX = rmb.irv.prm.CRIT_TYPE_INDEX;
 
@@ -471,9 +482,8 @@ public class Miner {
                 //VBPInitial = new ValueBlockPre(last);
                 movecount = trajectory.size();
             }
-            String lab = "S_";
-            if (cur == 'N')
-                lab = "N_";
+            String lab = cur + "_";
+
             move_params.current_move_class = lab + count;
             runLoop(added_initial, last);
             //set precrit to orig, batch to orig
@@ -482,9 +492,11 @@ public class Miner {
                     rmb.irv.TFtargetmap != null ? true : false, rmb.irv.prm.needinv, require_null, rmb.irv.prm.FRXN_SIGN, debug);
             rmb.irv.onv.setPreCriteriaNull();
             rmb.irv.prm.batch = rmb.orig_prm.batch;
-            System.out.println("setMoveModeAndRun 'single mode full' did moves " + (trajectory.size() - movecount));
+            if (debug)
+                System.out.println("setMoveModeAndRun 'single mode full' did moves " + (trajectory.size() - movecount));
         } else if (cur == 'M') {
-            System.out.println("run mixed mode full");
+            if (debug)
+                System.out.println("run mixed mode full");
             //set precrit to orig full
             rmb.irv.prm.PRECRIT_TYPE_INDEX = rmb.irv.prm.CRIT_TYPE_INDEX;
 
@@ -513,18 +525,22 @@ public class Miner {
                     rmb.irv.TFtargetmap != null ? true : false, rmb.irv.prm.needinv, require_null, rmb.irv.prm.FRXN_SIGN, debug);
             rmb.irv.onv.setPreCriteriaNull();
             rmb.irv.prm.batch = rmb.orig_prm.batch;
-            System.out.println("setMoveModeAndRun 'mixed mode full' did moves " + (trajectory.size() - movecount));
+            if (debug)
+                System.out.println("setMoveModeAndRun 'mixed mode full' did moves " + (trajectory.size() - movecount));
         } else if (cur == 'p') {
-            System.out.println("run PLATEAU step");
+            if (debug)
+                System.out.println("run PLATEAU step");
             int movecount = trajectory.size();
             doPlateau();
             initMoveParam(move_params.move_count);
             move_params.current_move_class = "p_" + count;
             VBPCandidate.move_class = "p_" + count;
             addInitial();
-            System.out.println("setMoveModeAndRun 'PLATEAU mode' did moves " + (trajectory.size() - movecount));
+            if (debug)
+                System.out.println("setMoveModeAndRun 'PLATEAU mode' did moves " + (trajectory.size() - movecount));
         } else if (cur == 'r') {
-            System.out.println("run random step");
+            if (debug)
+                System.out.println("run random step");
             int movecount = trajectory.size();
             ValueBlock last = (ValueBlock) trajectory.get(trajectory.size() - 1);
             VBPInitial = new ValueBlockPre(last);
@@ -535,14 +551,17 @@ public class Miner {
             move_params.current_move_class = "r_" + count;
 
             addInitial();
-            System.out.println("setMoveModeAndRun 'random mode' did moves " + (trajectory.size() - movecount));
+            if (debug)
+                System.out.println("setMoveModeAndRun 'random mode' did moves " + (trajectory.size() - movecount));
         } else if (cur == 'c') {
-            System.out.println("run combine step");
+            if (debug)
+                System.out.println("run combine step");
             ValueBlock last = ValueBlockListMethods.combinelastGeneExpAdd(trajectory);
             VBPInitial = new ValueBlockPre(last);
             move_params.current_move_class = "c_" + count;
             addInitial();
-            System.out.println("setMoveModeAndRun 'combine mode'");
+            if (debug)
+                System.out.println("setMoveModeAndRun 'combine mode'");
         }
     }
 
@@ -559,7 +578,8 @@ public class Miner {
         }
         ArrayList add = new ArrayList();
         add = MoreArray.addElements(add, genes);
-        System.out.println("doPlateau - potential: " + add.size() + "\tlimit: " + add_size + "\ttotal top: " + vls.expr_top100.size());
+        if (debug)
+            System.out.println("doPlateau - potential: " + add.size() + "\tlimit: " + add_size + "\ttotal top: " + vls.expr_top100.size());
         int count = 0;
         int index = 0;
         while (count < add_size && index < MINER_STATIC.TOPLIST_LEN) {
@@ -576,11 +596,13 @@ public class Miner {
             }
             index++;
         }
-        System.out.println("doPlateau a/f " + add.size());
+        if (debug)
+            System.out.println("doPlateau a/f " + add.size());
         VBPInitial.genes = MoreArray.ArrayListtoInt(add);
         VBPInitial.trajectory_position = 1;
         VBPInitial.move_class = "PLATEAU";
-        System.out.println("doPlateau genes");
+        if (debug)
+            System.out.println("doPlateau genes");
         MoreArray.printArray(VBPInitial.genes);
         //trajectory.add(new ValueBlock(VBPCandidate));
         rmb.irv.prm.PLATEAU = false;
@@ -590,15 +612,18 @@ public class Miner {
      *
      */
     private void randomFloodGenes() {
-        System.out.println("Doing randomFloodGenes step series.");
+        if (debug)
+            System.out.println("Doing randomFloodGenes step series.");
         /*ValueBlock last = (ValueBlock) trajectory.get(trajectory.size() - 1);
         VBPInitial = new ValueBlockPre(last);*/
 
         int[] nIc = stat.createNaturalNumbersRemoved(1, rmb.irv.prm.DATA_LEN_GENES, VBPInitial.genes);
         ArrayList cur = MoreArray.intarraytoList(nIc);
         if (cur == null) {
-            System.out.println("WARNING: no more genes to add");
-            MoreArray.printArray(VBPInitial.genes);
+            if (debug) {
+                System.out.println("WARNING: no more genes to add");
+                MoreArray.printArray(VBPInitial.genes);
+            }
         } else {
             //remove last 2 genes if LARS
             //int maxlen = MoreArray.getArrayInd(MINER_STATIC.LARSCrit, rmb.irv.prm.CRIT_TYPE_INDEX) != -1 /*||
@@ -606,7 +631,8 @@ public class Miner {
             //        rmb.irv.prm.DATA_LEN_GENES - 2 : rmb.irv.prm.DATA_LEN_GENES;
             int maxlen = rmb.irv.prm.DATA_LEN_GENES;
             int addnum = (int) Math.min(maxlen - VBPInitial.genes.length, (rmb.irv.prm.RANDOMFLOOD_PERC * VBPInitial.genes.length));
-            System.out.println("Doing RANDOMFLOOD step series adding random genes " + addnum);
+            if (debug)
+                System.out.println("Doing RANDOMFLOOD step series adding random genes " + addnum);
             int added = 0;
             Collections.sort(cur);
             int[] newgenes = VBPInitial.genes;
@@ -630,7 +656,8 @@ public class Miner {
             }
             VBPInitial.genes = newgenes;
             VBPInitial.move_class = "rg";
-            System.out.println("randomFloodGenes " + cur.size() + "\t" + added + "\t" + addnum);
+            if (debug)
+                System.out.println("randomFloodGenes " + cur.size() + "\t" + added + "\t" + addnum);
         }
 
         //move_params = null;
@@ -642,17 +669,21 @@ public class Miner {
      *
      */
     private void randomFloodExps() {
-        System.out.println("Doing randomFloodExps step series.");
+        if (debug)
+            System.out.println("Doing randomFloodExps step series.");
 
         int[] nIc = stat.createNaturalNumbersRemoved(1, rmb.irv.prm.DATA_LEN_EXPS, VBPInitial.exps);
         ArrayList cur = MoreArray.intarraytoList(nIc);
         if (cur == null) {
-            System.out.println("WARNING: no more exps to add");
-            MoreArray.printArray(VBPInitial.exps);
+            if (debug) {
+                System.out.println("WARNING: no more exps to add");
+                MoreArray.printArray(VBPInitial.exps);
+            }
         } else {
             int maxlen = rmb.irv.prm.DATA_LEN_EXPS;
             int addnum = (int) Math.min(maxlen - VBPInitial.exps.length, (rmb.irv.prm.RANDOMFLOOD_PERC * VBPInitial.exps.length));
-            System.out.println("Doing randomFloodExps step series adding random exps " + addnum);
+            if (debug)
+                System.out.println("Doing randomFloodExps step series adding random exps " + addnum);
             int added = 0;
             Collections.sort(cur);
             int[] newexps = VBPInitial.exps;
@@ -676,7 +707,8 @@ public class Miner {
             }
             VBPInitial.exps = newexps;
             VBPInitial.move_class = "re";
-            System.out.println("randomFloodExps " + cur.size() + "\t" + added + "\t" + addnum);
+            if (debug)
+                System.out.println("randomFloodExps " + cur.size() + "\t" + added + "\t" + addnum);
         }
 
         //move_params = null;
@@ -744,6 +776,10 @@ public class Miner {
                         System.out.println("VBPCandidate cur_precrit " + MoreArray.toString(cur_precrit[0], ",") + "\t" +
                                 MoreArray.toString(cur_precrit[1], ","));
                     }
+                    if (debug_createPreCritTopList) {
+                        System.out.println("cur_precrit");
+                        MoreArray.printArray(cur_precrit);
+                    }
                     boolean use_mean_now = rmb.irv.prm.precrit.isMeanCrit ? true : rmb.irv.prm.USE_MEAN;
 
                     if (debug) {
@@ -794,7 +830,7 @@ public class Miner {
 
                     while (move_params.moreMoves() || !move_params.stop) {
                         long move_start_time = System.currentTimeMillis();
-                        ;//gd.giveMilli();
+                        //gd.giveMilli();
                         setRVariables(VBPCandidate.genes, VBPCandidate.exps);
                         if (debug) {
                             System.out.println("runLoop top of while loop move_params.possible_move_types");
@@ -839,10 +875,13 @@ public class Miner {
 
                                 //exits due to no more available moves
                                 if (!moreMovesNow) {
-                                    System.out.println("runLoop Reached !moreMovesNow");
-                                    printTrajectory(counts[st], "runLoop init block index " + st + "\tcounts " + MoreArray.toString(counts, ",") + "\tnum_moves " + num_moves);
+                                    if (debug) {
+                                        System.out.println("runLoop Reached !moreMovesNow");
+                                        printTrajectory(counts[st], "runLoop init block index " + st + "\tcounts " + MoreArray.toString(counts, ",") + "\tnum_moves " + num_moves);
+                                    }
                                     long move_end_time = System.currentTimeMillis();
-                                    System.out.println("runLoop Run time for move " + total_number_moves + " " + ((move_end_time - move_start_time) / 1000.0) + " s");
+                                    if (debug)
+                                        System.out.println("runLoop Run time for move " + total_number_moves + " " + ((move_end_time - move_start_time) / 1000.0) + " s");
                                     break;
                                 }
 
@@ -850,21 +889,25 @@ public class Miner {
                                 st = 0;
                                 //exits due to reaching the maximum allowed moves
                                 if (rmb.irv.prm.MAXMOVES[0] != -1 && move_params.move_count >= rmb.irv.prm.MAXMOVES[0]) {
-                                    //if (debug)
-                                    System.out.println("runLoop Reached max number of moves " + rmb.irv.prm.MAXMOVES[0]);
+                                    if (debug) {
+                                        System.out.println("runLoop Reached max number of moves " + rmb.irv.prm.MAXMOVES[0]);
+                                        printTrajectory(counts[st], "runLoop init block index " + st + "\tcounts " + MoreArray.toString(counts) + "\tnum_moves " + num_moves);
+                                    }
+
                                     move_params.stop = true;
-                                    printTrajectory(counts[st], "runLoop init block index " + st + "\tcounts " + MoreArray.toString(counts) + "\tnum_moves " + num_moves);
                                     long move_end_time = System.currentTimeMillis();
-                                    System.out.println("runLoop Run time for move " + total_number_moves + " " + ((move_end_time - move_start_time) / 1000.0) + " s");
+                                    if (debug)
+                                        System.out.println("runLoop Run time for move " + total_number_moves + " " + ((move_end_time - move_start_time) / 1000.0) + " s");
                                     break;
                                 }
                             }
                             //exits due to all moves tried
                             else if (stat.countOccurence(move_params.tried_moves, 1) == 4) {
                                 move_params.stop = true;
-                                //if (debug)
-                                System.out.println("runLoop done tried all moves");
-                                printTrajectory(counts[st], "runLoop init block index " + st + "\tcounts " + MoreArray.toString(counts) + "\tnum_moves " + num_moves);
+                                if (debug) {
+                                    System.out.println("runLoop done tried all moves");
+                                    printTrajectory(counts[st], "runLoop init block index " + st + "\tcounts " + MoreArray.toString(counts) + "\tnum_moves " + num_moves);
+                                }
                                 //long move_end_time = System.currentTimeMillis();
                                 //System.out.println("runLoop Run time for move " + total_number_moves + " " + ((move_end_time - move_start_time) / 1000.0) + " s");
                                 break;
@@ -872,6 +915,7 @@ public class Miner {
                         }//ends if (num_moves == 0)
                         counts[st]++;
 
+                        //if (debug)
                         printTrajectory(counts[st], "runLoop init block index " + st + "\tcounts " + MoreArray.toString(counts, ",") + "\tnum_moves " + num_moves);
 
                         long move_end_time = System.currentTimeMillis();//gd.giveMilli();
@@ -903,8 +947,10 @@ public class Miner {
 
         total_time = System.currentTimeMillis();//gd.giveMilli();
         total_time = (total_time - start_time) / 1000.0;
-        System.out.println("runLoop Stage done " + trajectory.size() + "\n" + trajectory.toString());
-        System.out.println("runLoop Total time  " + total_time + " s");
+        if (debug) {
+            System.out.println("runLoop Stage done " + trajectory.size() + "\n" + trajectory.toString());
+            System.out.println("runLoop Total time  " + total_time + " s");
+        }
     }
 
     /**
@@ -990,7 +1036,8 @@ e.printStackTrace();
 
         ValueBlock valueBlock = new ValueBlock(VBPCandidate);
         lastBlock = new ValueBlock(VBPCandidate);
-        System.out.println("initial lastBlock defined");
+        if (debug)
+            System.out.println("initial lastBlock defined");
         trajectory.add(valueBlock);
         trajectory_blocks.put(valueBlock.blockId(), valueBlock);
 
@@ -1023,9 +1070,6 @@ e.printStackTrace();
      * Determines if the existing block is suitable for gene or exp shaving.
      */
     private void setShaving() {
-        if (VBPCandidate == null) {
-            System.out.println("setShaving: VBPCandidate is null");
-        }
 
         int num_genes = VBPCandidate.genes.length;
         if (debug_createPreCritTopList)
@@ -1141,11 +1185,14 @@ e.printStackTrace();
         setAddDelGeneExp();
 
         double dval = Double.NaN;
+        //single move
         if (rmb.irv.prm.PBATCH == 0.0) {
             move_params.Single_or_Batch = 0;
             if (debug)
                 System.out.println("currentMove rmb.irv.prm.PBATCH == 0.0");
-        } else if (rmb.irv.prm.PBATCH == 1.0) {
+        }
+        //batch move
+        else if (rmb.irv.prm.PBATCH == 1.0) {
             move_params.Single_or_Batch = 1;
             if (debug)
                 System.out.println("currentMove rmb.irv.prm.PBATCH == 1.0");
@@ -1324,11 +1371,14 @@ e.printStackTrace();
             MoreArray.printArray(move_params.possible_move_types);*/
 
             if (move_params.possible_move_list != null) {
-                System.out.println("currentMove genes " + move_params.possible_move_list[0].size());
-                System.out.println("currentMove experiments " + move_params.possible_move_list[1].size());
+                if (debug) {
+                    System.out.println("currentMove genes " + move_params.possible_move_list[0].size());
+                    System.out.println("currentMove experiments " + move_params.possible_move_list[1].size());
+                }
             }
             //System.out.println("currentMove OldMovesStrBlockId " + move_params.OldMovesStrBlockId.size());
-            System.out.println("currentMove move_type " + move_params.move_type);
+            if (debug)
+                System.out.println("currentMove move_type " + move_params.move_type);
         }
 
         if (move_params.move_type != null && move_params.possible_move_list != null) {
@@ -2016,7 +2066,7 @@ e.printStackTrace();
         if (debug) {
             System.out.println("makeMoveStringsBatch size " + ret.size());
         }
-        if (rmb.exclude_vbl != null)
+        if (rmb.exclude_vbl != null && debug)
             System.out.println("makeMoveStringsBatch exclude " + count_exclude);
         return ret;
     }
@@ -2595,7 +2645,6 @@ e.printStackTrace();
                         rmb.irv.prm, crit,
                         rmb.gene_labels, rmb.feat_matrix != null ? rmb.feat_matrix.data : null,
                         debug_getCriteriaForBlock || debug_createPreCritTopList ? true : false);
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -2615,7 +2664,29 @@ e.printStackTrace();
         if (debug_getCriteriaForBlock) {
             long move_end_time = System.currentTimeMillis();//gd.giveMilli();
             System.out.println("Run time for criterion " + ((move_end_time - move_start_time) / 1000.0) + " s");
+
+            boolean bad = false;
+            for (int i = 0; i < critwnull.length; i++) {
+                if (critwnull[i] == Double.NaN) {
+                    bad = true;
+                    break;
+                }
+            }
+            for (int i = 0; i < critwonull.length; i++) {
+                if (critwonull[i] == Double.NaN) {
+                    bad = true;
+                    break;
+                }
+            }
+
+            if (bad) {
+                System.out.println("found nan, wo");
+                MoreArray.printArray(critwonull);
+                System.out.println("found nan, w");
+                MoreArray.printArray(critwnull);
+            }
         }
+
 
         double[][] ret = {critwnull, critwonull};
         return ret;
@@ -2704,7 +2775,7 @@ e.printStackTrace();
         //long move_start_time = gd.giveMilli();
 
         if (debug) {
-            System.out.println("getFinalCriteriaForBlock rmb.irv.prm.CRIT_TYPE_INDEX != rmb.irv.prm.PRECRIT_TYPE_INDEX " + rmb.irv.prm.CRIT_TYPE_INDEX
+            System.out.println("getFinalCriteriaForBlock rmb.irv.prm.CRIT_TYPE_INDEX && rmb.irv.prm.PRECRIT_TYPE_INDEX " + rmb.irv.prm.CRIT_TYPE_INDEX
                     + "\t" + rmb.irv.prm.PRECRIT_TYPE_INDEX);
             System.out.println("getFinalCriteriaForBlock WEIGH_EXPR " + rmb.irv.prm.WEIGH_EXPR + "\tisMeanCrit " +
                     rmb.irv.prm.crit.isMeanCrit + "\tdebug_getCriteriaForBlock " + debug_getCriteriaForBlock);
@@ -2718,6 +2789,11 @@ e.printStackTrace();
             double[][] crits = getCriteriaForBlock(vb, rmb.irv.prm.crit);
             if (debug)
                 System.out.print(".");
+            if (debug_getCriteriaForBlock) {
+                System.out.println("getFinalCriteriaForBlock");
+                MoreArray.printArray(crits);
+            }
+
             boolean[] passcrits = Criterion.getExprCritTypes(rmb.irv.prm.crit, rmb.irv.prm.WEIGH_EXPR,
                     use_mean_now, debug_getCriteriaForBlock);
             if (debug)
@@ -2728,6 +2804,13 @@ e.printStackTrace();
                     use_mean_now, debug_getCriteriaForBlock);
             if (debug)
                 System.out.println("getFinalCriteriaForBlock passcrits = " + (passcrits == null ? "null" : "OK"));
+            if (debug_getCriteriaForBlock) {
+                System.out.println("doing vb " + BlockMethods.IcJctoijID(vb.genes, vb.exps));
+                MoreArray.printArray(vb.all_precriteria);
+                System.out.println("vb.all_criteria");
+                MoreArray.printArray(vb.all_criteria);
+            }
+
             vb.updateCrit(vb.all_precriteria, rmb.irv.prm.WEIGH_EXPR, passcrits, debug_getCriteriaForBlock);
         }
     }
@@ -2942,12 +3025,15 @@ e.printStackTrace();
         double[] expr_ken_val_list = MoreArray.initArray(listsize, Double.NaN);
         double[] expr_COR_val_list = MoreArray.initArray(listsize, Double.NaN);
         double[] expr_euc_val_list = MoreArray.initArray(listsize, Double.NaN);
+        double[] expr_spear_val_list = MoreArray.initArray(listsize, Double.NaN);
         String[] curstring_list = new String[listsize];
         double[] curmaxTF_list = MoreArray.initArray(listsize, Double.NaN);
         if (debug)
             System.out.println("move_type  " + VBPCandidate.move_type + "\tlistsize " + listsize);
 
-
+        if (debug_createPreCritTopList) {
+            System.out.println("pCrit " + pCrit);
+        }
         double fullcrit = ValueBlockPre.computeFullCrit(pCrit, true, rmb.irv.prm.precrit.which_expr_crits, debug_createPreCritTopList);
         if (debug)
             System.out.println("getTopList VBPCandidate fullcrit " + fullcrit);
@@ -3032,6 +3118,8 @@ e.printStackTrace();
                             expr_COR_val_list = MINER_STATIC.shift(expr_COR_val_list, cur_pCritDouble[4], posPre);
                         if (rmb.irv.prm.precrit.EUCIndex != -1)
                             expr_euc_val_list = MINER_STATIC.shift(expr_euc_val_list, cur_pCritDouble[5], posPre);
+                        if (rmb.irv.prm.precrit.SPEARIndex != -1)
+                            expr_spear_val_list = MINER_STATIC.shift(expr_spear_val_list, cur_pCritDouble[6], posPre);
                         if (rmb.irv.prm.precrit.isInteractCrit)
                             ppi_val_list = MINER_STATIC.shift(ppi_val_list, cur_pCritDouble[6], posPre);
                         if (rmb.irv.prm.precrit.isFeatureCrit)
@@ -3054,6 +3142,8 @@ e.printStackTrace();
                             expr_COR_val_list = MINER_STATIC.shift(expr_COR_val_list, cur_pCritDouble[4], posPre);
                         if (rmb.irv.prm.precrit.EUCIndex != -1)
                             expr_euc_val_list = MINER_STATIC.shift(expr_euc_val_list, cur_pCritDouble[5], posPre);
+                        if (rmb.irv.prm.precrit.SPEARIndex != -1)
+                            expr_spear_val_list = MINER_STATIC.shift(expr_spear_val_list, cur_pCritDouble[6], posPre);
                         if (rmb.irv.prm.precrit.isInteractCrit)
                             ppi_val_list = MINER_STATIC.shift(ppi_val_list, cur_pCritDouble[6], posPre);
                         if (rmb.irv.prm.precrit.isFeatureCrit)
@@ -3068,6 +3158,9 @@ e.printStackTrace();
                 //should maximize 1 - e-value
                 else if (curval > cur_min) {
                     if (curval > cur_max) {
+                        /*if (debug_createPreCritTopList) {
+                            System.out.println("accepting new max " + curval + "\t" + cur_max);
+                        }*/
                         cur_max = curval;
                     }
 
@@ -3085,6 +3178,8 @@ e.printStackTrace();
                             expr_COR_val_list = MINER_STATIC.shift(expr_COR_val_list, cur_pCritDouble[4], posPre);
                         if (rmb.irv.prm.precrit.EUCIndex != -1)
                             expr_euc_val_list = MINER_STATIC.shift(expr_euc_val_list, cur_pCritDouble[5], posPre);
+                        if (rmb.irv.prm.precrit.SPEARIndex != -1)
+                            expr_spear_val_list = MINER_STATIC.shift(expr_spear_val_list, cur_pCritDouble[6], posPre);
                         if (rmb.irv.prm.precrit.isInteractCrit)
                             ppi_val_list = MINER_STATIC.shift(ppi_val_list, cur_pCritDouble[6], posPre);
                         if (rmb.irv.prm.precrit.isFeatureCrit)
@@ -3102,10 +3197,11 @@ e.printStackTrace();
                 //}//if does not degrade current minTFfraction
             }
         }
-        if (debug)
+        if (debug) {
             System.out.print("\n");
-        System.out.println("\ngot top " + size + " precrit moves of class " +
-                move_params.current_move_class + " and type " + move_params.move_type);
+            System.out.println("\ngot top " + size + " precrit moves of class " +
+                    move_params.current_move_class + " and type " + move_params.move_type);
+        }
 
         ValueBlockList vbl = new ValueBlockList();
         ArrayList id = new ArrayList();
@@ -3129,6 +3225,8 @@ e.printStackTrace();
                     vbnow.all_precriteria[ValueBlock_STATIC.expr_COR_IND] = expr_COR_val_list[i];
                 if (rmb.irv.prm.precrit.EUCIndex != -1)
                     vbnow.all_precriteria[ValueBlock_STATIC.expr_EUC_IND] = expr_euc_val_list[i];
+                if (rmb.irv.prm.precrit.SPEARIndex != -1)
+                    vbnow.all_precriteria[ValueBlock_STATIC.expr_SPEARMAN_IND] = expr_spear_val_list[i];
                 if (rmb.irv.prm.precrit.isInteractCrit)
                     vbnow.all_precriteria[ValueBlock_STATIC.interact_IND] = ppi_val_list[i];
                 if (rmb.irv.prm.precrit.isFeatureCrit)
@@ -3185,75 +3283,21 @@ e.printStackTrace();
      */
     private ValueBlockList runFullCriteria(ValueBlockList vbl) {
 
+        testContext(vbl);
+
         for (int i = 0; i < vbl.size(); i++) {
             ValueBlockPre vb = (ValueBlockPre) vbl.get(i);
+
             ValueBlock vbnow = new ValueBlock(vb);
-
-            if (debug) {
-                if (vb == null)
-                    System.out.println("runFullCriteria vb is null");
-                if (vb.genes == null)
-                    System.out.println("runFullCriteria vb.genes is null");
-
-                if (vbnow == null)
-                    System.out.println("runFullCriteria vbnow is null");
-                if (vbnow.genes == null)
-                    System.out.println("runFullCriteria vbnow.genes is null");
-                if (rmb == null)
-                    System.out.println("runFullCriteria rmb is null");
-                if (rmb.irv.prm == null)
-                    System.out.println("runFullCriteria rmb.prm is null");
-                if (rmb.irv == null)
-                    System.out.println("runFullCriteria rmb.irv is null");
-                if (rmb.irv.onv == null)
-                    System.out.println("runFullCriteria rmb.irv.onv is null");
-                if (rmb.irv.onv.meanMSENull == null)
-                    System.out.println("runFullCriteria rmb.irv.onv.meanMSENull is null");
-
-                if (i == 0 && rmb.irv.onv.meanMSENull != null) {
-                    if (vbnow.genes.length - rmb.irv.prm.IMIN > rmb.irv.onv.meanMSENull[0].length - 1)
-                        System.out.println("meanMSENull Number of genes above limit " + rmb.irv.prm.GENE_SHAVE + "\t" +
-                                (vbnow.genes.length - rmb.irv.prm.IMIN) + "\tlimit " + (rmb.irv.onv.meanMSENull[0].length - 1));
-                    if (vbnow.exps.length - rmb.irv.prm.JMIN > rmb.irv.onv.meanMSENull.length - 1)
-                        System.out.println("meanMSENull Number of exps above limit " + rmb.irv.prm.EXP_SHAVE + "\t" +
-                                (vbnow.exps.length - rmb.irv.prm.JMIN) + "\tlimit " + (rmb.irv.onv.meanMSENull.length - 1));
-                    if (vbnow.genes.length - rmb.irv.prm.IMIN < 0)
-                        System.out.println("meanMSENull Number of genes below limit " + rmb.irv.prm.GENE_SHAVE + "\t" +
-                                (vbnow.genes.length - rmb.irv.prm.IMIN) + "\tlimit " + (rmb.irv.onv.meanMSENull[0].length - 1));
-                    if (vbnow.exps.length - rmb.irv.prm.JMIN < 0)
-                        System.out.println("meanMSENull Number of exps below limit " + rmb.irv.prm.EXP_SHAVE + "\t" +
-                                (vbnow.exps.length - rmb.irv.prm.JMIN) + "\tlimit " + (rmb.irv.onv.meanMSENull.length - 1));
-                }
-                if (i == 0 && rmb.irv.onv.meanRegNull != null) {
-                    if (vbnow.genes.length - rmb.irv.prm.IMIN > rmb.irv.onv.meanRegNull[0].length - 1)
-                        System.out.println("meanRegNull Number of genes above limit " + rmb.irv.prm.GENE_SHAVE + "\t" +
-                                (vbnow.genes.length - rmb.irv.prm.IMIN) + "\tlimit " + (rmb.irv.onv.meanRegNull[0].length - 1));
-                    if (vbnow.exps.length - rmb.irv.prm.JMIN > rmb.irv.onv.meanRegNull.length - 1)
-                        System.out.println("meanRegNull Number of exps above limit " + rmb.irv.prm.EXP_SHAVE + "\t" +
-                                (vbnow.exps.length - rmb.irv.prm.JMIN) + "\tlimit " + (rmb.irv.onv.meanRegNull.length - 1));
-                    if (vbnow.genes.length - rmb.irv.prm.IMIN < 0)
-                        System.out.println("meanRegNull Number of genes below limit " + rmb.irv.prm.GENE_SHAVE + "\t" +
-                                (vbnow.genes.length - rmb.irv.prm.IMIN) + "\tlimit " + (rmb.irv.onv.meanRegNull[0].length - 1));
-                    if (vbnow.exps.length - rmb.irv.prm.JMIN < 0)
-                        System.out.println("meanRegNull Number of exps below limit " + rmb.irv.prm.EXP_SHAVE + "\t" +
-                                (vbnow.exps.length - rmb.irv.prm.JMIN) + "\tlimit " + (rmb.irv.onv.meanRegNull.length - 1));
-                }
-                if (i == 0 && rmb.irv.onv.meanMeanNull != null) {
-                    if (vbnow.genes.length - rmb.irv.prm.IMIN > rmb.irv.onv.meanMeanNull[0].length - 1)
-                        System.out.println("meanMeanNull Number of genes above limit " + rmb.irv.prm.GENE_SHAVE + "\t" +
-                                (vbnow.genes.length - rmb.irv.prm.IMIN) + "\tlimit " + (rmb.irv.onv.meanMeanNull[0].length - 1));
-                    if (vbnow.exps.length - rmb.irv.prm.JMIN > rmb.irv.onv.meanMeanNull.length - 1)
-                        System.out.println("meanMeanNull Number of exps above limit " + rmb.irv.prm.EXP_SHAVE + "\t" +
-                                (vbnow.exps.length - rmb.irv.prm.JMIN) + "\tlimit " + (rmb.irv.onv.meanMeanNull.length - 1));
-                    if (vbnow.genes.length - rmb.irv.prm.IMIN < 0)
-                        System.out.println("meanMeanNull Number of genes below limit " + rmb.irv.prm.GENE_SHAVE + "\t" +
-                                (vbnow.genes.length - rmb.irv.prm.IMIN) + "\tlimit " + (rmb.irv.onv.meanMeanNull[0].length - 1));
-                    if (vbnow.exps.length - rmb.irv.prm.JMIN < 0)
-                        System.out.println("meanMeanNull Number of exps below limit " + rmb.irv.prm.EXP_SHAVE + "\t" +
-                                (vbnow.exps.length - rmb.irv.prm.JMIN) + "\tlimit " + (rmb.irv.onv.meanMeanNull.length - 1));
-                }
-            }
-
+            /*if (debug_createPreCritTopList) {
+                //System.out.println("runFullCriteria vb " + BlockMethods.IcJctoijID(vb.genes, vb.exps));
+                //System.out.println("runFullCriteria vbnew " + BlockMethods.IcJctoijID(vb.genes, vb.exps));
+                System.out.println("vb.all_precriteria");
+                MoreArray.printArray(vb.all_precriteria);
+                System.out.println("vbnow.all_precriteria");
+                MoreArray.printArray(vbnow.all_precriteria);
+                MoreArray.printArray(vbnow.all_criteria);
+            }*/
             //System.out.println("runFullCriteria " + rmb.irv.prm.PRECRIT_TYPE_INDEX + "\t" + rmb.orig_rmb.irv.prm.CRIT_TYPE_INDEX);
             //if (rmb.irv.prm.PRECRIT_TYPE_INDEX != rmb.orig_rmb.irv.prm.CRIT_TYPE_INDEX) {
             if (debug && i % 10 == 0)
@@ -3261,6 +3305,13 @@ e.printStackTrace();
             rmb.irv.Rengine.assign("Ic", vbnow.genes);
             rmb.irv.Rengine.assign("Jc", vbnow.exps);
             getFinalCriteriaForBlock(vbnow);
+            if (debug_createPreCritTopList) {
+                System.out.println("runFullCriteria a/f " + BlockMethods.IcJctoijID(vb.genes, vb.exps));
+                MoreArray.printArray(vbnow.all_precriteria);
+                System.out.println("all");
+                MoreArray.printArray(vbnow.all_criteria);
+            }
+
             /* } else {
                 boolean[] passcrits = Criterion.getExprCritTypes(rmb.irv.prm.crit, rmb.irv.prm.WEIGH_EXPR,
                         rmb.irv.prm.crit.isMeanCrit ? true : rmb.irv.prm.USE_MEAN, debug_getCriteriaForBlock);
@@ -3298,6 +3349,114 @@ e.printStackTrace();
         }
 
         return vbl;
+    }
+
+    /**
+     * @param vbl
+     */
+    private void testContext(ValueBlockList vbl) {
+
+        for (int i = 0; i < vbl.size(); i++) {
+            ValueBlockPre vb = (ValueBlockPre) vbl.get(i);
+
+            ValueBlock vbnew = new ValueBlock(vb);
+            if (debug_createPreCritTopList) {
+                //System.out.println("runFullCriteria vb " + BlockMethods.IcJctoijID(vb.genes, vb.exps));
+                //System.out.println("runFullCriteria vbnew " + BlockMethods.IcJctoijID(vb.genes, vb.exps));
+            }
+            if (debug) {
+                if (vb == null)
+                    System.out.println("runFullCriteria vb is null");
+
+                if (vbnew == null)
+                    System.out.println("runFullCriteria vbnew is null");
+                else if (vbnew.genes == null)
+                    System.out.println("runFullCriteria vbnew.genes is null");
+                else if (i == 0) {
+                    if (rmb.irv.onv.meanMSENull != null) {
+                        if (vbnew.genes.length - rmb.irv.prm.IMIN > rmb.irv.onv.meanMSENull[0].length - 1)
+                            System.out.println("meanMSENull Number of genes above limit " + rmb.irv.prm.GENE_SHAVE + "\t" +
+                                    (vbnew.genes.length - rmb.irv.prm.IMIN) + "\tlimit " + (rmb.irv.onv.meanMSENull[0].length - 1));
+                        if (vbnew.exps.length - rmb.irv.prm.JMIN > rmb.irv.onv.meanMSENull.length - 1)
+                            System.out.println("meanMSENull Number of exps above limit " + rmb.irv.prm.EXP_SHAVE + "\t" +
+                                    (vbnew.exps.length - rmb.irv.prm.JMIN) + "\tlimit " + (rmb.irv.onv.meanMSENull.length - 1));
+                        if (vbnew.genes.length - rmb.irv.prm.IMIN < 0)
+                            System.out.println("meanMSENull Number of genes below limit " + rmb.irv.prm.GENE_SHAVE + "\t" +
+                                    (vbnew.genes.length - rmb.irv.prm.IMIN) + "\tlimit " + (rmb.irv.onv.meanMSENull[0].length - 1));
+                        if (vbnew.exps.length - rmb.irv.prm.JMIN < 0)
+                            System.out.println("meanMSENull Number of exps below limit " + rmb.irv.prm.EXP_SHAVE + "\t" +
+                                    (vbnew.exps.length - rmb.irv.prm.JMIN) + "\tlimit " + (rmb.irv.onv.meanMSENull.length - 1));
+                    }
+                    if (rmb.irv.onv.meanRegNull != null) {
+                        if (vbnew.genes.length - rmb.irv.prm.IMIN > rmb.irv.onv.meanRegNull[0].length - 1)
+                            System.out.println("meanRegNull Number of genes above limit " + rmb.irv.prm.GENE_SHAVE + "\t" +
+                                    (vbnew.genes.length - rmb.irv.prm.IMIN) + "\tlimit " + (rmb.irv.onv.meanRegNull[0].length - 1));
+                        if (vbnew.exps.length - rmb.irv.prm.JMIN > rmb.irv.onv.meanRegNull.length - 1)
+                            System.out.println("meanRegNull Number of exps above limit " + rmb.irv.prm.EXP_SHAVE + "\t" +
+                                    (vbnew.exps.length - rmb.irv.prm.JMIN) + "\tlimit " + (rmb.irv.onv.meanRegNull.length - 1));
+                        if (vbnew.genes.length - rmb.irv.prm.IMIN < 0)
+                            System.out.println("meanRegNull Number of genes below limit " + rmb.irv.prm.GENE_SHAVE + "\t" +
+                                    (vbnew.genes.length - rmb.irv.prm.IMIN) + "\tlimit " + (rmb.irv.onv.meanRegNull[0].length - 1));
+                        if (vbnew.exps.length - rmb.irv.prm.JMIN < 0)
+                            System.out.println("meanRegNull Number of exps below limit " + rmb.irv.prm.EXP_SHAVE + "\t" +
+                                    (vbnew.exps.length - rmb.irv.prm.JMIN) + "\tlimit " + (rmb.irv.onv.meanRegNull.length - 1));
+                    }
+                    if (rmb.irv.onv.meanMeanNull != null) {
+                        if (vbnew.genes.length - rmb.irv.prm.IMIN > rmb.irv.onv.meanMeanNull[0].length - 1)
+                            System.out.println("meanMeanNull Number of genes above limit " + rmb.irv.prm.GENE_SHAVE + "\t" +
+                                    (vbnew.genes.length - rmb.irv.prm.IMIN) + "\tlimit " + (rmb.irv.onv.meanMeanNull[0].length - 1));
+                        if (vbnew.exps.length - rmb.irv.prm.JMIN > rmb.irv.onv.meanMeanNull.length - 1)
+                            System.out.println("meanMeanNull Number of exps above limit " + rmb.irv.prm.EXP_SHAVE + "\t" +
+                                    (vbnew.exps.length - rmb.irv.prm.JMIN) + "\tlimit " + (rmb.irv.onv.meanMeanNull.length - 1));
+                        if (vbnew.genes.length - rmb.irv.prm.IMIN < 0)
+                            System.out.println("meanMeanNull Number of genes below limit " + rmb.irv.prm.GENE_SHAVE + "\t" +
+                                    (vbnew.genes.length - rmb.irv.prm.IMIN) + "\tlimit " + (rmb.irv.onv.meanMeanNull[0].length - 1));
+                        if (vbnew.exps.length - rmb.irv.prm.JMIN < 0)
+                            System.out.println("meanMeanNull Number of exps below limit " + rmb.irv.prm.EXP_SHAVE + "\t" +
+                                    (vbnew.exps.length - rmb.irv.prm.JMIN) + "\tlimit " + (rmb.irv.onv.meanMeanNull.length - 1));
+                    }
+                    if (rmb.irv.onv.meanSpearNull != null) {
+                        if (vbnew.genes.length - rmb.irv.prm.IMIN > rmb.irv.onv.meanSpearNull[0].length - 1)
+                            System.out.println("meanSpearNull Number of genes above limit " + rmb.irv.prm.GENE_SHAVE + "\t" +
+                                    (vbnew.genes.length - rmb.irv.prm.IMIN) + "\tlimit " + (rmb.irv.onv.meanSpearNull[0].length - 1));
+                        if (vbnew.exps.length - rmb.irv.prm.JMIN > rmb.irv.onv.meanSpearNull.length - 1)
+                            System.out.println("meanSpearNull Number of exps above limit " + rmb.irv.prm.EXP_SHAVE + "\t" +
+                                    (vbnew.exps.length - rmb.irv.prm.JMIN) + "\tlimit " + (rmb.irv.onv.meanSpearNull.length - 1));
+                        if (vbnew.genes.length - rmb.irv.prm.IMIN < 0)
+                            System.out.println("meanSpearNull Number of genes below limit " + rmb.irv.prm.GENE_SHAVE + "\t" +
+                                    (vbnew.genes.length - rmb.irv.prm.IMIN) + "\tlimit " + (rmb.irv.onv.meanSpearNull[0].length - 1));
+                        if (vbnew.exps.length - rmb.irv.prm.JMIN < 0)
+                            System.out.println("meanSpearNull Number of exps below limit " + rmb.irv.prm.EXP_SHAVE + "\t" +
+                                    (vbnew.exps.length - rmb.irv.prm.JMIN) + "\tlimit " + (rmb.irv.onv.meanSpearNull.length - 1));
+                    }
+                    if (rmb.irv.onv.meanKendNull != null) {
+                        if (vbnew.genes.length - rmb.irv.prm.IMIN > rmb.irv.onv.meanKendNull[0].length - 1)
+                            System.out.println("meanMeanNull Number of genes above limit " + rmb.irv.prm.GENE_SHAVE + "\t" +
+                                    (vbnew.genes.length - rmb.irv.prm.IMIN) + "\tlimit " + (rmb.irv.onv.meanKendNull[0].length - 1));
+                        if (vbnew.exps.length - rmb.irv.prm.JMIN > rmb.irv.onv.meanKendNull.length - 1)
+                            System.out.println("meanMeanNull Number of exps above limit " + rmb.irv.prm.EXP_SHAVE + "\t" +
+                                    (vbnew.exps.length - rmb.irv.prm.JMIN) + "\tlimit " + (rmb.irv.onv.meanKendNull.length - 1));
+                        if (vbnew.genes.length - rmb.irv.prm.IMIN < 0)
+                            System.out.println("meanMeanNull Number of genes below limit " + rmb.irv.prm.GENE_SHAVE + "\t" +
+                                    (vbnew.genes.length - rmb.irv.prm.IMIN) + "\tlimit " + (rmb.irv.onv.meanKendNull[0].length - 1));
+                        if (vbnew.exps.length - rmb.irv.prm.JMIN < 0)
+                            System.out.println("meanMeanNull Number of exps below limit " + rmb.irv.prm.EXP_SHAVE + "\t" +
+                                    (vbnew.exps.length - rmb.irv.prm.JMIN) + "\tlimit " + (rmb.irv.onv.meanKendNull.length - 1));
+                    }
+                }
+                if (vbnew.genes == null)
+                    System.out.println("runFullCriteria vbnew.genes is null");
+                if (rmb == null)
+                    System.out.println("runFullCriteria rmb is null");
+                if (rmb.irv.prm == null)
+                    System.out.println("runFullCriteria rmb.prm is null");
+                if (rmb.irv == null)
+                    System.out.println("runFullCriteria rmb.irv is null");
+                if (rmb.irv.onv == null)
+                    System.out.println("runFullCriteria rmb.irv.onv is null");
+            }
+
+        }
     }
 
     /**
@@ -3451,7 +3610,7 @@ e.printStackTrace();
                 VBPCandidate.all_criteria = consideredBlock.all_criteria;
                 VBPCandidate.pre_criterion = consideredBlock.pre_criterion;
 
-                VBPCandidate = BlockMethods.computeBlockOverlapWithRef(new ValueBlock(VBPInitial), VBPCandidate);
+                VBPCandidate = BlockMethods.computeBlockOverlapWithRef(new ValueBlock(VBPInitial), VBPCandidate, debug);
                 VBPCandidate.setDataAndMean(rmb.expr_matrix.data);
                 VBPCandidate.trajectory_position = move_params.move_count + 1;
                 VBPCandidate.move_class = move_params.current_move_class;

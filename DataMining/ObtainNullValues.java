@@ -29,6 +29,7 @@ public class ObtainNullValues {
     public double[][] precrit_meanKendNull, precrit_sdKendNull;
     public double[][] precrit_meanCorNull, precrit_sdCorNull;
     public double[][] precrit_meanEUCNull, precrit_sdEUCNull;
+    public double[][] precrit_meanSpearNull, precrit_sdSpearNull;
 
     public double[] nullMeanData;
     public double[] nullMSEData;
@@ -37,6 +38,7 @@ public class ObtainNullValues {
     public double[] nullKendData;
     public double[] nullCorData;
     public double[] nullEucData;
+    public double[] nullSpearData;
     public double[] nullInteractData;
     public double[] nullFeatData;
     public double[] nullTFData;
@@ -48,6 +50,7 @@ public class ObtainNullValues {
     public double[][] meanKendNull, sdKendNull;
     public double[][] meanCorNull, sdCorNull;
     public double[][] meanEucNull, sdEucNull;
+    public double[][] meanSpearNull, sdSpearNull;
     public double[] meanInteractNull, sdInteractNull;
     public double[] meanFeatNull, sdFeatNull;
     public double[] meanTFNull, sdTFNull;
@@ -236,6 +239,22 @@ public class ObtainNullValues {
                 if (debug)
                     System.out.println("R: nullEucData <- NULL");
                 re.eval("nullEucData <- NULL");
+            }
+        }
+        if (crit.SPEARIndex != -1) {
+            try {
+                nullSpearData = setSpearNull(genes.length, exps.length);
+            } catch (Exception e) {
+                System.out.println("nullSpearData is not defined");
+            }
+            if (nullSpearData != null) {
+                if (debug)
+                    System.out.println("R: nullSpearData<-c(" + MoreArray.toString(nullSpearData, ",") + ")");
+                re.assign("nullSpearData", nullSpearData);
+            } else {
+                if (debug)
+                    System.out.println("R: nullSpearData <- NULL");
+                re.eval("nullSpearData <- NULL");
             }
         }
 
@@ -544,6 +563,48 @@ public class ObtainNullValues {
      * @param exps
      * @return
      */
+    public double[] setSpearNull(int genes, int exps) {
+        double[] nullData = new double[2];
+        nullData[0] = Double.NaN;
+        nullData[1] = Double.NaN;
+
+        try {
+            nullData[0] = meanSpearNull[Math.min(exps - prm.JMIN, meanSpearNull.length - 1)]
+                    [Math.min(genes - prm.IMIN, meanSpearNull[0].length - 1)];
+        } catch (Exception e) {
+            if (meanSpearNull == null) {
+                System.out.println("meanSpearNull is null");
+            } else
+                System.out.println("setMeanNull out of meanSpearNull bounds: genes " + genes + "\tIMIN " +
+                        prm.IMIN + "\tIMAX " + prm.IMAX + "\texps " + exps + "\tJMIN " +
+                        prm.JMIN + "\tJMAX " + prm.JMAX + "\tmeanSpearNull " + meanSpearNull.length +
+                        "\tmeanSpearNull[0] " + meanSpearNull[0].length);
+        }
+
+        try {
+            nullData[1] = sdSpearNull[Math.min(exps - prm.JMIN, sdSpearNull.length - 1)]
+                    [Math.min(genes - prm.IMIN, sdSpearNull[0].length - 1)];
+        } catch (Exception e) {
+            if (sdSpearNull == null) {
+                System.out.println("sdSpearNull is null");
+            } else
+                System.out.println("sdSpearNull out of sdSpearNull bounds: genes " + genes + "\tIMIN " +
+                        prm.IMIN + "\tIMAX " + prm.IMAX + "\texps " + exps + "\tJMIN " +
+                        prm.JMIN + "\tJMAX " + prm.JMAX + "\tsdSpearNull " + sdSpearNull.length +
+                        "\tsdSpearNull[0] " + sdSpearNull[0].length);
+        }
+
+        if (Double.isNaN(nullData[0]) || Double.isNaN(nullData[1]))
+            nullData = null;
+
+        return nullData;
+    }
+
+    /**
+     * @param genes
+     * @param exps
+     * @return
+     */
     public double[] setMeanNull(int genes, int exps) {
         double[] nullData = new double[2];
         nullData[0] = Double.NaN;
@@ -751,6 +812,14 @@ public class ObtainNullValues {
             loadEucNulls(prm.MEANEUCR_PATH, prm.SDEUCR_PATH);
         } else if (prm.crit.EUCIndex == 3) {
             loadEucNulls(prm.MEANEUCC_PATH, prm.SDEUCC_PATH);
+        }
+
+        if (prm.crit.SPEARIndex == 1) {
+            loadSpearNulls(prm.MEANSPEAR_PATH, prm.SDSPEAR_PATH);
+        } else if (prm.crit.SPEARIndex == 2) {
+            loadSpearNulls(prm.MEANSPEARR_PATH, prm.SDSPEARR_PATH);
+        } else if (prm.crit.SPEARIndex == 3) {
+            loadSpearNulls(prm.MEANSPEARC_PATH, prm.SDSPEARC_PATH);
         }
 
     }
@@ -1040,7 +1109,7 @@ public class ObtainNullValues {
                 System.exit(0);
             }
         }
-        if (prm.precrit.binary_axis == 1 && prm.precrit.neednull[6]) {
+        if (prm.precrit.binary_axis == 1 && prm.precrit.neednull[7]) {
             if (prm.MEANBINARY_PATH != null && prm.SDBINARY_PATH != null) {
                 File t1 = new File(prm.MEANBINARY_PATH);
                 if (!t1.exists()) {
@@ -1057,7 +1126,7 @@ public class ObtainNullValues {
                 System.out.println("BINARY null PATH broken " + prm.MEANBINARY_PATH + "\t" + prm.SDBINARY_PATH);
                 System.exit(0);
             }
-        } else if (prm.precrit.binary_axis == 2 && prm.precrit.neednull[6]) {
+        } else if (prm.precrit.binary_axis == 2 && prm.precrit.neednull[7]) {
             if (prm.MEANBINARYR_PATH != null && prm.SDBINARYR_PATH != null) {
                 File t1 = new File(prm.MEANBINARYR_PATH);
                 if (!t1.exists()) {
@@ -1074,7 +1143,7 @@ public class ObtainNullValues {
                 System.out.println("BINARYR null PATH broken " + prm.MEANBINARYR_PATH + "\t" + prm.SDBINARYR_PATH);
                 System.exit(0);
             }
-        } else if (prm.precrit.binary_axis == 3 && prm.precrit.neednull[6]) {
+        } else if (prm.precrit.binary_axis == 3 && prm.precrit.neednull[7]) {
             if (prm.MEANBINARYC_PATH != null && prm.SDBINARYC_PATH != null) {
                 File t1 = new File(prm.MEANBINARYC_PATH);
                 if (!t1.exists()) {
@@ -1196,6 +1265,61 @@ public class ObtainNullValues {
             } else {
                 System.out.println("EUCC" +
                         " null PATH broken " + prm.MEANEUCC_PATH + "\t" + prm.SDEUCC_PATH);
+                System.exit(0);
+            }
+        }
+
+
+        if (prm.precrit.SPEARIndex == 1 && prm.precrit.neednull[6]) {
+            if (prm.MEANSPEAR_PATH != null && prm.SDSPEAR_PATH != null) {
+                File t1 = new File(prm.MEANSPEAR_PATH);
+                if (!t1.exists()) {
+                    System.out.println("prm.MEANSPEAR_PATH broken " + prm.MEANSPEAR_PATH);
+                    System.exit(0);
+                }
+                File t2 = new File(prm.SDSPEAR_PATH);
+                if (!t2.exists()) {
+                    System.out.println("prm.SDSPEAR_PATH broken " + prm.SDSPEAR_PATH);
+                    System.exit(0);
+                }
+                loadPreCritSpearNulls(prm.MEANSPEAR_PATH, prm.SDSPEAR_PATH);
+            } else {
+                System.out.println("SPEAR null PATH broken " + prm.MEANSPEAR_PATH + "\t" + prm.SDSPEAR_PATH);
+                System.exit(0);
+            }
+        } else if (prm.precrit.SPEARIndex == 2 && prm.precrit.neednull[6]) {
+            if (prm.MEANSPEARR_PATH != null && prm.SDSPEARR_PATH != null) {
+                File t1 = new File(prm.MEANSPEARR_PATH);
+                if (!t1.exists()) {
+                    System.out.println("prm.MEANSPEARR_PATH broken " + prm.MEANSPEARR_PATH);
+                    System.exit(0);
+                }
+                File t2 = new File(prm.SDSPEARR_PATH);
+                if (!t2.exists()) {
+                    System.out.println("prm.SDSPEARR_PATH broken " + prm.SDSPEARR_PATH);
+                    System.exit(0);
+                }
+                loadPreCritSpearNulls(prm.MEANSPEARR_PATH, prm.SDSPEARR_PATH);
+            } else {
+                System.out.println("SPEARR null PATH broken " + prm.MEANSPEARR_PATH + "\t" + prm.SDSPEARR_PATH);
+                System.exit(0);
+            }
+        } else if (prm.precrit.SPEARIndex == 3 && prm.precrit.neednull[6]) {
+            if (prm.MEANSPEARC_PATH != null && prm.SDSPEARC_PATH != null) {
+                File t1 = new File(prm.MEANSPEARC_PATH);
+                if (!t1.exists()) {
+                    System.out.println("prm.MEANSPEARC_PATH broken " + prm.MEANSPEARC_PATH);
+                    System.exit(0);
+                }
+                File t2 = new File(prm.SDSPEARC_PATH);
+                if (!t2.exists()) {
+                    System.out.println("prm.SDSPEARC_PATH broken " + prm.SDSPEARC_PATH);
+                    System.exit(0);
+                }
+                loadPreCritSpearNulls(prm.MEANSPEARC_PATH, prm.SDSPEARC_PATH);
+            } else {
+                System.out.println("SPEARC" +
+                        " null PATH broken " + prm.MEANSPEARC_PATH + "\t" + prm.SDSPEARC_PATH);
                 System.exit(0);
             }
         }
@@ -1507,6 +1631,31 @@ public class ObtainNullValues {
      * @param a
      * @param b
      */
+    private void loadSpearNulls(String a, String b) {
+        System.out.println("loadSpearNulls " + a + "\t" + b);
+        try {
+            meanSpearNull = MoreArray.convfromString(util.TabFile.readtoArray(a));
+
+            meanSpearNull = Matrix.filterAboveEqual(meanSpearNull, 1.0, 1.0, true);
+
+            System.out.println("loadSpearNulls mean " + meanSpearNull.length + "\t" + meanSpearNull[0].length);
+        } catch (Exception e) {
+            System.out.println("loadSpearNulls mean nullpath failed " + a);
+            //e.printStackTrace();
+        }
+        try {
+            sdSpearNull = MoreArray.convfromString(util.TabFile.readtoArray(b));
+            System.out.println("loadSpearNulls sd " + sdSpearNull.length + "\t" + sdSpearNull[0].length);
+        } catch (Exception e) {
+            System.out.println("loadSpearNulls sd nullpath failed " + b);
+            //e.printStackTrace();
+        }
+    }
+
+    /**
+     * @param a
+     * @param b
+     */
     private void loadPreCritMeanNulls(String a, String b) {
         System.out.println("loadPreCritMeanNulls " + a + "\t" + b);
         try {
@@ -1672,6 +1821,30 @@ public class ObtainNullValues {
                 System.out.println("loadPreCritEucNulls sd " + precrit_sdEUCNull.length + "\t" + precrit_sdEUCNull[0].length);
             } catch (Exception e) {
                 System.out.println("loadPreCritEucNulls sd nullpath failed " + b);
+                //e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * @param a
+     * @param b
+     */
+    private void loadPreCritSpearNulls(String a, String b) {
+        System.out.println("loadPreCritSpearNulls " + a + "\t" + b);
+        try {
+            precrit_meanSpearNull = MoreArray.convfromString(util.TabFile.readtoArray(a));
+            System.out.println("loadPreCritSpearNulls mean " + precrit_meanSpearNull.length + "\t" + precrit_meanSpearNull[0].length);
+        } catch (Exception e) {
+            System.out.println("loadPreCritSpearNulls mean nullpath failed " + a);
+            //e.printStackTrace();
+        }
+        if (b != null) {
+            try {
+                precrit_sdSpearNull = MoreArray.convfromString(util.TabFile.readtoArray(b));
+                System.out.println("loadPreCritSpearNulls sd " + precrit_sdSpearNull.length + "\t" + precrit_sdSpearNull[0].length);
+            } catch (Exception e) {
+                System.out.println("loadPreCritSpearNulls sd nullpath failed " + b);
                 //e.printStackTrace();
             }
         }
