@@ -23,7 +23,7 @@ import java.util.HashMap;
  */
 public class RunMinerBackFast {
 
-    int debug = 0;
+    int debug = MINER_STATIC.DEFAULT_DEBUG;
 
     public MinerFast mi;
     public Parameters orig_prm;
@@ -119,7 +119,7 @@ public class RunMinerBackFast {
      * @param parameterpath
      */
     public RunMinerBackFast(String parameterpath, SystemResource s) {
-        debug = 0;
+        debug = MINER_STATIC.DEFAULT_DEBUG;
         sysRes = s;
         init(parameterpath);
         run();
@@ -129,7 +129,7 @@ public class RunMinerBackFast {
      * @param parameterpath
      */
     public RunMinerBackFast(String parameterpath, SystemResource s, Integer wt) {
-        debug = 0;
+        debug = MINER_STATIC.DEFAULT_DEBUG;
         sysRes = s;
         walltime = wt;
         init(parameterpath);
@@ -452,8 +452,8 @@ public class RunMinerBackFast {
      */
     public ArrayList evaluateVSTrue(double[] start, double[] end) {
         ArrayList ar = new ArrayList();
-        ar.add(evaluateVSTrueStart(start[0], start[1], start[2], start[3], start[4], start[5], start[6], start[7]));
-        ar.add(evaluateVSTrueFinalClosest(end[0], end[1], end[2], end[3], end[4], end[5], end[6], end[7]));
+        ar.add(evaluateVSTrueStart(start[0], start[1], start[2], start[3], start[4], start[5], start[6], start[7], start[7], start[8]));
+        ar.add(evaluateVSTrueFinalClosest(end[0], end[1], end[2], end[3], end[4], end[5], end[6], end[7], end[7], end[8]));
         return ar;
     }
 
@@ -465,8 +465,8 @@ public class RunMinerBackFast {
      */
     public ArrayList evaluateVSTrue(double[] start, double[] end, ValueBlock final_coords) {
         ArrayList ar = new ArrayList();
-        ar.add(evaluateVSTrueStart(start[0], start[1], start[2], start[3], start[4], start[5], start[6], start[7]));
-        ar.add(evaluateVSTrueFinalClosest(end[0], end[1], end[2], end[3], end[4], end[5], end[6], end[7]));
+        ar.add(evaluateVSTrueStart(start[0], start[1], start[2], start[3], start[4], start[5], start[6], start[7], start[7], start[8]));
+        ar.add(evaluateVSTrueFinalClosest(end[0], end[1], end[2], end[3], end[4], end[5], end[6], end[7], end[7], end[8]));
         ar.add(evaluateVSTrueFinalMembership(final_coords));
         ar.add(evaluateVSTrueFinalMembershipIdentity(final_coords));
         return ar;
@@ -477,7 +477,7 @@ public class RunMinerBackFast {
      * @return
      */
     public double[] evaluateVSTrueFinal(double[] ref) {
-        return evaluateVSTrueFinal(ref[0], ref[1], ref[2], ref[3], ref[4], ref[5], ref[6], ref[7]);
+        return evaluateVSTrueFinal(ref[0], ref[1], ref[2], ref[3], ref[4], ref[5], ref[6], ref[7], ref[8], ref[9]);
     }
 
     /**
@@ -485,7 +485,7 @@ public class RunMinerBackFast {
      * @return
      */
     public double[] evaluateVSTrueStart(double[] ref) {
-        return evaluateVSTrueStart(ref[0], ref[1], ref[2], ref[3], ref[4], ref[5], ref[6], ref[7]);
+        return evaluateVSTrueStart(ref[0], ref[1], ref[2], ref[3], ref[4], ref[5], ref[6], ref[7], ref[8], ref[9]);
     }
 
     /**
@@ -503,19 +503,24 @@ public class RunMinerBackFast {
      */
     public double[] evaluateVSTrueFinal(double expr_mean, double expr_mse,
                                         double expr_reg, double expr_kend, double expr_cor,
+                                        double expr_euc, double expr_spearman,
                                         double Ivalp, double feature, double minTF) {
-        double[] ret = new double[9];
+        double[] ret = new double[10];
         ValueBlock cur = (ValueBlock) mi.trajectory.get(mi.trajectory.size() - 1);
         ret[0] = expr_mean - cur.all_criteria[ValueBlock_STATIC.expr_MEAN_IND];
         ret[1] = expr_mse - cur.all_criteria[ValueBlock_STATIC.expr_MSE_IND];
         ret[2] = expr_reg - cur.all_criteria[ValueBlock_STATIC.expr_FEM_IND];
         ret[3] = expr_kend - cur.all_criteria[ValueBlock_STATIC.expr_KEND_IND];
         ret[4] = expr_cor - cur.all_criteria[ValueBlock_STATIC.expr_COR_IND];
-        ret[5] = Ivalp - cur.all_criteria[ValueBlock_STATIC.interact_IND];
-        ret[6] = feature - cur.all_criteria[ValueBlock_STATIC.feat_IND];
-        ret[7] = minTF - cur.all_criteria[ValueBlock_STATIC.TF_IND];
+        ret[5] = expr_euc - cur.all_criteria[ValueBlock_STATIC.expr_EUC_IND];
+        ret[6] = expr_spearman - cur.all_criteria[ValueBlock_STATIC.expr_SPEARMAN_IND];
+        ret[7] = Ivalp - cur.all_criteria[ValueBlock_STATIC.interact_IND];
+        ret[8] = feature - cur.all_criteria[ValueBlock_STATIC.feat_IND];
+        ret[9] = minTF - cur.all_criteria[ValueBlock_STATIC.TF_IND];
         double[] obs = {cur.pre_criterion, cur.all_criteria[ValueBlock_STATIC.expr_MEAN_IND], cur.all_criteria[ValueBlock_STATIC.expr_MSE_IND],
-                cur.all_criteria[ValueBlock_STATIC.expr_FEM_IND], cur.all_criteria[ValueBlock_STATIC.expr_KEND_IND], cur.all_criteria[ValueBlock_STATIC.expr_COR_IND], cur.all_criteria[ValueBlock_STATIC.interact_IND]};
+                cur.all_criteria[ValueBlock_STATIC.expr_FEM_IND], cur.all_criteria[ValueBlock_STATIC.expr_KEND_IND],
+                cur.all_criteria[ValueBlock_STATIC.expr_COR_IND], cur.all_criteria[ValueBlock_STATIC.expr_EUC_IND],
+                cur.all_criteria[ValueBlock_STATIC.expr_SPEARMAN_IND], cur.all_criteria[ValueBlock_STATIC.interact_IND]};
         System.out.println("evaluateVSTrueFinal final");
         MoreArray.printArray(obs);
 
@@ -538,8 +543,9 @@ public class RunMinerBackFast {
     public double[] evaluateVSTrueFinalMin(double expr_mean,
                                            double expr_mse,
                                            double expr_reg, double expr_kend,
-                                           double expr_cor, double Ivalp, double feature, double minTF) {
-        double[] ret = new double[9];
+                                           double expr_cor, double expr_euc, double expr_spearman,
+                                           double Ivalp, double feature, double minTF) {
+        double[] ret = new double[10];
         double min = Double.POSITIVE_INFINITY;
         int min_index = -1;
         int size = mi.trajectory.size();
@@ -553,9 +559,11 @@ public class RunMinerBackFast {
                 ret[2] = expr_reg - cur.all_criteria[ValueBlock_STATIC.expr_FEM_IND];
                 ret[3] = expr_kend - cur.all_criteria[ValueBlock_STATIC.expr_KEND_IND];
                 ret[4] = expr_cor - cur.all_criteria[ValueBlock_STATIC.expr_COR_IND];
-                ret[5] = Ivalp - cur.all_criteria[ValueBlock_STATIC.interact_IND];
-                ret[6] = feature - cur.all_criteria[ValueBlock_STATIC.feat_IND];
-                ret[7] = minTF - cur.all_criteria[ValueBlock_STATIC.TF_IND];
+                ret[5] = expr_euc - cur.all_criteria[ValueBlock_STATIC.expr_EUC_IND];
+                ret[6] = expr_spearman - cur.all_criteria[ValueBlock_STATIC.expr_SPEARMAN_IND];
+                ret[7] = Ivalp - cur.all_criteria[ValueBlock_STATIC.interact_IND];
+                ret[8] = feature - cur.all_criteria[ValueBlock_STATIC.feat_IND];
+                ret[9] = minTF - cur.all_criteria[ValueBlock_STATIC.TF_IND];
             }
         }
         System.out.println("evaluateVSTrueFinalMin " + min_index);
@@ -578,8 +586,9 @@ public class RunMinerBackFast {
      */
     public double[] evaluateVSTrueFinalClosest(double expr_mean,
                                                double expr_mse, double expr_reg, double expr_kend,
-                                               double expr_cor, double Ivalp, double feature, double minTF) {
-        double[] ret = new double[4];
+                                               double expr_cor, double expr_euc, double expr_spearman,
+                                               double Ivalp, double feature, double minTF) {
+        double[] ret = new double[10];
         double min = Double.POSITIVE_INFINITY;
         int min_index = -1;
         int size = mi.trajectory.size();
@@ -594,9 +603,11 @@ public class RunMinerBackFast {
                 ret[2] = expr_reg - cur.all_criteria[ValueBlock_STATIC.expr_FEM_IND];
                 ret[3] = expr_kend - cur.all_criteria[ValueBlock_STATIC.expr_KEND_IND];
                 ret[4] = expr_cor - cur.all_criteria[ValueBlock_STATIC.expr_COR_IND];
-                ret[5] = Ivalp - cur.all_criteria[ValueBlock_STATIC.interact_IND];
-                ret[6] = feature - cur.all_criteria[ValueBlock_STATIC.feat_IND];
-                ret[7] = minTF - cur.all_criteria[ValueBlock_STATIC.TF_IND];
+                ret[5] = expr_euc - cur.all_criteria[ValueBlock_STATIC.expr_EUC_IND];
+                ret[6] = expr_spearman - cur.all_criteria[ValueBlock_STATIC.expr_SPEARMAN_IND];
+                ret[7] = Ivalp - cur.all_criteria[ValueBlock_STATIC.interact_IND];
+                ret[8] = feature - cur.all_criteria[ValueBlock_STATIC.feat_IND];
+                ret[9] = minTF - cur.all_criteria[ValueBlock_STATIC.TF_IND];
             }
         }
         System.out.println("evaluateVSTrueFinalMin " + min_index);
@@ -667,17 +678,20 @@ public class RunMinerBackFast {
      */
     public double[] evaluateVSTrueStart(double expr_mean,
                                         double expr_mse, double expr_reg, double expr_kend,
-                                        double expr_cor, double Ivalp, double feature, double minTF) {
-        double[] ret = new double[4];
+                                        double expr_cor, double expr_euc, double expr_spearman,
+                                        double Ivalp, double feature, double minTF) {
+        double[] ret = new double[10];
         ValueBlock cur = (ValueBlock) mi.trajectory.get(0);
         ret[0] = expr_mean - cur.all_criteria[ValueBlock_STATIC.expr_MEAN_IND];
         ret[1] = expr_mse - cur.all_criteria[ValueBlock_STATIC.expr_MSE_IND];
         ret[2] = expr_reg - cur.all_criteria[ValueBlock_STATIC.expr_FEM_IND];
         ret[3] = expr_kend - cur.all_criteria[ValueBlock_STATIC.expr_KEND_IND];
         ret[4] = expr_cor - cur.all_criteria[ValueBlock_STATIC.expr_COR_IND];
-        ret[5] = Ivalp - cur.all_criteria[ValueBlock_STATIC.interact_IND];
-        ret[6] = feature - cur.all_criteria[ValueBlock_STATIC.feat_IND];
-        ret[7] = minTF - cur.all_criteria[ValueBlock_STATIC.TF_IND];
+        ret[5] = expr_euc - cur.all_criteria[ValueBlock_STATIC.expr_EUC_IND];
+        ret[6] = expr_spearman - cur.all_criteria[ValueBlock_STATIC.expr_SPEARMAN_IND];
+        ret[7] = Ivalp - cur.all_criteria[ValueBlock_STATIC.interact_IND];
+        ret[8] = feature - cur.all_criteria[ValueBlock_STATIC.feat_IND];
+        ret[9] = minTF - cur.all_criteria[ValueBlock_STATIC.TF_IND];
         //System.out.println("evaluateVSTrueStart start");
         //MoreArray.printArray(ret);
         return ret;

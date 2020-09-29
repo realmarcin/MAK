@@ -25,6 +25,9 @@ import java.util.HashMap;
  */
 public class MinerViewBack {
 
+
+    boolean debug = true;
+
     HashMap options;
     String[] valid_args = {"-param", "-dataexpr", "-datappi", "-traj", "-help", "-animate", "-pixel"};
 
@@ -103,7 +106,7 @@ public class MinerViewBack {
      * @throws Exception
      */
     public void animate() throws Exception {
-        int delaytime =20;
+        int delaytime = 20;
         File dir = new File(animate_path);
         String[] list = dir.list();
         BufferedImage[] frames = new BufferedImage[list.length];
@@ -438,7 +441,7 @@ public class MinerViewBack {
             }
 
             try {
-                trajectory = ValueBlockListMethods.readAny(trajpath, false);
+                trajectory = ValueBlockListMethods.readAny(trajpath, debug);
             } catch (Exception e) {
                 e.printStackTrace();
             }

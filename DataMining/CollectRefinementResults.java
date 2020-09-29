@@ -1,20 +1,18 @@
 package DataMining;
 
-import mathy.SimpleMatrix;
 import util.MapArgOptions;
 import util.MoreArray;
 import util.TextFile;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by rauf on 3/26/16.
- *
- * Performs a comparison for all bicluster pairs from set A and B which have an overlap measure past the specified threshold.
  */
 public class CollectRefinementResults {
     HashMap options;
@@ -23,7 +21,7 @@ public class CollectRefinementResults {
             "-indir", "-outfile", "-name_prefix", "-name_suffix"
     };
 
-    String [] keys = new String[20];
+    String[] keys = new String[20];
     String indir;
     String outfile;
     String name_prefix;
@@ -31,21 +29,21 @@ public class CollectRefinementResults {
 
     String outstring = "";
 
-    public CollectRefinementResults (String[] args) {
+    public CollectRefinementResults(String[] args) {
         try {
             init(args);
 
-            // Have a while loop starting at index 0 and going up until no such file exists
-
             int index = 0;
             boolean fileExists = true;
+
+            //while loop starting at index 0 and going up until no such file exists
             while (fileExists) {
                 String curr_file = indir + "/" + name_prefix + index + name_suffix;
                 System.out.println(curr_file);
                 File cf = new File(curr_file);
                 if (cf.exists()) {
                     String finalTraj = getLastTrajectory(curr_file);
-                    String [] finalTrajSplit = finalTraj.split("\\t");
+                    String[] finalTrajSplit = finalTraj.split("\\t");
                     System.out.println(finalTraj);
                     ArrayList ft = new ArrayList();
                     for (int i = 0; i < finalTrajSplit.length; i++) {
@@ -137,10 +135,10 @@ public class CollectRefinementResults {
             CollectRefinementResults rm = new CollectRefinementResults(args);
         } else {
             System.out.println("syntax: java DataMining.func.CollectRefinementResults\n" +
-                            "<-indir>\n" +
-                            "<-name_prefix>\n" +
-                            "<-name_suffix>\n" +
-                            "<-outfile>\n"
+                    "<-indir>\n" +
+                    "<-name_prefix>\n" +
+                    "<-name_suffix>\n" +
+                    "<-outfile>\n"
             );
         }
     }

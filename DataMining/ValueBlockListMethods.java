@@ -460,7 +460,7 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                     e2.printStackTrace();
                 try {
                     System.out.println("ValueBlockList.read vbl");
-                    BIC = ValueBlockList.read(f, false);//false);
+                    BIC = ValueBlockList.read(f, d);//false);
                     //System.out.println("ValueBlockList.read vbl " + BIC.size());
                 } catch (Exception e1) {
                     System.out.println("WARNING: not MAK VBL format");
@@ -759,6 +759,96 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
         return vls;
     }
 
+
+    /**
+     * @param f
+     * @param debug
+     * @return
+     */
+    public final static ValueBlockList readUniBic(String f, boolean debug) {
+        if (debug)
+            System.out.println("readBIC " + f);
+        ValueBlockList vls = null;
+        try {
+            vls = new ValueBlockList();
+            BufferedReader in = new BufferedReader(new FileReader(f));
+            String data = in.readLine();
+            if (debug)
+                System.out.println("first " + data);
+            data = in.readLine();
+            int count = 0;
+            while (data.indexOf("Bicluster([") != 0)
+                data = in.readLine();
+            while (data != null && data.length() > 0) {
+
+                if (debug)
+                    System.out.println("data: " + data);
+
+                String[] first = data.split("\\[");
+
+                String rawg = null;
+                try {
+                    rawg = first[1].substring(0, first[1].indexOf("]"));
+                } catch (Exception e) {
+                    data = in.readLine();
+                    first = data.split("\\[");
+                    rawg = first[1].substring(0, first[1].indexOf("]"));
+                    //e.printStackTrace();
+                }
+                String rawe = first[2].substring(0, first[2].indexOf("]"));
+
+                String[] genes = rawg.split(",");
+                if (debug) {
+                    System.out.println("genes: ");
+                    MoreArray.printArray(genes);
+                }
+                //data = in.readLine();
+                String[] exps = rawe.split(",");
+                if (debug) {
+                    System.out.println("exps: ");
+                    MoreArray.printArray(exps);
+                }
+                ValueBlock vb = new ValueBlock();
+                try {
+                    vb.genes = MoreArray.tointArray(genes);
+                } catch (Exception e) {
+                    genes = StringUtil.replace(genes, " ", "");
+                    genes = StringUtil.replace(genes, "\"", "");
+                    vb.genes = MoreArray.tointArray(genes);
+                }
+                try {
+                    vb.exps = MoreArray.tointArray(exps);
+                } catch (Exception e) {
+                    exps = StringUtil.replace(exps, " ", "");
+                    exps = StringUtil.replace(exps, "\"", "");
+                    vb.exps = MoreArray.tointArray(exps);
+                }
+
+                if (vb.genes != null && vb.exps != null) {
+
+                    int[][] update = {vb.genes, vb.exps};
+                    vb.NRCoords(update);
+                } else {
+                    System.out.println("failed to parse vb " + count + "\t" + data);
+                }
+
+
+                vls.add(vb);
+                if (debug)
+                    System.out.println("readUniBic vls.size " + vls.size());
+                data = in.readLine();
+                count++;
+            }
+            if (vls.size() == 0)
+                vls = null;
+            in.close();
+        } catch (IOException e) {
+            System.out.println("IOException: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return vls;
+    }
+
     /**
      * @param f
      * @return
@@ -844,21 +934,36 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
      *
      */
     public final static ValueBlockList reorderByMean(double[][] data, ValueBlockList vbl) {
+
+        //System.out.println("reorderByMean "+data[0][0]+"\t"+data[1][10]+"\t"+data[10][2]);
+        //System.out.println("reorderByMean "+data[0][0]+"\t"+data[1][10]+"\t"+data[10][2]);
+        //System.out.println("reorderByMean "+data[597][0]+"\t"+data[597][10]+"\t"+data[597][2]);
+        //System.out.println("reorderByMean "+data[596][0]+"\t"+data[596][10]+"\t"+data[596][2]);
+        //MoreArray.printArray(data[596]);
+
         for (int i = 0; i < vbl.size(); i++) {
             ValueBlock cur = (ValueBlock) vbl.get(i);
+
+            //System.out.println(i+" getData g " + MoreArray.toString(cur.genes, ","));
+            //System.out.println(i+" getData e " + MoreArray.toString(cur.exps, ","));
+
             /* System.out.println("reorderByMean genes b/f");
             MoreArray.printArray(cur.genes);*/
             double[] rowmeans = new double[cur.genes.length];
             for (int a = 0; a < cur.genes.length; a++) {
                 double[] d = Matrix.extractRowSegment(data, cur.genes[a], cur.exps);
-                /*System.out.println("reorderByMean " + a);
-                MoreArray.printArray(d);*/
-                rowmeans[a] = stat.avg(d);
-                if (Double.isNaN(rowmeans[a])) {
-                    System.out.println("reorderByMean " + a + "\t" + rowmeans[a]);
-                    //MoreArray.printArray(d);
-                    rowmeans[a] = 0;
+                //System.out.println("reorderByMean " + i+"\t"+a+"\t"+cur.genes[a]);
+                //MoreArray.printArray(d);
+
+                for (int z = 0; z < d.length; z++) {
+                    if (Double.isNaN(d[z])) {
+                        //System.out.println("reorderByMean replacing NaN " + i +"\t"+z+"\t"+d[z]);
+                        d[z] = 0;
+                    }
                 }
+
+                rowmeans[a] = stat.avg(d);
+                //System.out.println("reorderByMean " + i + "\t" + a + "\t" + rowmeans[a]);
             }
             /* System.out.println("reorderByMean rowmeans");
             MoreArray.printArray(rowmeans);*/
@@ -889,7 +994,13 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
             }
             //MoreArray.printArray(colmeans);
             int[] colrank = stat.ranksDescUnique(colmeans);
-            //MoreArray.printArray(colrank);
+            /*
+            System.out.println("colmeans");
+            MoreArray.printArray(colmeans);
+            System.out.println("colrank");
+            MoreArray.printArray(colrank);
+            */
+
             ArrayList colorder = MoreArray.initArrayList(cur.exps.length);
             for (int b = 0; b < cur.exps.length; b++) {
                 //System.out.println("colorder old pos " + b + "\tnew pos " + colrank[b] + "\tval " + cur.exps[b]);
@@ -909,6 +1020,7 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
             //if (i > 2)
             //    System.exit(0);
         }
+
         return vbl;
     }
 
@@ -948,6 +1060,25 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
         for (int a = 0; a < vbl.size(); a++) {
             ValueBlock cur = (ValueBlock) vbl.get(a);
             out.add("" + cur.genes.length + " " + cur.exps.length);
+            out.add(MoreArray.toString(cur.genes, " "));
+            out.add(MoreArray.toString(cur.exps, " "));
+        }
+
+        System.out.println("writeBIC blocks " + out.size() / 3);
+        TextFile.write(out, outf);
+    }
+
+    /**
+     *
+     */
+    public final static void writeBIC(String outf, ValueBlockList vbl, int offset) {
+        ArrayList out = new ArrayList();
+        for (int a = 0; a < vbl.size(); a++) {
+            ValueBlock cur = (ValueBlock) vbl.get(a);
+            out.add("" + cur.genes.length + " " + cur.exps.length);
+            cur.genes = stat.add(cur.genes, offset);
+            cur.exps = stat.add(cur.exps, offset);
+
             out.add(MoreArray.toString(cur.genes, " "));
             out.add(MoreArray.toString(cur.exps, " "));
         }

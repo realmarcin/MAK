@@ -39,7 +39,6 @@ public class MAKflow_JBEI_SLURM_v2 {
     HashMap options;
     static String[] arg_desc = {
             "<-data real valued dataset>" +
-                    "<-parameter template parameter file>" +
                     "<-parameter template parameter file>"
     };
 
@@ -141,6 +140,11 @@ public class MAKflow_JBEI_SLURM_v2 {
     String hclmetric = "correlation";
     String hcllink = "complete";
 
+    int size_precrit_gene = -1;
+    int size_precrit_exp = -1;
+    double precrit_gene_perc = Double.NaN;
+    double precrit_exp_perc = Double.NaN;
+
     String default_walltime = "24:00:00";
 
     String refinement_starting_points = "";
@@ -161,7 +165,7 @@ public class MAKflow_JBEI_SLURM_v2 {
 
     //String nullJobID = null;
 
-    long period = 300000; // 300000 = 5 minutes
+    long period = 60000; // 60000 = 1 min.
 
     String iterationSuffix = "";
 
@@ -758,11 +762,28 @@ public class MAKflow_JBEI_SLURM_v2 {
                 prm.BATCH_PERC = 0.4;
                 prm.PLATEAU_PERC = 0.2;
                 prm.OVERRIDE_SHAVING = false;
-                prm.SIZE_PRECRIT_LIST = 50;
+                prm.SIZE_PRECRIT_LIST = -1;
                 prm.PBATCH = 1.0;
                 prm.DATA_LEN_EXPS = num_col;
                 prm.DATA_LEN_GENES = num_row;
-                prm.RANDOMFLOOD = true;
+
+                if (size_precrit_gene != -1) {
+                    prm.SIZE_PRECRIT_LIST_GENE = size_precrit_gene;
+                }
+                if (size_precrit_exp != -1) {
+                    prm.SIZE_PRECRIT_LIST_EXP = size_precrit_exp;
+                }
+
+
+                if (precrit_gene_perc != -1) {
+                    prm.fraction_genes_for_precritmove = precrit_gene_perc;
+                }
+                if (precrit_exp_perc != -1) {
+                    prm.fraction_exps_for_precritmove = precrit_exp_perc;
+                }
+
+
+                prm.RANDOMFLOOD = false;
                 prm.EXCLUDE_OVERLAP_THRESHOLD = 0.5;
                 if (useAbs == 1) {
                     prm.USE_ABS = true;
@@ -976,6 +997,32 @@ public class MAKflow_JBEI_SLURM_v2 {
                     }
                 }
 
+                if (criterion.contains("SPEARMAN") && !criterion.contains("SPEARMANC") && !criterion.contains("SPEARMANR") && !criterion.toLowerCase().contains("SPEARMANnonull".toLowerCase())) {
+                    prm.MEANSPEAR_PATH = localpath + "level5.1/" + nullprefix + "SPEARMAN_median_full.txt";
+                    prm.SDSPEAR_PATH = localpath + "level5.1/" + nullprefix + "SPEARMAN_0.5IQR_full.txt";
+                    if (!doesFileExist(prm.MEANSPEAR_PATH) || !doesFileExist(prm.SDSPEAR_PATH)) {
+                        System.out.println("ERROR: The paths to the null files for the SPEAR criteria are incorrect. Please check that these null files exist in level5.1/\nExiting now...");
+                        System.exit(1);
+                    }
+                }
+                if (criterion.contains("SPEARMANR") && !criterion.toLowerCase().contains("SPEARMANRnonull".toLowerCase())) {
+                    prm.MEANSPEARR_PATH = localpath + "level5.1/" + nullprefix + "SPEARMANR_median_full.txt";
+                    prm.SDSPEARR_PATH = localpath + "level5.1/" + nullprefix + "SPEARMANR_0.5IQR_full.txt";
+                    //System.out.println("MAKflow set SPEARMANR " + prm.SDSPEARR_PATH);
+                    if (!doesFileExist(prm.MEANSPEARR_PATH) || !doesFileExist(prm.SDSPEARR_PATH)) {
+                        System.out.println("ERROR: The paths to the null files for the SPEARMANR criteria are incorrect. Please check that these null files exist in level5.1/\nExiting now...");
+                        System.exit(1);
+                    }
+                }
+                if (criterion.contains("SPEARMANC") && !criterion.toLowerCase().contains("SPEARMANCnonull".toLowerCase())) {
+                    prm.MEANSPEARC_PATH = localpath + "level5.1/" + nullprefix + "SPEARMANC_median_full.txt";
+                    prm.SDSPEARC_PATH = localpath + "level5.1/" + nullprefix + "SPEARMANC_0.5IQR_full.txt";
+                    if (!doesFileExist(prm.MEANSPEARC_PATH) || !doesFileExist(prm.SDSPEARC_PATH)) {
+                        System.out.println("ERROR: The paths to the null files for the SPEARMANC criteria are incorrect. Please check that these null files exist in level5.1/\nExiting now...");
+                        System.exit(1);
+                    }
+                }
+
                 if (criterion.contains("BINARY") && !criterion.contains("BINARYC") && !criterion.contains("BINARYR") && !criterion.toLowerCase().contains("BINARYnonull".toLowerCase())) {
                     prm.MEANBINARY_PATH = localpath + "level5.1/" + nullprefix + "BINARY_median_full.txt";
                     prm.SDBINARY_PATH = localpath + "level5.1/" + nullprefix + "BINARY_0.5IQR_full.txt";
@@ -1157,7 +1204,9 @@ public class MAKflow_JBEI_SLURM_v2 {
                 String pfem_script = "";
                 if (runmode.compareToIgnoreCase("N") != 0 &&
                         runmode.compareToIgnoreCase("BN") != 0 &&
-                        runmode.compareToIgnoreCase("bN") != 0) {
+                        runmode.compareToIgnoreCase("bN") != 0 &&
+                        runmode.compareToIgnoreCase("ON") != 0 &&
+                        runmode.compareToIgnoreCase("oN") != 0) {
                     pfem_script = "java -Xmx" + (int) (mem_per_cpu * 1000.0) + "M DataMining.ParamforErrMiss ";
                     pfem_script += localpath + "level7_iter" + iteration + ".1/results/ " +
                             localpath + "level7_iter" + iteration + ".1/" + basename + "_1/ " +
@@ -1668,18 +1717,15 @@ public class MAKflow_JBEI_SLURM_v2 {
                 int num_row = row_col[0];
                 int num_col = row_col[1];
 
-                /*
-                Important parameters for refinement.
-                 */
+
                 prm.RUN_SEQUENCE = "N";
-                prm.RANDOMFLOOD = true;
+
+                prm.RANDOMFLOOD = false;
                 prm.EXCLUDE_LIST_PATH = "";
                 prm.OVERRIDE_SHAVING = true;
 
                 prm.BATCH_DMETHOD = hclmetric;
                 prm.BATCH_LINKMETHOD = hcllink;
-
-                /* - */
 
                 prm.CRIT_TYPE_INDEX = criterion_index;
                 prm.PRECRIT_TYPE_INDEX = precriterion_index;
@@ -1701,7 +1747,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 prm.JMIN = Jmin;
                 prm.BATCH_PERC = 0.4;
                 prm.PLATEAU_PERC = 0.2;
-                prm.SIZE_PRECRIT_LIST = 50;
+                prm.SIZE_PRECRIT_LIST = -1;
                 prm.PBATCH = 1.0;
                 prm.DATA_LEN_EXPS = num_col;
                 prm.DATA_LEN_GENES = num_row;
@@ -1710,6 +1756,8 @@ public class MAKflow_JBEI_SLURM_v2 {
                 for (int a = 0; a < absvectArray.length; a++) {
                     absvectIntArray[a] = Integer.parseInt(absvectArray[a]);
                 }
+
+
                 if (useAbs == 1) {
                     prm.USE_ABS = true;
                     prm.USE_ABS_AR = absvectIntArray;
@@ -1930,6 +1978,31 @@ public class MAKflow_JBEI_SLURM_v2 {
                     prm.SDEUCC_PATH = localpath + "level5.1/" + nullprefix + "EUCC_0.5IQR_full.txt";
                     if (!doesFileExist(prm.MEANEUCC_PATH) || !doesFileExist(prm.SDEUCC_PATH)) {
                         System.out.println("ERROR: The paths to the null files for the EUCC criteria are incorrect. Please check that these null files exist in level5.1/\nExiting now...");
+                        System.exit(1);
+                    }
+                }
+
+                if (criterion.contains("SPEARMAN") && !criterion.contains("SPEARMANC") && !criterion.contains("SPEARMANR") && !criterion.toLowerCase().contains("SPEARnonull".toLowerCase())) {
+                    prm.MEANSPEAR_PATH = localpath + "level5.1/" + nullprefix + "SPEARMAN_median_full.txt";
+                    prm.SDSPEAR_PATH = localpath + "level5.1/" + nullprefix + "SPEARMANC_0.5IQR_full.txt";
+                    if (!doesFileExist(prm.MEANSPEAR_PATH) || !doesFileExist(prm.SDSPEAR_PATH)) {
+                        System.out.println("ERROR: The paths to the null files for the SPEARMAN criteria are incorrect. Please check that these null files exist in level5.1/\nExiting now...");
+                        System.exit(1);
+                    }
+                }
+                if (criterion.contains("SPEARMANR") && !criterion.toLowerCase().contains("SPEARMANRnonull".toLowerCase())) {
+                    prm.MEANSPEARR_PATH = localpath + "level5.1/" + nullprefix + "SPEARMANR_median_full.txt";
+                    prm.SDSPEARR_PATH = localpath + "level5.1/" + nullprefix + "SPEARMANR_0.5IQR_full.txt";
+                    if (!doesFileExist(prm.MEANSPEARR_PATH) || !doesFileExist(prm.SDSPEARR_PATH)) {
+                        System.out.println("ERROR: The paths to the null files for the SPEARMANR criteria are incorrect. Please check that these null files exist in level5.1/\nExiting now...");
+                        System.exit(1);
+                    }
+                }
+                if (criterion.contains("SPEARMANC") && !criterion.toLowerCase().contains("SPEARMANCnonull".toLowerCase())) {
+                    prm.MEANSPEARC_PATH = localpath + "level5.1/" + nullprefix + "SPEARMANC_median_full.txt";
+                    prm.SDSPEARC_PATH = localpath + "level5.1/" + nullprefix + "SPEARMANC_0.5IQR_full.txt";
+                    if (!doesFileExist(prm.MEANSPEARC_PATH) || !doesFileExist(prm.SDSPEARC_PATH)) {
+                        System.out.println("ERROR: The paths to the null files for the SPEARMANC criteria are incorrect. Please check that these null files exist in level5.1/\nExiting now...");
                         System.exit(1);
                     }
                 }
@@ -2695,6 +2768,30 @@ public class MAKflow_JBEI_SLURM_v2 {
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
+                            } else if (param_key.equalsIgnoreCase("sizeprecritgene")) {
+                                try {
+                                    size_precrit_gene = Integer.parseInt(param_val);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (param_key.equalsIgnoreCase("sizeprecritexp")) {
+                                try {
+                                    size_precrit_exp = Integer.parseInt(param_val);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (param_key.equalsIgnoreCase("precritgeneperc")) {
+                                try {
+                                    precrit_gene_perc = Integer.parseInt(param_val);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (param_key.equalsIgnoreCase("precritexpperc")) {
+                                try {
+                                    precrit_exp_perc = Integer.parseInt(param_val);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             } else if (param_key.equalsIgnoreCase("maxjobs")) {
                                 try {
                                     max_jobs = Integer.parseInt(param_val);
@@ -3222,7 +3319,7 @@ public class MAKflow_JBEI_SLURM_v2 {
             if (System.currentTimeMillis() - lastTime >= period) {
                 lastTime = System.currentTimeMillis();
                 String run_squeue = "";
-                run_squeue += "squeue | grep '" + server + "' | awk '{print $1}' > " + squeue_file;
+                run_squeue += "squeue | grep '" + server + "' | awk '{print $1}' > " + squeue_file;//grep 'slurm_sc' |
                 String squeue_shell = "execute_sbatch.sh";
                 runCmd(run_squeue, scriptbox, squeue_shell);
 

@@ -37,6 +37,7 @@ Critp.final = function(Ic,
                        nullKendData,
                        nullCorData,
                        nullEucData,
+                       nullSpearData,
                        nullInteractData,
                        useNull,
                        ECindex,
@@ -44,6 +45,7 @@ Critp.final = function(Ic,
                        KendARCind,
                        Corindex,
                        Eucindex,
+                       Spearindex,
                        UseExprMean,
                        MeanARCind,
                        ARCind,
@@ -382,6 +384,49 @@ Critp.final = function(Ic,
     print(paste("Euc raw ", paste(critvecRaw, collapse = " "), sep = " "))
   }
   
+  #Spearman's rho
+  if (is.null(Spearindex) == 0 &&
+      (Spearindex == 1 || Spearindex == 2 || Spearindex == 3)) {
+    #print("Spearman")
+    UCm = UCmRaw = Spearman.block(expr_data, Ic, Jc, Spearindex, useAbs[2])
+    #print(UCm)
+    
+    if (frxnsign) {
+      if (ARCind == 1 && useAbs[1] == 0) {
+        UCmRaw <- frxnsignA * UCmRaw
+      }
+      else if (ARCind == 2 && useAbs[1] == 0) {
+        UCmRaw <- frxnsignR * UCmRaw
+      }
+      else if (ARCind == 3 && useAbs[1] == 0) {
+        UCmRaw <- frxnsignC * UCmRaw
+      }
+      UCm <- UCmRaw
+    }
+    
+    if (Invert == 1) {
+      UCmRaw = 1 / (UCm + 1)
+      #print(cat("1/ECm ",ECm, ECmRaw ))
+      UCm = UCmRaw
+    }
+    if (useNull[6] == TRUE &&
+        !missing(nullSpearData) && !is.null(nullSpearData)) {
+      UCm = pcauchy(UCm, nullSpearData[1], nullSpearData[2])
+    }
+    #print(paste("UCm",UCm,UCmRaw))
+    critvec = c(critvec, UCm)
+    critvecRaw = c(critvecRaw, UCmRaw)
+  }
+  else {
+    critvec = c(critvec, 0)
+    critvecRaw = c(critvecRaw, 0)
+  }
+  #print("Spearman")
+  if (debug) {
+    print(paste("Spearman full", paste(critvec, collapse = " "), sep = " "))
+    print(paste("Spearman raw ", paste(critvecRaw, collapse = " "), sep = " "))
+  }
+  
   
   #interaction criterion
   if (InterI == TRUE &&
@@ -629,7 +674,7 @@ ElarsCrit.block = function(data, Ii, Jj, ARC, I, J, useAbs) {
     remnarows <- (rowSums(is.na(curdataR)) > length(Jj) - 2)
     if (sum(remnarows) > 0) {
       rem_index <- which(remnarows)
-      curdataR <- curdataR[-rem_index, ]
+      curdataR <- curdataR[-rem_index,]
       I <- I - length(rem_index)
       for (k in 1:length(Ii)) {
         sum <- sum(Ii[k] > rem_index)
@@ -651,13 +696,13 @@ ElarsCrit.block = function(data, Ii, Jj, ARC, I, J, useAbs) {
   }
   #possible axis switched for lars?
   if (ARC == 3 || ARC == 1) {
-    curdataC <- data[Ii, ]
+    curdataC <- data[Ii,]
     
     nacols <- (colSums(is.na(curdataC)))
     remnacols <- (colSums(is.na(curdataC)) > length(Ii) - 2)
     if (sum(remnacols) > 0) {
       rem_index <- which(remnacols)
-      curdataC <- curdataC[, -rem_index]
+      curdataC <- curdataC[,-rem_index]
       J <- J - length(rem_index)
       for (k in 1:length(Jj)) {
         sum <- sum(Jj[k] > rem_index)
@@ -768,7 +813,7 @@ EgeeCrit_slow.block = function(data,
     remnarows <- (rowSums(is.na(curdata)) > length(Jj) - 2)
     if (sum(remnarows) > 0) {
       rem_index <- which(remnarows)
-      curdata <- curdata[-rem_index, ]
+      curdata <- curdata[-rem_index,]
       I <- I - length(rem_index)
       for (k in 1:length(Ii)) {
         sum <- sum(Ii[k] > rem_index)
@@ -796,14 +841,14 @@ EgeeCrit_slow.block = function(data,
     idA = rep(1:length(Jj), I)
   }
   else if (ARC == 3) {
-    curdata = data[Ii, ]
+    curdata = data[Ii,]
     
     nacols <- (colSums(is.na(curdata)))
     remnacols <-
       (colSums(is.na(curdata)) > length(Ii) - 2)
     if (sum(remnacols) > 0) {
       rem_index <- which(remnacols)
-      curdata <- curdata[, -rem_index]
+      curdata <- curdata[,-rem_index]
       J <- J - length(rem_index)
       for (k in 1:length(Jj)) {
         sum <- sum(Jj[k] > rem_index)
@@ -841,7 +886,7 @@ EgeeCrit_slow.block = function(data,
   gee1 = lm(yY ~ geI:factor(idA))
   #print("6")
   if (RepM == 1) {
-    corD = cor(t(matrix(residuals(gee1), nrow = reps)))
+    corD = cor(t(matrix(residuals(gee1), nrow = reps)), method="pearson")
     #geeInd=geeglm(yY~geI,family=gaussian,id=idD)
     gee1 = geeglm(yY ~ geI,
                   family = gaussian,
@@ -868,7 +913,7 @@ FEModel.block = function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm) {
   
   curdata <- NULL
   curdataR <- data[, Jj]
-  curdataC <- data[Ii, ]
+  curdataC <- data[Ii,]
   
   
   if (ARC == 1) {
@@ -878,7 +923,7 @@ FEModel.block = function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm) {
     remnarows <- (rowSums(is.na(curdataR)) > length(Jj) - 2)
     if (sum(remnarows) > 0) {
       rem_index <- which(remnarows)
-      curdataR <- curdataR[-rem_index, ]
+      curdataR <- curdataR[-rem_index,]
       I <- I - length(rem_index)
       #remove all 'NA' rows
       for (k in 1:length(Ii)) {
@@ -904,15 +949,15 @@ FEModel.block = function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm) {
     #if(is.null(pscore)==0) curdataR=preScore_block(curdataR,ARC)
     
     #colmthis <- colMeans(curdataR[Ii,])
-    err1R = sweep(curdataR[Ii, ], 2, colm)#colmthis)
-    err2R = curdataR[-Ii, ] - mean(curdataR[-Ii, ])#as.vector()
+    err1R = sweep(curdataR[Ii,], 2, colm)#colmthis)
+    err2R = curdataR[-Ii,] - mean(curdataR[-Ii,])#as.vector()
     
     nacols <- (colSums(is.na(curdataC)))
     remnacols <-
       (colSums(is.na(curdataC)) > length(Ii) - 2)
     if (sum(remnacols) > 0) {
       rem_index <- which(remnacols)
-      curdataC <- curdataC[, -rem_index]
+      curdataC <- curdataC[,-rem_index]
       J <- J - length(rem_index)
       for (k in 1:length(Jj)) {
         sum <- sum(Jj[k] > rem_index)
@@ -939,7 +984,7 @@ FEModel.block = function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm) {
     
     #rowmthis <- rowMeans(curdataC[,Jj])
     err1C = sweep(curdataC[, Jj], 1, rowm)#rowmthis)
-    err2C = curdataC[, -Jj] - mean(curdataC[, -Jj])#as.vector()
+    err2C = curdataC[,-Jj] - mean(curdataC[,-Jj])#as.vector()
     #print("errC")
     #print(err1C)
     #print(err2C)
@@ -957,7 +1002,7 @@ FEModel.block = function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm) {
     remnarows <- (rowSums(is.na(curdata)) > length(Jj) - 2)
     if (sum(remnarows) > 0) {
       rem_index <- which(remnarows)
-      curdata <- curdata[-rem_index, ]
+      curdata <- curdata[-rem_index,]
       I <- I - length(rem_index)
       #remove all 'NA' rows
       for (k in 1:length(Ii)) {
@@ -974,18 +1019,18 @@ FEModel.block = function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm) {
     if (useAbs == 1)
       curdata = abs(curdata)
     
-    err1 = sweep(curdata[Ii, ], 2, colMeans(curdata[Ii, ]))#colm)#
-    err2 = curdata[-Ii, ] - mean(as.vector(curdata[-Ii, ]))
+    err1 = sweep(curdata[Ii,], 2, colMeans(curdata[Ii,]))#colm)#
+    err2 = curdata[-Ii,] - mean(as.vector(curdata[-Ii,]))
   }
   if (ARC == 3) {
-    curdata = data[Ii, ]
+    curdata = data[Ii,]
     
     nacols <- (colSums(is.na(curdata)))
     remnacols <-
       (colSums(is.na(curdata)) > length(Ii) - 2)
     if (sum(remnacols) > 0) {
       rem_index <- which(remnacols)
-      curdata <- curdata[, -rem_index]
+      curdata <- curdata[,-rem_index]
       J <- J - length(rem_index)
       for (k in 1:length(Jj)) {
         sum <- sum(Jj[k] > rem_index)
@@ -1003,7 +1048,7 @@ FEModel.block = function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm) {
       curdata = abs(curdata)
     
     err1 = sweep(curdata[, Jj], 1, rowMeans(curdata[, Jj]))#rowm)#
-    err2 = curdata[, -Jj] - mean(as.vector(curdata[, -Jj]))
+    err2 = curdata[,-Jj] - mean(as.vector(curdata[,-Jj]))
   }
   
   
@@ -1265,7 +1310,7 @@ CorrMove.block = function(Iold,
     if (isGene == 1) {
       Cor <-
         cor(rowMeans(expr_data[Iold, Jold], na.rm = TRUE),
-            rowMeans(expr_data[move_objects, Jold], na.rm = TRUE),
+            rowMeans(expr_data[move_objects, Jold], na.rm = TRUE), method="pearson",
             use = "pairwise.complete.obs")
       if (useAbs == 1) {
         Cor <- abs(cor)
@@ -1274,7 +1319,7 @@ CorrMove.block = function(Iold,
     if (isGene == 0) {
       Cor <-
         cor(colMeans(expr_data[Iold, Jold], na.rm = TRUE),
-            colMeans(expr_data[Iold, move_objects], na.rm = TRUE),
+            colMeans(expr_data[Iold, move_objects], na.rm = TRUE), method="pearson",
             use = "pairwise.complete.obs")
       if (useAbs == 1) {
         Cor <- abs(cor)
@@ -1291,89 +1336,216 @@ Corr.block = function(data, Ii, Jj, CorIndex, useAbs) {
   AbCorC <- 0
   AbCorR <- 0
   curdata <- data[Ii, Jj]
-
+  
   dim <- dim(curdata)
-
+  
   table <- table(curdata)
-  if(dim(table) == 1) {
-        AbCor <- 1
+  if (dim(table) == 1) {
+    AbCor <- 1
   }
   else {
-      #print(CorIndex)
-      #print(curdata)
-      #row
-      if (CorIndex == 3 || CorIndex == 1) {
-
-        #print(cor(t(curdata), use = "pairwise.complete.obs"))
-        #print("first")
-        cors <- cor(t(curdata), use = "pairwise.complete.obs")
-
-        diag(cors) <- 1
-        #print(cors)
-        if (useAbs == 0) {
-          cors <- (cors + 1) / 2
-        }
-        else if (useAbs == 1) {
-          cors <- abs(cors)
-        }
-
-          for (i in 1:dim[1]) {
-            for (j in 1:dim[1]) {
-                if(i < j && is.na(cors[i,j])) {
-                    #print("is.na R")
-                    #print(curdata[i, ])
-                    #print(curdata[j, ])
-                    #print((curdata[i, ] == curdata[j, ]))
-                    if(curdata[i, ] == curdata[j, ]) {
-                       cors[i,j] <- 1
-                       cors[j,i] <- 1
-                       #print(cors)
-                    }
-                }
+    #print(CorIndex)
+    #print(curdata)
+    #row
+    if (CorIndex == 3 || CorIndex == 1) {
+      #print(cor(t(curdata), use = "pairwise.complete.obs"))
+      #print("first")
+      cors <- cor(t(curdata), method="pearson", use = "pairwise.complete.obs")
+      
+      diag(cors) <- 1
+      #print(cors)
+      if (useAbs == 0) {
+        cors <- (cors + 1) / 2
+      }
+      else if (useAbs == 1) {
+        cors <- abs(cors)
+      }
+      
+      #print("dim data 3 & 1")
+      #print(dim(curdata))
+      #print("dim cors")
+      #print(dim(cors))
+      #print(dim[1])
+      for (i in 1:dim[1]) {
+        for (j in 1:dim[1]) {
+          if (i < j && is.na(cors[i, j])) {
+            #print("is.na R")
+            #print(curdata[i, ])
+            #print(curdata[j, ])
+            #print((curdata[i, ] == curdata[j, ]))
+            if (curdata[i,] == curdata[j,]) {
+              cors[i, j] <- 1
+              cors[j, i] <- 1
+              #print(cors)
             }
           }
-        cors[is.na(cors)] <- 0
-        #print(cors)
-        AbCorC <- mean(cors[lower.tri(cors, diag = FALSE)])
-        AbCor <- AbCorC
-      }
-      #column
-      if (CorIndex == 2 || CorIndex == 1) {
-        cors <- cor(curdata, use = "pairwise.complete.obs")
-        #print(cors)
-        if (useAbs == 0) {
-          cors <- (cors + 1) / 2
-        }
-        else if (useAbs == 1) {
-          cors <- abs(cors)
-        }
-        #print(cors)
-
-          for (i in 1:dim[2]) {
-                     for (j in 1:dim[2]) {
-                         if(i < j && is.na(cors[i,j])) {
-                             #print("is.na C")
-                             if(curdata[,i] == curdata[,j]) {
-                                cors[i,j] <- 1
-                                cors[j,i] <- 1
-                             }
-                         }
-                     }
-                   }
-        cors[is.na(cors)] <- 0
-        #print(cors)
-        AbCorR <- mean(cors[lower.tri(cors, diag = FALSE)])
-
-        if (CorIndex != 1) {
-          AbCor <- AbCorR
-        }
-        else {
-          #print(AbCorR)
-          #print(AbCorC)
-          #print(paste(AbCorR, AbCorC))
-          AbCor <- (AbCorR + AbCorC) / 2
         }
       }
+      cors[is.na(cors)] <- 0
+      #print(cors)
+      AbCorC <- mean(cors[lower.tri(cors, diag = FALSE)])
+      AbCor <- AbCorC
+    }
+    #column
+    if (CorIndex == 2 || CorIndex == 1) {
+      cors <- cor(curdata, method="pearson", use = "pairwise.complete.obs")
+      #print(cors)
+      if (useAbs == 0) {
+        cors <- (cors + 1) / 2
+      }
+      else if (useAbs == 1) {
+        cors <- abs(cors)
+      }
+      #print(cors)
+      
+      #print("dim data 2 & 1")
+      #print(dim(curdata))
+      #print("dim cors")
+      #print(dim(cors))
+      #print(dim[2])
+      for (i in 1:dim[2]) {
+        for (j in 1:dim[2]) {
+          if (i < j && is.na(cors[i, j])) {
+            #print("is.na C")
+            if (curdata[, i] == curdata[, j]) {
+              cors[i, j] <- 1
+              cors[j, i] <- 1
+            }
+          }
+        }
+      }
+      cors[is.na(cors)] <- 0
+      #print(cors)
+      AbCorR <- mean(cors[lower.tri(cors, diag = FALSE)])
+      
+      if (CorIndex != 1) {
+        AbCor <- AbCorR
+      }
+      else {
+        #print(AbCorR)
+        #print(AbCorC)
+        #print(paste(AbCorR, AbCorC))
+        AbCor <- (AbCorR + AbCorC) / 2
+      }
+    }
+  }
+  
+  #print(AbCorR)
+  #print(AbCorC)
+  AbCor
+}
+
+
+###Spearman rho
+Spearman.block = function(data, Ii, Jj, SpearIndex, useAbs) {
+  #Measures the mean pairwise (absolute) correlation of the block
+  AbCor <- 0
+  AbCorC <- 0
+  AbCorR <- 0
+  curdata <- data[Ii, Jj]
+  
+  dim <- dim(curdata)
+  
+  #print(paste("dim", dim))
+  table <- table(curdata)
+  #print(table)
+  #print(dim(table))
+  
+  #If all identical values
+  if (dim(table) == 1) {
+    AbCor <- 1
+  }
+  else {
+    #print(SpearIndex)
+    #print(curdata)
+    #row
+    if (SpearIndex == 3 || SpearIndex == 1) {
+      #print("first")
+      cors <- SpearmanDist(curdata)
+      
+      diag(cors) <- 1
+      #print(cors)
+      if (useAbs == 0) {
+        cors <- (cors + 1) / 2
+      }
+      else if (useAbs == 1) {
+        cors <- abs(cors)
+      }
+      
+      #print("dim data 3 & 1")
+      #print(dim(curdata))
+      #print("dim cors")
+      #print(dim(cors))
+      #print(dim[1])
+      for (i in 1:dim[1]) {
+        for (j in 1:dim[1]) {
+          #print(paste(i,j))
+          #print(cors[i, j])
+          if (i < j && is.na(cors[i, j])) {
+            #print("IN")
+            #print("is.na R")
+            #print(curdata[i, ])
+            #print(curdata[j, ])
+            #print((curdata[i, ] == curdata[j, ]))
+            if (curdata[i,] == curdata[j,]) {
+              #print(paste(i,j,dim(cors)))
+              cors[i, j] <- 1
+              cors[j, i] <- 1
+              #print(cors)
+            }
+          }
+        }
+      }
+      cors[is.na(cors)] <- 0
+      #print(cors)
+      AbCorC <- mean(cors[lower.tri(cors, diag = FALSE)])
+      AbCor <- AbCorC
+    }
+    #column
+    if (SpearIndex == 2 || SpearIndex == 1) {
+      cors <- SpearmanDist(t(curdata))
+      #print(cors)
+      if (useAbs == 0) {
+        cors <- (cors + 1) / 2
+      }
+      else if (useAbs == 1) {
+        cors <- abs(cors)
+      }
+      #print(cors)
+      
+      #print("dim data 2 & 1")
+      #print(dim(curdata))
+      #print("dim cors")
+      #print(dim(cors))
+      #print(dim[2])
+      for (i in 1:dim[2]) {
+        for (j in 1:dim[2]) {
+          #print(paste(i, j))
+          #print(cors[i,j])
+          if (i < j && is.na(cors[i, j])) {
+            #print("is.na C")
+            if (curdata[, i] == curdata[, j]) {
+              #print(paste(i,j,dim(cors)))
+              cors[i, j] <- 1
+              cors[j, i] <- 1
+            }
+          }
+        }
+      }
+      cors[is.na(cors)] <- 0
+      #print(cors)
+      AbCorR <- mean(cors[lower.tri(cors, diag = FALSE)])
+      
+      if (SpearIndex != 1) {
+        AbCor <- AbCorR
+      }
+      else {
+        #print(AbCorR)
+        #print(AbCorC)
+        #print(paste(AbCorR, AbCorC))
+        AbCor <- (AbCorR + AbCorC) / 2
+      }
+    }
   }
   
   #print(AbCorR)
@@ -1405,7 +1577,7 @@ Euclidean.block = function(data, Ii, Jj, cInd, useAbs) {
       for (j in i:length(Ii)) {
         #print(cat(i,j,dim(curdata),sep=" "))
         if (i != j) {
-          mat[i, j] <- mat[j, i] <- Euclidean(curdata[i, ], curdata[j, ])
+          mat[i, j] <- mat[j, i] <- Euclidean(curdata[i,], curdata[j,])
         }
       }
     }
@@ -1501,12 +1673,12 @@ pre_Feature = function(GFeat, mcor = 1) {
   GFeat = GFeat[, Uni]
   corM = cor(GFeat)
   indc = which(corM >= mcor, arr.ind = TRUE)
-  indc2 = indc[apply(indc, 1, duplicated)[2, ] == FALSE, ]
+  indc2 = indc[apply(indc, 1, duplicated)[2,] == FALSE,]
   dup1 = unique(apply(indc2, 1, function(x)
     paste(x[order(x)], collapse = ",")))
   dup2 = sapply(dup1, function(x)
     as.numeric(unlist(strsplit(x[1], ","))))
-  GFeat_new = GFeat[, -unique(as.vector(dup2[1, ]))]
+  GFeat_new = GFeat[,-unique(as.vector(dup2[1,]))]
   GFeat_new
 }
 
@@ -1563,7 +1735,7 @@ FeatureWblock_larsI = function(Ii,
 
 ####The one below needs debugging still on my side
 FeatureWblock_larsE = function(Ii, Jj, GFeat, Ifact1, expr_data, I, J) {
-  GIndex = expr_data[Ii, ]  ## Does this work?  Can LARS do multivar outcomes
+  GIndex = expr_data[Ii,]  ## Does this work?  Can LARS do multivar outcomes
   Q = lars(GFeat, GIndex)
   Qcv = cv.lars(GFeat, GIndex, K = 5, plot.it = FALSE)
   CVR2I = min(Qcv$cv)
@@ -1575,7 +1747,7 @@ FeatureWblock_larsE = function(Ii, Jj, GFeat, Ifact1, expr_data, I, J) {
 ###mean pairwise Hamming distance between gene binary vectors
 FeatHamming.block = function(data, Ii) {
   ham = 1
-  curdata <- data[Ii, ]
+  curdata <- data[Ii,]
   dists <- HamDist(curdata)
   ###Hamming is a similarity measure, so invert
   ham = 1 / (mean(dists[lower.tri(dists, diag = FALSE)]) + 1)
@@ -1609,7 +1781,8 @@ Hamming.block = function(data, Ii, Jj, cInd, useAbs) {
       for (j in i:length(Ii)) {
         #print(cat(i,j,dim(curdata),sep=" "))
         if (i != j) {
-          mat[i, j] <- mat[j, i] <- hamming.distance(curdata[i, ], curdata[j, ])
+          mat[i, j] <-
+            mat[j, i] <- hamming.distance(curdata[i,], curdata[j,])
         }
       }
     }
@@ -1630,7 +1803,8 @@ Hamming.block = function(data, Ii, Jj, cInd, useAbs) {
     for (i in 1:length(Jj)) {
       for (j in i:length(Jj)) {
         if (i != j) {
-          mat[i, j] <- mat[j, i] <- hamming.distance(curdata[, i], curdata[, j])
+          mat[i, j] <-
+            mat[j, i] <- hamming.distance(curdata[, i], curdata[, j])
           #print(curdata[,i])
           #print(curdata[,j])
           #  print(mat[i,j])
@@ -1667,7 +1841,7 @@ HamDist = function(data, sym = F) {
       if (i > j) {
         #cat(i,j,"\n")
         #cat(length(data[,i]), length(data[,j])
-        d[i, j] <- hamming.distance(data[i, ], data[j, ])
+        d[i, j] <- hamming.distance(data[i,], data[j,])
         d[j, i] <- d[i, j]
       }
       else if (i == j) {
@@ -1704,7 +1878,7 @@ center = function(x) {
 createArray = function(nfiles, ncols, nboot, fileprefix) {
   outarray = array(NA, dim = c(nfiles, ncols, nboot))
   for (i in 1:nfiles) {
-    outarray[i, , ] = read.table(file = paste(fileprefix, i, sep = "_"), sep = " ")
+    outarray[i, ,] = read.table(file = paste(fileprefix, i, sep = "_"), sep = " ")
   }
   outarray
 }
@@ -1737,7 +1911,7 @@ BatchCreate = function(Dmat,
   if (Ia == 1) {
     #addition move
     if (Ig == 1) {
-      xmat = abs(t(Dmat[-Ii, Jj][(missvec == 1)[-Ii], ]))#xmat=t(Dmat[-Ii,Jj][(missvec==1)[-Ii],])#
+      xmat = abs(t(Dmat[-Ii, Jj][(missvec == 1)[-Ii],]))#xmat=t(Dmat[-Ii,Jj][(missvec==1)[-Ii],])#
       xmat = t(apply(xmat, 2, function(xm1) {
         xm1[is.na(xm1)] = mean(xm1, na.rm = TRUE)
         (xm1)
@@ -1745,7 +1919,7 @@ BatchCreate = function(Dmat,
       IndB = (1:dim(Dmat)[1])[-Ii][(missvec == 1)[-Ii]]
     }
     if (Ig != 1) {
-      xmat = abs((Dmat[Ii, -Jj][, (missvec == 1)[-Jj]]))#xmat=(Dmat[Ii,-Jj][,(missvec==1)[-Jj]])#
+      xmat = abs((Dmat[Ii,-Jj][, (missvec == 1)[-Jj]]))#xmat=(Dmat[Ii,-Jj][,(missvec==1)[-Jj]])#
       xmat = t(apply(xmat, 2, function(xm1) {
         xm1[is.na(xm1)] = mean(xm1, na.rm = TRUE)
         xm1
@@ -1853,7 +2027,8 @@ FindCut = function(hcout, maxSize) {
     #if((abs(h1-h2)/h1)<0.01 & all(tab1<=maxSize))
     #if(abs(h1-h2)<abs(min(diff(hcout$height))) & all(tab1<=maxSize)){ ###if distance between max and current position less than smallest distance, stop
     if ((abs(h1 - h2) <= abs(min(diff(hcout$height), na.rm =
-                                 TRUE)) & all(tab1 <= maxSize)) | h1 == h2) {
+                                 TRUE)) &
+         all(tab1 <= maxSize)) | h1 == h2) {
       h1old = h1
       stopp = 1
     }
@@ -1921,8 +2096,8 @@ tpsSmooth = function(prefix,
       tr1scale = 100 * tr1
       #print(dim(tr1))
       yc = as.matrix(tr1[-1, 1])  #as.numeric(rownames(tr1))
-      xc = as.matrix(tr1[1, -1])  #as.numeric(colnames(tr1))
-      txtfile = as.matrix(tr1[-1, -1])
+      xc = as.matrix(tr1[1,-1])  #as.numeric(colnames(tr1))
+      txtfile = as.matrix(tr1[-1,-1])
       
       findmin1 <- min(txtfile)
       txtfileplus <- txtfile
@@ -1980,8 +2155,8 @@ tpsSmooth = function(prefix,
       Ffile = sub("raw", "full", filesN[fi])
       if (min(tps1p) < 0 || max(tps1p) > 1) {
         yc = as.matrix(tr1scale[-1, 1])  #as.numeric(rownames(tr1))
-        xc = as.matrix(tr1scale[1, -1])  #as.numeric(colnames(tr1))
-        txtfile = as.matrix(tr1scale[-1, -1])
+        xc = as.matrix(tr1scale[1,-1])  #as.numeric(colnames(tr1))
+        txtfile = as.matrix(tr1scale[-1,-1])
         
         findmin1 <- min(txtfile)
         txtfileplus <- txtfile
@@ -2065,15 +2240,16 @@ tpsSmooth1D = function(crit, min, max, usePseudo) {
         print(typeof(iIfiles1[fi]))
         print(grepl(tf_crit, iIfiles1[fi]))
         if (grepl(tf_crit, iIfiles1[fi]) |
-            grepl(feat_crit, iIfiles1[fi]) | grepl(inter_crit, iIfiles1[fi])) {
+            grepl(feat_crit, iIfiles1[fi]) |
+            grepl(inter_crit, iIfiles1[fi])) {
           print(paste("tpsSmooth1D", iIfiles1[fi], sep = " "))
           tr1 = matrix(scan(iIfiles1[fi]), nrow = 2, byrow = TRUE)
           tr1scale = tr1 * 100
           #print(dim(tr1))
           #print(tr1)
-          xc = tr1[1, ]
+          xc = tr1[1,]
           corsA = min:max
-          txtfile = tr1[-1, ]
+          txtfile = tr1[-1,]
           print(txtfile)
           findmin1 <- min(txtfile)
           txtfileplus <- txtfile
@@ -2092,7 +2268,8 @@ tpsSmooth1D = function(crit, min, max, usePseudo) {
           #}
           
           #print(paste("haszero",haszero))
-          if (usePseudo) {#haszero > 0) {
+          if (usePseudo) {
+            #haszero > 0) {
             # txtfile[1, 1] #####
             txtfileinf <- txtfileplus
             txtfileinf[txtfileinf == 0] <- Inf
@@ -2115,9 +2292,9 @@ tpsSmooth1D = function(crit, min, max, usePseudo) {
           tps1p = matrix(predict(tps1, x = corsA), ncol = 1)
           tps1p = exp(tps1p)
           if (min(tps1p) < 0) {
-            xc = tr1scale[1, ]
+            xc = tr1scale[1,]
             corsA = min:max
-            txtfile = tr1scale[-1, ]
+            txtfile = tr1scale[-1,]
             tps1 = log(txtfile)
             tps1 = sreg(xc, as.vector(txtfile))
             tps1p = matrix(predict(tps1, x = corsA), ncol = 1)
@@ -2149,7 +2326,7 @@ Dmerge = function(MergeMat) {
   ListI = vector("list", length = (nm))
   DisInd = matrix(NA, ncol = 1, nrow = (nm))
   for (i in 1:(nm)) {
-    x = MergeMat[i, ]
+    x = MergeMat[i,]
     if (all(x < 0)) {
       sizeG[i, 1] = 2
       ListI[[i]] = x
@@ -2268,7 +2445,7 @@ allpossibleInitialTakeTree = function(Datamat,
     #cluster each of xI clusters on exp scale
     for (il in 1:length(xI1)) {
       Ic_il = -out1$ListI[[xI1[il]]]
-      Datamat_il = Datamat[Ic_il, ]
+      Datamat_il = Datamat[Ic_il,]
       hc_il = hcluster(
         t(Datamat_il),
         method = distance,
@@ -2400,7 +2577,7 @@ allpossibleInitial = function(Datamat,
     #cluster each of xI clusters on exp scale
     for (il in 1:length(xI1)) {
       Ic_il = -out1$ListI[[xI1[il]]]
-      Datamat_il = Datamat[Ic_il, ]
+      Datamat_il = Datamat[Ic_il,]
       hc_il = hcluster(
         t(Datamat_il),
         method = distance,
@@ -2432,6 +2609,59 @@ allpossibleInitial = function(Datamat,
 
 
 ###correlation distance function for a matrix, allowing abs
+SpearmanDist = function(data,
+                   useAbs = 1,
+                   norm = 1,
+                   sym = F) {
+  dim <- dim(data)
+  #print(dim)
+  d <- mat.or.vec(dim[1], dim[1])
+  
+  test <- table(data)
+  #check if all same values, yes = 1
+  if (dim(test) == 1) {
+    d <- 0
+  }
+  else {
+    for (j in 1:dim[1]) {
+      for (i in 1:dim[1]) {
+        if ((sym && j > i) || (!sym && i != j)) {
+          #cat(i,j,"\n")
+          #cat(length(data[!is.na(data[i,]),]),length(data[!is.na(data[j,]),]),"\n")
+          
+          #override for zero variance case
+          if (data[i,] == data[j,]) {
+            d[i, j] <- 0
+          }
+          else {
+            d[i, j] <-
+              cor(data[i,], data[j,], method="spearman",use = "complete.obs")
+            
+            if (useAbs == 1 && norm == 0) {
+              d[i, j] <- 1 - abs(d[i, j])
+            }
+            else if (useAbs == 1 && norm == 1) {
+              d[i, j] <- 1 - abs(d[i, j])
+            }
+            else if (useAbs == 0 && norm == 1) {
+              d[i, j] <- 1 - (d[i, j] + 1) / 2
+            }
+          }
+          
+          if (sym) {
+            d[j, i] <- d[i, j]
+          }
+        }
+        else if (i == j) {
+          d[j, i] <- d[i, j] <- 1
+        }
+      }
+    }
+  }
+  d
+}
+
+###correlation distance function for a matrix, allowing abs
 CorDist = function(data,
                    useAbs = 1,
                    norm = 1,
@@ -2439,47 +2669,47 @@ CorDist = function(data,
   dim <- dim(data)
   #print(dim)
   d <- mat.or.vec(dim[1], dim[1])
-
+  
   test <- table(data)
   #check if all same values, yes = 1
-  if(dim(test) == 1) {
+  if (dim(test) == 1) {
     d <- 0
-    }
+  }
   else {
-      for (j in 1:dim[1]) {
-        for (i in 1:dim[1]) {
-          if ((sym && j > i) || (!sym && i != j)) {
-            #cat(i,j,"\n")
-            #cat(length(data[!is.na(data[i,]),]),length(data[!is.na(data[j,]),]),"\n")
-
-            #override for zero variance case
-            if(data[i, ] == data[j, ]) {
-             d[i,j] <- 0
+    for (j in 1:dim[1]) {
+      for (i in 1:dim[1]) {
+        if ((sym && j > i) || (!sym && i != j)) {
+          #cat(i,j,"\n")
+          #cat(length(data[!is.na(data[i,]),]),length(data[!is.na(data[j,]),]),"\n")
+          
+          #override for zero variance case
+          if (data[i,] == data[j,]) {
+            d[i, j] <- 0
+          }
+          else {
+            d[i, j] <-
+              cor(data[i,], data[j,], method="pearson",use = "complete.obs")
+            
+            if (useAbs == 1 && norm == 0) {
+              d[i, j] <- 1 - abs(d[i, j])
             }
-            else {
-                d[i, j] <-
-                  cor(data[i, ], data[j, ], use = "complete.obs")
-
-                if (useAbs == 1 && norm == 0) {
-                  d[i, j] <- 1 - abs(d[i, j])
-                }
-                else if (useAbs == 1 && norm == 1) {
-                  d[i, j] <- 1 - abs(d[i, j])
-                }
-                else if (useAbs == 0 && norm == 1) {
-                  d[i, j] <- 1 - (d[i, j] + 1) / 2
-                }
+            else if (useAbs == 1 && norm == 1) {
+              d[i, j] <- 1 - abs(d[i, j])
             }
-
-            if (sym) {
-              d[j, i] <- d[i, j]
+            else if (useAbs == 0 && norm == 1) {
+              d[i, j] <- 1 - (d[i, j] + 1) / 2
             }
           }
-          else if (i == j) {
-            d[j, i] <- d[i, j] <- 1
+          
+          if (sym) {
+            d[j, i] <- d[i, j]
           }
         }
+        else if (i == j) {
+          d[j, i] <- d[i, j] <- 1
+        }
       }
+    }
   }
   d
 }
@@ -2528,7 +2758,8 @@ multiplot <-
       # Make each plot, in the correct location
       for (i in 1:numPlots) {
         # Get the i,j matrix positions of the regions that contain this subplot
-        matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
+        matchidx <-
+          as.data.frame(which(layout == i, arr.ind = TRUE))
         
         print(plots[[i]],
               vp = viewport(

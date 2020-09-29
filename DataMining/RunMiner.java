@@ -26,7 +26,7 @@ public class RunMiner extends util.Program {
     // {"-null", "-rdata", "-prev", "-param",
     // "-method", "-mse", "-msesd", "-int", "-PRECRITERIA", "-annot"};
 
-    int debug = 0;
+    int debug = MINER_STATIC.DEFAULT_DEBUG;
 
     /**
      * @param prmfile
@@ -51,7 +51,7 @@ public class RunMiner extends util.Program {
         final String s1 = (String) options.get("-debug");
         if (s1 != null)
             debug = Integer.parseInt(s1);
-        System.out.println("RunMiner d " + debug);
+        System.out.println("RunMiner d " + debug + "\t" + s1);
 
         System.out.println("RunMiner debug " + debug);
         String s = (String) options.get("-param");

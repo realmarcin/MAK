@@ -59,7 +59,18 @@ public class MapArgOptions {
             if (index != -1) {
                 ind[i] = index;
                 int dash = args[index + 1].indexOf("-");
-                if (dash != 0) {
+
+                boolean testint = false;
+
+                try {
+                    int testi = Integer.parseInt(args[index + 1]);
+                    testint = true;
+                } catch (NumberFormatException e) {
+                    testint = false;
+                    //e.printStackTrace();
+                }
+
+                if (dash != 0 || testint) {
                     System.out.println("MapArgOptions put " + arglabels[i] + "\t" + args[index + 1]);
                     ret.put(arglabels[i], args[index + 1]);
                 }

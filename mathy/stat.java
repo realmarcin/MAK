@@ -4240,33 +4240,60 @@ public class stat {
      */
     public static int[] ranksDescUnique(double[] d) {
         Integer integer1 = new Integer(1);
+
         double[] sorted = MoreArray.copy(d);
+        //replacing NaN with v low value to sort
+        sorted = stat.replace(sorted, Double.NaN, -1000000000000000000000.0);
         Arrays.sort(sorted);
         ArrayList ar = MoreArray.convtoArrayList(sorted);
         Collections.reverse(ar);
         sorted = MoreArray.ArrayListtoDouble(ar);
         //System.out.println("ranksDesc");
         //MoreArray.printArray(d);
+        //System.out.println("ranksDesc sorted");
+        //MoreArray.printArray(sorted);
+
+        sorted = stat.replace(sorted, -1000000000000000000000.0, Double.NaN);
+
         int[] ranks = new int[sorted.length];
         HashMap h = new HashMap();
         int[] done = new int[sorted.length];
+
         for (int i = 0; i < sorted.length; i++) {
-            if (!Double.isNaN(d[i])) {
-                int i1 = MoreArray.getArrayIndUnique(sorted, d[i], done);
-                if (i1 == -1) {
-                    System.out.println("ranksDesc " + i1 + "\td[i] " + d[i]);
-                    MoreArray.printArray(sorted);
-                }
+            //if (!Double.isNaN(d[i])) {
+            int i1 = MoreArray.getArrayIndUnique(sorted, d[i], done);
+            if (i1 == -1) {
+                //System.out.println("ranksDesc == -1 " + i + "\t" + i1 + "\td[i] " + d[i]);
+                //MoreArray.printArray(sorted);
+            } else {
                 done[i1] = 1;
-                //System.out.println("ranksDesc "+i+"\trank "+i1+"\tval "+d[i]);
                 ranks[i] = i1;
                 Integer integer = new Integer(i1);
                 if (h.get(integer) == null) {
                     h.put(integer, integer1);
-                } else
-                    System.out.println("ranksDesc ties pos " + i + "\trank " + i1 + "\tval " + d[i]);
-            } else
+                } else {
+                    //System.out.println("ranksDesc ties pos " + i + "\trank " + i1 + "\tval " + d[i]);
+                    boolean placed = false;
+                    int i2 = i1 + 1;
+                    while (!placed) {
+                        Integer teg = new Integer(i2);
+                        if (h.get(teg) == null) {
+                            done[i2] = 1;
+                            ranks[i] = i2;
+                            break;
+                        } else
+                            i2 = i2 + 1;
+                    }
+                }
+            }
+            /*} else {
                 System.out.println("ranksDesc ignoring " + i + "\td[i] " + d[i]);
+                ranks[i] = i;
+                done[i] = 1;
+                if (h.get(i) == null) {
+                    h.put(i, i);
+                }
+            }*/
         }
         return ranks;
     }
@@ -4318,7 +4345,7 @@ public class stat {
      */
     public static double[] replace(double[] a, double find, double replace) {
         for (int i = 0; i < a.length; i++) {
-            if (a[i] == find)
+            if (a[i] == find || (Double.isNaN(find) && Double.isNaN(a[i])))
                 a[i] = replace;
         }
         return a;

@@ -3315,7 +3315,7 @@ public class MinerFast {
                 VBPCandidate.all_criteria = consideredBlock.all_criteria;
                 VBPCandidate.pre_criterion = consideredBlock.pre_criterion;
 
-                VBPCandidate = BlockMethods.computeBlockOverlapWithRef(new ValueBlock(VBPInitial), VBPCandidate);
+                VBPCandidate = BlockMethods.computeBlockOverlapWithRef(new ValueBlock(VBPInitial), VBPCandidate, false);
                 VBPCandidate.setDataAndMean(rmb.expr_matrix.data);
                 VBPCandidate.trajectory_position = move_params.move_count + 1;
                 VBPCandidate.move_class = move_params.current_move_class;

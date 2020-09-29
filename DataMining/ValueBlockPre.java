@@ -309,6 +309,7 @@ public class ValueBlockPre {// implements Comparable<ValueBlockPre>
      * @return
      */
     public final static double[][] getData(ValueBlockPre vb, double[][] data) {
+
         double[][] subset = getDataCore(vb.genes, vb.exps, data);
         return subset;
     }
@@ -817,29 +818,25 @@ public class ValueBlockPre {// implements Comparable<ValueBlockPre>
     /**
      * critvals:
      * <p/>
-     * mean crit: total, row, or col
+     * 1 mean crit: total, row, or col
      * +
-     * expr_mean_crit: total, row, or col
+     * 2 expr_mean_crit: total, row, or col
      * +
-     * expr_reg_crit: row, col
+     * 3 expr_reg_crit: row, col
      * +
-     * Kendall
+     * 4 Kendall
      * +
-     * Correlation
+     * 5 Correlation
      * +
-     * Euclidean
+     * 6 Euclidean
      * +
-     * PPI
+     * 7 Spearman
      * +
-     * Feature
+     * 8 PPI
      * +
-     * MinTF
-     * <p/>
-     * expr_crits
-     * 0 MEAN
-     * 1 COR
-     * 2 REG
-     * 3 TF
+     * 9 Feature
+     * +
+     * 10 MinTF
      *
      * @param critvals
      * @param weigh
@@ -856,13 +853,12 @@ public class ValueBlockPre {// implements Comparable<ValueBlockPre>
         if (critvals != null && critvals.length > 0) {
             if (debug) {
                 try {
-                    System.out.println("computeFullCrit critvals: " + MoreArray.toString(critvals, ",")
+                    System.out.println("computeFullCrit critvals: " + critvals.length + "\t" + MoreArray.toString(critvals, ",")
                             + "\t" + weigh + "\t" + MoreArray.toString(expr_crits, ","));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-
 
             if (!weigh || !some_expr_true) {
                 ret = stat.sumEntries(critvals);
@@ -871,12 +867,12 @@ public class ValueBlockPre {// implements Comparable<ValueBlockPre>
             } else {
 
                 //only TF crit
-                if (expr_crits[6] && !expr_crits[0] && !expr_crits[1] && !expr_crits[2] && !expr_crits[3] && !expr_crits[4] && !expr_crits[5]) {
+                if (expr_crits[7] && !expr_crits[0] && !expr_crits[1] && !expr_crits[2] && !expr_crits[3] && !expr_crits[4] && !expr_crits[5] && !expr_crits[6]) {
                     ret = critvals[ValueBlock_STATIC.TF_IND];
                 } else {
                     ret = computeCombiExprCrit(critvals, expr_crits, debug);
                     //weight 0.5 TF and 0.5 all other expr crit
-                    if (expr_crits[6]) {
+                    if (expr_crits[7]) {
                         if (debug)
                             System.out.println("weighExprCriteria 1/2 expr TF " + ret + "\t" + critvals[ValueBlock_STATIC.TF_IND]);
                         ret /= 2.0;//TODO check effect if 2 -> 2.0
@@ -884,6 +880,8 @@ public class ValueBlockPre {// implements Comparable<ValueBlockPre>
                     }
                 }
                 //simply sum interaction and features
+                if (debug)
+                    System.out.println("computeFullCrit " + critvals.length + "\t" + ValueBlock_STATIC.interact_IND + "\t" + ValueBlock_STATIC.feat_IND);
                 ret += critvals[ValueBlock_STATIC.interact_IND] + critvals[ValueBlock_STATIC.feat_IND];
             }
         }
@@ -891,15 +889,34 @@ public class ValueBlockPre {// implements Comparable<ValueBlockPre>
     }
 
     /**
+     * critvals
      * MEAN 1
      * MSE   2
      * REG    3
      * KEND    4
      * COR      5
      * Euc       6
-     * PPI        7
-     * FEAT        8
-     * TF           9
+     * SPEARMAN       7
+     * PPI        8
+     * FEAT        9
+     * TF           10
+     * <p/>
+     * expr_crits
+     * 1 mean crit: total, row, or col
+     * +
+     * 2 expr_mean_crit: total, row, or col
+     * +
+     * 3 expr_reg_crit: row, col
+     * +
+     * 4 Kendall
+     * +
+     * 5 Correlation
+     * +
+     * 6 Euclidean
+     * +
+     * 7 Spearman
+     * +
+     * 8 minTF
      *
      * @param critvals
      * @param expr_crits
@@ -916,19 +933,13 @@ public class ValueBlockPre {// implements Comparable<ValueBlockPre>
                 count++;
         }
 
+        //average expression related criteria
         if (count > 1)
-            ret = (critvals[0] + critvals[1] + critvals[2] + critvals[3] + critvals[4] + critvals[5]) / count;//TODO test change of count int -> double
+            ret = (critvals[0] + critvals[1] + critvals[2] + critvals[3] + critvals[4] + critvals[5] + critvals[6]) / count;
         else if (count == 1) {
-            ret = stat.sumEntries(critvals) - critvals[6] - critvals[7];// - critvals[8];
-            if (critvals.length == 9) {
-                ret -= critvals[8];
-            }
+            for (int a = 0; a < 7; a++)
+                ret += critvals[a];
         }
-
-        /*if (critvals.length == 9)
-            if (debug) {
-                System.out.println("computeCombiExprCrit count " + count + "\tret " + ret + "\tTF " + critvals[8]);
-            }*/
 
         return ret;
     }

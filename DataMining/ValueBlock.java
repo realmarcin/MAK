@@ -79,7 +79,10 @@ public class ValueBlock extends ValueBlockPre implements Comparable<ValueBlock> 
      * @param d
      */
     public void updateAllCriteria(double[] d) {
-        all_criteria = d;
+        all_criteria = new double[d.length];
+        for (int i = 0; i < d.length; i++) {
+            all_criteria[i] = d[i];
+        }
     }
 
     /**
@@ -319,9 +322,15 @@ public class ValueBlock extends ValueBlockPre implements Comparable<ValueBlock> 
         } else if (ar.length == 23) {
             offset = 5;
             crits = 9;
-        } else if (ar.length == 24 || ar.length == 25) {
+        } else if (ar.length == 24) {
             offset = 5;
             crits = 9;
+        } else if (ar.length == 25) {
+            offset = 6;
+            crits = 10;
+        } else if (ar.length == 26) {
+            offset = 6;
+            crits = 10;
         }
         if (d) {
             System.out.println("ar " + ar.length + "\t" + offset);
@@ -507,6 +516,7 @@ public class ValueBlock extends ValueBlockPre implements Comparable<ValueBlock> 
             s += "\texpr_mean_crit: " + all_criteria[ValueBlock_STATIC.expr_MEAN_IND] + "\texpr_mean_crit: " + all_criteria[ValueBlock_STATIC.expr_MSE_IND] +
                     "\texpr_reg_crit: " + all_criteria[ValueBlock_STATIC.expr_FEM_IND] + "\texpr_kend_crit: " + all_criteria[ValueBlock_STATIC.expr_KEND_IND] +
                     "\texpr_cor_crit: " + all_criteria[ValueBlock_STATIC.expr_COR_IND] + "\texpr_euc_crit: " + all_criteria[ValueBlock_STATIC.expr_EUC_IND] +
+                    "\texpr_spearman_crit: " + all_criteria[ValueBlock_STATIC.expr_SPEARMAN_IND] +
                     "\tPPI_crit: " + all_criteria[ValueBlock_STATIC.interact_IND] +
                     "\tfeat_crit: " + all_criteria[ValueBlock_STATIC.feat_IND] + "\tTF_crit" + all_criteria[ValueBlock_STATIC.TF_IND];
         s += "\tpercentOrigGenes: " + percentOrigGenes + "\tpercentOrigExp: " + percentOrigExp +
@@ -524,7 +534,7 @@ public class ValueBlock extends ValueBlockPre implements Comparable<ValueBlock> 
      * @param test
      */
     public ValueBlock updateOverlap(ValueBlock ref, ValueBlock test) {
-        test = BlockMethods.computeBlockOverlapWithRef(ref, test);
+        test = BlockMethods.computeBlockOverlapWithRef(ref, test, false);
         if (Double.isNaN(test.percentOrigExp) || Double.isNaN(test.percentOrigGenes))
             System.out.println("updateOverlap NaN percentOrigExp:" + test.percentOrigExp +
                     "\tpercentOrigGenes " + test.percentOrigGenes);

@@ -12,6 +12,14 @@ import util.StringUtil;
  */
 public final class MINER_STATIC {
 
+    //-10 = silent
+    //0
+    // 1
+    //  2
+    //   3
+    // increasing output
+    public final static int DEFAULT_DEBUG = -10;
+
     public final static String version = "MAKv0.2";
     /*The move types.*/
     final static String[] ALL_MOVE_TYPES = {"start", "g-", "g+", "e-", "e+",
@@ -30,7 +38,7 @@ public final class MINER_STATIC {
     r = random
     c = add combined block based on merged last g+e+ block
     */
-    final static String[] MOVE_CLASSES = {"s", "S", "b", "B", "m", "M", "p", "r", "c"};
+    final static String[] MOVE_CLASSES = {"s", "S", "b", "B", "m", "M", "p", "r", "c", "O", "o"};
 
     public final static String EXPR_LABEL = "expr";
     public final static String inter_LABEL = "inter";
@@ -311,9 +319,17 @@ public final class MINER_STATIC {
             "BinaryR", //218
             "BinaryCnonull", //219
             "BinaryC", //220
-            "MSEC_inter" //221
+            "MSEC_inter", //221
 
-            //option to weigh KENDALL and KENDALLC for MSE etc.
+            "SPEARMANC", //222
+            "SPEARMANR", //223
+            "SPEARMAN",   //224
+
+            "KENDALL_SPEARMAN_GEE",//225
+            "KENDALLC_SPEARMANC_GEECE",//226
+            "MSEC_KENDALLC_SPEARMANC_GEECE",//227
+            "KENDALLR_SPEARMANR_GEERE",//228
+            "MSE_KENDALL_SPEARMAN_GEE"//229
 
     };
     public final static String[] notnonull = {"nonull"};
@@ -325,6 +341,7 @@ public final class MINER_STATIC {
     //public final static String[] notnonullCORRCORC = {"CORnonull","CORRnonull","CORCnonull", "CORR", "CORC"};
     public final static String[] notnonullEUCREUCC = {"nonull", "EUCR", "EUCC"};
     //public final static String[] notnonullEUCREUCC = {"EUCnonull","EUCRnonull","EUCCnonull", "EUCR", "EUCC"};
+    public final static String[] notnonullSPEARMANRSPEARMANC = {"nonull", "SPEARMANR", "SPEARMANC"};
     public final static String[] notnonullnotKENDALLC = {"nonull", "KENDALLC"};
     //public final static String[] notnonullnotKENDALLC = {"KENDALLCnonull", "KENDALLC"};
     public final static String[] notnonullMSERMSEC = {"nonull", "MSER", "MSEC"};
@@ -471,24 +488,36 @@ public final class MINER_STATIC {
     public final static int[] EUCRCrit = stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "EUCR", -2), 1);
     public final static int[] EUCCCrit = stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "EUCC", -2), 1);
 
+    //SPEARMAN
+    public final static String[] notSPEARMANRnotSPEARMANC = {"SPEARMANR", "SPEARMANC"};
+    public final static int[] SPEARMANCritTotalAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "SPEARMAN"), 1);
+    public final static int[] SPEARMANRCritAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "SPEARMANR"), 1);
+    public final static int[] SPEARMANCCritAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "SPEARMANC"), 1);
+    public final static int[] SPEARMANCritAll = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "SPEARMAN", notSPEARMANRnotSPEARMANC), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "GEE", -2), 1);
+    public final static int[] SPEARMANtotalCrit = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "SPEARMAN", notnonullSPEARMANRSPEARMANC), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "GEE", -2), 1);
+    public final static int[] SPEARMANRCrit = stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "SPEARMANR", -2), 1);
+    public final static int[] SPEARMANCCrit = stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "SPEARMANC", -2), 1);
+
     //public final static int[] totalCrit = MoreArray.add(MSEtotalCrit, MEANCrit);
     //public final static int[] CritAll = MoreArray.add(stat.add(
     //        StringUtil.occurIndexButNot(CRIT_LABELS, "MSE", notMSERnotMSEC), 1), MEANCritAll);
 
-    public final static int[] totalCrit = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(
-            MSEtotalCrit, LARStotalCrit), GEEtotalCrit), CORtotalCrit), EUCtotalCrit), KENDALLtotalCrit), MEANCrit);//MADCrit
-    public final static int[] CritAll = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(
-            MSECritAll, LARSCritAll), GEECritAll), CORCritAll), EUCCritAll), KENDALLCritAll), MEANCritAll);
+    public final static int[] totalCrit = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(
+            MSEtotalCrit, LARStotalCrit), GEEtotalCrit), CORtotalCrit), EUCtotalCrit), SPEARMANtotalCrit), KENDALLtotalCrit), MEANCrit);//MADCrit
+    public final static int[] CritAll = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(
+            MSECritAll, LARSCritAll), GEECritAll), CORCritAll), EUCCritAll), SPEARMANCritAll), KENDALLCritAll), MEANCritAll);
 
-    public final static int[] rowCrit = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(
-            MSERCrit, MADRCrit), LARSRECrit), GEERECrit), CORRCrit), EUCRCrit), KENDALLRCrit), MEANRCrit);
-    public final static int[] rowCritAll = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(
-            MSERCritAll, MADRCritAll), LARSRECritAll), GEERECritAll), CORRCritAll), EUCRCritAll), KENDALLRCritAll), MEANRCritAll);
+    public final static int[] rowCrit = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(
+            MSERCrit, MADRCrit), LARSRECrit), GEERECrit), CORRCrit), EUCRCrit), SPEARMANRCrit), KENDALLRCrit), MEANRCrit);
+    public final static int[] rowCritAll = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(
+            MSERCritAll, MADRCritAll), LARSRECritAll), GEERECritAll), CORRCritAll), EUCRCritAll), SPEARMANRCritAll), KENDALLRCritAll), MEANRCritAll);
 
-    public final static int[] colCrit = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(
-            MSECCrit, MADRCrit), LARSCECrit), GEECECrit), CORCCrit), EUCCCrit), KENDALLCCrit), MEANCCrit);
-    public final static int[] colCritAll = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(
-            MSECCritAll, MADRCritAll), LARSCECritAll), GEECECritAll), CORCCritAll), EUCCCritAll), KENDALLCCritAll), MEANCCritAll);
+    public final static int[] colCrit = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(
+            MSECCrit, MADRCrit), LARSCECrit), GEECECrit), CORCCrit), EUCCCrit), SPEARMANCCrit), KENDALLCCrit), MEANCCrit);
+
+    public final static int[] colCritAll = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(
+            MSECCritAll, MADRCritAll), LARSCECritAll), GEECECritAll), CORCCritAll), EUCCCritAll), SPEARMANCCritAll), KENDALLCCritAll), MEANCCritAll);
+
     public final static int[] isNoninvertCrit = stat.add(StringUtil.occurIndex(CRIT_LABELS, "noninvert"), 1);
 
 
@@ -519,12 +548,12 @@ public final class MINER_STATIC {
             "F1g\tspecificityg\tsensitivityg\tF1e\tspecificitye\tsensitivitye\tspecificityge\tsensitivityge\tF1recallge\truntime";
 
     public final static String HEADER_VBL = "number\tblock_area\tblock_id\tmove_type\tpre_criterion\tfull_crit\texpr_mean_crit\texpr_mean_crit\t" +
-            "expr_reg_crit\texpr_kend_crit\texpr_cor_crit\texpr_euc_crit\tPPI_crit\tfeat_crit\tTF_crit\tpercent_orig_genes\t" +
+            "expr_reg_crit\texpr_kend_crit\texpr_cor_crit\texpr_euc_crit\texpr_spear_crit\tPPI_crit\tfeat_crit\tTF_crit\tpercent_orig_genes\t" +
             "percent_orig_exp\texp_mean\t" +
             "trajectory_position\tFEATURE_INDICES\tmove_class\tnum_genes\tnum_exps";
 
     public final static String HEADER_VBL_WITHITER = "number\tblock_area\tblock_id\tmove_type\tpre_criterion\tfull_crit\texpr_mean_crit\texpr_mean_crit\t" +
-            "expr_reg_crit\texpr_kend_crit\texpr_cor_crit\texpr_euc_crit\tPPI_crit\tfeat_crit\tTF_crit\tpercent_orig_genes\t" +
+            "expr_reg_crit\texpr_kend_crit\texpr_cor_crit\texpr_euc_crit\texpr_spear_crit\tPPI_crit\tfeat_crit\tTF_crit\tpercent_orig_genes\t" +
             "percent_orig_exp\texp_mean\t" +
             "trajectory_position\tFEATURE_INDICES\tmove_class\tnum_genes\tnum_exps\titeration";
 

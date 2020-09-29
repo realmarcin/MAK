@@ -354,6 +354,7 @@ public class ComputeCrit {
                     "nullKendData," +
                     "nullCorData," +
                     "nullEucData," +
+                    "nullSpearData," +
                     "nullInteractData," +
                     //"nullFeatData," +
                     //"feat_data," +
@@ -364,6 +365,7 @@ public class ComputeCrit {
                     "KendARCind=" + (thiscrit.KENDALLIndex) + "," +
                     "Corindex=" + thiscrit.CORIndex + "," +
                     "Eucindex=" + thiscrit.EUCIndex + "," +
+                    "Spearindex=" + thiscrit.SPEARIndex + "," +
                     "UseExprMean=" + (meanonly == 1 || usemean ? "TRUE" : "FALSE") + "," +//|| thiscrit.expr_mean_axis != -1
                     "MeanARCind=" + (meanonly == 1 || usemean ? thiscrit.expr_mean_axis : -1) + "," +//usemean ?
                     "ARCind=" + thiscrit.expr_mse_axis + "," +

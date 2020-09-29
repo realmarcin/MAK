@@ -28,6 +28,7 @@ public class Criterion {
     public boolean isLARSCE = false;
     public int CORIndex = -1;
     public int EUCIndex = -1;
+    public int SPEARIndex = -1;
     public boolean isTFCrit = false;
 
     public boolean isTotalCrit = false;
@@ -38,7 +39,7 @@ public class Criterion {
     public boolean isFeatureCrit = false;
 
     public int expr_mse_axis = -1, expr_reg_axis = -1, expr_kend_axis = -1,
-            expr_COR_axis = -1, expr_mean_axis = -1, binary_axis = -1;
+            expr_COR_axis = -1, expr_EUC_axis = -1, expr_spear_axis = -1, expr_mean_axis = -1, binary_axis = -1;
     public int expr_mean_crit = -1, isNoninvert = -1;
     public boolean nonull = false, isMeanCrit = false;
     public int expr_reg_crit = -1;
@@ -132,7 +133,7 @@ public class Criterion {
      * IF any component criterion is 'nonull' then the whole criterion inherits 'nonull'
      */
     private void setNoNull() {
-        neednull = new boolean[7];
+        neednull = new boolean[8];
         //MEAN
         neednull[0] = true;
         if (crit > 0 && (MINER_STATIC.CRIT_LABELS[crit - 1].indexOf("MEANnonull") != -1 ||
@@ -185,12 +186,21 @@ public class Criterion {
             requires_null = false;
         }
 
-        //Binary
+        //SPEAR
         neednull[6] = true;
+        if (crit > 0 && (MINER_STATIC.CRIT_LABELS[crit - 1].indexOf("SPEARMANnonull") != -1 ||
+                MINER_STATIC.CRIT_LABELS[crit - 1].indexOf("SPEARMANCnonull") != -1 ||
+                MINER_STATIC.CRIT_LABELS[crit - 1].indexOf("SPEARMANRnonull") != -1)) {
+            neednull[6] = false;
+            requires_null = false;
+        }
+
+        //Binary
+        neednull[7] = true;
         if (crit > 0 && (MINER_STATIC.CRIT_LABELS[crit - 1].indexOf("Binarynonull") != -1 ||
                 MINER_STATIC.CRIT_LABELS[crit - 1].indexOf("BinaryCnonull") != -1 ||
                 MINER_STATIC.CRIT_LABELS[crit - 1].indexOf("BinaryRnonull") != -1)) {
-            neednull[6] = false;
+            neednull[7] = false;
             requires_null = false;
         }
     }
@@ -216,6 +226,7 @@ public class Criterion {
         isLARSCE = c.isLARSCE;
         CORIndex = c.CORIndex;
         EUCIndex = c.EUCIndex;
+        SPEARIndex = c.SPEARIndex;
         isTotalCrit = c.isTotalCrit;
         isRowCrit = c.isRowCrit;
         isColCrit = c.isColCrit;
@@ -234,6 +245,8 @@ public class Criterion {
         expr_reg_axis = c.expr_reg_axis;
         expr_kend_axis = c.expr_kend_axis;
         expr_COR_axis = c.expr_COR_axis;
+        expr_EUC_axis = c.expr_EUC_axis;
+        expr_spear_axis = c.expr_spear_axis;
         expr_mean_axis = c.expr_mean_axis;
         binary_axis = c.binary_axis;
         isNoninvert = c.isNoninvert;
@@ -275,6 +288,7 @@ public class Criterion {
         isLARSCE = false;
         CORIndex = -1;
         EUCIndex = -1;
+        SPEARIndex = -1;
         isTotalCrit = false;
         isRowCrit = false;
         isColCrit = false;
@@ -284,12 +298,16 @@ public class Criterion {
         isFeatureCrit = false;
 
         expr_mean_crit = -1;
+
         expr_mse_axis = -1;
         expr_reg_axis = -1;
         expr_kend_axis = -1;
         expr_COR_axis = -1;
+        expr_EUC_axis = -1;
         expr_mean_axis = -1;
+        expr_spear_axis = -1;
         binary_axis = -1;
+
         isNoninvert = -1;
         nonull = false;
 
@@ -336,6 +354,7 @@ public class Criterion {
         KENDALLIndex = getKendallIndex();
         setExprCORCritType();//exprCor();//CORIndex =
         setExprEUCCritType();//exprEuc();//EUCIndex =
+        setExprSPEARCritType();//exprEuc();//EUCIndex =
         /*} else {
             boolean[] ectdata = exprCorType();
             isMSE = ectdata[0];
@@ -371,6 +390,8 @@ public class Criterion {
         setRegAxis();
         setKendAxis();
         setCorAxis();
+        setEUCAxis();
+        setSpearAxis();
         setBinaryAxis();
 
         try {
@@ -510,6 +531,16 @@ public class Criterion {
                 count[1]++;
                 //} else if (MoreArray.getArrayInd(MINER_STATIC.EUCCCrit, crit) != -1) {
             } else if (MoreArray.getArrayInd(MINER_STATIC.EUCCCritAll, crit) != -1) {
+                count[2]++;
+            }
+
+            if (MoreArray.getArrayInd(MINER_STATIC.SPEARMANCritAll, crit) != -1) {
+                count[0]++;
+                //} else if (MoreArray.getArrayInd(MINER_STATIC.EUCRCrit, crit) != -1) {
+            } else if (MoreArray.getArrayInd(MINER_STATIC.SPEARMANRCritAll, crit) != -1) {
+                count[1]++;
+                //} else if (MoreArray.getArrayInd(MINER_STATIC.EUCCCrit, crit) != -1) {
+            } else if (MoreArray.getArrayInd(MINER_STATIC.SPEARMANCCritAll, crit) != -1) {
                 count[2]++;
             }
         } catch (Exception e) {
@@ -713,6 +744,37 @@ public class Criterion {
     }
 
     /**
+     *
+     */
+    public void setExprSPEARCritType() {
+        SPEARIndex = -1;
+       /* System.out.println("setExprCORCritType MINER_STATIC.CORCritAll.length " + MINER_STATIC.CORCritAll.length);
+        for (int i = 0; i < MINER_STATIC.CORCritAll.length; i++) {
+            System.out.println(i + "\t" + (MINER_STATIC.CORCritAll[i] - 1) + "\t" + MINER_STATIC.CRIT_LABELS[MINER_STATIC.CORCritAll[i] - 1]);
+        }*/
+
+        try {
+            if (MoreArray.getArrayInd(MINER_STATIC.SPEARMANCritAll, crit) != -1) {
+                SPEARIndex = 1;
+                //System.out.println("setExprCORCritType 1 " + crit + "\t" + MINER_STATIC.CRIT_LABELS[crit - 1]);
+                //MoreArray.printArray(MINER_STATIC.CORCritAll);
+            } else if (MoreArray.getArrayInd(MINER_STATIC.SPEARMANRCritAll, crit) != -1) {
+                SPEARIndex = 2;
+                //System.out.println("setExprCORCritType 2 " + crit + "\t" + MINER_STATIC.CRIT_LABELS[crit - 1]);
+                //MoreArray.printArray(MINER_STATIC.CORCritAll);
+            } else if (MoreArray.getArrayInd(MINER_STATIC.SPEARMANCCritAll, crit) != -1) {
+                SPEARIndex = 3;
+                //System.out.println("setExprCORCritType 3 " + crit + "\t" + MINER_STATIC.CRIT_LABELS[crit - 1]);
+                //MoreArray.printArray(MINER_STATIC.CORCritAll);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (debug)
+            System.out.println("SPEARIndex " + SPEARIndex);
+    }
+
+    /**
      * total =1
      * row =2
      * col =3
@@ -840,6 +902,56 @@ public class Criterion {
     }
 
     /**
+     * row =2
+     * col =3
+     */
+    public void setEUCAxis() {
+        expr_EUC_axis = -1;
+
+        try {
+            if (MoreArray.getArrayInd(MINER_STATIC.EUCtotalCrit, crit) != -1) {
+                expr_EUC_axis = 1;
+                //System.out.println("setMSEAxis rowCrit");
+            } else if (MoreArray.getArrayInd(MINER_STATIC.EUCRCrit, crit) != -1) {
+                expr_EUC_axis = 2;
+                //System.out.println("setMSEAxis rowCrit");
+            } else if (MoreArray.getArrayInd(MINER_STATIC.EUCCCrit, crit) != -1) {
+                expr_EUC_axis = 3;
+                //System.out.println("setMSEAxis colCrit");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (debug)
+            System.out.println("expr_EUC_axis " + crit + "\t" + expr_EUC_axis);
+    }
+
+    /**
+     * row =2
+     * col =3
+     */
+    public void setSpearAxis() {
+        expr_spear_axis = -1;
+
+        try {
+            if (MoreArray.getArrayInd(MINER_STATIC.SPEARMANtotalCrit, crit) != -1) {
+                expr_spear_axis = 1;
+                //System.out.println("setMSEAxis rowCrit");
+            } else if (MoreArray.getArrayInd(MINER_STATIC.SPEARMANRCrit, crit) != -1) {
+                expr_spear_axis = 2;
+                //System.out.println("setMSEAxis rowCrit");
+            } else if (MoreArray.getArrayInd(MINER_STATIC.SPEARMANCCrit, crit) != -1) {
+                expr_spear_axis = 3;
+                //System.out.println("setMSEAxis colCrit");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (debug)
+            System.out.println("expr_spear_axis " + crit + "\t" + expr_spear_axis);
+    }
+
+    /**
      * total =1
      * row =2
      * col =3
@@ -850,7 +962,7 @@ public class Criterion {
         expr_mean_axis = -1;
         int[] axis = new int[3];
         //only mean crit
-        if (expr_mse_axis == -1 && expr_reg_axis == -1 && expr_kend_axis == -1 && expr_COR_axis == -1) {
+        if (expr_mse_axis == -1 && expr_reg_axis == -1 && expr_kend_axis == -1 && expr_COR_axis == -1 && expr_EUC_axis == -1 && expr_spear_axis == -1) {
             if (isMeanCrit && isTotalCrit)
                 expr_mean_axis = 1;
             if (isMeanCrit && isRowCrit)
@@ -866,6 +978,8 @@ public class Criterion {
                 axis[expr_kend_axis - 1]++;
             if (expr_COR_axis != -1)
                 axis[expr_COR_axis - 1]++;
+            if (expr_EUC_axis != -1)
+                axis[expr_EUC_axis - 1]++;
 
             if (axis[0] > axis[1] && axis[0] > axis[2])
                 expr_mean_axis = 1;
@@ -914,7 +1028,8 @@ public class Criterion {
         //System.out.println("setMeanAxis " + debug);
         if (debug) {
             System.out.println("setMeanAxis " + crit + "\t" + expr_mean_axis + "\t" + expr_mse_axis + "\t" +
-                    expr_reg_axis + "\t" + expr_kend_axis + "\t" + expr_COR_axis + "\tusemean " + usemean);
+                    expr_reg_axis + "\t" + expr_kend_axis + "\t" + expr_COR_axis + "\t" + expr_EUC_axis + "\t" +
+                    expr_spear_axis + "\tusemean " + usemean);
             System.out.println("setMeanAxis " + MoreArray.toString(axis, ","));
         }
     }
@@ -1082,25 +1197,27 @@ public class Criterion {
         kend
         COR
         euc
+        SPEARMAN
         tf
         */
 
-        boolean[] passcrits = new boolean[7];
-        if (weigh) {
-            //if (c.expr_mean_axis != -1 && use_mean)
-            passcrits[0] = use_mean;
-            passcrits[1] = c.expr_mse_axis != -1 ? true : false;
-            passcrits[2] = c.expr_reg_axis != -1 ? true : false;
-            passcrits[3] = c.KENDALLIndex != -1 ? true : false;
-            passcrits[4] = c.CORIndex != -1 ? true : false;
-            passcrits[5] = c.EUCIndex != -1 ? true : false;
-            passcrits[6] = c.isTFCrit;
-        }
+        boolean[] passcrits = new boolean[8];
+        //if (weigh) {
+        //if (c.expr_mean_axis != -1 && use_mean)
+        passcrits[0] = use_mean;
+        passcrits[1] = c.expr_mse_axis != -1 ? true : false;
+        passcrits[2] = c.expr_reg_axis != -1 ? true : false;
+        passcrits[3] = c.KENDALLIndex != -1 ? true : false;
+        passcrits[4] = c.CORIndex != -1 ? true : false;
+        passcrits[5] = c.EUCIndex != -1 ? true : false;
+        passcrits[6] = c.SPEARIndex != -1 ? true : false;
+        passcrits[7] = c.isTFCrit;
+        //}
         if (debug) {
             System.out.println("getExprCritTypes c.expr_mean_axis " + use_mean + ":\t:" + c.expr_mean_axis +
                     "\tc.expr_mse_axis " + c.expr_mse_axis + "\tc.expr_reg_axis " + c.expr_reg_axis +
                     "\tc.KENDALLIndex " + c.KENDALLIndex + "\tc.CORIndex " + c.CORIndex +
-                    "\tc.EUCIndex " + c.EUCIndex + "\tc.isTFCrit " + c.isTFCrit);
+                    "\tc.EUCIndex " + c.EUCIndex + "\tc.SPEARIndex " + c.SPEARIndex + "\tc.isTFCrit " + c.isTFCrit);
         }
         return passcrits;
     }
