@@ -26,9 +26,9 @@
         </fileset>
     </path>
 
-    <property name="module.mak.basedir" location= "/usr2/people/marcin/MAK/MAK/MAK_build"/>
-    <property name="src-dir" location="${module.mak.basedir}/MAK"/>
-    <property name="out-dir" location="${module.mak.basedir}"/>
+    <property name="module.mak.basedir" location= "/usr2/people/marcin/MAK/MAK/"/>
+    <property name="src-dir" location="${module.mak.basedir}/"/>
+    <property name="out-dir" location="${module.mak.basedir}/MAK_build"/>
 
     <echo message="step 1"/>
 
