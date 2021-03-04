@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="mak" default="all">
+
+
+    <!-- Uncomment the following property if no tests compilation is needed -->
+    <!--
+    <property name="skip.tests" value="true"/>
+     -->
+
+    <!-- Compiler options -->
+
+    <property name="compiler.debug" value="on"/>
+    <property name="compiler.generate.no.warnings" value="off"/>
+    <property name="compiler.args" value=""/>
+    <property name="compiler.max.memory" value="128m"/>
+
+    <!-- Project Libraries -->
+
+
+    <path id="build.classpath">
+        <fileset dir="/usr2/people/marcin/R/">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="/usr2/people/marcin/java/lib/">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <property name="module.mak.basedir" location= "/usr2/people/marcin/Genomics/html/applet/MicroArrayUp/MicroArrayUp/MAK_build_git"/>
+    <property name="src-dir" location="${module.mak.basedir}/MAK"/>
+    <property name="out-dir" location="${module.mak.basedir}"/>
+
+    <echo message="step 1"/>
+
+    <!-- Environment Variables -->
+
+    <!--<property environment ="env"/>-->
+    <!--<variable name ="env.JAVA_HOME" value="/etc/alternatives/java_sdk/"/> -->
+    <!--<variable name ="env.PATH" value="${env.PATH}:/usr2/people/marcin/bin/apache-ant-1.9.2/bin/"/> -->
+
+    <target name="setup">
+        <mkdir dir="${out-dir}"/>
+        <mkdir dir="${out-dir}/MAK_R"/>
+        <mkdir dir="${out-dir}/classes"/>
+        <mkdir dir="${out-dir}/MAK_source"/>
+        <mkdir dir="${out-dir}/MAK_source/bioobj"/>
+        <mkdir dir="${out-dir}/MAK_source/DataMining"/>
+        <mkdir dir="${out-dir}/MAK_source/dialog"/>
+        <mkdir dir="${out-dir}/MAK_source/dtype"/>
+        <mkdir dir="${out-dir}/MAK_source/mathy"/>
+        <mkdir dir="${out-dir}/MAK_source/util"/>
+
+        <copy todir="${out-dir}/MAK_source/DataMining">
+            <fileset dir="${src-dir}/DataMining"/>
+        </copy>
+
+        <copy file="/usr2/people/marcin/Genomics/html/applet/MicroArrayUp/MicroArrayUp/MAK_build_git/MAK/DataMining_R/Miner.R" todir="${out-dir}/MAK_R"/>
+
+        <copy file="${src-dir}/bioobj/GeneAnnotation.java" todir="${out-dir}/MAK_source/bioobj"/>
+        <copy file="${src-dir}/bioobj/MacIsaacRegulonEntry.java" todir="${out-dir}/MAK_source/bioobj"/>
+        <copy file="${src-dir}/bioobj/YeastRegulons.java" todir="${out-dir}/MAK_source/bioobj"/>
+        <copy file="${src-dir}/dialog/ErrorDialog.java" todir="${out-dir}/MAK_source/dialog"/>
+        <copy file="${src-dir}/dtype/Data1.java" todir="${out-dir}/MAK_source/dtype"/>
+        <copy file="${src-dir}/dtype/DDouble.java" todir="${out-dir}/MAK_source/dtype"/>
+        <copy file="${src-dir}/dtype/DTriple.java" todir="${out-dir}/MAK_source/dtype"/>
+        <copy file="${src-dir}/dtype/Int2DArStringAr.java" todir="${out-dir}/MAK_source/dtype"/>
+        <copy file="${src-dir}/dtype/IntArrayWrapper.java" todir="${out-dir}/MAK_source/dtype"/>
+        <copy file="${src-dir}/dtype/IntDouble.java" todir="${out-dir}/MAK_source/dtype"/>
+        <copy file="${src-dir}/dtype/SystemResource.java" todir="${out-dir}/MAK_source/dtype"/>
+        <copy file="${src-dir}/mathy/Distrib.java" todir="${out-dir}/MAK_source/mathy"/>
+        <copy file="${src-dir}/mathy/FactorialPoorMans.java" todir="${out-dir}/MAK_source/mathy"/>
+        <copy file="${src-dir}/mathy/Matrix.java" todir="${out-dir}/MAK_source/mathy"/>
+        <copy file="${src-dir}/mathy/SimpleMatrix.java" todir="${out-dir}/MAK_source/mathy"/>
+        <copy file="${src-dir}/mathy/SimpleMatrixInt.java" todir="${out-dir}/MAK_source/mathy"/>
+        <copy file="${src-dir}/mathy/stat.java" todir="${out-dir}/MAK_source/mathy"/>
+        <copy file="${src-dir}/util/ASCII.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/CharTool.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/ColorMap.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/ColorScale.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/CopyFile.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/DelimFile.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/DirFilter.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/FileFilter.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/GiveDate.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/LoadHash.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/LogFile.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/MapArgOptions.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/MakeRepeatText.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/MoreArray.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/ParsePath.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/Program.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/runShell.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/StringUtil.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/TabFile.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/TestFile.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/TextFile.java" todir="${out-dir}/MAK_source/util"/>
+    </target>
+
+    <target name="compile" depends="setup">
+        <javac destdir="${out-dir}/classes" debug="${compiler.debug}" sourcepath=""
+               nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}"
+               fork="true" includeantruntime="true">
+
+
+            <!-- encoding="UTF-8" -->
+
+
+            <classpath refid="build.classpath"/>
+
+            <src>
+                <pathelement location="${out-dir}/MAK_source"/>
+            </src>
+
+        </javac>
+
+        <jar destfile="${out-dir}/MAK.jar" basedir="${out-dir}/classes">
+        </jar>
+
+
+        <copy file="${out-dir}/MAK.jar" todir="/usr2/people/marcin/public_html/MAK" />
+
+    </target>
+
+
+    <target name="all" depends="compile" description="build all"/>
+</project>
