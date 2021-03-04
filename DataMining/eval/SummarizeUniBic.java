@@ -3,7 +3,6 @@ package DataMining.eval;
 import mathy.Matrix;
 import mathy.SimpleMatrix;
 import mathy.stat;
-import org.apache.commons.lang3.ArrayUtils;
 import util.MoreArray;
 
 import java.io.File;
@@ -60,7 +59,6 @@ public class SummarizeUniBic {
                     }
                 }
 
-                //double[] array = ArrayUtils.toPrimitive(data.toArray(new Double[data.size()]));
                 double[] array = MoreArray.ArrayListtoDouble(data);
                 //MoreArray.printArray(array);
                 double mean = stat.avg(array);
