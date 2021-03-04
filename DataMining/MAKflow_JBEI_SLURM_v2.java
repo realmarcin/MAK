@@ -133,6 +133,7 @@ public class MAKflow_JBEI_SLURM_v2 {
     int Jmax_start = 50;
     int Jmin_start = 10;
     int useAbs = 0;
+    String start_method = "HCL";
     String startoutfile = "";
     String startfileprefix = "";
     int num_start_points = 0;
@@ -616,9 +617,15 @@ public class MAKflow_JBEI_SLURM_v2 {
             Rstarts_script += "expr_data_row=t(apply(expr_data,1,missfxn))\n";
             Rstarts_script += "expr_data_col=apply(expr_data,2,missfxn)\n";
 
-            Rstarts_script += "nbs1=allpossibleInitial(expr_data_row," + Imin_start + "," + Imax_start + "," + Jmin_start + "," + Jmax_start + ",\"" + hclmetric + "\",useAbs=" + useAbs + ", isCol=1,linkmethod=\"" + hcllink + "\")\n";
-            Rstarts_script += "nbs2=allpossibleInitial(expr_data_col," + Imin_start + "," + Imax_start + "," + Jmin_start + "," + Jmax_start + ",\"" + hclmetric + "\",useAbs=" + useAbs + ", isCol=0,linkmethod=\"" + hcllink + "\")\n";
-            Rstarts_script += "nbsall <- c(nbs1, nbs2)\n";
+            if (start_method.equalsIgnoreCase("HCL")) {
+                Rstarts_script += "nbs1=allpossibleInitial(expr_data_row," + Imin_start + "," + Imax_start + "," + Jmin_start + "," + Jmax_start + ",\"" + hclmetric + "\",useAbs=" + useAbs + ", isCol=1,linkmethod=\"" + hcllink + "\")\n";
+                Rstarts_script += "nbs2=allpossibleInitial(expr_data_col," + Imin_start + "," + Imax_start + "," + Jmin_start + "," + Jmax_start + ",\"" + hclmetric + "\",useAbs=" + useAbs + ", isCol=0,linkmethod=\"" + hcllink + "\")\n";
+                Rstarts_script += "nbsall <- c(nbs1, nbs2)\n";
+            } else if (start_method.equalsIgnoreCase("RLE")) {
+                Rstarts_script += "nbs1=allpossibleInitialRLE(expr_data_row," + Imin_start + "," + Imax_start + "," + Jmin_start + "," + Jmax_start + ",\"" + hclmetric + "\",useAbs=" + useAbs + ", isCol=1,linkmethod=\"" + hcllink + "\")\n";
+                //Rstarts_script += "nbs2=allpossibleInitialRLE(expr_data_col," + Imin_start + "," + Imax_start + "," + Jmin_start + "," + Jmax_start + ",\"" + hclmetric + "\",useAbs=" + useAbs + ", isCol=0,linkmethod=\"" + hcllink + "\")\n";
+                Rstarts_script += "nbsall <- nbs1\n";//c(nbs1, nbs2)\n";
+            }
 
             startoutfile = outputdir + basename + "_STARTS_abs" + useAbs + "_I" + Imin_start + "_" + Imax_start + "_J" + Jmin_start + "_" + Jmax_start + "_RC.txt";
             String startoutfile_redundant = startoutfile.substring(0, startoutfile.length() - 4) + "_redundant.txt";
@@ -2689,6 +2696,15 @@ public class MAKflow_JBEI_SLURM_v2 {
                                     if (Integer.parseInt(param_val) > 1) {
                                         startiter = Integer.parseInt(param_val);
                                     }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (param_key.equalsIgnoreCase("starts")) {
+                                try {
+                                    if (param_val.equalsIgnoreCase("HCL"))
+                                        start_method = param_val;
+                                    else if (param_val.equalsIgnoreCase("RLE"))
+                                        start_method = param_val;
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
