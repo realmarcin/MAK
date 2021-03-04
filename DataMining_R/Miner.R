@@ -2607,6 +2607,192 @@ allpossibleInitial = function(Datamat,
   unique(c(InitclustI, InitclustJ))
 }
 
+###function to determine all possible initial blocks from a 2-step hcluster
+allpossibleInitialRLE = function(Datamat,
+                              Imin,
+                              Imax,
+                              Jmin,
+                              Jmax,
+                              useAbs,
+                              isCol) {
+  
+  dim(Datamat)
+  dim_data <- dim(Datamat)
+  
+  if (useAbs == 1) {
+    Datamat <- abs(Datamat)
+  }
+  
+  ### discretize data into rounded bins
+  data_round <- ceiling(data / discretize_step) * discretize_step
+  head(data_round)
+  hist(as.matrix(data_round))
+  
+  #column RLE
+  if (isCol == 1) {
+    data_rle_rows <- getRuns(data_round)
+    row_runs <- extractRuns(data_rle_rows)
+    row_starts <- findStartsRows(data_rle_rows)
+    length(row_starts)
+  }
+  else {
+    data_rle_cols <- getRuns(t(data_round))
+    col_runs <- extractRuns(data_rle_cols)
+    col_starts <- findStartsCols(data_rle_cols)
+    length(col_starts)
+  }
+  
+  unique(c(InitclustI, InitclustJ))
+}
+
+
+###
+jaccard <- function(datai, dataj) {
+  overlap <- intersect(datai, dataj)
+  total <- union(datai, dataj)
+  
+  length(overlap) / length(total)
+}
+
+###
+findStartsCols <- function(rle_data) {
+  coords <- c()
+  for (i in 1:length(rle_data)) {
+    if (length(rle_data[[i]]) > 0) {
+      #print(rle_data[[i]])
+      curdimi <- dim(rle_data[[i]])
+      if (curdimi[1] > 0) {
+        for (j in 1:curdimi[1]) {
+          rowsi <- c(seq(rle_data[[i]]$start[j], rle_data[[i]]$end[j]))
+          overlap_i <- c(i)
+          union_i <- c(rowsi)
+          for (a in 1:length(rle_data)) {
+            if (a != i && length(rle_data[[a]]) > 0) {
+              #print(rle_data[[i]])
+              curdima <- dim(rle_data[[a]])
+              if (curdima[1] > 0) {
+                for (b in 1:curdima[1]) {
+                  rowsa <- c(seq(rle_data[[a]]$start[b], rle_data[[a]]$end[b]))
+                  
+                  jac <- jaccard(rowsi, rowsa)
+                  inter <- intersect(rowsi, rowsa)
+                  if(length(inter) > 2) {
+                    print(paste(i, paste(rowsi, collapse=",")), sep="\t")
+                    print(paste(a, paste(rowsa, collapse=",")), sep="\t")
+                    union_i <- union(union_i, rowsa)
+                    print(union_i)
+                    overlap_i <- c(overlap_i, a)
+                  }
+                }
+              }
+            }
+          }
+          print(paste("overlap_i ",i, paste(overlap_i, collapse=",")))
+          if(length(overlap_i) > 1) {
+            coords <- c(coords, paste(paste(sort(union_i), collapse=","), paste(sort(overlap_i), collapse=","), sep = "/"))
+          }
+        }
+      }
+    }
+  }
+  coords
+}
+
+
+###
+findStartsRows <- function(rle_data) {
+  coords <- c()
+  for (i in 1:length(rle_data)) {
+    if (length(rle_data[[i]]) > 0) {
+      #print(rle_data[[i]])
+      curdimi <- dim(rle_data[[i]])
+      if (curdimi[1] > 0) {
+        for (j in 1:curdimi[1]) {
+          colsi <- c(seq(rle_data[[i]]$start[j], rle_data[[i]]$end[j]))
+          overlap_i <- c(i)
+          union_i <- c(colsi)
+          for (a in 1:length(rle_data)) {
+            if (a != i && length(rle_data[[a]]) > 0) {
+              #print(rle_data[[i]])
+              curdima <- dim(rle_data[[a]])
+              if (curdima[1] > 0) {
+                for (b in 1:curdima[1]) {
+                  colsa <- c(seq(rle_data[[a]]$start[b], rle_data[[a]]$end[b]))
+                  
+                  jac <- jaccard(colsi, colsa)
+                  inter <- intersect(colsi, colsa)
+                  if(length(inter) > 2) {
+                    #print(paste(i, paste(colsi, collapse=",")), sep="\t")
+                    #print(paste(a, paste(colsa, collapse=",")), sep="\t")
+                    union_i <- union(union_i, colsa)
+                    print(union_i)
+                    overlap_i <- c(overlap_i, a)
+                  }
+                }
+              }
+            }
+          }
+          print(paste("overlap_i ",i, paste(overlap_i, collapse=",")))
+          if(length(overlap_i) > 1) {
+            coords <- c(coords, paste(paste(sort(overlap_i), collapse=","), paste(sort(union_i), collapse=","), sep = "/"))
+          }
+        }
+      }
+    }
+  }
+  coords
+}
+
+
+extractRuns <- function(rle_data) {
+  coords <- c()
+  for (i in 1:length(rle_data)) {
+    if (length(rle_data[[i]]) > 0) {
+      #print(rle_data[[i]])
+      curdim <- dim(rle_data[[i]])
+      if (curdim[1] > 0) {
+        for (j in 1:curdim[1]) {
+          strnow <-
+            paste(c(seq(
+              rle_data[[i]]$start[j], rle_data[[i]]$end[j]
+            )), collapse = ",")
+          #print(strnow)
+          coords <- c(coords, paste(i, "/", strnow, sep = ""))
+          #print(coords)
+        }
+      }
+    }
+  }
+  coords
+}
+
+getRuns <- function(data) {
+  data_rle <- list()
+  dim_data <- dim(data)
+  for (i in 1:dim_data[1]) {
+    cur_rle <- rle(data[i,])
+    
+    #class(cur_rle$values)
+    #class(cur_rle$lengths)
+    values <- as.numeric(cur_rle$values)
+    #names(values) <- c()
+    #class(values)
+    dt <- data.frame(number = values, lengths = cur_rle$lengths)
+    #print(dt)
+    dt$end <- cumsum(dt$lengths)
+    #length(dt$end)
+    #length(dt$lengths)
+    dt$start <- dt$end - dt$lengths + 1
+    
+    dt <- dt[which(dt$lengths > min_run_length),]
+    dt <- dt[, c("number", "start", "end")]
+    print(dt)
+    data_rle[[i]] <- dt#dt[order(dt$number), ]
+  }
+  data_rle
+}
+
+
 
 ###correlation distance function for a matrix, allowing abs
 SpearmanDist = function(data,
