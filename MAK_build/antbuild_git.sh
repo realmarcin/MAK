@@ -4,5 +4,5 @@
 #-Dfile.encoding=UTF-8
 #cd /usr2/people/marcin/Genomics/html/applet/MicroArrayUp/MicroArrayUp/MAK_build_git/MAK
 git pull
-cd ..
+#cd ..
 ant -verbose -buildfile MAKantbuild_git.xml &> antbuild_git.out
