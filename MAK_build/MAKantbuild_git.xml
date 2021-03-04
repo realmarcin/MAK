@@ -26,7 +26,7 @@
         </fileset>
     </path>
 
-    <property name="module.mak.basedir" location= "/usr2/people/marcin/Genomics/html/applet/MicroArrayUp/MicroArrayUp/MAK_build_git"/>
+    <property name="module.mak.basedir" location= "/usr2/people/marcin/MAK/MAK/MAK_build"/>
     <property name="src-dir" location="${module.mak.basedir}/MAK"/>
     <property name="out-dir" location="${module.mak.basedir}"/>
 
@@ -54,7 +54,7 @@
             <fileset dir="${src-dir}/DataMining"/>
         </copy>
 
-        <copy file="/usr2/people/marcin/Genomics/html/applet/MicroArrayUp/MicroArrayUp/MAK_build_git/MAK/DataMining_R/Miner.R" todir="${out-dir}/MAK_R"/>
+        <copy file="/usr2/people/marcin/MAK/MAK/DataMining_R/Miner.R" todir="${out-dir}/MAK_R"/>
 
         <copy file="${src-dir}/bioobj/GeneAnnotation.java" todir="${out-dir}/MAK_source/bioobj"/>
         <copy file="${src-dir}/bioobj/MacIsaacRegulonEntry.java" todir="${out-dir}/MAK_source/bioobj"/>
