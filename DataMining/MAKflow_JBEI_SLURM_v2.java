@@ -23,7 +23,6 @@ import java.util.*;
  * - java
  * - R
  * - R packages and JRI (through rJava)
- * - Python (* for now)
  * <p/>
  * Created by Rauf Salamzade
  * Developers: Marcin Joachimiak, Rauf Salamzade, Kevin Meng
@@ -229,7 +228,7 @@ public class MAKflow_JBEI_SLURM_v2 {
             createFile(scriptbox);
             File dir = createFile(output);
 
-            System.out.println("TEST_CRIT_PARSING");
+            System.out.println("Criterion");
             System.out.println(criterion);
 
             /*String[] crits = criterion.split("_");
@@ -395,7 +394,7 @@ public class MAKflow_JBEI_SLURM_v2 {
             levelIndex++;
         }
 
-          /*level2 MakeNull - make task file */
+        /*level2 MakeNull - make task file */
         if (setLevel == 2 && (stopLevel >= 2 || stopLevel == 0)) {
             System.out.println("LEVEL 2");
             long start = System.currentTimeMillis();
@@ -1268,7 +1267,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 levelIndex++;
             }
 
-              /* level11 Rerun Miner */ // And move results to level 11.1
+            /* level11 Rerun Miner */ // And move results to level 11.1
             if (setLevel == 11 && (stopLevel >= 11 || stopLevel == 0)) {
                 System.out.println("LEVEL11");
                 long start = System.currentTimeMillis();
@@ -1303,7 +1302,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 levelIndex++;
             }
 
-              /* level12 ListfromDir */
+            /* level12 ListfromDir */
             if (setLevel == 12 && (stopLevel >= 12 || stopLevel == 0)) {
                 System.out.println("LEVEL12");
                 long start = System.currentTimeMillis();
@@ -1376,7 +1375,7 @@ public class MAKflow_JBEI_SLURM_v2 {
 
         }
 
-          /* level13 ApplyCut */
+        /* level13 ApplyCut */
         if (setLevel == 13 && (stopLevel >= 13 || stopLevel == 0)) {
             System.out.println("LEVEL 13");
             long start = System.currentTimeMillis();
@@ -1432,7 +1431,7 @@ public class MAKflow_JBEI_SLURM_v2 {
             levelIndex++;
         }
 
-         /* level14 ListMergeMembers final */
+        /* level14 ListMergeMembers final */
         if (setLevel == 14 && (stopLevel >= 14 || stopLevel == 0)) {
             System.out.println("LEVEL 14");
             long start = System.currentTimeMillis();
@@ -1679,7 +1678,7 @@ public class MAKflow_JBEI_SLURM_v2 {
         if (!refine) {
             setLevel = 21; //check if this is correct later
         } else {
-           /*  */
+            /*  */
             /* level15 create parameter files */
             if (setLevel == 15 && (stopLevel >= 15 || stopLevel == 0)) {
                 System.out.println("LEVEL 15");
@@ -2244,7 +2243,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 levelIndex++;
             }
 
-          /* level19 ApplyCut */
+            /* level19 ApplyCut */
             if (setLevel == 19 && (stopLevel >= 19 || stopLevel == 0)) {
                 System.out.println("LEVEL 19");
                 long start = System.currentTimeMillis();
@@ -2291,7 +2290,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 levelIndex++;
             }
 
-         /* level20 ListMergeMembers final */
+            /* level20 ListMergeMembers final */
             if (setLevel == 20 && (stopLevel >= 20 || stopLevel == 0)) {
                 System.out.println("LEVEL 20");
                 long start = System.currentTimeMillis();

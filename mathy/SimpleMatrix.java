@@ -62,7 +62,7 @@ public class SimpleMatrix {
     /**
      * @param f
      */
-    private void read(String f) {
+    public void read(String f) {
         String[][] read_data = TabFile.readtoArray(f);
 //        System.out.println("SimpleMatrix read_data " + read_data.length + "\t" + read_data[0].length+
 //                "\ttop left corner " + read_data[0][0] +

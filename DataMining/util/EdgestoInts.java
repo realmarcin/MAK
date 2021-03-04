@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class EdgestoInts {
 
-    String[][] terms = {
+    String[][] ENIGMA_terms = {
             {"Top_"},
             {"Sample:", "Subsample:", "Experiment:"},
             {"Ph_"},
@@ -27,7 +27,7 @@ public class EdgestoInts {
             {"Water_Measurement:"},
             {"Sediment_Measurement:"}};
 
-    String[] term_classes = {
+    String[] ENIGMA_term_classes = {
             "Top",
             "Samples_Subsamples_Experiments",
             "Phylogeny",
@@ -40,6 +40,8 @@ public class EdgestoInts {
     };
 
 
+    boolean kgx = false;
+
     /**
      * @param args
      */
@@ -47,10 +49,22 @@ public class EdgestoInts {
 
         System.out.println("reading");
         String[][] data = TabFile.readtoArray(args[0]);
-        System.out.println("read " + data.length + " edges");
         System.out.println("collecting nodes");
         ArrayList<String> nodes = new ArrayList<String>();
-        for (int i = 0; i < data.length; i++) {
+
+        if (data[0][0].equalsIgnoreCase(("subject")) &&
+                data[0][1].equalsIgnoreCase(("edge_label")) &&
+                data[0][2].equalsIgnoreCase(("object"))) {
+            kgx = true;
+            System.out.println("Detected KGX format");
+        }
+
+        int start = 0;
+        if (kgx)
+            start = 1;
+
+        System.out.println("read " + (data.length - start) + " edges");
+        for (int i = start; i < data.length; i++) {
             if (!nodes.contains(data[i][0]))
                 nodes.add(data[i][0]);
             if (!nodes.contains(data[i][1]))
@@ -60,14 +74,14 @@ public class EdgestoInts {
         String[] nodestr = MoreArray.ArrayListtoString(nodes);
 
         System.out.println("map edges");
-        String[] out = new String[data.length];
-        for (int i = 0; i < data.length; i++) {
+        String[] out = new String[data.length - start];
+        for (int i = start; i < data.length; i++) {
             //increment indices for 1 offset
             int index1 = StringUtil.getFirstEqualsIndex(nodestr, data[i][0]);
             index1++;
             int index2 = StringUtil.getFirstEqualsIndex(nodestr, data[i][1]);
             index2++;
-            out[i] = "" + index1 + "\t" + index2;
+            out[i - start] = "" + index1 + "\t" + index2;
         }
 
         String f = args[0].substring(0, args[0].lastIndexOf('.')) + "_intindex.txt";
@@ -84,9 +98,9 @@ public class EdgestoInts {
             out3[i] = "" + (i + 1);
             boolean done = false;
             int offset = 0;
-            for (int j = 0; j < terms.length; j++) {
-                for (int k = 0; k < terms[j].length; k++) {
-                    if (nodestr[i].startsWith(terms[j][k])) {
+            for (int j = 0; j < ENIGMA_terms.length; j++) {
+                for (int k = 0; k < ENIGMA_terms[j].length; k++) {
+                    if (nodestr[i].startsWith(ENIGMA_terms[j][k])) {
                         done = true;
                     }
                     if (done)
@@ -101,7 +115,7 @@ public class EdgestoInts {
                 for (int z = 0; z < offset; z++) {
                     out3[i] += "\t";
                 }
-                out3[i] += "\t" + term_classes[offset];
+                out3[i] += "\t" + ENIGMA_term_classes[offset];
             } else if (!done) {
                 System.out.println("new\n" + nodestr[i]);
             }

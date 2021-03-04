@@ -27,16 +27,24 @@ public class EvalUniBicRelevRecover {
     public EvalUniBicRelevRecover(String[] args) {
 
         // /global/scratch/marcin/UniBic/UniBic_data_result/data/overlap_bic/overlap_0_0
-
+        System.out.println("args[1] " + args[1]);
         int lastslash = args[1].lastIndexOf("/");
         boolean trim = false;
         if (lastslash == args[1].length() - 1) {
             trim = true;
-            lastslash = NthLastIndexOf(2, args[1], "/");
+            lastslash = NthLastIndexOf(1, args[1], "/");
         }
-        String prefix = args[1].substring(lastslash + 1, trim ? args[1].length() - 1 : args[1].length());
 
+        String prefix = args[1].substring(lastslash + 1, trim ? args[1].length() - 1 : args[1].length());
         System.out.println("prefix " + prefix);
+
+        int secondlastslash = NthLastIndexOf(2, args[1], "/");
+        String unique_prefix = args[1].substring(secondlastslash + 1, lastslash);
+        System.out.println("unique_prefix " + unique_prefix);
+
+        int thirdlastslash = NthLastIndexOf(3, args[1], "/");
+        String unique_label = args[1].substring(thirdlastslash + 1, secondlastslash);
+        System.out.println("unique_label " + unique_label);
 
         ArrayList recovery_vals = new ArrayList();
         ArrayList relevance_vals = new ArrayList();
@@ -118,8 +126,12 @@ public class EvalUniBicRelevRecover {
         }
 
 
-        TextFile.write(recovery_vals, prefix + "_recovery.txt");
-        TextFile.write(relevance_vals, prefix + "_relevance.txt");
+        String outpath1 = unique_label+"_"+unique_prefix + "__" + prefix + "_recovery.txt";
+        System.out.println("outpath1");
+        System.out.println(outpath1);
+        TextFile.write(recovery_vals, outpath1);
+        String outpath2 = unique_label+"_"+unique_prefix + "__" + prefix + "_relevance.txt";
+        TextFile.write(relevance_vals, outpath2);
     }
 
 
@@ -131,7 +143,13 @@ public class EvalUniBicRelevRecover {
      */
     static int NthLastIndexOf(int Nth, String input, String targetchar) {
         if (Nth <= 0) return input.length();
-        return NthLastIndexOf(--Nth, targetchar, input.substring(0, input.lastIndexOf(targetchar)));
+        System.out.println("input " + input);
+        int endIndex = input.lastIndexOf(targetchar);
+        System.out.println("endIndex " + endIndex);
+        String substring = input.substring(0, endIndex);
+        System.out.println("substring " + substring);
+        System.out.println("--Nth " + (Nth - 1) + "\t" + targetchar);
+        return NthLastIndexOf(--Nth, substring, targetchar);
     }
 
     /**

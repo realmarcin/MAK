@@ -568,13 +568,7 @@ public class InterPolateNulls {
                             rawmean = MoreArray.convfromString(TabFile.readtoArray(dir + "/" + list[i]));
                             countfiles[0]++;
                         } else {
-                            double[][] rawexprmeantmp = new double[0][];
-                            try {
-                                rawexprmeantmp = MoreArray.convfromString(TabFile.readtoArray(dir + "/" + list[i]));
-                            } catch (Exception e) {
-                                System.out.println("tried reading " + dir + "/" + list[i]);
-                                e.printStackTrace();
-                            }
+                            double[][] rawexprmeantmp = MoreArray.convfromString(TabFile.readtoArray(dir + "/" + list[i]));
                             rawmean = Matrix.add(rawmean, rawexprmeantmp);
                             countfiles[0]++;
                         }
