@@ -2699,7 +2699,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                            } else if (param_key.equalsIgnoreCase("start_method")) {
+                            } else if (param_key.equalsIgnoreCase("startmethod")) {
                                 try {
                                     if (param_val.equalsIgnoreCase("HCL"))
                                         start_method = param_val;
