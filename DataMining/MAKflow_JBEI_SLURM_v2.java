@@ -622,8 +622,8 @@ public class MAKflow_JBEI_SLURM_v2 {
                 Rstarts_script += "nbs2=allpossibleInitial(expr_data_col," + Imin_start + "," + Imax_start + "," + Jmin_start + "," + Jmax_start + ",\"" + hclmetric + "\",useAbs=" + useAbs + ", isCol=0,linkmethod=\"" + hcllink + "\")\n";
                 Rstarts_script += "nbsall <- c(nbs1, nbs2)\n";
             } else if (start_method.equalsIgnoreCase("RLE")) {
-                Rstarts_script += "nbs1=allpossibleInitialRLE(expr_data_row," + Imin_start + "," + Imax_start + "," + Jmin_start + "," + Jmax_start + ",\"" + hclmetric + "\",useAbs=" + useAbs + ", isCol=1,linkmethod=\"" + hcllink + "\")\n";
-                Rstarts_script += "nbs2=allpossibleInitialRLE(expr_data_col," + Imin_start + "," + Imax_start + "," + Jmin_start + "," + Jmax_start + ",\"" + hclmetric + "\",useAbs=" + useAbs + ", isCol=0,linkmethod=\"" + hcllink + "\")\n";
+                Rstarts_script += "nbs1=allpossibleInitialRLE(expr_data_row," + Imin_start + "," + Imax_start + "," + Jmin_start + "," + Jmax_start + ",useAbs="+ useAbs + ", isCol=1)\n";
+                Rstarts_script += "nbs2=allpossibleInitialRLE(expr_data_col," + Imin_start + "," + Imax_start + "," + Jmin_start + "," + Jmax_start + ",useAbs="+ useAbs + ", isCol=0)\n";
                 Rstarts_script += "nbsall <- c(nbs1, nbs2)\n";
             }
 

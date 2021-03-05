@@ -2631,13 +2631,13 @@ allpossibleInitialRLE = function(Datamat,
   #column RLE
   if (isCol == 1) {
     data_rle_rows <- getRuns(data_round)
-    row_runs <- extractRuns(data_rle_rows)
+    #row_runs <- extractRuns(data_rle_rows)
     row_starts <- findStartsRows(data_rle_rows)
     length(row_starts)
   }
   else {
     data_rle_cols <- getRuns(t(data_round))
-    col_runs <- extractRuns(data_rle_cols)
+    #col_runs <- extractRuns(data_rle_cols)
     col_starts <- findStartsCols(data_rle_cols)
     length(col_starts)
   }
