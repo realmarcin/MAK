@@ -2651,7 +2651,7 @@ allpossibleInitialRLE = function(Datamat,
     length(col_starts)
   }
 
-  unique(c(InitclustI, InitclustJ))
+  unique(c(row_starts, col_starts))
 }
 
 
