@@ -2633,7 +2633,7 @@ allpossibleInitialRLE = function(Datamat,
   }
 
   ### discretize data into rounded bins
-  data_round <- ceiling(data / discretize_step) * discretize_step
+  data_round <- ceiling(Datamat / discretize_step) * discretize_step
   head(data_round)
   hist(as.matrix(data_round))
 
