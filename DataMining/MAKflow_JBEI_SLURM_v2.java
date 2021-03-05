@@ -134,6 +134,8 @@ public class MAKflow_JBEI_SLURM_v2 {
     int Jmin_start = 10;
     int useAbs = 0;
     String start_method = "HCL";
+    double rlestep = 0.2;
+    double rlemin = 2;
     String startoutfile = "";
     String startfileprefix = "";
     int num_start_points = 0;
@@ -622,8 +624,8 @@ public class MAKflow_JBEI_SLURM_v2 {
                 Rstarts_script += "nbs2=allpossibleInitial(expr_data_col," + Imin_start + "," + Imax_start + "," + Jmin_start + "," + Jmax_start + ",\"" + hclmetric + "\",useAbs=" + useAbs + ", isCol=0,linkmethod=\"" + hcllink + "\")\n";
                 Rstarts_script += "nbsall <- c(nbs1, nbs2)\n";
             } else if (start_method.equalsIgnoreCase("RLE")) {
-                Rstarts_script += "nbs1=allpossibleInitialRLE(expr_data_row," + Imin_start + "," + Imax_start + "," + Jmin_start + "," + Jmax_start + ",useAbs="+ useAbs + ", isCol=1)\n";
-                Rstarts_script += "nbs2=allpossibleInitialRLE(expr_data_col," + Imin_start + "," + Imax_start + "," + Jmin_start + "," + Jmax_start + ",useAbs="+ useAbs + ", isCol=0)\n";
+                Rstarts_script += "nbs1=allpossibleInitialRLE(expr_data_row,useAbs=" + useAbs + ", isCol=1,discretize_step="+rlestep+",min_run_length="+rlemin+")\n";
+                Rstarts_script += "nbs2=allpossibleInitialRLE(expr_data_col,useAbs=" + useAbs + ", isCol=0,discretize_step="+rlestep+",min_run_length="+rlemin+")\n";
                 Rstarts_script += "nbsall <- c(nbs1, nbs2)\n";
             }
 
@@ -2705,6 +2707,19 @@ public class MAKflow_JBEI_SLURM_v2 {
                                         start_method = param_val;
                                     else if (param_val.equalsIgnoreCase("RLE"))
                                         start_method = param_val;
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (param_key.equalsIgnoreCase("rlestep")) {
+                                try {
+                                    rlestep = Double.parseDouble(param_val);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (param_key.equalsIgnoreCase("rlemin")) {
+                                try {
+
+                                    rlemin = Double.parseDouble(param_val);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
