@@ -2637,21 +2637,25 @@ allpossibleInitialRLE = function(Datamat,
   head(data_round)
   hist(as.matrix(data_round))
 
+  starts <- c()
   #column RLE
   if (isCol == 1) {
     data_rle_rows <- getRuns(data_round, min_run_length)
     #row_runs <- extractRuns(data_rle_rows)
     row_starts <- findStartsRows(data_rle_rows)
     length(row_starts)
+    starts <- row_starts
   }
   else {
     data_rle_cols <- getRuns(t(data_round), min_run_length)
     #col_runs <- extractRuns(data_rle_cols)
     col_starts <- findStartsCols(data_rle_cols)
     length(col_starts)
+    starts <- col_starts
   }
 
-  unique(c(row_starts, col_starts))
+  #unique(c(row_starts, col_starts))
+  unique(starts)
 }
 
 
