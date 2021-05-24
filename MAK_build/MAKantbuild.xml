@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="mak" default="all">
+
+
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!--
+  <property name="skip.tests" value="true"/>
+   -->
+
+  <!-- Compiler options -->
+
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="128m"/>
+
+  <!-- Project Libraries -->
+
+  <path id="library.jri.classpath">
+    <pathelement location="/home/rauf/MAK_directory/JRI.jar"/>
+  </path>
+
+  <property name="module.mak.basedir" location= "/home/rauf/lbl/MAK_workspace/"/>
+  <property name="src-dir" location="${module.mak.basedir}"/>
+  <property name="out-dir" location="${module.mak.basedir}/MAK_build"/>
+
+  <!-- Environment Variables -->
+
+  <!--<property environment ="env"/>-->
+  <!--<variable name ="env.JAVA_HOME" value="/usr/local/java/"/> -->
+  <!--<variable name ="env.PATH" value="${env.PATH}:/usr2/people/marcin/bin/apache-ant-1.9.2/bin/"/> -->
+
+  <delete file="${src-dir}/DataMining/util/TabfromJSON.java"/>
+  <delete file="${src-dir}/DataMining/util/AuthKeyboardInteractive.java"/>
+  <delete file="${src-dir}/DataMining/util/SSHCommand.java"/>
+  <delete file="${src-dir}/DataMining/util/SSHManager.java"/>
+  <delete file="${src-dir}/DataMining/util/testRuntmieExec.java"/>
+
+  <target name="compile.module.mak.production" description="Compile module MAK; production classes">
+    <mkdir dir="${out-dir}"/>
+    <mkdir dir="${out-dir}/MAK_R"/>
+    <mkdir dir="${out-dir}/classes"/>
+    <mkdir dir="${out-dir}/MAK_source"/>
+    <mkdir dir="${out-dir}/MAK_source/bioobj"/>
+    <mkdir dir="${out-dir}/MAK_source/DataMining"/>
+    <mkdir dir="${out-dir}/MAK_source/dialog"/>
+    <mkdir dir="${out-dir}/MAK_source/dtype"/>
+    <mkdir dir="${out-dir}/MAK_source/mathy"/>
+    <mkdir dir="${out-dir}/MAK_source/util"/>
+
+    <copy todir="${out-dir}/MAK_source/DataMining">
+      <fileset dir="${src-dir}/DataMining"/>
+    </copy>
+
+    <copy file="/home/rauf/lbl/MAK_workspace/DataMining_R/Miner.R" todir="${out-dir}/MAK_R"/>
+
+    <copy file="${src-dir}/bioobj/GeneAnnotation.java" todir="${out-dir}/MAK_source/bioobj" />
+    <copy file="${src-dir}/bioobj/MacIsaacRegulonEntry.java" todir="${out-dir}/MAK_source/bioobj" />
+    <copy file="${src-dir}/bioobj/YeastRegulons.java" todir="${out-dir}/MAK_source/bioobj" />
+    <copy file="${src-dir}/dialog/ErrorDialog.java" todir="${out-dir}/MAK_source/dialog" />
+    <copy file="${src-dir}/dtype/Data1.java" todir="${out-dir}/MAK_source/dtype" />
+    <copy file="${src-dir}/dtype/DDouble.java" todir="${out-dir}/MAK_source/dtype" />
+    <copy file="${src-dir}/dtype/DTriple.java" todir="${out-dir}/MAK_source/dtype" />
+    <copy file="${src-dir}/dtype/Int2DArStringAr.java" todir="${out-dir}/MAK_source/dtype" />
+    <copy file="${src-dir}/dtype/IntArrayWrapper.java" todir="${out-dir}/MAK_source/dtype" />
+    <copy file="${src-dir}/dtype/IntDouble.java" todir="${out-dir}/MAK_source/dtype" />
+    <copy file="${src-dir}/dtype/SystemResource.java" todir="${out-dir}/MAK_source/dtype" />
+    <copy file="${src-dir}/mathy/PairstoMatrix.java" todir="${out-dir}/MAK_source/mathy" />
+    <copy file="${src-dir}/mathy/Distrib.java" todir="${out-dir}/MAK_source/mathy" />
+    <copy file="${src-dir}/mathy/FactorialPoorMans.java" todir="${out-dir}/MAK_source/mathy" />
+    <copy file="${src-dir}/mathy/Matrix.java" todir="${out-dir}/MAK_source/mathy" />
+    <copy file="${src-dir}/mathy/SimpleMatrix.java" todir="${out-dir}/MAK_source/mathy" />
+    <copy file="${src-dir}/mathy/SimpleMatrixInt.java" todir="${out-dir}/MAK_source/mathy" />
+    <copy file="${src-dir}/mathy/stat.java" todir="${out-dir}/MAK_source/mathy" />
+    <copy file="${src-dir}/util/ASCII.java" todir="${out-dir}/MAK_source/util" />
+    <copy file="${src-dir}/util/CharTool.java" todir="${out-dir}/MAK_source/util" />
+    <copy file="${src-dir}/util/ColorMap.java" todir="${out-dir}/MAK_source/util" />
+    <copy file="${src-dir}/util/ColorScale.java" todir="${out-dir}/MAK_source/util" />
+    <copy file="${src-dir}/util/CopyFile.java" todir="${out-dir}/MAK_source/util" />
+    <copy file="${src-dir}/util/DelimFile.java" todir="${out-dir}/MAK_source/util" />
+    <copy file="${src-dir}/util/DirFilter.java" todir="${out-dir}/MAK_source/util" />
+    <copy file="${src-dir}/util/FileFilter.java" todir="${out-dir}/MAK_source/util" />
+    <copy file="${src-dir}/util/GiveDate.java" todir="${out-dir}/MAK_source/util" />
+    <copy file="${src-dir}/util/LoadHash.java" todir="${out-dir}/MAK_source/util" />
+    <copy file="${src-dir}/util/LogFile.java" todir="${out-dir}/MAK_source/util" />
+    <copy file="${src-dir}/util/MapArgOptions.java" todir="${out-dir}/MAK_source/util" />
+    <copy file="${src-dir}/util/MoreArray.java" todir="${out-dir}/MAK_source/util" />
+    <copy file="${src-dir}/util/ParsePath.java" todir="${out-dir}/MAK_source/util" />
+    <copy file="${src-dir}/util/Program.java" todir="${out-dir}/MAK_source/util" />
+    <copy file="${src-dir}/util/runShell.java" todir="${out-dir}/MAK_source/util" />
+    <copy file="${src-dir}/util/StringUtil.java" todir="${out-dir}/MAK_source/util" />
+    <copy file="${src-dir}/util/TabFile.java" todir="${out-dir}/MAK_source/util" />
+    <copy file="${src-dir}/util/TestFile.java" todir="${out-dir}/MAK_source/util" />
+    <copy file="${src-dir}/util/TextFile.java" todir="${out-dir}/MAK_source/util" />
+
+    <javac destdir="${out-dir}/classes" debug="${compiler.debug}" sourcepath = ""
+           nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}"
+           fork="true"  includeantruntime="true">
+
+      <classpath>
+        <path refid = "library.jri.classpath"/>
+      </classpath>
+      <src>
+        <pathelement location="${out-dir}/MAK_source" />
+      </src>
+
+    </javac>
+
+    <jar destfile="${out-dir}/MAK.jar" basedir="${out-dir}/classes" >
+    </jar>
+
+  </target>
+
+  <target name="all" depends="compile.module.mak.production" description="build all"/>
+</project>
