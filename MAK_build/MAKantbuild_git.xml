@@ -88,6 +88,7 @@
         <copy file="${src-dir}/util/MakeRepeatText.java" todir="${out-dir}/MAK_source/util"/>
         <copy file="${src-dir}/util/MoreArray.java" todir="${out-dir}/MAK_source/util"/>
         <copy file="${src-dir}/util/ParsePath.java" todir="${out-dir}/MAK_source/util"/>
+        <copy file="${src-dir}/util/PairstoMatrix.java" todir="${out-dir}/MAK_source/util"/>
         <copy file="${src-dir}/util/Program.java" todir="${out-dir}/MAK_source/util"/>
         <copy file="${src-dir}/util/runShell.java" todir="${out-dir}/MAK_source/util"/>
         <copy file="${src-dir}/util/StringUtil.java" todir="${out-dir}/MAK_source/util"/>
