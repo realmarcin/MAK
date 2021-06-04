@@ -1470,7 +1470,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                     "#SBATCH --ntasks=1\n" +
                     "#SBATCH --cpus-per-task=1\n" +
                     "#SBATCH --mem=22G\n" +
-                    "#SBATCH --time=120:00:00\n" +
+                    "#SBATCH --time=72:00:00\n" +
                     "#SBATCH --output=MAKflow_" + setLevel + "_%j.out\n";
             if (!qos.equals(""))
                 selectnrset_script += "#SBATCH --qos=" + qos + "" + "\n";
