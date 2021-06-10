@@ -624,6 +624,8 @@ public class MAKflow_JBEI_SLURM_v2 {
                 Rstarts_script += "nbs2=allpossibleInitial(expr_data_col," + Imin_start + "," + Imax_start + "," + Jmin_start + "," + Jmax_start + ",\"" + hclmetric + "\",useAbs=" + useAbs + ", isCol=0,linkmethod=\"" + hcllink + "\")\n";
                 Rstarts_script += "nbsall <- c(nbs1, nbs2)\n";
             } else if (start_method.equalsIgnoreCase("RLE")) {
+                int rle_useAbs =0;//useAbs;
+
                 Rstarts_script += "nbs1=allpossibleInitialRLE(expr_data_row,useAbs=" + useAbs + ", isCol=1,discretize_step="+rlestep+",min_run_length="+rlemin+")\n";
                 Rstarts_script += "nbs2=allpossibleInitialRLE(expr_data_col,useAbs=" + useAbs + ", isCol=0,discretize_step="+rlestep+",min_run_length="+rlemin+")\n";
                 Rstarts_script += "nbsall <- c(nbs1, nbs2)\n";
@@ -2742,9 +2744,11 @@ public class MAKflow_JBEI_SLURM_v2 {
                             } else if (param_key.equalsIgnoreCase("abs")) {
                                 try {
                                     absvect = param_val;
-                                    if (absvect.contains("1")) {
+                                    if (absvect.contains("1")){// && !start_method.equals("RLE")) {
                                         useAbs = 1;
-                                    } else {
+                                    } /*if (absvect.contains("1") && !start_method.equals("RLE")) {
+                                        useAbs = 1;
+                                    }*/ else {
                                         useAbs = 0;
                                     }
                                 } catch (Exception e) {
