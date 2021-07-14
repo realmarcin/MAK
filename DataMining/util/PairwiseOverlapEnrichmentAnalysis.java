@@ -463,7 +463,7 @@ public class PairwiseOverlapEnrichmentAnalysis {
         if (options.get("-setA_vbl") != null) {
             String setA_vbl_path = (String) options.get("-setA_vbl");
             try {
-                setA_vbl = ValueBlockListMethods.readAny(setA_vbl_path, true);
+                setA_vbl = ValueBlockListMethods.readAny(setA_vbl_path, false);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -473,7 +473,7 @@ public class PairwiseOverlapEnrichmentAnalysis {
         if (options.get("-setB_vbl") != null) {
             String setB_vbl_path = (String) options.get("-setB_vbl");
             try {
-                setB_vbl = ValueBlockListMethods.readAny(setB_vbl_path, true);
+                setB_vbl = ValueBlockListMethods.readAny(setB_vbl_path, false);
             } catch (Exception e) {
                 e.printStackTrace();
             }

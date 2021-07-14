@@ -4799,7 +4799,7 @@ for (int j = i + 1; j < size; j++) {
         if (options.get("-bic") != null) {
             inBIC = (String) options.get("-bic");
             try {
-                BIC = ValueBlockListMethods.readAny(inBIC, true);//readAny
+                BIC = ValueBlockListMethods.readAny(inBIC, false);//readAny
 
             } catch (Exception e) {
                 e.printStackTrace();

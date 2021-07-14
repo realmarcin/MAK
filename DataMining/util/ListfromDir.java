@@ -16,7 +16,7 @@ import java.io.File;
  */
 public class ListfromDir {
 
-    boolean debug = true;
+    boolean debug = false;
 
     String dir, out;
     boolean firstlast = false;

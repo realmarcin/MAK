@@ -150,7 +150,7 @@ public class ExtremeEnrichFilter {
         if (options.get("-bic") != null) {
             inBIC = (String) options.get("-bic");
             try {
-                BIC = ValueBlockListMethods.readAny(inBIC, true);
+                BIC = ValueBlockListMethods.readAny(inBIC, false);
                 sortedBIC = ValueBlockListMethods.sort("exp_mean", BIC); // descending sort on exp_mean
                 //sortedBIC = ValueBlockListMethods.reverse(ValueBlockListMethods.sort("exp_mean", BIC)); // ascending sort on exp_mean
                 bicluster_set_size = BIC.size();

@@ -93,7 +93,7 @@ public class ComparetoFitness {
         if (options.get("-bic") != null) {
             inBIC = (String) options.get("-bic");
             try {
-                BIC = ValueBlockListMethods.readAny(inBIC, true);
+                BIC = ValueBlockListMethods.readAny(inBIC, false);
             } catch (Exception e) {
                 e.printStackTrace();
             }

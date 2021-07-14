@@ -1337,7 +1337,7 @@ public class ScoreBlocks extends Program {
         if (options.get("-bic") != null) {
             inBIC = (String) options.get("-bic");
             try {
-                BIC = ValueBlockListMethods.readAny(inBIC, true);
+                BIC = ValueBlockListMethods.readAny(inBIC, false);
                 //BIC = ValueBlockListMethods.incrementIndices(BIC, offsetincr);
             } catch (Exception e) {
                 e.printStackTrace();

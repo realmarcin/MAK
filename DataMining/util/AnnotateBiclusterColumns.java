@@ -28,7 +28,7 @@ public class AnnotateBiclusterColumns {
     public AnnotateBiclusterColumns(String[] args) {
 
         try {
-            vbl = ValueBlockListMethods.readAny(args[0], true);
+            vbl = ValueBlockListMethods.readAny(args[0], false);
         } catch (Exception e) {
             e.printStackTrace();
         }
