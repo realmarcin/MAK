@@ -29,10 +29,11 @@ public class MinerViewBack {
     boolean debug = true;
 
     HashMap options;
-    String[] valid_args = {"-param", "-dataexpr", "-datappi", "-traj", "-help", "-animate", "-pixel"};
+    String[] valid_args = {"-param", "-dataexpr", "-datappi", "-traj", "-help", "-animate", "-pixel", "-range"};
 
     String dataexprpath, datappipath, trajpath, parameter_path;
     public double dataexpr_max, dataexpr_min;
+    public double dataexpr_max_cut, dataexpr_min_cut;
     public double datappi_max, datappi_min;
     double[][] dataexpr, datappi;
     public RunMinerBack rmb;
@@ -54,6 +55,7 @@ public class MinerViewBack {
     int totalCanvdimy = -1;
     ValueBlockList trajectory;
     int pixel = -1;
+    double[] range = {-1.0, 1.0};
 
     public boolean normalized_crit = false;
     public boolean animate = false;
@@ -403,6 +405,7 @@ public class MinerViewBack {
     }
 
     /**
+     *
      */
     private void init() {
         prm = new Parameters();
@@ -419,10 +422,12 @@ public class MinerViewBack {
             //System.out.println("MinerView trajectory " + trajectory);
             dataexprpath = (String) options.get("-dataexpr");
             datappipath = (String) options.get("-datappi");
-            //System.out.println("MinerView dataexprpath " + dataexprpath);
+            System.out.println("MinerViewBack dataexprpath " + dataexprpath);
             Object o = options.get("-pixel");
-            if (o != null)
+            if (o != null) {
                 pixel = Integer.parseInt(((String) o));
+                System.out.println("MinerViewBack pixel " + pixel);
+            }
         }
 
         int moves = -1;
@@ -441,7 +446,7 @@ public class MinerViewBack {
             }
 
             try {
-                trajectory = ValueBlockListMethods.readAny(trajpath, debug);
+                trajectory = ValueBlockListMethods.readAny(trajpath, false);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -498,6 +503,29 @@ public class MinerViewBack {
             dataexpr_max = Matrix.findMax(dataexpr);
             System.out.println("MinerView dataexpr range " + dataexpr_min + "\t" + dataexpr_max + "\t" +
                     (dataexpr_max - dataexpr_min));
+
+            if (options != null) {
+                Object o2 = options.get("-range");
+                if (o2 != null) {
+                    if (((String) o2).equals("min,max")) {
+                        range[0] = dataexpr_min;
+                        range[1] = dataexpr_max;
+                    } else {
+                        String[] range_data = (((String) o2)).split(",");
+                        range = new double[2];
+                        range[0] = Double.parseDouble(range_data[0]);
+                        range[1] = Double.parseDouble(range_data[1]);
+                    }
+                    System.out.println("MinerViewBack range " + o2 + "\t\t" + range[0] + "\t" + range[1]);
+                }
+            }
+
+            if (range != null) {
+                dataexpr_min_cut = range[0];
+                dataexpr_max_cut = range[1];
+                System.out.println("MinerView dataexpr range cutoffs " + dataexpr_min_cut + "\t" + dataexpr_max_cut + "\t" +
+                        (dataexpr_max_cut - dataexpr_min_cut));
+            }
             System.out.println("MinerView reordering by mean");
             ValueBlockListMethods.reorderByMean(dataexpr, trajectory);
             System.out.println("MinerView reordering done");
@@ -524,6 +552,10 @@ public class MinerViewBack {
             dataexpr = rmb.expr_matrix.data;
             dataexpr_min = Matrix.findMin(rmb.expr_matrix.data);
             dataexpr_max = Matrix.findMax(rmb.expr_matrix.data);
+            if (range != null) {
+                dataexpr_min = range[0];
+                dataexpr_max = range[1];
+            }
         }
 
         if (options != null) {

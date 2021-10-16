@@ -573,6 +573,62 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
      * @param f
      * @return
      */
+    public final static ValueBlockList readJSONGenes(String f, String[] labels) throws Exception {
+        //System.out.println("readBIC " + f);
+        ValueBlockList vls = null;
+        try {
+            vls = new ValueBlockList();
+            BufferedReader in = new BufferedReader(new FileReader(f));
+            String data = in.readLine();
+            String[] genes = data.split("\\[");
+            for (int i = 0; i < genes.length; i++) {
+                if (genes[i].length() > 1) {
+                    genes[i] = genes[i].replace("],", "");
+                    genes[i] = genes[i].replace("]", "");
+                    genes[i] = genes[i].replace(" ", "");
+                    System.out.println("readJSONGenes *"+genes[i]+"*");
+                    String[] curgenes = genes[i].split(",");
+                    String[] curexps = null;
+                    ValueBlock vb = new ValueBlock();
+                    vb.genes = new int[curgenes.length];
+                    for (int j = 0; j < curgenes.length; j++) {
+                        int index = MoreArray.getArrayInd(labels, curgenes[j]);
+                        //System.out.println("readJSONGenes *"+curgenes[j] + "*\t\t\t*" + labels[0] + "*\t\t\t" + index);
+                        vb.genes[j] = index + 1;
+                    }
+
+                    if (curexps != null)
+                        vb.exps = MoreArray.tointArray(curexps);
+
+                    if (vb.genes != null && vb.exps != null) {
+                        int[][] update = {vb.genes, vb.exps};
+                        vb.NRCoords(update);
+                    }
+                    if (vb.genes != null) {
+                        int[] update = vb.genes;
+                        vb.NRGenes(update);
+                    } else if (vb.exps != null) {
+                        int[] update = vb.exps;
+                        vb.NRExps(update);
+                    }
+
+                    vls.add(vb);
+                }
+            }
+            if (vls.size() == 0)
+                vls = null;
+            in.close();
+        } catch (IOException e) {
+            System.out.println("IOException: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return vls;
+    }
+
+    /**
+     * @param f
+     * @return
+     */
     public final static ValueBlockList readCOALESCE(String f, String[] glabel, String[] elabel) throws Exception {
         //System.out.println("readCOALESCE " + f);
         ValueBlockList vls = null;

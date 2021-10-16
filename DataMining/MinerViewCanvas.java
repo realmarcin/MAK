@@ -34,7 +34,10 @@ public class MinerViewCanvas extends JComponent implements javax.swing.Scrollabl
 
     Color remExpColor = Color.cyan.darker();
     Color remGeneColor = Color.magenta;
-    public Color[] triplescale = ColorScale.createCol3(Color.blue.brighter(), Color.white, Color.orange.darker(), 15);
+    //public Color[] triplescale = ColorScale.createCol3(Color.blue.brighter(), Color.white, Color.orange.darker(), 15);
+    public Color[] triplescale = ColorScale.createCol3(Color.blue.brighter(), Color.white, Color.orange, 15);
+    //public Color[] dualscale = ColorScale.createCol2(Color.white, Color.orange.darker(), 15);
+    public Color[] dualscale = ColorScale.createCol2(Color.white, Color.orange, 15);
     ColorMap cm;
 
     /*data cell dimensions*/
@@ -101,33 +104,8 @@ public class MinerViewCanvas extends JComponent implements javax.swing.Scrollabl
 
     ValueBlockList trajectory;
 
-    /**
-     *
-     */
-    public MinerViewCanvas(MinerView m) {
-        super();
-        debug = m.debug;
+    boolean threshold_color = false;
 
-        init();
-        mv = m;
-
-        sizecanvx = mv.mvb.canvdimx;
-        sizecanvy = mv.mvb.canvdimy;
-        max_blocks_per_window = sizecanvx / xunit;
-
-        im = null;
-        System.out.println("mv.dataexpr_max, mv.dataexpr_min " + mv.mvb.dataexpr_max + "\t" +
-                mv.mvb.dataexpr_min + "\t" + triplescale.length);
-        cm = new ColorMap(triplescale, mv.mvb.dataexpr_max, mv.mvb.dataexpr_min);
-        //cm.makeCenteredTruncatedIncrement();
-        //updateSize();
-        setTrajectory();
-
-        double[] min_max = getMinMaxandScaled();
-
-        createImage();
-        drawStuff();
-    }
 
     /**
      * @param m
@@ -143,10 +121,22 @@ public class MinerViewCanvas extends JComponent implements javax.swing.Scrollabl
         max_blocks_per_window = sizecanvx / xunit;
         System.out.println("MinerViewCanvas " + sizex + "\t" + sizey);
         im = null;
-        triplescale = ColorScale.createCol3(Color.blue.brighter(), Color.white, Color.orange, 15);
+
+
+        //triplescale = ColorScale.createCol3(Color.blue.brighter(), Color.white, Color.orange, 15);
         System.out.println("mv.dataexpr_max, mv.dataexpr_min " + mv.mvb.dataexpr_max + "\t" +
                 mv.mvb.dataexpr_min + "\t" + triplescale.length);
-        cm = new ColorMap(triplescale, mv.mvb.dataexpr_max, mv.mvb.dataexpr_min);
+
+        Color[] curscale = dualscale;
+        if (mv.mvb.dataexpr_min < 0)
+            curscale = triplescale;
+
+        if (mv.mvb.dataexpr_min_cut != Double.NaN && mv.mvb.dataexpr_max_cut != Double.NaN) {
+            threshold_color = true;
+            cm = new ColorMap(curscale, mv.mvb.dataexpr_max_cut, mv.mvb.dataexpr_min_cut);
+        } else
+            cm = new ColorMap(curscale, mv.mvb.dataexpr_max, mv.mvb.dataexpr_min);
+
         //cm.makeCenteredTruncatedIncrement();
         setTrajectory();
         //updateSize();
@@ -159,7 +149,7 @@ public class MinerViewCanvas extends JComponent implements javax.swing.Scrollabl
      * @param m
      * @param x
      */
-    public MinerViewCanvas(MinerViewBack m, int x) {
+/*    public MinerViewCanvas(MinerViewBack m, int x) {
         super();
         mv.mvb = m;
         init();
@@ -177,7 +167,40 @@ public class MinerViewCanvas extends JComponent implements javax.swing.Scrollabl
         double[] min_max = getMinMaxandScaled();
         createImage();
         drawStuff();
-    }
+    }*/
+
+    /**
+     *
+     */
+ /*   public MinerViewCanvas(MinerView m) {
+        super();
+        debug = m.debug;
+
+        init();
+        mv = m;
+
+        sizecanvx = mv.mvb.canvdimx;
+        sizecanvy = mv.mvb.canvdimy;
+        max_blocks_per_window = sizecanvx / xunit;
+
+        im = null;
+        System.out.println("mv.dataexpr_max, mv.dataexpr_min " + mv.mvb.dataexpr_max + "\t" +
+                mv.mvb.dataexpr_min + "\t" + triplescale.length);
+
+        if (mv.mvb.dataexpr_min_cut != Double.NaN && mv.mvb.dataexpr_max_cut != Double.NaN) {
+            threshold_color = true;
+            cm = new ColorMap(triplescale, mv.mvb.dataexpr_max_cut, mv.mvb.dataexpr_min_cut);
+        } else
+            cm = new ColorMap(triplescale, mv.mvb.dataexpr_max, mv.mvb.dataexpr_min);
+        //cm.makeCenteredTruncatedIncrement();
+        //updateSize();
+        setTrajectory();
+
+        double[] min_max = getMinMaxandScaled();
+
+        createImage();
+        drawStuff();
+    }*/
 
     /**
      *
@@ -241,6 +264,7 @@ public class MinerViewCanvas extends JComponent implements javax.swing.Scrollabl
     }
 
     /**
+     *
      */
     public Image createImage() {
         //System.out.println("createImage  " + imx + "\t" + imy + "\t" + numcols + "\t" + numrows);
@@ -387,7 +411,8 @@ public class MinerViewCanvas extends JComponent implements javax.swing.Scrollabl
                 ig.drawString(printCritVal.substring(0, Math.min(printCritVal.length(), 6)), xOv, yForCrit - 1);
                 ig.drawString(criteria_label[j], xOv, yForCrit - 8);
             } catch (Exception e) {
-                e.printStackTrace();
+                if (debug)
+                    e.printStackTrace();
             }
             if (i > 0)
                 connectCriteria(i, prevxcount, xcount, ig);
@@ -646,6 +671,15 @@ public class MinerViewCanvas extends JComponent implements javax.swing.Scrollabl
             }
             /*Data case.*/
             else if (!Double.isNaN(val)) {
+                if (threshold_color) {
+                    if (val < mv.mvb.dataexpr_min_cut)
+                        val = mv.mvb.dataexpr_min_cut;
+                    else if (val > mv.mvb.dataexpr_max_cut)
+                        val = mv.mvb.dataexpr_max_cut;
+                    else
+                        val = val / (mv.mvb.dataexpr_max_cut - mv.mvb.dataexpr_min_cut);
+                } else
+                    val = val / (mv.mvb.dataexpr_max - mv.mvb.dataexpr_min);
                 try {
                     curColor = cm.getColorTruncate(val, 0, 1);
                 } catch (Exception e) {

@@ -254,9 +254,13 @@ public class MAKflow_JBEI_SLURM_v2 {
 
             FileInputStream fstream = null;
             try {
-                fstream = new FileInputStream(basename + ".txt");
+                fstream = new FileInputStream(filename);//basename + ".txt");
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                //try {
+                //fstream = new FileInputStream(basename + ".tsv");
+                //} catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                //}
             }
             BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
             try {
@@ -274,7 +278,8 @@ public class MAKflow_JBEI_SLURM_v2 {
                 e.printStackTrace();
             }
 
-            String Rprep = "expr_data <- as.matrix(read.table(\"" + basename + ".txt\",sep=\"\\t\",header=T,row.names=1))\n";
+            String Rprep = "expr_data <- as.matrix(read.table(\"" + filename+"\",sep=\"\\t\",header=T,row.names=1))\n";
+            //String Rprep = "expr_data <- as.matrix(read.table(\"" + basename + ".txt\",sep=\"\\t\",header=T,row.names=1))\n";
 
             if (TF_file != null) {
                 Rprep += "tf_data <- as.matrix(read.table(\"" + TF_file + "\", sep=\"\\t\",header=T,row.names=1))\n";
@@ -298,7 +303,8 @@ public class MAKflow_JBEI_SLURM_v2 {
             Rprep += "if(length(rowvar_zero) > 0) expr_data <- expr_data_orig[-rowvar_zero,]\n";
             Rprep += "if(length(colvar_zero) > 0) expr_data <- expr_data_orig[,-colvar_zero]\n";
 
-            Rprep += "write.table(expr_data, sep=\"\\t\", file =\"" + basename + ".txt\", col.names=NA)\n";
+            Rprep += "write.table(expr_data, sep=\"\\t\", file =\"" + filename+"\", col.names=NA)\n";
+            //Rprep += "write.table(expr_data, sep=\"\\t\", file =\"" + basename + ".txt\", col.names=NA)\n";
 
             // Check to ensure that the first row of the dataset is interpretted the same in Java and in R.
 
@@ -367,7 +373,8 @@ public class MAKflow_JBEI_SLURM_v2 {
             runCmd(shell, scriptbox, "shell.sh");
             System.out.println("RUNNING R --vanilla < " + Rprep_script_file);
 
-            String copydata = "cp " + basename + ".txt level1.1/";
+            String copydata = "cp " + filename+" level1.1/";
+            //String copydata = "cp " + basename + ".txt level1.1/";
             String copyexprdata = "copy_data.sh";
             runCmd(copydata, scriptbox, copyexprdata);
 
@@ -756,7 +763,8 @@ public class MAKflow_JBEI_SLURM_v2 {
                 prm.BATCH_LINKMETHOD = hcllink;
 
                 prm.OUTDIR = localpath + subdir_2;
-                prm.EXPR_DATA_PATH = localpath + "/level1.1/" + basename + ".txt";
+                prm.EXPR_DATA_PATH = localpath + "/level1.1/" + filename;
+                //prm.EXPR_DATA_PATH = localpath + "/level1.1/" + basename + ".txt";
                 prm.FEAT_DATA_PATH = "";
                 prm.INTERACT_DATA_PATH = "";
                 prm.MEANINTERACT_PATH = "";
@@ -1538,152 +1546,6 @@ public class MAKflow_JBEI_SLURM_v2 {
             printLevelTimeStamps();
             setLevel++;
         }
-
-        /*         *//* level14 ListMergeMembers final *//*
-        if (setLevel == 14 && (stopLevel >= 14 || stopLevel == 0)) {
-            System.out.println("LEVEL 14");
-            long start = System.currentTimeMillis();
-
-            String input = "level13.1/";
-            String scriptbox = "level14.0/";
-            String output = "level14.1/";
-            String testoutput = "level14.outref/";
-
-            createFile(scriptbox);
-            File dir = createFile(output);
-
-            String ssh = "cp " + localpath + "level7_iter1.1/" + basename + "_1*//*_1_* " + localpath + scriptbox + "param_example.txt";
-            String cp_bash_shell = "cp.sh";
-            runCmd(ssh, scriptbox, cp_bash_shell);
-
-            if (!doesFileExist(localpath + scriptbox + "param_example.txt")) {
-                System.out.println("ERROR: The parameter file required for merging filtered result file does not exist: " + localpath + scriptbox + "param_example.txt" + " This file" +
-                        " is copied from the first starting point from the first iteration so make sure that file exists.\nExiting now...");
-                System.exit(1);
-            }
-
-            if (!doesFileExist(localpath + input + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt")) {
-                System.out.println("ERROR: The ApplyCut filtered result file does not exist: " + localpath + input + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt" + "\nExiting now...");
-                System.exit(1);
-            }
-
-            *//*
-             NOTE: bash script is currently hardcoded to start ListMergeMembers job on JBEI cluster on a single node with 24 memory available.
-            *//*
-            String sl_lmm = scriptbox + "listmergemembers.sl";
-            String listmergeMembers_script = "#!/bin/bash\n" +
-                    //"#SBATCH --qos=lr_normal\n" +
-                    "#SBATCH --partition=" + server + "\n" +//"#SBATCH --partition=lr3\n" +
-                    "#SBATCH --account=" + account + "\n" +
-                    //"#SBATCH --constraint=lr3_c16\n" +
-                    "#SBATCH --ntasks=1\n" +
-                    "#SBATCH --mem=22G\n" +
-                    "#SBATCH --time=120:00:00\n" +
-                    "#SBATCH --output=MAKflow_" + setLevel + "_%j.out\n";
-            if (!qos.equals(""))
-                listmergeMembers_script += "#SBATCH --qos=" + qos + "" + "\n";
-
-            listmergeMembers_script += "java -Xmx" + (int) (mem_per_cpu * 1000.0) + "M DataMining.ListMergeMembersPreComputed -dir " + localpath + input + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt" +
-                    " -crit " + criterion.toUpperCase() + " -param " + localpath + scriptbox + "param_example.txt" + " -ocut 0.25 -misscut 1.0 -numgene 1000 " +
-                    "-complete y -live n -out " + localpath + output + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0_ocut_0.25_misscut_1.0_reconstructed.txt &>" + localpath + output + "ListMergeMembers_0.25_0.out";
-
-            TextFile.write(listmergeMembers_script, sl_lmm);
-
-            // Run SLURM job and wait for it to finish
-
-            String task_shell_out = localpath + scriptbox + "out.txt";
-            String listmergeMembers_file = "run_lmm.sh";
-            String run_lmm = "sbatch " + sl_lmm + " &> " + task_shell_out;
-            runCmd(run_lmm, scriptbox, listmergeMembers_file);
-
-            String slurm_id = "";
-            FileReader file_to_read = null;
-            try {
-                file_to_read = new FileReader(task_shell_out);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            BufferedReader bf = new BufferedReader(file_to_read);
-
-            String aLine = null;
-            try {
-                while ((aLine = bf.readLine()) != null) {
-                    if (aLine.toLowerCase().startsWith("submitted")) {
-                        slurm_id = aLine.split(" ")[3];
-                    } else {
-                        System.out.println("ERROR: SBATCH SUBMISSION FOR LISTMERGEMEMBERS JOB FAILED");
-                        System.exit(1);
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                bf.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                checkSLURMJobIsCompleted(slurm_id, scriptbox);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            // Create starting points for refinement,
-
-            FileReader file_to_read_2 = null;
-            try {
-                file_to_read_2 = new FileReader(localpath + output + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0_ocut_0.25_misscut_1.0_reconstructed.txt");
-            } catch (FileNotFoundException e) {
-                System.out.println("The ListMergeMembers result file does not exits: " + localpath + output + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0_ocut_0.25_misscut_1.0_reconstructed.txt \n Exiting now ...");
-                System.exit(1);
-                e.printStackTrace();
-            }
-            BufferedReader bf_2 = new BufferedReader(file_to_read_2);
-
-            String blockInput = "";
-            String aLine2 = null;
-            int count = 0;
-            try {
-                while ((aLine2 = bf_2.readLine()) != null) {
-                    if (count != 0) {
-                        String[] as = aLine2.split("\t");
-                        if (count != 1) {
-                            blockInput += '\n' + as[2];
-                        } else {
-                            blockInput += as[2];
-                        }
-                    }
-                    count++;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                bf_2.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            num_str_pt_refine = count - 1;
-            String refine_file = output + "refinement_input.txt";
-            TextFile.write(blockInput, refine_file);
-            refinement_starting_points = localpath + refine_file;
-            refinement_prefix = localpath + output + "refinement_input";
-
-            File testdirf = new File(testoutput);
-            System.out.println("\"" + output + "\": " + dir.length() + ", " +
-                    "\"" + testoutput + "\": " + testdirf.length());
-            long end = System.currentTimeMillis();
-            System.out.println("LEVEL 14 COMPLETED: " + (end - start) / 1000.0 + " s");
-            String timestamp = getTimeStamp();
-            levelTimes[levelIndex] = timestamp;
-            levelNames[levelIndex] = "level14";
-            levelIndex++;
-            printLevelTimeStamps();
-            setLevel++;
-        }*/
 
         // REFINEMENT ROUND
         if (!refine) {

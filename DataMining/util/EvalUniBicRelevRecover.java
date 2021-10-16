@@ -159,7 +159,7 @@ public class EvalUniBicRelevRecover {
         if (args.length == 2) {
             EvalUniBicRelevRecover arg = new EvalUniBicRelevRecover(args);
         } else {
-            System.out.println("syntax: java DataMining.EvalUniBicRelevRecover\n" +
+            System.out.println("syntax: java DataMining.util.EvalUniBicRelevRecover\n" +
                     "<ref biclusters dir>\n" +
                     "<test biclusters dir>"
             );

@@ -377,7 +377,7 @@ public class MinerView extends JFrame {
      */
     public static void main(String[] args) {
         if (args.length == 4 || args.length == 6 ||
-                args.length == 8 || args.length == 10 || args.length == 12) {
+                args.length == 8 || args.length == 10 || args.length == 12|| args.length == 14) {
             MinerView rm = new MinerView(args);
         } else if (args.length == 0) {
             System.out.println("syntax: java DataMining.MinerView\n" +
@@ -386,7 +386,8 @@ public class MinerView extends JFrame {
                     "<-datappi 'interaction data file' OPTIONAL>\n" +
                     "<-traj 'trajectory file'>\n" +
                     "<-animate 'out dir' OPTIONAL>\n" +
-                    "<-pixel integer OPTIONAL>\n"
+                    "<-pixel integer OPTIONAL>\n"+
+                    "<-range float,float OPTIONAL>\n"
             );
             System.out.println("for syntax: java DataMining.MinerView -help\n");
         }

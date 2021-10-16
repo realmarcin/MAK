@@ -407,6 +407,11 @@ public class ValueBlock extends ValueBlockPre implements Comparable<ValueBlock> 
      * @return
      */
     public String toStringShort() {
+
+        int exps_len = 0;
+        if (exps != null)
+            exps_len = exps.length;
+
         if (all_criteria != null) {
             String ret = block_area + "\t" + BlockMethods.IcJctoijID(genes, exps) + "\t" + MINER_STATIC.MOVE_LABELS[move_type + 1]
                     + "\t" + pre_criterion + "\t" + full_criterion;
@@ -419,7 +424,8 @@ public class ValueBlock extends ValueBlockPre implements Comparable<ValueBlock> 
                 ret += "\t" + MoreArray.toString(feature_indices, ",");
             else
                 ret += "\t";
-            ret += "\t" + move_class + "\t" + genes.length + "\t" + exps.length + "\t" + iteration;
+            System.out.println("toStringShort " + ret);
+            ret += "\t" + move_class + "\t" + genes.length + "\t" + exps_len + "\t" + iteration;
             //System.out.println("iteration " + iteration);
             return ret;
         } else {
@@ -435,7 +441,7 @@ public class ValueBlock extends ValueBlockPre implements Comparable<ValueBlock> 
             else
                 ret += "\t";
             //System.out.println(ret);
-            ret += "\t" + move_class + "\t" + genes.length + "\t" + exps.length + "\t" + iteration;
+            ret += "\t" + move_class + "\t" + genes.length + "\t" + exps_len + "\t" + iteration;
             //System.out.println(ret);
             return ret;
         }
