@@ -2960,6 +2960,7 @@ SpearmanDist = function(data,
 SpearmanDistFast = function(data, row_or_col=1,
                               useAbs = 1) {
 
+  #print(row_or_col)
   data_imputed <- apply(data, row_or_col, missfxn)
   #print(dim(data_imputed))
 
@@ -2968,8 +2969,12 @@ SpearmanDistFast = function(data, row_or_col=1,
   factor1 <- nrow
   factor2 <- ncol
 
-  data_imputed <- sapply(data_imputed, row_or_col, rank)
+  #print(dim(data_imputed))
+  #data_imputed <- sapply(data_imputed, row_or_col, rank)
+  data_imputed <- t(apply(data_imputed, 1, rank))
 
+  #print(dim(data_imputed))
+  
   cm <- colMeans(data_imputed)
 
   #print(dim(data_imputed))
@@ -3055,6 +3060,7 @@ CorDist = function(data,
 CorDistFast = function(data, row_or_col = 1,
                        useAbs = 1) {
 
+  #missfxn transposes for column, not for row
   data_imputed <- apply(data, row_or_col, missfxn)
   #print(dim(data_imputed))
 
