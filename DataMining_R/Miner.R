@@ -1458,33 +1458,14 @@ CorrFast.block = function(data, Ii, Jj, CorIndex, useAbs) {
   }
   else {
     #row
-    if (CorIndex == 1) {
-
-      data_imputed <- apply(data[Ii, Jj], 1, missfxn)
-
-      cors <- CorDistFast(data_imputed, 1, useAbs)
+    if (CorIndex == 1 || CorIndex == 2) {
+      cors <- CorDistFastNative(curdata, CorIndex, useAbs)
       cors[is.na(cors)] <- 0
-      AbCorR <- mean(cors[lower.tri(cors, diag = FALSE)])
-
-      AbCor <- AbCorR
-    }
-      #column
-    else if (CorIndex == 2) {
-
-      data_imputed <- apply(data[Ii, Jj], 2, missfxn)
-
-      cors <- CorDistFast(t(data_imputed), 2, useAbs)
-      cors[is.na(cors)] <- 0
-      AbCorC <- mean(cors[lower.tri(cors, diag = FALSE)])
-
-      AbCor <- AbCorC
+      AbCor <- mean(cors[lower.tri(cors, diag = FALSE)])
     }
     else if (CorIndex == 3) {
-      data_imputedR <- apply(data[Ii, Jj], 1, missfxn)
-      data_imputedC <- apply(data[Ii, Jj], 2, missfxn)
-
-      corsR <- CorDistFast(data_imputedR, 1, useAbs)
-      corsC <- CorDistFast(t(data_imputedC), 2, useAbs)
+      corsR <- CorDistFast(curdata, 1, useAbs)
+      corsC <- CorDistFast(t(curdata), 2, useAbs)
 
       corsR[is.na(corsR)] <- 0
       corsC[is.na(corsC)] <- 0
@@ -1623,34 +1604,17 @@ SpearmanFast.block = function(data, Ii, Jj, CorIndex, useAbs) {
     retCor <- 1
   }
   else {
-    #row
-    if (CorIndex == 1) {
+    #row or column
+    if (CorIndex == 1 ||  CorIndex == 2) {
 
-      data_imputed <- apply(data[Ii, Jj], 1, missfxn)
-
-      cors <- SpearmanDistFast(data_imputed, 1, useAbs)
+      cors <- SpearmanDistFastNative(curdata, CorIndex, useAbs)
       cors[is.na(cors)] <- 0
-      retCorR <- mean(cors[lower.tri(cors, diag = FALSE)])
-
-      retCor <- retCorR
-    }
-      #column
-    else if (CorIndex == 2) {
-
-      data_imputed <- apply(data[Ii, Jj], 2, missfxn)
-
-      cors <- SpearmanDistFast(t(data_imputed), 2, useAbs)
-      cors[is.na(cors)] <- 0
-      retCorC <- mean(cors[lower.tri(cors, diag = FALSE)])
-
-      retCor <- retCorC
+      retCor <- mean(cors[lower.tri(cors, diag = FALSE)])
     }
     else if (CorIndex == 3) {
-      data_imputedR <- apply(data[Ii, Jj], 1, missfxn)
-      data_imputedC <- apply(data[Ii, Jj], 2, missfxn)
 
-      corsR <- SpearmanDistFast(data_imputedR, 1, useAbs)
-      corsC <- SpearmanDistFast(t(data_imputedC), 2, useAbs)
+      corsR <- SpearmanDistFastNative(curdata, 1, useAbs)
+      corsC <- SpearmanDistFastNative(curdata, 2, useAbs)
 
       corsR[is.na(corsR)] <- 0
       corsC[is.na(corsC)] <- 0
@@ -2993,7 +2957,27 @@ SpearmanDistFast = function(data, row_or_col=1,
   cormat <- S %*% C %*% S
 
   if (useAbs == 0) {
-    cormat <- (cormat + 1) / 2
+    cormat <- (cormat + 1.0) / 2.0
+  }
+  else if (useAbs == 1) {
+    cormat <- 1.0 - abs(cormat)
+  }
+
+  cormat
+}
+
+
+SpearmanDistFastNative = function(data, row_or_col=1,
+                            useAbs = 1) {
+
+  #print(row_or_col)
+  data_imputed <- apply(data, row_or_col, missfxn)
+  #print(dim(data_imputed))
+
+  cormat <- cor(data_imputed, method="spearmanf")
+
+  if (useAbs == 0) {
+    cormat <- (cormat + 1.0) / 2.0
   }
   else if (useAbs == 1) {
     cormat <- 1.0 - abs(cormat)
@@ -3086,7 +3070,27 @@ CorDistFast = function(data, row_or_col = 1,
   cormat <- S %*% C %*% S
 
   if (useAbs == 0) {
-    cormat <- (cormat + 1) / 2
+    cormat <- (cormat + 1.0) / 2.0
+  }
+  else if (useAbs == 1) {
+    cormat <- 1.0 - abs(cormat)
+  }
+
+  cormat
+}
+
+###matrix algebra version of correlation distance function for a matrix, allowing abs
+CorDistFastNative = function(data, row_or_col = 1,
+                       useAbs = 1) {
+
+  #missfxn transposes for column, not for row
+  data_imputed <- apply(data, row_or_col, missfxn)
+  #print(dim(data_imputed))
+
+  cormat <- cor(data_imputed, method="pearson")
+
+  if (useAbs == 0) {
+    cormat <- (cormat + 1.0) / 2.0
   }
   else if (useAbs == 1) {
     cormat <- 1.0 - abs(cormat)
