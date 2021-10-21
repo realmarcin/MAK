@@ -64,7 +64,7 @@ public class MakeNull extends Program {
 
     Criterion criterion;
 
-    /*TODO :  These two variables need to be generalized for all valid bins */
+    /*TODO :  These two variables may need to be generalized for all valid bins and data dimensions */
     double gene_sampling_bins = 5;
     double exp_sampling_bins = 5;
 
@@ -815,9 +815,9 @@ public class MakeNull extends Program {
             while (i < expmax + 1) {
                 if (debug)
                     System.out.print(".");
-                /*if (debug)
+                if (debug)
                     System.out.println("sampleBlocks " + i + "\t" + j + "\t" +
-                            ecount + "\t" + gcount);*/
+                            ecount + "\t" + gcount);
                 for (int a = 0; a < num_samples; a++) {
                     sampleOneBlock(j, i, a);
                 }
@@ -959,7 +959,7 @@ public class MakeNull extends Program {
             String label = "" + i + "_" + j + "__" + ns;
             int[][] VBPInitial = (int[][]) sampleHash.get(label);
             if (debug) {
-                System.out.println("computeCrit CRIT_MASTER_IND " + CRIT_MASTER_IND +
+                System.out.println("computeCritChunked CRIT_MASTER_IND " + CRIT_MASTER_IND +
                         "\tsize exps " + i + "\tgenes " + j + "\t" + label);
                         /*try {
                             System.out.println("computeCrit VBPInitial 0 " + MoreArray.toString(VBPInitial[0], ","));
