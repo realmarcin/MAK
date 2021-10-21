@@ -319,7 +319,7 @@ Critp.final = function(Ic,
   #Pearson correlation criterion
   if (is.null(Corindex) == 0 &&
     (Corindex == 1 || Corindex == 2 || Corindex == 3)) {
-    PCm = PCmRaw = Corr.block(expr_data, Ic, Jc, Corindex, useAbs[2])
+    PCm = PCmRaw = CorrFast.block(expr_data, Ic, Jc, Corindex, useAbs[2]) #Corr.block
 
     if (frxnsign) {
       if (ARCind == 1 && useAbs[1] == 0) {
@@ -1353,8 +1353,7 @@ Corr.block = function(data, Ii, Jj, CorIndex, useAbs) {
 
   dim <- dim(curdata)
 
-  table <- table(curdata)
-  if (dim(table) == 1) {
+  if (isTRUE(curdata)) {
     AbCor <- 1
   }
   else {
@@ -1449,6 +1448,57 @@ Corr.block = function(data, Ii, Jj, CorIndex, useAbs) {
   AbCor
 }
 
+###Pearson correlation
+CorrFast.block = function(data, Ii, Jj, CorIndex, useAbs) {
+  #Measures the mean pairwise (absolute) correlation of the block
+  AbCor <- 0
+  curdata <- data[Ii, Jj]
+
+  if (isTRUE(curdata)) {
+    AbCor <- 1
+  }
+  else {
+    #row
+    if (CorIndex == 1) {
+
+      data_imputed <- apply(data[Ii, Jj], 1, missfxn)
+
+      cors <- CorDistFast(data_imputed, 1, useAbs)
+      cors[is.na(cors)] <- 0
+      AbCorR <- mean(cors[lower.tri(cors, diag = FALSE)])
+
+      AbCor <- AbCorR
+    }
+      #column
+    else if (CorIndex == 2) {
+
+      data_imputed <- apply(data[Ii, Jj], 2, missfxn)
+
+      cors <- CorDistFast(t(data_imputed), 2, useAbs)
+      cors[is.na(cors)] <- 0
+      AbCorC <- mean(cors[lower.tri(cors, diag = FALSE)])
+
+      AbCor <- AbCorC
+    }
+    else if (CorIndex == 3) {
+      data_imputedR <- apply(data[Ii, Jj], 1, missfxn)
+      data_imputedC <- apply(data[Ii, Jj], 2, missfxn)
+
+      corsR <- CorDistFast(data_imputedR, 1, useAbs)
+      corsC <- CorDistFast(t(data_imputedC), 2, useAbs)
+
+      corsR[is.na(corsR)] <- 0
+      corsC[is.na(corsC)] <- 0
+      AbCorR <- mean(corsR[lower.tri(cors, diag = FALSE)])
+      AbCorC <- mean(corsC[lower.tri(cors, diag = FALSE)])
+      AbCor <- (AbCorR + AbCorC) / 2
+    }
+  }
+
+  #print(AbCorR)
+  #print(AbCorC)
+  AbCor
+}
 
 ###Spearman rho
 Spearman.block = function(data, Ii, Jj, SpearIndex, useAbs) {
@@ -1461,12 +1511,9 @@ Spearman.block = function(data, Ii, Jj, SpearIndex, useAbs) {
   dim <- dim(curdata)
 
   #print(paste("dim", dim))
-  table <- table(curdata)
-  #print(table)
-  #print(dim(table))
 
   #If all identical values
-  if (dim(table) == 1) {
+  if (isTRUE(curdata)) {
     AbCor <- 1
   }
   else {
@@ -1475,7 +1522,7 @@ Spearman.block = function(data, Ii, Jj, SpearIndex, useAbs) {
     #row
     if (SpearIndex == 3 || SpearIndex == 1) {
       #print("first")
-      cors <- SpearmanDist(curdata)
+      cors <- SpearmanDistFast(curdata, 1, useAbs)
 
       diag(cors) <- 1
       #print(cors)
@@ -1517,7 +1564,7 @@ Spearman.block = function(data, Ii, Jj, SpearIndex, useAbs) {
     }
     #column
     if (SpearIndex == 2 || SpearIndex == 1) {
-      cors <- SpearmanDist(t(curdata))
+      cors <- SpearmanDistFast(curdata,2, useAbs)#t(curdata))
       #print(cors)
       if (useAbs == 0) {
         cors <- (cors + 1) / 2
@@ -2815,9 +2862,8 @@ SpearmanDist = function(data,
   #print(dim)
   d <- mat.or.vec(dim[1], dim[1])
 
-  test <- table(data)
   #check if all same values, yes = 1
-  if (dim(test) == 1) {
+  if (isTRUE(curdata)) {
     d <- 0
   }
   else {
@@ -2859,6 +2905,49 @@ SpearmanDist = function(data,
   d
 }
 
+
+SpearmanDistFast = function(data, row_or_col=1,
+                              useAbs = 1) {
+
+  data_imputed <- apply(data, row_or_col, missfxn)
+  print(dim(data_imputed))
+
+  ncol <- ncol(data_imputed)
+  nrow <- nrow(data_imputed)
+  factor1 <- nrow
+  factor2 <- ncol
+
+  data_imputed <- sapply(data_imputed, row_or_col, rank)
+
+  cm <- colMeans(data_imputed)
+
+  print(dim(data_imputed))
+  print(factor1)
+  print(length(cm))
+
+  #create means for each column
+  M_mean <- matrix(data = 1, nrow = factor1) %*% cm
+
+  print(dim(M_mean))
+  #creates a difference matrix
+  D <- as.matrix(data_imputed - M_mean)
+  #creates the covariance matrix
+  C <- factor2^-1 * t(D) %*% D
+  #pulls out the standard deviations from the covariance matrix
+  S <- diag(diag(C)^(-1 / 2))
+  #constructs the correlation matrix
+  cormat <- S %*% C %*% S
+
+  if (useAbs == 0) {
+    cormat <- (cormat + 1) / 2
+  }
+  else if (useAbs == 1) {
+    cormat <- 1.0 - abs(cormat)
+  }
+
+  cormat
+}
+
 ###correlation distance function for a matrix, allowing abs
 CorDist = function(data,
                    useAbs = 1,
@@ -2868,9 +2957,8 @@ CorDist = function(data,
   #print(dim)
   d <- mat.or.vec(dim[1], dim[1])
 
-  test <- table(data)
   #check if all same values, yes = 1
-  if (dim(test) == 1) {
+  if (isTRUE(curdata)) {
     d <- 0
   }
   else {
@@ -2910,6 +2998,47 @@ CorDist = function(data,
     }
   }
   d
+}
+
+###matrix algebra version of correlation distance function for a matrix, allowing abs
+CorDistFast = function(data, row_or_col = 1,
+                       useAbs = 1) {
+
+  data_imputed <- apply(data, row_or_col, missfxn)
+  print(dim(data_imputed))
+
+  ncol <- ncol(data_imputed)
+  nrow <- nrow(data_imputed)
+  factor1 <- nrow
+  factor2 <- ncol
+
+  cm <- colMeans(data_imputed)
+
+  print(dim(data_imputed))
+  print(factor1)
+  print(length(cm))
+
+  #create means for each column
+  M_mean <- matrix(data = 1, nrow = factor1) %*% cm
+
+  print(dim(M_mean))
+  #creates a difference matrix
+  D <- as.matrix(data_imputed - M_mean)
+  #creates the covariance matrix
+  C <- factor2^-1 * t(D) %*% D
+  #pulls out the standard deviations from the covariance matrix
+  S <- diag(diag(C)^(-1 / 2))
+  #constructs the correlation matrix
+  cormat <- S %*% C %*% S
+
+  if (useAbs == 0) {
+    cormat <- (cormat + 1) / 2
+  }
+  else if (useAbs == 1) {
+    cormat <- 1.0 - abs(cormat)
+  }
+
+  cormat
 }
 
 # Multiple plot function
