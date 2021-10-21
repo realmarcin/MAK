@@ -400,7 +400,7 @@ Critp.final = function(Ic,
       Spearindex == 2 ||
       Spearindex == 3)) {
     #print("Spearman")
-    UCm = UCmRaw = Spearman.block(expr_data, Ic, Jc, Spearindex, useAbs[2])
+    UCm = UCmRaw = SpearmanFast.block(expr_data, Ic, Jc, Spearindex, useAbs[2])
     #print(UCm)
 
     if (frxnsign) {
@@ -1522,7 +1522,7 @@ Spearman.block = function(data, Ii, Jj, SpearIndex, useAbs) {
     #row
     if (SpearIndex == 3 || SpearIndex == 1) {
       #print("first")
-      cors <- SpearmanDistFast(curdata, 1, useAbs)
+      cors <- SpearmanDist(curdata, 1, useAbs)
 
       diag(cors) <- 1
       #print(cors)
@@ -1564,7 +1564,7 @@ Spearman.block = function(data, Ii, Jj, SpearIndex, useAbs) {
     }
     #column
     if (SpearIndex == 2 || SpearIndex == 1) {
-      cors <- SpearmanDistFast(curdata,2, useAbs)#t(curdata))
+      cors <- SpearmanDist(t(curdata),2, useAbs)
       #print(cors)
       if (useAbs == 0) {
         cors <- (cors + 1) / 2
@@ -1606,6 +1606,58 @@ Spearman.block = function(data, Ii, Jj, SpearIndex, useAbs) {
         #print(paste(AbCorR, AbCorC))
         AbCor <- (AbCorR + AbCorC) / 2
       }
+    }
+  }
+
+  #print(AbCorR)
+  #print(AbCorC)
+  AbCor
+}
+
+###Pearson correlation
+SpearmanFast.block = function(data, Ii, Jj, CorIndex, useAbs) {
+  #Measures the mean pairwise (absolute) correlation of the block
+  AbCor <- 0
+  curdata <- data[Ii, Jj]
+
+  if (isTRUE(curdata)) {
+    AbCor <- 1
+  }
+  else {
+    #row
+    if (CorIndex == 1) {
+
+      data_imputed <- apply(data[Ii, Jj], 1, missfxn)
+
+      cors <- SpearmanDistFast(data_imputed, 1, useAbs)
+      cors[is.na(cors)] <- 0
+      AbCorR <- mean(cors[lower.tri(cors, diag = FALSE)])
+
+      AbCor <- AbCorR
+    }
+      #column
+    else if (CorIndex == 2) {
+
+      data_imputed <- apply(data[Ii, Jj], 2, missfxn)
+
+      cors <- SpearmanDistFast(t(data_imputed), 2, useAbs)
+      cors[is.na(cors)] <- 0
+      AbCorC <- mean(cors[lower.tri(cors, diag = FALSE)])
+
+      AbCor <- AbCorC
+    }
+    else if (CorIndex == 3) {
+      data_imputedR <- apply(data[Ii, Jj], 1, missfxn)
+      data_imputedC <- apply(data[Ii, Jj], 2, missfxn)
+
+      corsR <- SpearmanDistFast(data_imputedR, 1, useAbs)
+      corsC <- SpearmanDistFast(t(data_imputedC), 2, useAbs)
+
+      corsR[is.na(corsR)] <- 0
+      corsC[is.na(corsC)] <- 0
+      AbCorR <- mean(corsR[lower.tri(cors, diag = FALSE)])
+      AbCorC <- mean(corsC[lower.tri(cors, diag = FALSE)])
+      AbCor <- (AbCorR + AbCorC) / 2
     }
   }
 
@@ -2910,7 +2962,7 @@ SpearmanDistFast = function(data, row_or_col=1,
                               useAbs = 1) {
 
   data_imputed <- apply(data, row_or_col, missfxn)
-  print(dim(data_imputed))
+  #print(dim(data_imputed))
 
   ncol <- ncol(data_imputed)
   nrow <- nrow(data_imputed)
@@ -2921,14 +2973,14 @@ SpearmanDistFast = function(data, row_or_col=1,
 
   cm <- colMeans(data_imputed)
 
-  print(dim(data_imputed))
-  print(factor1)
-  print(length(cm))
+  #print(dim(data_imputed))
+  #print(factor1)
+  #print(length(cm))
 
   #create means for each column
   M_mean <- matrix(data = 1, nrow = factor1) %*% cm
 
-  print(dim(M_mean))
+  #print(dim(M_mean))
   #creates a difference matrix
   D <- as.matrix(data_imputed - M_mean)
   #creates the covariance matrix
@@ -3005,7 +3057,7 @@ CorDistFast = function(data, row_or_col = 1,
                        useAbs = 1) {
 
   data_imputed <- apply(data, row_or_col, missfxn)
-  print(dim(data_imputed))
+  #print(dim(data_imputed))
 
   ncol <- ncol(data_imputed)
   nrow <- nrow(data_imputed)
@@ -3014,21 +3066,20 @@ CorDistFast = function(data, row_or_col = 1,
 
   cm <- colMeans(data_imputed)
 
-  print(dim(data_imputed))
-  print(factor1)
-  print(length(cm))
+  #print(dim(data_imputed))
+  #print(factor1)
+  #print(length(cm))
 
-  #create means for each column
+  #column means
   M_mean <- matrix(data = 1, nrow = factor1) %*% cm
-
-  print(dim(M_mean))
-  #creates a difference matrix
+  #print(dim(M_mean))
+  #difference matrix
   D <- as.matrix(data_imputed - M_mean)
-  #creates the covariance matrix
+  #covariance matrix
   C <- factor2^-1 * t(D) %*% D
-  #pulls out the standard deviations from the covariance matrix
+  #standard deviations from the covariance matrix
   S <- diag(diag(C)^(-1 / 2))
-  #constructs the correlation matrix
+  #correlation matrix
   cormat <- S %*% C %*% S
 
   if (useAbs == 0) {
