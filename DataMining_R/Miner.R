@@ -1616,11 +1616,11 @@ Spearman.block = function(data, Ii, Jj, SpearIndex, useAbs) {
 ###Pearson correlation
 SpearmanFast.block = function(data, Ii, Jj, CorIndex, useAbs) {
   #Measures the mean pairwise (absolute) correlation of the block
-  AbCor <- 0
+  retCor <- 0
   curdata <- data[Ii, Jj]
 
   if (isTRUE(curdata)) {
-    AbCor <- 1
+    retCor <- 1
   }
   else {
     #row
@@ -1630,9 +1630,9 @@ SpearmanFast.block = function(data, Ii, Jj, CorIndex, useAbs) {
 
       cors <- SpearmanDistFast(data_imputed, 1, useAbs)
       cors[is.na(cors)] <- 0
-      AbCorR <- mean(cors[lower.tri(cors, diag = FALSE)])
+      retCorR <- mean(cors[lower.tri(cors, diag = FALSE)])
 
-      AbCor <- AbCorR
+      retCor <- retCorR
     }
       #column
     else if (CorIndex == 2) {
@@ -1641,9 +1641,9 @@ SpearmanFast.block = function(data, Ii, Jj, CorIndex, useAbs) {
 
       cors <- SpearmanDistFast(t(data_imputed), 2, useAbs)
       cors[is.na(cors)] <- 0
-      AbCorC <- mean(cors[lower.tri(cors, diag = FALSE)])
+      retCorC <- mean(cors[lower.tri(cors, diag = FALSE)])
 
-      AbCor <- AbCorC
+      retCor <- retCorC
     }
     else if (CorIndex == 3) {
       data_imputedR <- apply(data[Ii, Jj], 1, missfxn)
@@ -1654,15 +1654,15 @@ SpearmanFast.block = function(data, Ii, Jj, CorIndex, useAbs) {
 
       corsR[is.na(corsR)] <- 0
       corsC[is.na(corsC)] <- 0
-      AbCorR <- mean(corsR[lower.tri(cors, diag = FALSE)])
-      AbCorC <- mean(corsC[lower.tri(cors, diag = FALSE)])
-      AbCor <- (AbCorR + AbCorC) / 2
+      retCorR <- mean(corsR[lower.tri(cors, diag = FALSE)])
+      retCorC <- mean(corsC[lower.tri(cors, diag = FALSE)])
+      retCor <- (retCorR + retCorC) / 2
     }
   }
 
-  #print(AbCorR)
-  #print(AbCorC)
-  AbCor
+  #print(retCorR)
+  #print(retCorC)
+  retCor
 }
 
 ###Euclidean distance (row and column) criterion
@@ -2970,9 +2970,7 @@ SpearmanDistFast = function(data, row_or_col=1,
   factor2 <- ncol
 
   #print(dim(data_imputed))
-  #data_imputed <- sapply(data_imputed, row_or_col, rank)
   data_imputed <- t(apply(data_imputed, 1, rank))
-
   #print(dim(data_imputed))
   
   cm <- colMeans(data_imputed)
