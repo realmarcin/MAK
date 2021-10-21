@@ -479,8 +479,7 @@ Critp.final = function(Ic,
 
   if (debug) {
     print(paste("PPI full", paste(critvec, collapse = " "), sep = " "))
-    print(paste("PPI raw ", paste(critvecRaw, collapse = " "), sep =
-      " "))
+    print(paste("PPI raw ", paste(critvecRaw, collapse = " "), sep = " "))
   }
   #print(critvec)
   #print(critvecRaw)
