@@ -1465,12 +1465,12 @@ CorrFast.block = function(data, Ii, Jj, CorIndex, useAbs) {
     }
     else if (CorIndex == 3) {
       corsR <- CorDistFast(curdata, 1, useAbs)
-      corsC <- CorDistFast(t(curdata), 2, useAbs)
+      corsC <- CorDistFast(curdata, 2, useAbs)
 
       corsR[is.na(corsR)] <- 0
       corsC[is.na(corsC)] <- 0
-      AbCorR <- mean(corsR[lower.tri(cors, diag = FALSE)])
-      AbCorC <- mean(corsC[lower.tri(cors, diag = FALSE)])
+      AbCorR <- mean(corsR[lower.tri(corsR, diag = FALSE)])
+      AbCorC <- mean(corsC[lower.tri(corsC, diag = FALSE)])
       AbCor <- (AbCorR + AbCorC) / 2
     }
   }
