@@ -1460,15 +1460,15 @@ CorrFast.block = function(data, Ii, Jj, CorIndex, useAbs) {
     #row
     if (CorIndex == 1 || CorIndex == 2) {
       cors <- CorDistFastNative(curdata, CorIndex, useAbs)
-      cors[is.na(cors)] <- 0
+      cors[is.na(cors)] <- 1
       AbCor <- mean(cors[lower.tri(cors, diag = FALSE)])
     }
     else if (CorIndex == 3) {
       corsR <- CorDistFast(curdata, 1, useAbs)
       corsC <- CorDistFast(curdata, 2, useAbs)
 
-      corsR[is.na(corsR)] <- 0
-      corsC[is.na(corsC)] <- 0
+      corsR[is.na(corsR)] <- 1
+      corsC[is.na(corsC)] <- 1
       AbCorR <- mean(corsR[lower.tri(corsR, diag = FALSE)])
       AbCorC <- mean(corsC[lower.tri(corsC, diag = FALSE)])
       AbCor <- (AbCorR + AbCorC) / 2
@@ -1610,7 +1610,7 @@ SpearmanFast.block = function(data, Ii, Jj, CorIndex, useAbs) {
 
       cors <- SpearmanDistFastNative(curdata, CorIndex, useAbs)
       #print(dim(cors))
-      cors[is.na(cors)] <- 0
+      cors[is.na(cors)] <- 1
       retCor <- mean(cors[lower.tri(cors, diag = FALSE)])
     }
     else if (CorIndex == 3) {
@@ -1618,8 +1618,8 @@ SpearmanFast.block = function(data, Ii, Jj, CorIndex, useAbs) {
       corsR <- SpearmanDistFastNative(curdata, 1, useAbs)
       corsC <- SpearmanDistFastNative(curdata, 2, useAbs)
 
-      corsR[is.na(corsR)] <- 0
-      corsC[is.na(corsC)] <- 0
+      corsR[is.na(corsR)] <- 1
+      corsC[is.na(corsC)] <- 1
       retCorR <- mean(corsR[lower.tri(corsR, diag = FALSE)])
       retCorC <- mean(corsC[lower.tri(corsC, diag = FALSE)])
       retCor <- (retCorR + retCorC) / 2
@@ -2982,7 +2982,6 @@ SpearmanDistFastNative = function(data, row_or_col=1,
     cormat <- (cormat + 1.0) / 2.0
   }
   else if (useAbs == 1) {
-    cormat <- 1.0 - abs(cormat)
     cormat <- 1.0 - abs(cormat)
   }
 
