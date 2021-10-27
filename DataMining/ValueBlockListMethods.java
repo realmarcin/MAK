@@ -570,12 +570,31 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
     }
 
     /**
+     *
+     * @param f
+     * @param labels
+     * @return
+     * @throws Exception
+     */
+    public final static ValueBlockList readJSONGenes(String f, String[] labels) throws Exception {
+        ValueBlockList vls = null;
+        try{
+        vls = readJSONGenes( f, labels, null);
+    } catch (IOException e) {
+        System.out.println("IOException: " + e.getMessage());
+        e.printStackTrace();
+    }
+        return vls;
+    }
+    /**
      * @param f
      * @return
      */
-    public final static ValueBlockList readJSONGenes(String f, String[] labels) throws Exception {
+    public final static ValueBlockList readJSONGenes(String f, String[] labels, String[] exps) throws Exception {
         //System.out.println("readBIC " + f);
         ValueBlockList vls = null;
+
+        String[] curexps = exps;
         try {
             vls = new ValueBlockList();
             BufferedReader in = new BufferedReader(new FileReader(f));
@@ -588,7 +607,6 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                     genes[i] = genes[i].replace(" ", "");
                     System.out.println("readJSONGenes *"+genes[i]+"*");
                     String[] curgenes = genes[i].split(",");
-                    String[] curexps = null;
                     ValueBlock vb = new ValueBlock();
                     vb.genes = new int[curgenes.length];
                     for (int j = 0; j < curgenes.length; j++) {
@@ -597,7 +615,7 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                         vb.genes[j] = index + 1;
                     }
 
-                    if (curexps != null)
+                    if (exps != null)
                         vb.exps = MoreArray.tointArray(curexps);
 
                     if (vb.genes != null && vb.exps != null) {

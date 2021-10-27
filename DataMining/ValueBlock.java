@@ -424,7 +424,7 @@ public class ValueBlock extends ValueBlockPre implements Comparable<ValueBlock> 
                 ret += "\t" + MoreArray.toString(feature_indices, ",");
             else
                 ret += "\t";
-            System.out.println("toStringShort " + ret);
+            //System.out.println("toStringShort " + ret);
             ret += "\t" + move_class + "\t" + genes.length + "\t" + exps_len + "\t" + iteration;
             //System.out.println("iteration " + iteration);
             return ret;
