@@ -6,6 +6,7 @@ import util.MoreArray;
 import util.StringUtil;
 import util.TextFile;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class EvalSaelensRelevRecover {
@@ -19,7 +20,7 @@ public class EvalSaelensRelevRecover {
 
         System.out.println("args[0] " + args[0]);
         SimpleMatrix sm = new SimpleMatrix(args[0]);
-        
+
         System.out.println("sm.ylabels " + MoreArray.toString(sm.ylabels));
         System.out.println("args[2] " + args[2]);
 
@@ -36,20 +37,40 @@ public class EvalSaelensRelevRecover {
         }
         System.out.println("testvbl " + testvbl.size());
 
-        String readref = args[1];
-        System.out.println("ref " + readref);
+        File testref = new File(args[1]);
+        if (!testref.isDirectory()) {
+            doOne(args[1], sm, recovery_vals, relevance_vals, testvbl);
+        } else {
+            String[] list = testref.list();
+            for (int i = 0; i < list.length; i++) {
+                System.out.println(list[i]);
+                doOne(args[1] + "/" + list[i], sm, recovery_vals, relevance_vals, testvbl);
+            }
+        }
+    }
+
+    /**
+     * @param arg
+     * @param sm
+     * @param recovery_vals
+     * @param relevance_vals
+     * @param testvbl
+     */
+    private void doOne(String arg, SimpleMatrix sm, ArrayList recovery_vals, ArrayList relevance_vals, ValueBlockList testvbl) {
+        String readref = arg;
+        //System.out.println("ref " + readref);
         ValueBlockList refvbl = null;
         try {
             refvbl = ValueBlockListMethods.readJSONGenes(readref, sm.ylabels);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("refvbl " + refvbl.size());
+        //System.out.println("refvbl " + refvbl.size());
 
         String outref = "ref.vbl";
-        System.out.println("writing " + outref);
+        //System.out.println("writing " + outref);
         String outrefstr = refvbl.toString(MINER_STATIC.HEADER_VBL);//+ ValueBlock.toStringShortColumns()
-        util.TextFile.write(outrefstr, outref);
+        TextFile.write(outrefstr, outref);
 
         double jaccard_max_recovery = 0;
         int max_recovery_pos = -1;
@@ -63,7 +84,8 @@ public class EvalSaelensRelevRecover {
                     max_recovery_pos = b;
                 }
             }
-            System.out.println(max_recovery_pos + "\t" + jaccard_max_recovery);
+            if (debug)
+                System.out.println(max_recovery_pos + "\t" + jaccard_max_recovery);
             recovery_vals_d[a] = jaccard_max_recovery;
         }
 
@@ -81,7 +103,8 @@ public class EvalSaelensRelevRecover {
                     max_relevance_pos = a;
                 }
             }
-            System.out.println(max_relevance_pos + "\t" + jaccard_max_relevance);
+            if (debug)
+                System.out.println(max_relevance_pos + "\t" + jaccard_max_relevance);
             relevance_vals_d[b] = jaccard_max_relevance;
         }
         double mean_recovery = mathy.stat.avg(recovery_vals_d);
@@ -100,7 +123,7 @@ public class EvalSaelensRelevRecover {
         relevance_vals.add("" + mean_relevance);
 
 
-        String outpath1 =  "recovery.txt";
+        String outpath1 = "recovery.txt";
         System.out.println("outpath1");
         System.out.println(outpath1);
         TextFile.write(recovery_vals, outpath1);
@@ -116,7 +139,7 @@ public class EvalSaelensRelevRecover {
             DataMining.util.EvalSaelensRelevRecover arg = new DataMining.util.EvalSaelensRelevRecover(args);
         } else {
             System.out.println("syntax: java DataMining.util.EvalSaelensRelevRecover\n" +
-                    "<ref data set>\n" +
+                    "<ref data set or dir>\n" +
                     "<ref biclusters dir>\n" +
                     "<test biclusters dir>"
             );

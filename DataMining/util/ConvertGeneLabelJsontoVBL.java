@@ -23,8 +23,8 @@ public class ConvertGeneLabelJsontoVBL {
 
         inpath = args[0];
 
-        String[] exps = new String[50];
-        for(int i=0;i<50;i++){
+        String[] exps = new String[100];
+        for(int i=0;i<100;i++){
             exps[i] = ""+(i + 1);
         }
         try {

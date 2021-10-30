@@ -1335,7 +1335,8 @@ public class MAKflow_JBEI_SLURM_v2 {
                 createFile(scriptbox);
 
                 String mv = "";
-                mv += "mv " + localpath + "level7_iter" + iteration + ".1/results/*toplist.txt " + localpath + "level7_iter" + iteration + ".1/toplist_files/\n";
+                //mv += "mv " + localpath + "level7_iter" + iteration + ".1/results/*toplist.txt " + localpath + "level7_iter" + iteration + ".1/toplist_files/\n";
+                mv += "find " + localpath + "level7_iter" + iteration + ".1/results/ -name '*toplist.txt' -exec mv {} " + localpath + "level7_iter" + iteration + ".1/toplist_files/ \\;\n";
                 String mv_shell = "ssh.sh";
                 runCmd(mv, scriptbox, mv_shell);
 
@@ -2004,7 +2005,8 @@ public class MAKflow_JBEI_SLURM_v2 {
                 createFile(ex_out);
 
                 String mv = "";
-                mv += "mv " + localpath + "level15.1/results/*toplist.txt " + localpath + "level15.1/toplist_files/\n";
+                //mv += "mv " + localpath + "level15.1/results/*toplist.txt " + localpath + "level15.1/toplist_files/\n";
+                mv += "find " + localpath + "level15.1/results/ -name '*toplist.txt' -exec mv {} " + localpath + "level15.1/toplist_files/ \\;\n";
                 String mv_shell = "ssh.sh";
                 runCmd(mv, scriptbox, mv_shell);
 

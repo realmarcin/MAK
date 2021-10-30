@@ -605,7 +605,7 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                     genes[i] = genes[i].replace("],", "");
                     genes[i] = genes[i].replace("]", "");
                     genes[i] = genes[i].replace(" ", "");
-                    System.out.println("readJSONGenes *"+genes[i]+"*");
+                    //System.out.println("readJSONGenes *"+genes[i]+"*");
                     String[] curgenes = genes[i].split(",");
                     ValueBlock vb = new ValueBlock();
                     vb.genes = new int[curgenes.length];
