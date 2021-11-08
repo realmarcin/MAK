@@ -1938,7 +1938,25 @@ overlap_count + "\tref.coords[0].size() " + ref.coords[0].size()
      * @param test
      * @return
      */
+    public final static double JaccardIndexGenes(ValueBlock ref, ValueBlock test, boolean debug) {
+        return computeBlockOverlapGeneSum(ref, test, debug);
+    }
+
+    /**
+     * @param ref
+     * @param test
+     * @return
+     */
     public final static double computeBlockOverlapGeneSum(ValueBlock ref, ValueBlock test) {
+        return computeBlockOverlapGeneSum(ref, test, false);
+    }
+
+    /**
+     * @param ref
+     * @param test
+     * @return
+     */
+    public final static double computeBlockOverlapGeneSum(ValueBlock ref, ValueBlock test, boolean debug) {
         double overlap_count = 0;
         //if (debug)
         //   System.out.println("ref and test len " + ref.genes.length + "\t" + test.genes.length);
@@ -1967,19 +1985,25 @@ overlap_count + "\tref.coords[0].size() " + ref.coords[0].size()
 
         HashMap all = new HashMap();
         for (int a = 0; a < ref.genes.length; a++) {
-            Object o = all.get(ref.genes[a]);
+            Integer o = (Integer)all.get(ref.genes[a]);
             if (o == null)
                 all.put(ref.genes[a], 1);
         }
         for (int a = 0; a < test.genes.length; a++) {
-            Object o = all.get(test.genes[a]);
+            Integer o = (Integer)all.get(test.genes[a]);
             if (o == null)
                 all.put(test.genes[a], 1);
         }
-        double frxn = overlap_count / (double) all.size();
+        double frxn = overlap_count / (double)(ref.genes.length+test.genes.length);//(double) all.size();
+        //double frxn = overlap_count / (double) all.size();
+        //sum
+        //0.018518518518518517 computeBlockOverlapGeneSum overlap_count 2.0	ref 7	test 101	all 106
+        //union
+        //0.018867924528301886 computeBlockOverlapGeneSum overlap_count 2.0	ref 7	test 101	all 106
 
-        if (frxn > 1) {
-            System.out.println("frxn > 1 " + frxn);
+        if (frxn > 1 || debug) {
+            if (frxn > 1)
+                System.out.println("frxn > 1 " + frxn);
             System.out.println(frxn + " computeBlockOverlapGeneSum overlap_count " +
                     overlap_count + "\tref " + ref.genes.length
                     + "\ttest " + test.genes.length + "\tall " + all.size());

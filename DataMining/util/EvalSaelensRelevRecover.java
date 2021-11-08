@@ -1,9 +1,11 @@
 package DataMining.util;
 
 import DataMining.*;
+import mathy.Matrix;
 import mathy.SimpleMatrix;
 import util.MoreArray;
 import util.StringUtil;
+import util.TabFile;
 import util.TextFile;
 
 import java.io.File;
@@ -39,24 +41,26 @@ public class EvalSaelensRelevRecover {
 
         File testref = new File(args[1]);
         if (!testref.isDirectory()) {
-            doOne(args[1], sm, recovery_vals, relevance_vals, testvbl);
+            doOne(args[1], sm, recovery_vals, relevance_vals, testvbl, null);
         } else {
             String[] list = testref.list();
             for (int i = 0; i < list.length; i++) {
                 System.out.println(list[i]);
-                doOne(args[1] + "/" + list[i], sm, recovery_vals, relevance_vals, testvbl);
+                doOne(args[1] + "/" + list[i], sm, recovery_vals, relevance_vals, testvbl, list[i]);
             }
         }
     }
 
     /**
+     *
      * @param arg
      * @param sm
      * @param recovery_vals
      * @param relevance_vals
      * @param testvbl
+     * @param label
      */
-    private void doOne(String arg, SimpleMatrix sm, ArrayList recovery_vals, ArrayList relevance_vals, ValueBlockList testvbl) {
+    private void doOne(String arg, SimpleMatrix sm, ArrayList recovery_vals, ArrayList relevance_vals, ValueBlockList testvbl, String label) {
         String readref = arg;
         //System.out.println("ref " + readref);
         ValueBlockList refvbl = null;
@@ -72,13 +76,16 @@ public class EvalSaelensRelevRecover {
         String outrefstr = refvbl.toString(MINER_STATIC.HEADER_VBL);//+ ValueBlock.toStringShortColumns()
         TextFile.write(outrefstr, outref);
 
-        double jaccard_max_recovery = 0;
-        int max_recovery_pos = -1;
+        System.out.println("set sizes: ref " + refvbl.size()+"\ttest "+testvbl.size());
+
+        double[][] jaccard_mat_recov = new double[refvbl.size()][testvbl.size()];
         double[] recovery_vals_d = new double[refvbl.size()];
         for (int a = 0; a < refvbl.size(); a++) {
-
+            double jaccard_max_recovery = 0;
+            int max_recovery_pos = -1;
             for (int b = 0; b < testvbl.size(); b++) {
-                double jaccard = BlockMethods.JaccardIndexGenes((ValueBlock) refvbl.get(a), (ValueBlock) testvbl.get(b));
+                double jaccard = BlockMethods.JaccardIndexGenes((ValueBlock) refvbl.get(a), (ValueBlock) testvbl.get(b));//, true);
+                jaccard_mat_recov[a][b]  = jaccard;
                 if (jaccard > jaccard_max_recovery) {
                     jaccard_max_recovery = jaccard;
                     max_recovery_pos = b;
@@ -89,15 +96,14 @@ public class EvalSaelensRelevRecover {
             recovery_vals_d[a] = jaccard_max_recovery;
         }
 
-
-        double jaccard_max_relevance = 0;
-        int max_relevance_pos = -1;
-
+        double[][] jaccard_mat_relev = new double[testvbl.size()][refvbl.size()];
         double[] relevance_vals_d = new double[testvbl.size()];
         for (int b = 0; b < testvbl.size(); b++) {
-
+            double jaccard_max_relevance = 0;
+            int max_relevance_pos = -1;
             for (int a = 0; a < refvbl.size(); a++) {
                 double jaccard = BlockMethods.JaccardIndexGenes((ValueBlock) testvbl.get(b), (ValueBlock) refvbl.get(a));
+                jaccard_mat_relev[b][a] = jaccard;
                 if (jaccard > jaccard_max_relevance) {
                     jaccard_max_relevance = jaccard;
                     max_relevance_pos = a;
@@ -107,12 +113,23 @@ public class EvalSaelensRelevRecover {
                 System.out.println(max_relevance_pos + "\t" + jaccard_max_relevance);
             relevance_vals_d[b] = jaccard_max_relevance;
         }
+        
+        System.out.println("recovery");
+        MoreArray.printArray(recovery_vals_d);
+        System.out.println("relevance");
+        MoreArray.printArray(relevance_vals_d);
+
+        Matrix.write(jaccard_mat_recov,label+"_recov.tsv");
+        Matrix.write(jaccard_mat_relev,label+"_relev.tsv");
+
+
         double mean_recovery = mathy.stat.avg(recovery_vals_d);
         double mean_relevance = mathy.stat.avg(relevance_vals_d);
         double sd_recovery = mathy.stat.SD(recovery_vals_d, mean_recovery);
         double sd_relevance = mathy.stat.SD(relevance_vals_d, mean_relevance);
 
 
+        System.out.println(label);
         System.out.println("Recovery");
         System.out.println(mean_recovery + "\t+/- " + sd_recovery);
 
@@ -123,12 +140,12 @@ public class EvalSaelensRelevRecover {
         relevance_vals.add("" + mean_relevance);
 
 
-        String outpath1 = "recovery.txt";
+        /*String outpath1 = "recovery.txt";
         System.out.println("outpath1");
         System.out.println(outpath1);
         TextFile.write(recovery_vals, outpath1);
         String outpath2 = "relevance.txt";
-        TextFile.write(relevance_vals, outpath2);
+        TextFile.write(relevance_vals, outpath2);*/
     }
 
     /**

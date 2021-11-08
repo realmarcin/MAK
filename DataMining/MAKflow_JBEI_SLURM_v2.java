@@ -1133,6 +1133,7 @@ public class MAKflow_JBEI_SLURM_v2 {
 
                 String task_file = basename + "_run_miner.tasks";
 
+
                 String task_script = "";
 
                 System.out.println("level 8 prm.OUTPREFIX " + prm.OUTPREFIX);
