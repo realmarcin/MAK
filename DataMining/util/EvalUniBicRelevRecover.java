@@ -80,7 +80,6 @@ public class EvalUniBicRelevRecover {
             int max_recovery_pos = -1;
             double[] recovery_vals_d = new double[refvbl.size()];
             for (int a = 0; a < refvbl.size(); a++) {
-
                 for (int b = 0; b < testvbl.size(); b++) {
                     double jaccard = BlockMethods.JaccardIndexGenesExps((ValueBlock) refvbl.get(a), (ValueBlock) testvbl.get(b));
                     if (jaccard > jaccard_max_recovery) {
@@ -98,7 +97,6 @@ public class EvalUniBicRelevRecover {
 
             double[] relevance_vals_d = new double[testvbl.size()];
             for (int b = 0; b < testvbl.size(); b++) {
-
                 for (int a = 0; a < refvbl.size(); a++) {
                     double jaccard = BlockMethods.JaccardIndexGenesExps((ValueBlock) testvbl.get(b), (ValueBlock) refvbl.get(a));
                     if (jaccard > jaccard_max_relevance) {

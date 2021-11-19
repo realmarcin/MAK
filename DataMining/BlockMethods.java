@@ -1957,7 +1957,7 @@ overlap_count + "\tref.coords[0].size() " + ref.coords[0].size()
      * @return
      */
     public final static double computeBlockOverlapGeneSum(ValueBlock ref, ValueBlock test, boolean debug) {
-        double overlap_count = 0;
+        double overlap_count = 0.0;
         //if (debug)
         //   System.out.println("ref and test len " + ref.genes.length + "\t" + test.genes.length);
         //if (ref.genes == test.genes) {
@@ -1974,35 +1974,30 @@ overlap_count + "\tref.coords[0].size() " + ref.coords[0].size()
                 if (ref.genes[a] == test.genes[b]) {
                     //  if (debug)
                     //       System.out.println("computeBlockOverlapGeneMin identical");
-                    overlap_count++;
+                    overlap_count = overlap_count + 1;
                     //go to next ref exp
                     //System.out.println("break go to next ref exp. a b c d " + a + "\t" + b);
                     break;
                 }
             }
         }
-        //double min = Math.min(ref.genes.length, test.genes.length);
 
+        //find union
         HashMap all = new HashMap();
         for (int a = 0; a < ref.genes.length; a++) {
-            Integer o = (Integer)all.get(ref.genes[a]);
+            Integer o = (Integer) all.get((Integer) ref.genes[a]);
             if (o == null)
-                all.put(ref.genes[a], 1);
+                all.put((Integer) ref.genes[a], 1);
         }
         for (int a = 0; a < test.genes.length; a++) {
-            Integer o = (Integer)all.get(test.genes[a]);
+            Integer o = (Integer) all.get((Integer) test.genes[a]);
             if (o == null)
-                all.put(test.genes[a], 1);
+                all.put((Integer) test.genes[a], 1);
         }
-        double frxn = overlap_count / (double)(ref.genes.length+test.genes.length);//(double) all.size();
-        //double frxn = overlap_count / (double) all.size();
-        //sum
-        //0.018518518518518517 computeBlockOverlapGeneSum overlap_count 2.0	ref 7	test 101	all 106
-        //union
-        //0.018867924528301886 computeBlockOverlapGeneSum overlap_count 2.0	ref 7	test 101	all 106
+        double frxn = overlap_count / (double) all.size();
 
-        if (frxn > 1 || debug) {
-            if (frxn > 1)
+        if (frxn > 1.0 || debug) {
+            if (frxn > 1.0)
                 System.out.println("frxn > 1 " + frxn);
             System.out.println(frxn + " computeBlockOverlapGeneSum overlap_count " +
                     overlap_count + "\tref " + ref.genes.length

@@ -329,7 +329,11 @@ public final class MINER_STATIC {
             "KENDALLC_SPEARMANC_GEECE",//226
             "MSEC_KENDALLC_SPEARMANC_GEECE",//227
             "KENDALLR_SPEARMANR_GEERE",//228
-            "MSE_KENDALL_SPEARMAN_GEE"//229
+            "MSE_KENDALL_SPEARMAN_GEE",//229
+
+            "SPEARMANC_nonull", //230
+            "SPEARMANR_nonull", //231
+            "SPEARMAN_nonull",   //232
 
     };
     public final static String[] notnonull = {"nonull"};
@@ -495,9 +499,15 @@ public final class MINER_STATIC {
     public final static int[] SPEARMANCCritAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "SPEARMANC"), 1);
     public final static int[] SPEARMANCritAll = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "SPEARMAN", notSPEARMANRnotSPEARMANC), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "GEE", -2), 1);
     public final static int[] SPEARMANtotalCrit = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "SPEARMAN", notnonullSPEARMANRSPEARMANC), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "GEE", -2), 1);
-    public final static int[] SPEARMANRCrit = stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "SPEARMANR", -2), 1);
-    public final static int[] SPEARMANCCrit = stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "SPEARMANC", -2), 1);
+    //public final static int[] SPEARMANRCrit = stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "SPEARMANR", -2), 1);
+    //public final static int[] SPEARMANCCrit = stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "SPEARMANC", -2), 1);
 
+    public final static String[] SPEARMANRnonullCrit = {"SPEARMANRnonull"};
+    public final static int[] SPEARMANRCrit = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "SPEARMANR", SPEARMANRnonullCrit), 1);
+    public final static String[] SPEARMANCnonullCrit = {"SPEARMANCnonull"};
+    public final static int[] SPEARMANCCrit = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "SPEARMANC", SPEARMANCnonullCrit), 1);
+
+    
     //public final static int[] totalCrit = MoreArray.add(MSEtotalCrit, MEANCrit);
     //public final static int[] CritAll = MoreArray.add(stat.add(
     //        StringUtil.occurIndexButNot(CRIT_LABELS, "MSE", notMSERnotMSEC), 1), MEANCritAll);

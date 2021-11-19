@@ -303,8 +303,8 @@ class BootBlocks extends Program {
                 System.out.println("irv.onv is null");
             if (rmb.expr_matrix.ylabels == null)
                 System.out.println("gene_labels is null");
-            if (rmb.feat_matrix == null)
-                System.out.println("rmb.feat_matrix is null");
+            //if (rmb.feat_matrix == null)
+            //    System.out.println("rmb.feat_matrix is null");
             if (rmb.orig_prm == null)
                 System.out.println("rmb.orig_prm is null");
 
