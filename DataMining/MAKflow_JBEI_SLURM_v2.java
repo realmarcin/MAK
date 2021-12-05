@@ -202,6 +202,8 @@ public class MAKflow_JBEI_SLURM_v2 {
 
     boolean noNull = false;
 
+    String frxnsign_param = "F";
+
 
     /**
      * @param args
@@ -259,7 +261,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 //try {
                 //fstream = new FileInputStream(basename + ".tsv");
                 //} catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                e.printStackTrace();
                 //}
             }
             BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
@@ -278,7 +280,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 e.printStackTrace();
             }
 
-            String Rprep = "expr_data <- as.matrix(read.table(\"" + filename+"\",sep=\"\\t\",header=T,row.names=1))\n";
+            String Rprep = "expr_data <- as.matrix(read.table(\"" + filename + "\",sep=\"\\t\",header=T,row.names=1))\n";
             //String Rprep = "expr_data <- as.matrix(read.table(\"" + basename + ".txt\",sep=\"\\t\",header=T,row.names=1))\n";
 
             if (TF_file != null) {
@@ -303,7 +305,7 @@ public class MAKflow_JBEI_SLURM_v2 {
             Rprep += "if(length(rowvar_zero) > 0) expr_data <- expr_data_orig[-rowvar_zero,]\n";
             Rprep += "if(length(colvar_zero) > 0) expr_data <- expr_data_orig[,-colvar_zero]\n";
 
-            Rprep += "write.table(expr_data, sep=\"\\t\", file =\"" + filename+"\", col.names=NA)\n";
+            Rprep += "write.table(expr_data, sep=\"\\t\", file =\"" + filename + "\", col.names=NA)\n";
             //Rprep += "write.table(expr_data, sep=\"\\t\", file =\"" + basename + ".txt\", col.names=NA)\n";
 
             // Check to ensure that the first row of the dataset is interpretted the same in Java and in R.
@@ -373,7 +375,7 @@ public class MAKflow_JBEI_SLURM_v2 {
             runCmd(shell, scriptbox, "shell.sh");
             System.out.println("RUNNING R --vanilla < " + Rprep_script_file);
 
-            String copydata = "cp " + filename+" level1.1/";
+            String copydata = "cp " + filename + " level1.1/";
             //String copydata = "cp " + basename + ".txt level1.1/";
             String copyexprdata = "copy_data.sh";
             runCmd(copydata, scriptbox, copyexprdata);
@@ -420,7 +422,7 @@ public class MAKflow_JBEI_SLURM_v2 {
             createFile(output_subdir1);
             createFile(output_subdir3);
 
-            String frxnsign_param = "T";
+
             if (useAbs == 1 || criterion.indexOf("Binary") != -1) {
                 frxnsign_param = "F";
             }
@@ -631,10 +633,10 @@ public class MAKflow_JBEI_SLURM_v2 {
                 Rstarts_script += "nbs2=allpossibleInitial(expr_data_col," + Imin_start + "," + Imax_start + "," + Jmin_start + "," + Jmax_start + ",\"" + hclmetric + "\",useAbs=" + useAbs + ", isCol=0,linkmethod=\"" + hcllink + "\")\n";
                 Rstarts_script += "nbsall <- c(nbs1, nbs2)\n";
             } else if (start_method.equalsIgnoreCase("RLE")) {
-                int rle_useAbs =0;//useAbs;
+                int rle_useAbs = 0;//useAbs;
 
-                Rstarts_script += "nbs1=allpossibleInitialRLE(expr_data_row,useAbs=" + rle_useAbs + ", isCol=1,discretize_step="+rlestep+",min_run_length="+rlemin+")\n";
-                Rstarts_script += "nbs2=allpossibleInitialRLE(expr_data_col,useAbs=" + rle_useAbs + ", isCol=0,discretize_step="+rlestep+",min_run_length="+rlemin+")\n";
+                Rstarts_script += "nbs1=allpossibleInitialRLE(expr_data_row,useAbs=" + rle_useAbs + ", isCol=1,discretize_step=" + rlestep + ",min_run_length=" + rlemin + ")\n";
+                Rstarts_script += "nbs2=allpossibleInitialRLE(expr_data_col,useAbs=" + rle_useAbs + ", isCol=0,discretize_step=" + rlestep + ",min_run_length=" + rlemin + ")\n";
                 Rstarts_script += "nbsall <- c(nbs1, nbs2)\n";
             }
 
@@ -806,16 +808,19 @@ public class MAKflow_JBEI_SLURM_v2 {
                 if (useAbs == 1) {
                     prm.USE_ABS = true;
                     prm.USE_ABS_AR = absvectIntArray;
-                    prm.FRXN_SIGN = false;
                 } else if (useAbs == 0) {
                     prm.USE_ABS = false;
                     prm.USE_ABS_AR = absvectIntArray;
-                    prm.FRXN_SIGN = true;
-                } else if (criterion.toLowerCase().indexOf("Binary".toLowerCase()) == -1) {
+                    if (frxnsign_param == "F")
+                        prm.FRXN_SIGN = false;
+                    else if (frxnsign_param == "T")
+                        prm.FRXN_SIGN = true;
+                } /*else if (criterion.toLowerCase().indexOf("Binary".toLowerCase()) == -1) {
                     prm.USE_ABS = false;
                     prm.USE_ABS_AR = absvectIntArray;
                     prm.FRXN_SIGN = true;
-                } else if (criterion.toLowerCase().indexOf("Binary".toLowerCase()) != -1) {
+                }*/
+                if (criterion.toLowerCase().indexOf("Binary".toLowerCase()) != -1) {
                     prm.USE_ABS = false;
                     prm.USE_ABS_AR = absvectIntArray;
                     prm.FRXN_SIGN = false;
@@ -2609,12 +2614,23 @@ public class MAKflow_JBEI_SLURM_v2 {
                             } else if (param_key.equalsIgnoreCase("abs")) {
                                 try {
                                     absvect = param_val;
-                                    if (absvect.contains("1")){// && !start_method.equals("RLE")) {
+                                    if (absvect.contains("1")) {// && !start_method.equals("RLE")) {
                                         useAbs = 1;
                                     } /*if (absvect.contains("1") && !start_method.equals("RLE")) {
                                         useAbs = 1;
                                     }*/ else {
                                         useAbs = 0;
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (param_key.equalsIgnoreCase("frnx_sign")) {
+                                try {
+                                    String frxnbool = param_val;
+                                    if (frxnbool.equalsIgnoreCase("True")) {
+                                        frxnsign_param = "T";
+                                    } else {
+                                        frxnsign_param = "F";
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
