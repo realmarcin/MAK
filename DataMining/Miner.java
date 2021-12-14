@@ -18,8 +18,7 @@ import java.util.*;
  * Date: Jul 6, 2007
  * Time: 12:51:06 PM
  */
-public class
-        Miner {
+public class Miner {
     boolean debug = false;
     boolean debug_createPreCritTopList = false;
     boolean debug_getCriteriaForBlock = false;
@@ -375,7 +374,7 @@ public class
                 //VBPInitial = new ValueBlockPre(last);
                 movecount = trajectory.size();
             }
-            move_params.current_move_class = "b_" + count;
+            move_params.current_move_class = cur + "_" + count;
             runLoop(added_initial, last);
             if (debug)
                 System.out.println("setMoveModeAndRun 'batch mode pre+full' did moves " + (trajectory.size() - movecount));
@@ -396,10 +395,7 @@ public class
                 //VBPInitial = new ValueBlockPre(last);
                 movecount = trajectory.size();
             }
-            String lab = "s_";
-            if (cur == 'n')
-                lab = "n_";
-            move_params.current_move_class = lab + count;
+            move_params.current_move_class = cur + "_" + count;
             runLoop(added_initial, last);
             if (debug)
                 System.out.println("setMoveModeAndRun 'single mode pre+full' did moves " + (trajectory.size() - movecount));
@@ -415,7 +411,7 @@ public class
                 //VBPInitial = new ValueBlockPre(last);
                 movecount = trajectory.size();
             }
-            move_params.current_move_class = "m_" + count;
+            move_params.current_move_class = cur + "_" + count;
             runLoop(added_initial, last);
             if (debug)
                 System.out.println("setMoveModeAndRun 'mixed mode pre+full' did moves " + (trajectory.size() - movecount));
@@ -449,13 +445,15 @@ public class
             }
             move_params.current_move_class = cur + "_" + count;
             runLoop(added_initial, last);
-            //set precrit to orig, batch to orig
+            //reset precrit to orig, batch to orig
             rmb.irv.prm.PRECRIT_TYPE_INDEX = rmb.orig_prm.PRECRIT_TYPE_INDEX;
 
             rmb.irv.prm.precrit = new Criterion(rmb.irv.prm.PRECRIT_TYPE_INDEX, rmb.irv.prm.crit.usemean, true, rmb.irv.prm.USE_ABS_AR,
                     rmb.irv.TFtargetmap != null ? true : false, rmb.irv.prm.needinv, require_null, rmb.irv.prm.FRXN_SIGN, debug);
             rmb.irv.onv.setPreCriteriaNull();
             rmb.irv.prm.batch = rmb.orig_prm.batch;
+
+
             if (debug)
                 System.out.println("setMoveModeAndRun 'batch mode full' did moves " + (trajectory.size() - movecount));
         } else if (cur == 'S' || cur == 'N') {
@@ -486,7 +484,7 @@ public class
 
             move_params.current_move_class = lab + count;
             runLoop(added_initial, last);
-            //set precrit to orig, batch to orig
+            //reset precrit to orig, batch to orig
             rmb.irv.prm.PRECRIT_TYPE_INDEX = rmb.orig_prm.PRECRIT_TYPE_INDEX;
             rmb.irv.prm.precrit = new Criterion(rmb.irv.prm.PRECRIT_TYPE_INDEX, rmb.irv.prm.crit.usemean, true, rmb.irv.prm.USE_ABS_AR,
                     rmb.irv.TFtargetmap != null ? true : false, rmb.irv.prm.needinv, require_null, rmb.irv.prm.FRXN_SIGN, debug);
@@ -519,7 +517,7 @@ public class
             }
             move_params.current_move_class = "M_" + count;
             runLoop(added_initial, last);
-            //set precrit to orig, batch to orig
+            //reset precrit to orig, batch to orig
             rmb.irv.prm.PRECRIT_TYPE_INDEX = rmb.orig_prm.PRECRIT_TYPE_INDEX;
             rmb.irv.prm.precrit = new Criterion(rmb.irv.prm.PRECRIT_TYPE_INDEX, rmb.irv.prm.crit.usemean, true, rmb.irv.prm.USE_ABS_AR,
                     rmb.irv.TFtargetmap != null ? true : false, rmb.irv.prm.needinv, require_null, rmb.irv.prm.FRXN_SIGN, debug);
