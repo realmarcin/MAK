@@ -2637,10 +2637,11 @@ public class MAKflow_JBEI_SLURM_v2 {
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                            } else if (param_key.equalsIgnoreCase("frnx_sign")) {
+                            } else if (param_key.equalsIgnoreCase("frxn_sign")) {
                                 try {
                                     String frxnbool = param_val;
-                                    if (frxnbool.equalsIgnoreCase("True")) {
+                                    if (frxnbool.equalsIgnoreCase("True") ||
+                                            frxnbool.equalsIgnoreCase("T")) {
                                         frxnsign_param = "T";
                                     } else {
                                         frxnsign_param = "F";
