@@ -453,7 +453,6 @@ public class Miner {
             rmb.irv.onv.setPreCriteriaNull();
             rmb.irv.prm.batch = rmb.orig_prm.batch;
 
-
             if (debug)
                 System.out.println("setMoveModeAndRun 'batch mode full' did moves " + (trajectory.size() - movecount));
         } else if (cur == 'S' || cur == 'N') {
@@ -2678,9 +2677,9 @@ e.printStackTrace();
             }
 
             if (bad) {
-                System.out.println("found nan, wo");
+                System.out.println("WARNING found nan, wo");
                 MoreArray.printArray(critwonull);
-                System.out.println("found nan, w");
+                System.out.println("WARNING found nan, w");
                 MoreArray.printArray(critwnull);
             }
         }
@@ -3526,11 +3525,10 @@ e.printStackTrace();
                 util.MoreArray.printArray(move_params.tried_moves);
                 move_params.stop = true;
             }
-            //If better or as good we trim current position
-            else if (
-                //        (curconsideredBlock.full_criterion > currentFullCrit && move_params.Delete_or_Add == 0)
-                //|| (curconsideredBlock.full_criterion >= currentFullCrit && move_params.Delete_or_Add == 1)) {
-                    curconsideredBlock.full_criterion > currentFullCrit) {
+            //If better or as good
+            else if ((curconsideredBlock.full_criterion > currentFullCrit && move_params.Delete_or_Add == 0)
+                || (curconsideredBlock.full_criterion >= currentFullCrit && move_params.Delete_or_Add == 1)) {
+                    //curconsideredBlock.full_criterion > currentFullCrit) {
                 max_consideredIndex = i;
                 currentFullCrit = curconsideredBlock.full_criterion;
                 int[][] pass = {curconsideredBlock.genes, curconsideredBlock.exps};

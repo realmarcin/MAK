@@ -76,38 +76,38 @@ Critp.final = function(Ic,
   frxnsignR <- 0
   frxnsignC <- 0
   frxnsignA <- 0
-  
-  
-  #if the number of non-zeros is less than length of abs vector
-  #the compute for row, column, overall
-  if (UseExprMean == TRUE ||
-      (is.null(ECindex) == 0 && ECindex != -1) ||
-      (is.null(ERegindex) == 0 && ERegindex != -1) ||
-      (is.null(KendARCind) == 0 && KendARCind != -1) ||
-      (is.null(Corindex) == 0 && Corindex != -1) ||
-      (is.null(Eucindex) == 0 && Eucindex != -1))
-  {
-    if (sum(useAbs) < length(useAbs)) {
-      getstats_noabs <- rowColMeansFrxn(expr_data[Ic, Jc], ARCind)
+
+  # if (UseExprMean == TRUE || frxnsign ||
+ #     (is.null(ECindex) == 0 && ECindex != -1) ||
+ #     (is.null(ERegindex) == 0 && ERegindex != -1) ||
+ #     (is.null(KendARCind) == 0 && KendARCind != -1) ||
+ #     (is.null(Corindex) == 0 && Corindex != -1) ||
+ #     (is.null(Eucindex) == 0 && Eucindex != -1)||
+ #     (is.null(Spearindex) == 0 && Spearindex != -1))
+ # {
+  if(frxnsign) {# || useAbs[1] == 0 || useAbs[2] == 0 || useAbs[3] == 0) {
+    #if (sum(useAbs) < length(useAbs)) {
+      getstats_noabs <- rowColMeansFrxn(expr_data[Ic, Jc])
       colm_noabs <- getstats_noabs[[1]]
       rowm_noabs <- getstats_noabs[[2]]
       
       frxnsignR <- getstats_noabs[[3]]
       frxnsignC <- getstats_noabs[[4]]
       frxnsignA <- getstats_noabs[[5]]
-    }
+    #}
     
-    if (sum(useAbs) > 0) {
-      getstats_abs <- rowColMeansFrxn(abs(expr_data[Ic, Jc]), ARCind)
-      colm_abs <- getstats_abs[[1]]
-      rowm_abs <- getstats_abs[[2]]
-    }
+    #if (sum(useAbs) > 0) {
+    #  getstats_abs <- rowColMeansFrxn(abs(expr_data[Ic, Jc]))
+    #  colm_abs <- getstats_abs[[1]]
+    #  rowm_abs <- getstats_abs[[2]]
+    #}
   }
 
 
+  if(debug) {
+    print(paste("frxn ", colm_noabs, rowm_abs, frxnsignR, frxnsignC, frxnsignA))
+  }
 
-  print(paste("frxn ", colm_noabs, rowm_abs, frxnsignR, frxnsignC, frxnsignA))
-  
   #MEAN criteria
   if (UseExprMean == TRUE) {
     #print()
@@ -1122,34 +1122,32 @@ FEModel.block = function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm) {
 }
 
 ###stats for row and col means and frxns
-rowColMeansFrxn = function(data, ArcI) {
+rowColMeansFrxn = function(data) {
+
   data_impR <- t(apply(data, 1, missfxn))
   
   rowm <- rowMeans(data_impR)
   rowp <- length(which(rowm > 0)) / length(rowm)
   rown <- length(which(rowm < 0)) / length(rowm)
   frxnsignR <- max(rowp, rown)
-  rowmaxpos <- 0
-  if (frxnsignR == rowp) {
-    rowmaxpos <- 1
-  }
-  
+  #rowmaxpos <- 0
+  #if (frxnsignR == rowp) {
+  #  rowmaxpos <- 1
+  #}
+
   data_impC <- apply(data, 2, missfxn)
   colm <- colMeans(data_impC)
   colp <- length(which(colm > 0)) / length(colm)
   coln <- length(which(colm < 0)) / length(colm)
   frxnsignC <- max(colp, coln)
-  colmaxpos <- 0
-  if (frxnsignC == colp) {
-    colmaxpos <- 1
-  }
+  #colmaxpos <- 0
+  #if (frxnsignC == colp) {
+  #  colmaxpos <- 1
+  #}
   
-  frxnsignA <- 0
-  if (ArcI == 1) {
-    #print(paste(rowp,colp,(rowp+colp)/2))
-    #print(paste(rown, coln, (rown + coln)/2))
-    frxnsignA <- max((rowp + colp) / 2, (rown + coln) / 2)
-  }
+  #print(paste(rowp,colp,(rowp+colp)/2))
+  #print(paste(rown, coln, (rown + coln)/2))
+  frxnsignA <- max((rowp + colp) / 2, (rown + coln) / 2)
   
   list(colm, rowm, frxnsignR, frxnsignC, frxnsignA)
 }
@@ -2175,7 +2173,7 @@ tpsSmooth = function(prefix,
   
   print(filesN)
   neg <- 0
-  require(fields)
+  #require(fields)
   if (length(filesN) > 0) {
     for (fi in 1:length(filesN)) {
       print(paste("tpsSmooth", fi, filesN[fi], sep = " "))

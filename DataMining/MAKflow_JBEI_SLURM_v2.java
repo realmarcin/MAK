@@ -423,7 +423,7 @@ public class MAKflow_JBEI_SLURM_v2 {
             createFile(output_subdir3);
 
 
-            if (useAbs == 1 || criterion.indexOf("Binary") != -1) {
+            if ( criterion.indexOf("Binary") != -1) {//useAbs == 1 ||
                 frxnsign_param = "F";
             }
 
@@ -805,16 +805,25 @@ public class MAKflow_JBEI_SLURM_v2 {
 
                 prm.RANDOMFLOOD = false;
                 prm.EXCLUDE_OVERLAP_THRESHOLD = 0.5;
+
+                if(frxnsign_param == "T") {
+                    prm.FRXN_SIGN = true;
+                }
+                else {
+                    prm.FRXN_SIGN = false;
+                }
+
                 if (useAbs == 1) {
                     prm.USE_ABS = true;
                     prm.USE_ABS_AR = absvectIntArray;
+                    //prm.FRXN_SIGN = false;
                 } else if (useAbs == 0) {
                     prm.USE_ABS = false;
                     prm.USE_ABS_AR = absvectIntArray;
-                    if (frxnsign_param == "F")
+                    /*if (frxnsign_param == "F")
                         prm.FRXN_SIGN = false;
                     else if (frxnsign_param == "T")
-                        prm.FRXN_SIGN = true;
+                        prm.FRXN_SIGN = true;*/
                 } /*else if (criterion.toLowerCase().indexOf("Binary".toLowerCase()) == -1) {
                     prm.USE_ABS = false;
                     prm.USE_ABS_AR = absvectIntArray;
@@ -823,7 +832,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 if (criterion.toLowerCase().indexOf("Binary".toLowerCase()) != -1) {
                     prm.USE_ABS = false;
                     prm.USE_ABS_AR = absvectIntArray;
-                    prm.FRXN_SIGN = false;
+                    //prm.FRXN_SIGN = false;
                 }
 
                 prm.MEANTF_PATH = "";
@@ -1636,23 +1645,27 @@ public class MAKflow_JBEI_SLURM_v2 {
                     absvectIntArray[a] = Integer.parseInt(absvectArray[a]);
                 }
 
+                if (frxnsign_param == "T")
+                    prm.FRXN_SIGN = true;
+                else
+                    prm.FRXN_SIGN = false;
 
                 if (useAbs == 1) {
                     prm.USE_ABS = true;
                     prm.USE_ABS_AR = absvectIntArray;
-                    prm.FRXN_SIGN = false;
+                    //prm.FRXN_SIGN = false;
                 } else if (useAbs == 0) {
                     prm.USE_ABS = false;
                     prm.USE_ABS_AR = absvectIntArray;
-                    prm.FRXN_SIGN = true;
+                    //prm.FRXN_SIGN = true;
                 } else if (criterion.indexOf("Binary") == -1) {
                     prm.USE_ABS = false;
                     prm.USE_ABS_AR = absvectIntArray;
-                    prm.FRXN_SIGN = true;
+                    //prm.FRXN_SIGN = true;
                 } else if (criterion.indexOf("Binary") != -1) {
                     prm.USE_ABS = false;
                     prm.USE_ABS_AR = absvectIntArray;
-                    prm.FRXN_SIGN = false;
+                    //prm.FRXN_SIGN = false;
                 }
 
                 prm.MEANTF_PATH = "";

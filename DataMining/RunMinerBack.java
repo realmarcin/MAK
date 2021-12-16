@@ -23,7 +23,6 @@ import java.util.HashMap;
 public class RunMinerBack {
 
     int debug = MINER_STATIC.DEFAULT_DEBUG;
-    ;
 
     public Miner mi;
     public Parameters orig_prm;
@@ -119,7 +118,6 @@ public class RunMinerBack {
      * @param parameterpath
      */
     public RunMinerBack(String parameterpath, SystemResource s) {
-        debug = MINER_STATIC.DEFAULT_DEBUG;
         debug = MINER_STATIC.DEFAULT_DEBUG;
         sysRes = s;
         init(parameterpath);

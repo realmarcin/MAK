@@ -95,7 +95,6 @@ public class SelectNRSet {
                         if (do_root) {
                             overlapthis = BlockMethods.computeBlockOverlapGeneExpRootProduct(hi, hj,
                                     lensi[0], lensi[1], lensj[0], lensj[1]);
-
                         } else {
                             overlapthis = BlockMethods.computeBlockOverlapGeneExpFraction(hi, hj,
                                     lensi[0], lensi[1], lensj[0], lensj[1]);
