@@ -4,6 +4,8 @@ import DataMining.BlockMethods;
 import DataMining.ValueBlock;
 import DataMining.ValueBlockList;
 import DataMining.ValueBlockListMethods;
+import mathy.stat;
+import util.MoreArray;
 import util.StringUtil;
 import util.TextFile;
 
@@ -73,8 +75,8 @@ public class EvalUniBicRelevRecover {
                 refvbl = ValueBlockListMethods.readUniBic(readref, false);
             } catch (Exception e) {
                 e.printStackTrace();
+                System.out.println("refvbl " + refvbl.size());
             }
-            System.out.println("refvbl " + refvbl.size());
 
             double jaccard_max_recovery = 0;
             int max_recovery_pos = -1;
@@ -119,17 +121,38 @@ public class EvalUniBicRelevRecover {
             System.out.println("Relevance");
             System.out.println(mean_relevance + "\t+/- " + sd_relevance);
 
-            recovery_vals.add("" + mean_recovery);
-            relevance_vals.add("" + mean_relevance);
+            recovery_vals.add(mean_recovery);
+            relevance_vals.add(mean_relevance);
         }
 
 
         String outpath1 = unique_label+"_"+unique_prefix + "__" + prefix + "_recovery.txt";
         System.out.println("outpath1");
         System.out.println(outpath1);
-        TextFile.write(recovery_vals, outpath1);
+        TextFile.write((String[])recovery_vals.toArray(), outpath1);//recovery_vals
         String outpath2 = unique_label+"_"+unique_prefix + "__" + prefix + "_relevance.txt";
-        TextFile.write(relevance_vals, outpath2);
+        TextFile.write((String[])relevance_vals.toArray(), outpath2);
+
+
+        ArrayList recov_stats = new ArrayList();
+        double rec_avg = stat.avg(MoreArray.toDoubleArray(recovery_vals));
+        double rec_sd = stat.SD(MoreArray.toDoubleArray(recovery_vals), rec_avg);
+        recov_stats.add(rec_avg);
+        recov_stats.add(rec_sd);
+
+        ArrayList relev_stats = new ArrayList();
+        double relev_avg = stat.avg(MoreArray.toDoubleArray(recovery_vals));
+        double relev_sd = stat.SD(MoreArray.toDoubleArray(recovery_vals), relev_avg);
+        relev_stats.add(relev_avg);
+        relev_stats.add(relev_sd);
+
+        String outpath1s = unique_label+"_"+unique_prefix + "__" + prefix + "_recovery_stats.txt";
+        System.out.println("outpath1");
+        System.out.println(outpath1);
+        TextFile.write((String[])recov_stats.toArray(), outpath1s);//recovery_vals
+        String outpath2s = unique_label+"_"+unique_prefix + "__" + prefix + "_relevance_stats.txt";
+        TextFile.write((String[])relev_stats.toArray(), outpath2s);
+
     }
 
 

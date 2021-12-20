@@ -2736,7 +2736,7 @@ public class Parameters {
             pw.println(s286b + " #use absolute value of data for criteria");
 
             String s286cc = "FRXN_SIGN = " + FRXN_SIGN;
-            pw.println(s286cc + " #Filter moves to accept only those matching the majority row/col sign for current block");
+            pw.println(s286cc + " #Scale criterion value by fraction of maximum row/col sign of data for current block (also incorporated into null distribution)");
 
             String s286c = "OVERRIDE_SHAVING = " + OVERRIDE_SHAVING;
             pw.println(s286c + " #override gene and experiment shaving triggered by block out of bounds relative to null distribution");
