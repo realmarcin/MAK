@@ -147,8 +147,8 @@ public class EvalUniBicRelevRecover {
         relev_stats.add(relev_sd);
 
         String outpath1s = unique_label+"_"+unique_prefix + "__" + prefix + "_recovery_stats.txt";
-        System.out.println("outpath1");
-        System.out.println(outpath1);
+        System.out.println("outpath1s");
+        System.out.println(outpath1s);
         TextFile.write((String[])recov_stats.toArray(), outpath1s);//recovery_vals
         String outpath2s = unique_label+"_"+unique_prefix + "__" + prefix + "_relevance_stats.txt";
         TextFile.write((String[])relev_stats.toArray(), outpath2s);
