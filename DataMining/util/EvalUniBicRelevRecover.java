@@ -139,12 +139,14 @@ public class EvalUniBicRelevRecover {
         double rec_sd = stat.SD(MoreArray.toDoubleArray(recovery_vals), rec_avg);
         recov_stats.add(rec_avg);
         recov_stats.add(rec_sd);
+        System.out.println("Recovery "+rec_avg+"\t"+rec_sd);
 
         ArrayList relev_stats = new ArrayList();
         double relev_avg = stat.avg(MoreArray.toDoubleArray(recovery_vals));
         double relev_sd = stat.SD(MoreArray.toDoubleArray(recovery_vals), relev_avg);
         relev_stats.add(relev_avg);
         relev_stats.add(relev_sd);
+        System.out.println("Relevance "+relev_avg+"\t"+relev_sd);
 
         String outpath1s = unique_label+"_"+unique_prefix + "__" + prefix + "_recovery_stats.txt";
         System.out.println("outpath1s");
