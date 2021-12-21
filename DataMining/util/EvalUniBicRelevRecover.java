@@ -129,9 +129,9 @@ public class EvalUniBicRelevRecover {
         String outpath1 = unique_label+"_"+unique_prefix + "__" + prefix + "_recovery.txt";
         System.out.println("outpath1");
         System.out.println(outpath1);
-        TextFile.write(MoreArray.convtoString(recovery_vals), outpath1);//recovery_vals
+        TextFile.write(MoreArray.toStringArray(MoreArray.ArrayListtoDouble(recovery_vals)), outpath1);
         String outpath2 = unique_label+"_"+unique_prefix + "__" + prefix + "_relevance.txt";
-        TextFile.write(MoreArray.convtoString(relevance_vals), outpath2);
+        TextFile.write(MoreArray.toStringArray(MoreArray.ArrayListtoDouble(relevance_vals)), outpath2);
 
 
         ArrayList recov_stats = new ArrayList();
@@ -151,9 +151,10 @@ public class EvalUniBicRelevRecover {
         String outpath1s = unique_label+"_"+unique_prefix + "__" + prefix + "_recovery_stats.txt";
         System.out.println("outpath1s");
         System.out.println(outpath1s);
-        TextFile.write(MoreArray.convtoString(recov_stats), outpath1s);//recovery_vals
+        TextFile.write(MoreArray.toStringArray(MoreArray.ArrayListtoDouble(recov_stats)), outpath1s);
         String outpath2s = unique_label+"_"+unique_prefix + "__" + prefix + "_relevance_stats.txt";
-        TextFile.write(MoreArray.convtoString(relev_stats), outpath2s);
+        TextFile.write(MoreArray.toStringArray(MoreArray.ArrayListtoDouble(relev_stats)), outpath2s);
+
 
     }
 
