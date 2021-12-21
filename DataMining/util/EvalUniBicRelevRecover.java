@@ -129,11 +129,9 @@ public class EvalUniBicRelevRecover {
         String outpath1 = unique_label+"_"+unique_prefix + "__" + prefix + "_recovery.txt";
         System.out.println("outpath1");
         System.out.println(outpath1);
-        String[] recov_ar = new String[recovery_vals.size()];
-        String[] relev_ar = new String[relevance_vals.size()];
-        TextFile.write((String[])recovery_vals.toArray(recov_ar), outpath1);//recovery_vals
+        TextFile.write(MoreArray.ArrayListtoString(recovery_vals), outpath1);//recovery_vals
         String outpath2 = unique_label+"_"+unique_prefix + "__" + prefix + "_relevance.txt";
-        TextFile.write((String[])relevance_vals.toArray(relev_ar), outpath2);
+        TextFile.write(MoreArray.ArrayListtoString(relevance_vals), outpath2);
 
 
         ArrayList recov_stats = new ArrayList();
@@ -153,13 +151,9 @@ public class EvalUniBicRelevRecover {
         String outpath1s = unique_label+"_"+unique_prefix + "__" + prefix + "_recovery_stats.txt";
         System.out.println("outpath1s");
         System.out.println(outpath1s);
-
-        String[] recovs_ar = new String[recov_stats.size()];
-        String[] relevs_ar = new String[relev_stats.size()];
-        
-        TextFile.write((String[])recov_stats.toArray(recovs_ar), outpath1s);//recovery_vals
+        TextFile.write(MoreArray.ArrayListtoString(recov_stats), outpath1s);//recovery_vals
         String outpath2s = unique_label+"_"+unique_prefix + "__" + prefix + "_relevance_stats.txt";
-        TextFile.write((String[])relev_stats.toArray(relevs_ar), outpath2s);
+        TextFile.write(MoreArray.ArrayListtoString(relev_stats), outpath2s);
 
     }
 
