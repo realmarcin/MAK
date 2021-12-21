@@ -93,7 +93,6 @@ public class EvalUniBicRelevRecover {
                 recovery_vals_d[a] = jaccard_max_recovery;
             }
 
-
             double jaccard_max_relevance = 0;
             int max_relevance_pos = -1;
 
@@ -114,7 +113,6 @@ public class EvalUniBicRelevRecover {
             double sd_recovery = mathy.stat.SD(recovery_vals_d, mean_recovery);
             double sd_relevance = mathy.stat.SD(relevance_vals_d, mean_relevance);
 
-
             System.out.println("Recovery");
             System.out.println(mean_recovery + "\t+/- " + sd_recovery);
 
@@ -133,19 +131,19 @@ public class EvalUniBicRelevRecover {
         String outpath2 = unique_label+"_"+unique_prefix + "__" + prefix + "_relevance.txt";
         TextFile.write(MoreArray.toStringArray(MoreArray.ArrayListtoDouble(relevance_vals)), outpath2);
 
+        MoreArray.printArray(MoreArray.ArrayListtoDouble(recovery_vals));
+        MoreArray.printArray(MoreArray.ArrayListtoDouble(relevance_vals));
 
-        MoreArray.printArray(MoreArray.toDoubleArray(recovery_vals));
-        
         ArrayList recov_stats = new ArrayList();
-        double rec_avg = stat.avg(MoreArray.toDoubleArray(recovery_vals));
-        double rec_sd = stat.SD(MoreArray.toDoubleArray(recovery_vals), rec_avg);
+        double rec_avg = stat.avg(MoreArray.ArrayListtoDouble(recovery_vals));
+        double rec_sd = stat.SD(MoreArray.ArrayListtoDouble(recovery_vals), rec_avg);
         recov_stats.add(rec_avg);
         recov_stats.add(rec_sd);
         System.out.println("Recovery "+rec_avg+"\t"+rec_sd);
 
         ArrayList relev_stats = new ArrayList();
-        double relev_avg = stat.avg(MoreArray.toDoubleArray(relevance_vals));
-        double relev_sd = stat.SD(MoreArray.toDoubleArray(relevance_vals), relev_avg);
+        double relev_avg = stat.avg(MoreArray.ArrayListtoDouble(relevance_vals));
+        double relev_sd = stat.SD(MoreArray.ArrayListtoDouble(relevance_vals), relev_avg);
         relev_stats.add(relev_avg);
         relev_stats.add(relev_sd);
         System.out.println("Relevance "+relev_avg+"\t"+relev_sd);
@@ -156,8 +154,6 @@ public class EvalUniBicRelevRecover {
         TextFile.write(MoreArray.toStringArray(MoreArray.ArrayListtoDouble(recov_stats)), outpath1s);
         String outpath2s = unique_label+"_"+unique_prefix + "__" + prefix + "_relevance_stats.txt";
         TextFile.write(MoreArray.toStringArray(MoreArray.ArrayListtoDouble(relev_stats)), outpath2s);
-
-
     }
 
 
