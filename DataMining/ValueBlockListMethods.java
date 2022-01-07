@@ -454,19 +454,30 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                 System.out.println("ValueBlockList.read Simple");
                 BIC = ValueBlockListMethods.readSimple(f);
                 //System.out.println("ValueBlockList.readSimple Simple " + BIC.size());
-            } catch (Exception e2) {
+            } catch (Exception e1) {
                 System.out.println("WARNING: not simple bicluster format");
                 if (d)
-                    e2.printStackTrace();
+                    e1.printStackTrace();
                 try {
                     System.out.println("ValueBlockList.read vbl");
                     BIC = ValueBlockList.read(f, d);//false);
                     //System.out.println("ValueBlockList.read vbl " + BIC.size());
-                } catch (Exception e1) {
+                } catch (Exception e2) {
+
                     System.out.println("WARNING: not MAK VBL format");
                     System.out.println("WARNING: failed to recognize a valid bicluster format.");
                     if (d)
-                        e1.printStackTrace();
+                        e2.printStackTrace();
+
+                    try {
+                        System.out.println("ValueBlockList.read UniBic");
+                        BIC = ValueBlockListMethods.readUniBic(f, d);
+                        //System.out.println("ValueBlockList.read vbl " + BIC.size());
+                    } catch (Exception e3) {
+                        System.out.println("WARNING: failed to recognize a valid bicluster format.");
+                        if (d)
+                            e3.printStackTrace();
+                    }
                 }
             }
         }
@@ -570,7 +581,6 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
     }
 
     /**
-     *
      * @param f
      * @param labels
      * @return
@@ -578,14 +588,15 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
      */
     public final static ValueBlockList readJSONGenes(String f, String[] labels) throws Exception {
         ValueBlockList vls = null;
-        try{
-        vls = readJSONGenes( f, labels, null);
-    } catch (IOException e) {
-        System.out.println("IOException: " + e.getMessage());
-        e.printStackTrace();
-    }
+        try {
+            vls = readJSONGenes(f, labels, null);
+        } catch (IOException e) {
+            System.out.println("IOException: " + e.getMessage());
+            e.printStackTrace();
+        }
         return vls;
     }
+
     /**
      * @param f
      * @return
