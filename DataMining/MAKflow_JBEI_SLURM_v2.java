@@ -429,6 +429,8 @@ public class MAKflow_JBEI_SLURM_v2 {
 
             if (!doesFileExist(input + basename + ".Rdata") || !doesFileExist(input + basename + "_geneids.txt")) {
                 System.out.println("ERROR: The path provided for the R data file or gene header file is invalid. Please check that level 1 finished succesfully and files with the suffix *_geneids.txt and *.Rdata\nExiting now ...");
+                System.out.println(input + basename + ".Rdata");
+                System.out.println(input + basename + "_geneids.txt");
                 System.exit(1);
             }
 
