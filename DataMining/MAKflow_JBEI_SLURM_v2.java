@@ -1503,12 +1503,23 @@ public class MAKflow_JBEI_SLURM_v2 {
             if (!qos.equals(""))
                 selectnrset_script += "#SBATCH --qos=" + qos + "" + "\n";
 
-            //java -mx16000M DataMining.util.SelectNRSet -bic $1 -over 0.25 -mode score -type root
-            selectnrset_script += "java -Xmx" + (int) (mem_per_cpu * 3000.0) + "M DataMining.util.SelectNRSet " +
-                    "-bic " + localpath + input + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt" +
-                    " -over 0.25 -mode score -type root -out " + localpath + output +
-                    "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0__nr_0.25_score_root.txt" +
-                    " &>" + localpath + output + "SelectNRSet.out";
+            File test = new File( localpath + input + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt");
+            if(test.exists()) {
+                //java -mx16000M DataMining.util.SelectNRSet -bic $1 -over 0.25 -mode score -type root
+                selectnrset_script += "java -Xmx" + (int) (mem_per_cpu * 3000.0) + "M DataMining.util.SelectNRSet " +
+                        "-bic " + localpath + input + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt" +
+                        " -over 0.25 -mode score -type root -out " + localpath + output +
+                        "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0__nr_0.25_score_root.txt" +
+                        " &>" + localpath + output + "SelectNRSet.out";
+            }
+            else {
+                String input2 = "level12.1/";
+                selectnrset_script += "java -Xmx" + (int) (mem_per_cpu * 3000.0) + "M DataMining.util.SelectNRSet " +
+                        "-bic " + localpath + input2 + "results_" + basename +
+                        " -over 0.25 -mode score -type root -out " + localpath + output +
+                        "results_" + basename + "__nr_0.25_score_root.txt" +
+                        " &>" + localpath + output + "SelectNRSet.out";
+            }
 
             TextFile.write(selectnrset_script, sl_sns);
 

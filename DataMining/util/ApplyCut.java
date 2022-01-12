@@ -106,6 +106,20 @@ public class ApplyCut {
         double[] uniqueD = MoreArray.convfromString(unique);
 
 
+        finallist = processList(vbl, finallist, uniqueD);
+
+
+        write(args[0], cutlabel, finallist.toString(vbl.header));
+
+    }
+
+    /**
+     *
+     * @param vbl
+     * @param finallist
+     * @param uniqueD
+     */
+    private ValueBlockList processList (ValueBlockList vbl, ValueBlockList finallist, double[] uniqueD) {
         if (!Double.isNaN(scorecut) && Double.isNaN(exprcut) && Double.isNaN(exprperccut)) {
             System.out.println("score cut");
             for (int i = 0; i < vbl.size(); i++) {
@@ -286,9 +300,18 @@ public class ApplyCut {
             }
             finallist = makeFinal(uniqueD, vbl);
         }
+        return finallist;
+    }
 
+    /**
+     *
+     * @param arg
+     * @param cutlabel
+     * @param out1
+     */
+    private void write(String arg, String cutlabel, String out1) {
         try {
-            String a = args[0];
+            String a = arg;
             ParsePath pp = new ParsePath(a);
 
             String s = pp.getName() + "_cut_" + cutlabel + "_" + startperccut + ".txt";
@@ -298,12 +321,11 @@ public class ApplyCut {
             }
 
             System.out.println("writing " + s);
-            String out = finallist.toString(vbl.header);//+ ValueBlock.toStringShortColumns()
+            String out = out1;//+ ValueBlock.toStringShortColumns()
             util.TextFile.write(out, s);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     /**
