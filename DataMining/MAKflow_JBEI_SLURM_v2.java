@@ -1453,7 +1453,7 @@ public class MAKflow_JBEI_SLURM_v2 {
             String s = localpath + output + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt";
             if (!new File(s).exists()) {
                 System.out.println("Expected file not seen: " + s + "\nExiting.");
-                System.exit(0);
+                //System.exit(0);
             }
 
             File testdirf = new File(testoutput);
