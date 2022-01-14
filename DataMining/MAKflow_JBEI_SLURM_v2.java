@@ -1432,7 +1432,7 @@ public class MAKflow_JBEI_SLURM_v2 {
             }
 
             if (!doesFileExist(localpath + input + input_file)) {
-                System.out.println("ERROR: The ListfromDir result file does not exist: " + localpath + input + input_file + "\nExiting now...");
+                System.out.println("WARNING: The ListfromDir result file does not exist: " + localpath + input + input_file + "\nExiting now...");
                 System.exit(1);
             }
 
@@ -1452,7 +1452,7 @@ public class MAKflow_JBEI_SLURM_v2 {
 
             String s = localpath + output + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt";
             if (!new File(s).exists()) {
-                System.out.println("Expected file not seen: " + s);
+                System.out.println("WARNING: Expected file not seen: " + s);
                 // + "\nExiting.");
                 //System.exit(0);
             }
@@ -1483,7 +1483,7 @@ public class MAKflow_JBEI_SLURM_v2 {
             File dir = createFile(output);
 
             if (!doesFileExist(localpath + input + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt")) {
-                System.out.println("ERROR: The ApplyCut filtered result file does not exist: " + localpath + input + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt");
+                System.out.println("WARNING: The ApplyCut filtered result file does not exist: " + localpath + input + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt");
                 // + "\nExiting now...");
                 //System.exit(1);
             }
