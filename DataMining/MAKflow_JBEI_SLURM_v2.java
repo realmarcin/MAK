@@ -1517,7 +1517,7 @@ public class MAKflow_JBEI_SLURM_v2 {
             else {
                 String input2 = "level12.1/";
                 selectnrset_script += "java -Xmx" + (int) (mem_per_cpu * 3000.0) + "M DataMining.util.SelectNRSet " +
-                        "-bic " + localpath + input2 + "results_" + basename +
+                        "-bic " + localpath + input2 + "results_" + basename +".vbl" +
                         " -over 0.25 -mode score -type root -out " + localpath + output +
                         "results_" + basename + "__nr_0.25_score_root.txt" +
                         " &>" + localpath + output + "SelectNRSet.out";
