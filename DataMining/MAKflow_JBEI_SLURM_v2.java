@@ -1483,7 +1483,7 @@ public class MAKflow_JBEI_SLURM_v2 {
 
             if (!doesFileExist(localpath + input + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt")) {
                 System.out.println("ERROR: The ApplyCut filtered result file does not exist: " + localpath + input + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt" + "\nExiting now...");
-                System.exit(1);
+                //System.exit(1);
             }
 
             /*
