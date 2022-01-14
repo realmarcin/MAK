@@ -108,8 +108,12 @@ public class ApplyCut {
 
         finallist = processList(vbl, finallist, uniqueD);
 
-
-        write(args[0], cutlabel, finallist.toString(vbl.header));
+        if(finallist.size() > 0) {
+            write(args[0], cutlabel, finallist.toString(vbl.header));
+        }
+        else {
+            System.out.println("WARNING: No biclusters left after filtering.");
+        }
 
     }
 
