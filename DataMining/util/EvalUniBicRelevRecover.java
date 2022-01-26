@@ -65,6 +65,13 @@ public class EvalUniBicRelevRecover {
                 testvbl = ValueBlockList.read(readtest, false);
             } catch (Exception e) {
                 e.printStackTrace();
+
+                try {
+                    readtest = args[1] + "/" + dirs[i] + "/level14.1/" + "results_" + prefix + "_" + files[i] + "__nr_0.25_score_root.txt";
+                    testvbl = ValueBlockList.read(readtest, false);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
             }
             System.out.println("testvbl " + testvbl.size());
 
