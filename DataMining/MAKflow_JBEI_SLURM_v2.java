@@ -147,7 +147,8 @@ public class MAKflow_JBEI_SLURM_v2 {
     double precrit_gene_perc = Double.NaN;
     double precrit_exp_perc = Double.NaN;
 
-    String default_walltime = "24:00:00";
+    String default_walltime = "4:00:00";
+    String max_walltime = "4:00:00";
 
     String refinement_starting_points = "";
     String refinement_prefix = "";
@@ -1500,7 +1501,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                     "#SBATCH --ntasks=1\n" +
                     "#SBATCH --cpus-per-task=1\n" +
                     "#SBATCH --mem=22G\n" +
-                    "#SBATCH --time=72:00:00\n" +
+                    "#SBATCH --time="+max_walltime+":00:00\n" +
                     "#SBATCH --output=MAKflow_" + setLevel + "_%j.out\n";
             if (!qos.equals(""))
                 selectnrset_script += "#SBATCH --qos=" + qos + "" + "\n";
