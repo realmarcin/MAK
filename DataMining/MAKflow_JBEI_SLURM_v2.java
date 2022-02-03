@@ -148,7 +148,7 @@ public class MAKflow_JBEI_SLURM_v2 {
     double precrit_exp_perc = Double.NaN;
 
     String default_walltime = "4:00:00";
-    String max_walltime = "4:00:00";
+    String max_walltime = "72:00:00";
 
     String refinement_starting_points = "";
     String refinement_prefix = "";
