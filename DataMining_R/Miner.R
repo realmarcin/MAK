@@ -1244,13 +1244,13 @@ KendExp.crit = function(data, Ii, Jj, ArcI, useAbs) {
     curdataC <- data[Ii, Jj]
   }
   
-  if (ArcI == 2) {
+  if (ArcI == 1 || ArcI == 2) {
     narows <- (rowSums(is.na(curdata)))
     if (sum(narows) > 0) {
       curdata = apply(curdata, 2, missfxn)
     }
   }
-  else {
+  if (ArcI == 1 || ArcI == 3) {
     nacols <- (colSums(is.na(curdataC)))
     if (sum(nacols) > 0) {
       curdataC = apply(curdataC, 1, missfxn)
@@ -1260,8 +1260,10 @@ KendExp.crit = function(data, Ii, Jj, ArcI, useAbs) {
   }
   
   if (useAbs == 1) {
-    curdata = abs(curdata)
-    if (ArcI == 3) {
+    if (ArcI == 1 || ArcI == 2) {
+      curdata = abs(curdata)
+    }
+    if (ArcI == 1 || ArcI == 3) {
       curdataC = abs(curdataC)
     }
   }
@@ -1284,12 +1286,10 @@ KendExp.crit = function(data, Ii, Jj, ArcI, useAbs) {
     #print(ktestC$value)
     val <- (ktest$value + ktestC$value) / 2
     pval <- (ktest$p.val + ktestC$p.val) / 2
-  }
-  else if (ArcI == 2) {
+  } else if (ArcI == 2) {
     val <- ktest$value
     pval <- ktest$p.val
-  }
-  else if (ArcI == 3) {
+  } else if (ArcI == 3) {
     val <- ktestC$value
     pval <- ktestC$p.val
   }
