@@ -28,7 +28,7 @@
 #}
 
 #expr_data,interact_data,
-Critp.final = function(Ic,
+Critp.final <- function(Ic,
                        Jc,
                        nullMeanData,
                        nullMSEData,
@@ -489,7 +489,7 @@ Critp.final = function(Ic,
   list(critvec = critvec, critvecRaw = critvecRaw)
 }
 
-ExpCritI = function(data, Ic, Jc, cInd1, iARC, useAbs) {
+ExpCritI <- function(data, Ic, Jc, cInd1, iARC, useAbs) {
   #print(cInd1)
   switch(
     cInd1,
@@ -498,7 +498,7 @@ ExpCritI = function(data, Ic, Jc, cInd1, iARC, useAbs) {
   )
 }
 
-ExpCritR = function(data,
+ExpCritR <- function(data,
                     Ic,
                     Jc,
                     rInd1,
@@ -516,7 +516,7 @@ ExpCritR = function(data,
   )
 }
 
-Rlars = function(data, Ic, Jc, cInd, I, J, useAbs) {
+Rlars <- function(data, Ic, Jc, cInd, I, J, useAbs) {
   switch(
     cInd,
     larsall = ElarsCrit.block(data, Ic, Jc, 1, I, J, useAbs),
@@ -525,7 +525,7 @@ Rlars = function(data, Ic, Jc, cInd, I, J, useAbs) {
   )
 }
 
-Rgee = function(data, Ic, Jc, cInd, I, J, useAbs, colm, rowm) {
+Rgee <- function(data, Ic, Jc, cInd, I, J, useAbs, colm, rowm) {
   switch(
     cInd,
     #data,Ii,Jj,ARC=1,I,J,useAbs,colm,rowm
@@ -535,7 +535,7 @@ Rgee = function(data, Ic, Jc, cInd, I, J, useAbs, colm, rowm) {
   )
 }
 
-ExpCritMed = function(data, Ic, Jc, cInd, useAbs) {
+ExpCritMed <- function(data, Ic, Jc, cInd, useAbs) {
   #print(paste("ExpCritMed",cInd))
   switch(
     cInd,
@@ -545,7 +545,7 @@ ExpCritMed = function(data, Ic, Jc, cInd, useAbs) {
   )
 }
 
-MSEI = function(data, Ic, Jc, cInd, useAbs) {
+MSEI <- function(data, Ic, Jc, cInd, useAbs) {
   #print(paste("MSEI",cInd))
   switch(
     cInd,
@@ -555,7 +555,7 @@ MSEI = function(data, Ic, Jc, cInd, useAbs) {
   )
 }
 
-MADI = function(data, Ic, Jc, cInd, useAbs) {
+MADI <- function(data, Ic, Jc, cInd, useAbs) {
   switch(
     cInd,
     MSEall = ExpCritMdAMd.block(data, Ic, Jc, 1, useAbs),
@@ -569,7 +569,7 @@ MADI = function(data, Ic, Jc, cInd, useAbs) {
 
 ######Functions to deal with missingness
 
-mean.m = function(vec) {
+mean.m <- function(vec) {
   #print(is.nan(vec))
   #print(class(vec))
   #print(class(is.nan(vec)))
@@ -581,14 +581,14 @@ mean.m = function(vec) {
 }
 
 
-median.m = function(vec) {
+median.m <- function(vec) {
   vec1 = vec[!is.na(vec)]
   median(vec1, na.rm = TRUE)
 }
 
 ############Criteria functions
 
-preScore_vec = function(xsc, ARCpre) {
+preScore_vec <- function(xsc, ARCpre) {
   sc.out = xsc
   #print(length(xsc))
   if (ARCpre == 2) {
@@ -605,7 +605,7 @@ preScore_vec = function(xsc, ARCpre) {
   sc.out
 }
 
-preScore_block = function(data, ARC) {
+preScore_block <- function(data, ARC) {
   bl.out = data
   #print(dim(data))
   #print(data)
@@ -615,7 +615,7 @@ preScore_block = function(data, ARC) {
 
 
 ###MSE crit
-ExpCrit.block = function(data, Ii, Jj, ARC, useAbs) {
+ExpCrit.block <- function(data, Ii, Jj, ARC, useAbs) {
   #want to max
   curdata <- data[Ii, Jj]
   
@@ -645,7 +645,7 @@ ExpCrit.block = function(data, Ii, Jj, ARC, useAbs) {
 }
 
 ###mean expression crit
-ExpCritMed.block = function(data, Ii, Jj, ARC, useAbs) {
+ExpCritMed.block <- function(data, Ii, Jj, ARC, useAbs) {
   #want to max
   curdata <- data[Ii, Jj]
   
@@ -676,7 +676,7 @@ ExpCritMed.block = function(data, Ii, Jj, ARC, useAbs) {
 }
 
 ###LARS crit
-ElarsCrit.block = function(data, Ii, Jj, ARC, I, J, useAbs) {
+ElarsCrit.block <- function(data, Ii, Jj, ARC, I, J, useAbs) {
   #,pscore=NULL){ #want to max #rowMiss,colMiss,
   
   #print(I)
@@ -810,7 +810,7 @@ ElarsCrit.block = function(data, Ii, Jj, ARC, I, J, useAbs) {
 }
 
 ###GEE crit
-EgeeCrit_slow.block = function(data,
+EgeeCrit_slow.block <- function(data,
                                Ii,
                                Jj,
                                ARC,
@@ -917,7 +917,7 @@ EgeeCrit_slow.block = function(data,
 
 ### This does the same thing EgeeCrit.block does but with simply calculating the SSE and SST
 ### for the fixed effects model rather than fitting the full model
-FEModel.block = function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm) {
+FEModel.block <- function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm) {
   #pscore=NULL,
   
   #print("FEM")
@@ -1122,7 +1122,7 @@ FEModel.block = function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm) {
 }
 
 ###stats for row and col means and frxns
-rowColMeansFrxn = function(data) {
+rowColMeansFrxn <- function(data) {
 
   data_impR <- t(apply(data, 1, missfxn))
   
@@ -1153,7 +1153,7 @@ rowColMeansFrxn = function(data) {
 }
 
 ###Mean Sq Dev from Mean
-ExpCritMnSMn.block = function(data, Ii, Jj) {
+ExpCritMnSMn.block <- function(data, Ii, Jj) {
   #want to max
   curdata <- data[Ii, Jj]
   MSEall = mean.m((curdata - mean.m(curdata)) ^ 2) #MSE of expression measures within the block
@@ -1165,7 +1165,7 @@ ExpCritMnSMn.block = function(data, Ii, Jj) {
 }
 
 ###Median Sq Dev from Mean
-ExpCritMdSMn.block = function(data, Ii, Jj) {
+ExpCritMdSMn.block <- function(data, Ii, Jj) {
   #want to max
   curdata <- data[Ii, Jj]
   MSEall = median.m((data[Ii, Jj] - mean.m(curdata)) ^ 2) #MSE of expression measures within the block
@@ -1177,7 +1177,7 @@ ExpCritMdSMn.block = function(data, Ii, Jj) {
 }
 
 ###Mean Sq Dev from Median
-ExpCritMnSMd.block = function(data, Ii, Jj) {
+ExpCritMnSMd.block <- function(data, Ii, Jj) {
   #want to max
   curdata <- data[Ii, Jj]
   MSEall = mean.m((curdata - median.m(curdata)) ^ 2) #MSE of expression measures within the block
@@ -1189,7 +1189,7 @@ ExpCritMnSMd.block = function(data, Ii, Jj) {
 }
 
 ###Median Sq Dev from Median
-ExpCritMdSMd.block = function(data, Ii, Jj) {
+ExpCritMdSMd.block <- function(data, Ii, Jj) {
   #want to max
   curdata <- data[Ii, Jj]
   MSEall = median.m((curdata - median.m(curdata)) ^ 2) #MSE of expression measures within the block
@@ -1201,7 +1201,7 @@ ExpCritMdSMd.block = function(data, Ii, Jj) {
 }
 
 ###Mean Abs Dev from Median
-ExpCritMnAMd.block = function(data, Ii, Jj) {
+ExpCritMnAMd.block <- function(data, Ii, Jj) {
   #want to max
   curdata <- data[Ii, Jj]
   MSEall = mean.m(abs(curdata - median.mcurdata)) #MSE of expression measures within the block
@@ -1213,7 +1213,7 @@ ExpCritMnAMd.block = function(data, Ii, Jj) {
 }
 
 ###Median Abs Dev from Median
-ExpCritMdAMd.block = function(data, Ii, Jj, ARC, useAbs) {
+ExpCritMdAMd.block <- function(data, Ii, Jj, ARC, useAbs) {
   #want to max
   curdata <- data[Ii, Jj]
   
@@ -1234,7 +1234,7 @@ ExpCritMdAMd.block = function(data, Ii, Jj, ARC, useAbs) {
 }
 
 ###
-KendExp.crit = function(data, Ii, Jj, ArcI, useAbs) {
+KendExp.crit <- function(data, Ii, Jj, ArcI, useAbs) {
   curdataC <- c()
   curdata <- data[Ii, Jj]
   
@@ -1299,20 +1299,20 @@ KendExp.crit = function(data, Ii, Jj, ArcI, useAbs) {
 
 
 ###
-Cauchy.blockp = function(val, null) {
+Cauchy.blockp <- function(val, null) {
   n = pcauchy(val, null[1], null[2])
   n
 }
 
 ###no data imputation for interaction criterion
-InterCrit.block = function(GIblock, Ii) {
+InterCrit.block <- function(GIblock, Ii) {
   mean(GIblock[Ii, Ii], na.rm = TRUE)
   #edges <- sum(GIblock[Ii,Ii][lower.tri(GIblock[Ii,Ii], diag=TRUE)])
   #2 * (edges) / (length(Ii)*(length(Ii)))
 }
 
 ###Pearson correlation crit
-CorrMove.block = function(Iold,
+CorrMove.block <- function(Iold,
                           Jold,
                           move_objects,
                           isGene,
@@ -1350,7 +1350,7 @@ CorrMove.block = function(Iold,
 }
 
 ###Pearson correlation
-Corr.block = function(data, Ii, Jj, CorIndex, useAbs) {
+Corr.block <- function(data, Ii, Jj, CorIndex, useAbs) {
   #Measures the mean pairwise (absolute) correlation of the block
   AbCor <- 0
   AbCorC <- 0
@@ -1457,7 +1457,7 @@ Corr.block = function(data, Ii, Jj, CorIndex, useAbs) {
 }
 
 ###Pearson correlation
-CorrFast.block = function(data, Ii, Jj, CorIndex, useAbs) {
+CorrFast.block <- function(data, Ii, Jj, CorIndex, useAbs) {
   #Measures the mean pairwise (absolute) correlation of the block
   AbCor <- 0
   curdata <- data[Ii, Jj]
@@ -1490,7 +1490,7 @@ CorrFast.block = function(data, Ii, Jj, CorIndex, useAbs) {
 }
 
 ###Spearman rho
-Spearman.block = function(data, Ii, Jj, SpearIndex, useAbs) {
+Spearman.block <- function(data, Ii, Jj, SpearIndex, useAbs) {
   #Measures the mean pairwise (absolute) correlation of the block
   AbCor <- 0
   AbCorC <- 0
@@ -1604,7 +1604,7 @@ Spearman.block = function(data, Ii, Jj, SpearIndex, useAbs) {
 }
 
 ###Pearson correlation
-SpearmanFast.block = function(data, Ii, Jj, CorIndex, useAbs) {
+SpearmanFast.block <- function(data, Ii, Jj, CorIndex, useAbs) {
   #Measures the mean pairwise (absolute) correlation of the block
   retCor <- 0
   curdata <- data[Ii, Jj]
@@ -1639,7 +1639,7 @@ SpearmanFast.block = function(data, Ii, Jj, CorIndex, useAbs) {
 }
 
 ###Euclidean distance (row and column) criterion
-Euclidean.block = function(data, Ii, Jj, cInd, useAbs) {
+Euclidean.block <- function(data, Ii, Jj, cInd, useAbs) {
   curdata <- data[Ii, Jj]
   
   #print(dim(curdata))
@@ -1708,12 +1708,12 @@ Euclidean.block = function(data, Ii, Jj, cInd, useAbs) {
   matmean
 }
 
-Euclidean = function(x1, x2) {
+Euclidean <- function(x1, x2) {
   temp <- x1 - x2
   sqrt(sum(temp * temp))
 }
 
-GeneWblock = function(BlockM, expr_data, Ii, Jj) {
+GeneWblock <- function(BlockM, expr_data, Ii, Jj) {
   #want to maximize (no p-value necessary)
   GIndex = as.vector(BlockM[, Jj]) #Gives vector specifying 1/0 if gene is in or not in the block
   Gexpr_data = as.vector(expr_data[, Jj])
@@ -1731,7 +1731,7 @@ GeneWblock = function(BlockM, expr_data, Ii, Jj) {
 }
 
 ###missing data imputation function
-missfxn = function(vec) {
+missfxn <- function(vec) {
   mean <- mean(vec, na.rm = TRUE)
   vec[is.na(vec)] = mean
   vec[is.nan(vec)] = mean
@@ -1743,7 +1743,7 @@ missfxn = function(vec) {
 
 
 #function to identify perfectly correlated feature data (variance of 0)
-pre_Feature = function(GFeat, mcor = 1) {
+pre_Feature <- function(GFeat, mcor = 1) {
   x1 = GFeat[, c("HET_AV", "HOM_AV")]
   x1[x1 == "ND"] = NA
   GFeat[, c("HET_AV", "HOM_AV")] = x1
@@ -1768,7 +1768,7 @@ pre_Feature = function(GFeat, mcor = 1) {
 }
 
 
-FeatureWblock = function(Ii, Jj, GFeat, Ifactor, I, J) {
+FeatureWblock <- function(Ii, Jj, GFeat, Ifactor, I, J) {
   GIndex = rep(0, I) #Gives vector specifying 1/0 if gene is in or not in the block
   GIndex[Ii] = 1
   PobjI = polymars(GIndex, GFeat, classify = TRUE, factors = Ifactor)
@@ -1777,7 +1777,7 @@ FeatureWblock = function(Ii, Jj, GFeat, Ifactor, I, J) {
 }
 
 ###The one below should work
-FeatureWblock_larsI = function(Ii,
+FeatureWblock_larsI <- function(Ii,
                                GFeat,
                                I,
                                msteps = NULL,
@@ -1819,7 +1819,7 @@ FeatureWblock_larsI = function(Ii,
 }
 
 ####The one below needs debugging still on my side
-FeatureWblock_larsE = function(Ii, Jj, GFeat, Ifact1, expr_data, I, J) {
+FeatureWblock_larsE <- function(Ii, Jj, GFeat, Ifact1, expr_data, I, J) {
   GIndex = expr_data[Ii, ]  ## Does this work?  Can LARS do multivar outcomes
   Q = lars(GFeat, GIndex)
   Qcv = cv.lars(GFeat, GIndex, K = 5, plot.it = FALSE)
@@ -1830,7 +1830,7 @@ FeatureWblock_larsE = function(Ii, Jj, GFeat, Ifact1, expr_data, I, J) {
 }
 
 ###mean pairwise Hamming distance between gene binary vectors
-FeatHamming.block = function(data, Ii) {
+FeatHamming.block <- function(data, Ii) {
   ham = 1
   curdata <- data[Ii, ]
   dists <- HamDist(curdata)
@@ -1841,7 +1841,7 @@ FeatHamming.block = function(data, Ii) {
 
 
 ###Hamming distance (row and column) criterion
-Hamming.block = function(data, Ii, Jj, cInd, useAbs) {
+Hamming.block <- function(data, Ii, Jj, cInd, useAbs) {
   curdata <- data[Ii, Jj]
   
   #print(dim(curdata))
@@ -1916,7 +1916,7 @@ Hamming.block = function(data, Ii, Jj, cInd, useAbs) {
 
 
 ###Hamming distance function for a matrix
-HamDist = function(data, sym = F) {
+HamDist <- function(data, sym = F) {
   dim <- dim(data)
   #print(dim)
   d <- mat.or.vec(dim[1], dim[1])
@@ -1943,7 +1943,7 @@ hamming.distance <- function(x, y) {
 }
 
 ###
-ExtractFeatures = function(Ii, Jj, GFeat, Ifactor, I, J) {
+ExtractFeatures <- function(Ii, Jj, GFeat, Ifactor, I, J) {
   GIndex = rep(0, I) #Gives vector specifying 1/0 if gene is in or not in the block
   GIndex[Ii] = 1
   if (sum(is.na(GFeat)) > 0) {
@@ -1954,13 +1954,13 @@ ExtractFeatures = function(Ii, Jj, GFeat, Ifactor, I, J) {
 }
 
 ##Mean centering function
-center = function(x) {
+center <- function(x) {
   (x - mean(x)) / sd(x)
 }
 
 
 ###The function to create an array from the multiple files
-createArray = function(nfiles, ncols, nboot, fileprefix) {
+createArray <- function(nfiles, ncols, nboot, fileprefix) {
   outarray = array(NA, dim = c(nfiles, ncols, nboot))
   for (i in 1:nfiles) {
     outarray[i, , ] = read.table(file = paste(fileprefix, i, sep = "_"), sep = " ")
@@ -1971,7 +1971,7 @@ createArray = function(nfiles, ncols, nboot, fileprefix) {
 ##
 ###Code for batch moves
 ##
-BatchCreate = function(Dmat,
+BatchCreate <- function(Dmat,
                        missvec,
                        Ii,
                        Jj,
@@ -2067,7 +2067,7 @@ BatchCreate = function(Dmat,
 
 
 ###Function to cut a clustering tree given a parameter for the maximum size of a cluster after cutting
-FindCut = function(hcout, maxSize) {
+FindCut <- function(hcout, maxSize) {
   stopp = 0
   first1 = 0
   min1 = min(hcout$height)
@@ -2139,7 +2139,7 @@ FindCut = function(hcout, maxSize) {
 ##
 ###Code for null distribution sampling expansion and smoothing
 ##
-tpsSmooth = function(prefix,
+tpsSmooth <- function(prefix,
                      min1,
                      max1,
                      min2,
@@ -2307,7 +2307,7 @@ tpsSmooth = function(prefix,
   }
 }
 
-tpsSmooth1D = function(crit, min, max, usePseudo) {
+tpsSmooth1D <- function(crit, min, max, usePseudo) {
   ifiles <- list.files("./", pattern = "*raw.txt")
   iIfiles1 = ifiles[as.vector(sapply(ifiles, function(x)
     grep(crit, x) * grep("raw", x))) == 1]
@@ -2404,7 +2404,7 @@ tpsSmooth1D = function(crit, min, max, usePseudo) {
 ###fxn gives the highest (largest) possible 2-step HCL initial blocks that meet criteria
 ###this removes almost duplicates from pervious method
 ##
-Dmerge = function(MergeMat) {
+Dmerge <- function(MergeMat) {
   #function to analyze output from hcluster function
   nm = length(MergeMat[, 1])
   sizeG = OrigInd = matrix(NA, ncol = 1, nrow = (nm))
@@ -2438,7 +2438,7 @@ Dmerge = function(MergeMat) {
   )
 }
 
-IcJctoijID = function(Ic, Jc) {
+IcJctoijID <- function(Ic, Jc) {
   Ic = Ic[order(Ic)]
   Jc = Jc[order(Jc)]
   paste(c(paste(Ic, collapse = ","), paste(Jc, collapse = ",")), collapse =
@@ -2446,7 +2446,7 @@ IcJctoijID = function(Ic, Jc) {
 }
 
 ###function to determine all possible initial blocks from a 2-step hcluster
-allpossibleInitialTakeTree = function(Datamat,
+allpossibleInitialTakeTree <- function(Datamat,
                                       Imin,
                                       Imax,
                                       Jmin,
@@ -2561,7 +2561,7 @@ allpossibleInitialTakeTree = function(Datamat,
 }
 
 ###function to determine all possible initial blocks from a 2-step hcluster
-allpossibleInitial = function(Datamat,
+allpossibleInitial <- function(Datamat,
                               Imin,
                               Imax,
                               Jmin,
@@ -2694,7 +2694,7 @@ allpossibleInitial = function(Datamat,
 }
 
 ###function to determine all possible initial blocks from a 2-step hcluster
-allpossibleInitialRLE = function(Datamat,
+allpossibleInitialRLE <- function(Datamat,
                                  useAbs,
                                  isCol,
                                  discretize_step,
@@ -2891,7 +2891,7 @@ getRuns <- function(data, min_run_length) {
 
 
 ###correlation distance function for a matrix, allowing abs
-SpearmanDist = function(data,
+SpearmanDist <- function(data,
                         useAbs = 1,
                         norm = 1,
                         sym = F) {
@@ -2943,7 +2943,7 @@ SpearmanDist = function(data,
 }
 
 
-SpearmanDistFast = function(data,
+SpearmanDistFast <- function(data,
                             row_or_col = 1,
                             useAbs = 1) {
   #print(row_or_col)
@@ -2989,7 +2989,7 @@ SpearmanDistFast = function(data,
 }
 
 
-SpearmanDistFastNative = function(data,
+SpearmanDistFastNative <- function(data,
                                   row_or_col = 1,
                                   useAbs = 1) {
   #print(row_or_col)
@@ -3009,7 +3009,7 @@ SpearmanDistFastNative = function(data,
 }
 
 ###correlation distance function for a matrix, allowing abs
-CorDist = function(data,
+CorDist <- function(data,
                    useAbs = 1,
                    norm = 1,
                    sym = F) {
@@ -3061,7 +3061,7 @@ CorDist = function(data,
 }
 
 ###matrix algebra version of correlation distance function for a matrix, allowing abs
-CorDistFast = function(data,
+CorDistFast <- function(data,
                        row_or_col = 1,
                        useAbs = 1) {
   #missfxn transposes for column, not for row
@@ -3102,7 +3102,7 @@ CorDistFast = function(data,
 }
 
 ###matrix algebra version of correlation distance function for a matrix, allowing abs
-CorDistFastNative = function(data,
+CorDistFastNative <- function(data,
                              row_or_col = 1,
                              useAbs = 1) {
   #missfxn transposes for column, not for row
