@@ -1130,20 +1130,12 @@ rowColMeansFrxn <- function(data) {
   rowp <- length(which(rowm > 0)) / length(rowm)
   rown <- length(which(rowm < 0)) / length(rowm)
   frxnsignR <- max(rowp, rown)
-  #rowmaxpos <- 0
-  #if (frxnsignR == rowp) {
-  #  rowmaxpos <- 1
-  #}
 
   data_impC <- apply(data, 2, missfxn)
   colm <- colMeans(data_impC)
   colp <- length(which(colm > 0)) / length(colm)
   coln <- length(which(colm < 0)) / length(colm)
   frxnsignC <- max(colp, coln)
-  #colmaxpos <- 0
-  #if (frxnsignC == colp) {
-  #  colmaxpos <- 1
-  #}
   
   #print(paste(rowp,colp,(rowp+colp)/2))
   #print(paste(rown, coln, (rown + coln)/2))
