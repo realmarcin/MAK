@@ -224,7 +224,7 @@ Critp.final <- function(Ic,
                                 J,
                                 useAbs[3],
                                 thiscolm,
-                                thisrowm)
+                                thisrowm, debug)
     #print(paste("ECreg ",ECregRaw,ECreg))
     if (frxnsign) {
       if (ARCind == 1 && useAbs[3] == 0) {
@@ -507,12 +507,13 @@ ExpCritR <- function(data,
                     J,
                     useAbs,
                     colm,
-                    rowm) {
+                    rowm, debug) {
+  #print(paste("debug ExpCritR ", debug))
   #print(paste("rInd1",rInd1))
   switch(
     rInd1,
     critRlars = Rlars(data, Ic, Jc, iARC, I, J, useAbs),
-    critRgee = Rgee(data, Ic, Jc, iARC, I, J, useAbs, colm, rowm)
+    critRgee = Rgee(data, Ic, Jc, iARC, I, J, useAbs, colm, rowm, debug)
   )
 }
 
@@ -525,13 +526,14 @@ Rlars <- function(data, Ic, Jc, cInd, I, J, useAbs) {
   )
 }
 
-Rgee <- function(data, Ic, Jc, cInd, I, J, useAbs, colm, rowm) {
+Rgee <- function(data, Rgee, Jc, cInd, I, J, useAbs, colm, rowm, debug) {
+  #print(paste("debug Rgee ", debug))
   switch(
     cInd,
     #data,Ii,Jj,ARC=1,I,J,useAbs,colm,rowm
-    geeall = FEModel.block(data, Ic, Jc, 1, I, J, useAbs, colm, rowm),
-    geerow = FEModel.block(data, Ic, Jc, 2, I, J, useAbs, colm, rowm),
-    geecol = FEModel.block(data, Ic, Jc, 3, I, J, useAbs, colm, rowm)
+    geeall = FEModel.block(data, Ic, Jc, 1, I, J, useAbs, colm, rowm, debug),
+    geerow = FEModel.block(data, Ic, Jc, 2, I, J, useAbs, colm, rowm, debug),
+    geecol = FEModel.block(data, Ic, Jc, 3, I, J, useAbs, colm, rowm, debug)
   )
 }
 
@@ -917,7 +919,10 @@ EgeeCrit_slow.block <- function(data,
 
 ### This does the same thing EgeeCrit.block does but with simply calculating the SSE and SST
 ### for the fixed effects model rather than fitting the full model
-FEModel.block <- function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm) {
+FEModel.block <- function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm, debug) {
+
+  #print(paste("debug FEModel.block ", debug))
+
   #pscore=NULL,
   
   #print("FEM")
@@ -1001,13 +1006,15 @@ FEModel.block <- function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm) {
     #rowmthis <- rowMeans(curdataC[,Jj])
     err1C = sweep(curdataC[, Jj], 1, rowm) #rowmthis)
     err2C = curdataC[,-Jj] - mean(curdataC[,-Jj]) #as.vector()
-    #print("errC")
-    #print(err1C)
-    #print(err2C)
-    #print("curdata")
-    #print(curdataC)
-    #print(curdataC[,Jj])
-    #print(curdataC[,-Jj])
+    if(debug) {
+      #print("err1/2C")
+      #print(err1C)
+      #print(err2C)
+      #print("curdata")
+      #print(curdataC)
+      #print(curdataC[,Jj])
+      #print(curdataC[,-Jj])
+    }
   }
   
   if (ARC == 2) {
@@ -1081,24 +1088,30 @@ FEModel.block <- function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm) {
   }
   else {
     SSER = sum(c(err1R, err2R) ^ 2)
-    #print("SSER")
-    #print(err1R)
-    #print("err2R")
-    #print(SSER)
+    if(debug) {
+      #print("SSER")
+      #print(err1R)
+      #print("err2R")
+      #print(err2R)
+    }
     SSTR = sum((curdataR - mean(curdataR)) ^ 2)
     
     SSEC = sum(c(err1C, err2C) ^ 2)
-    #print("SSEC")
-    #print(err1C)
-    #print(err2C)
-    #print(SSEC)
+    if(debug) {
+      #print("SSEC")
+      #print(err1C)
+      #print(err2C)
+      #print(SSEC)
+    }
     SSTC = sum((curdataC - mean(curdataC)) ^ 2)
-    
-    #print("SSE/SST")
-    #print(paste(SSER,SSTR,SSEC,SSTC,sep=" "))
-    #print(paste(SSER/SSTR,sep=" "))
-    #print(paste(SSEC/SSTC,sep=" "))
-    #print(paste((1-SSEC/SSTC) , (1-SSER/SSTR) , (1-SSEC/SSTC) + (1-SSER/SSTR) ))
+
+    if(debug) {
+      print("SSE/SST")
+      print(paste(SSER,SSTR,SSEC,SSTC,sep=" "))
+      print(paste(SSER/SSTR,sep=" "))
+      print(paste(SSEC/SSTC,sep=" "))
+      print(paste((1-SSEC/SSTC) , (1-SSER/SSTR) , (1-SSEC/SSTC) + (1-SSER/SSTR) ))
+    }
   }
   if (ARC != 1) {
     FEM <- 0
