@@ -526,7 +526,7 @@ Rlars <- function(data, Ic, Jc, cInd, I, J, useAbs) {
   )
 }
 
-Rgee <- function(data, Rgee, Jc, cInd, I, J, useAbs, colm, rowm, debug) {
+Rgee <- function(data, Ic, Jc, cInd, I, J, useAbs, colm, rowm, debug) {
   #print(paste("debug Rgee ", debug))
   switch(
     cInd,
