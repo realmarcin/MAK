@@ -107,7 +107,8 @@ Critp.final <- function(Ic,
 
 
   if(debug) {
-    print(paste("frxn ", colm_noabs, rowm_abs, frxnsignR, frxnsignC, frxnsignA))
+    #print(paste("frxn ", colm_noabs, rowm_abs))
+    print(paste("frxnsign R/C/A ",frxnsign, frxnsignR, frxnsignC, frxnsignA))
   }
 
   #MEAN criteria
@@ -118,13 +119,13 @@ Critp.final <- function(Ic,
     #print(Emean)
     
     if (frxnsign) {
-      if (ARCind == 1 && useAbs[2] == 0) {
+      if (MeanARCind == 1 && useAbs[2] == 0) {
         Emean <- frxnsignA * Emean
       }
-      else if (ARCind == 2 && useAbs[2] == 0) {
+      else if (MeanARCind == 2 && useAbs[2] == 0) {
         Emean <- frxnsignR * Emean
       }
-      else if (ARCind == 3 && useAbs[2] == 0) {
+      else if (MeanARCind == 3 && useAbs[2] == 0) {
         Emean <- frxnsignC * Emean
       }
     }
@@ -229,15 +230,21 @@ Critp.final <- function(Ic,
                                 thisrowm, debug)
     #print(paste("ECreg ",ECregRaw,ECreg))
     if (frxnsign) {
-      if (ARCind == 1 && useAbs[3] == 0) {
+      if(debug) {
+        print(paste("frxnsign", ARCind, RegARCind, useAbs))
+      }
+      if (RegARCind == 1 && useAbs[3] == 0) {
         ECregRaw <- frxnsignA * ECregRaw
         ECreg <- frxnsignA * ECreg
+        if(debug) {
+          print(paste("ECreg frxnsign ",frxnsign,frxnsignA, ECregRaw))
+        }
       }
-      else if (ARCind == 2 && useAbs[3] == 0) {
+      else if (RegARCind == 2 && useAbs[3] == 0) {
         ECregRaw <- frxnsignR * ECregRaw
         ECreg <- frxnsignR * ECreg
       }
-      else if (ARCind == 3 && useAbs[3] == 0) {
+      else if (RegARCind == 3 && useAbs[3] == 0) {
         ECregRaw <- frxnsignC * ECregRaw
         ECreg <- frxnsignC * ECreg
       }
