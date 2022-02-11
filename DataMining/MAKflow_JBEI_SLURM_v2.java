@@ -2659,8 +2659,12 @@ public class MAKflow_JBEI_SLURM_v2 {
                                     if (frxnbool.equalsIgnoreCase("True") ||
                                             frxnbool.equalsIgnoreCase("T")) {
                                         frxnsign_param = "T";
-                                    } else {
+                                    } else if (frxnbool.equalsIgnoreCase("False") ||
+                                            frxnbool.equalsIgnoreCase("F")) {
                                         frxnsign_param = "F";
+                                    } else {
+                                        System.out.println("ERROR: frxn_sign param value not recognized");
+                                        System.exit(0);
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
