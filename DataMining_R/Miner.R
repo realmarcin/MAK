@@ -69,13 +69,13 @@ Critp.final <- function(Ic,
     allUseAbs <- 1
   }
   
-  colm_noabs <- 0
-  rowm_noabs <- 0
-  colm_abs <- 0
-  rowm_abs <- 0
-  frxnsignR <- 0
-  frxnsignC <- 0
-  frxnsignA <- 0
+  colm_noabs <- NULL
+  rowm_noabs <- NULL
+  colm_abs <- NULL
+  rowm_abs <- NULL
+  frxnsignR <- NULL
+  frxnsignC <- NULL
+  frxnsignA <- NULL
 
   # if (UseExprMean == TRUE || frxnsign ||
  #     (is.null(ECindex) == 0 && ECindex != -1) ||
@@ -85,15 +85,17 @@ Critp.final <- function(Ic,
  #     (is.null(Eucindex) == 0 && Eucindex != -1)||
  #     (is.null(Spearindex) == 0 && Spearindex != -1))
  # {
-  if(frxnsign) {# || useAbs[1] == 0 || useAbs[2] == 0 || useAbs[3] == 0) {
+  #if(frxnsign) {# || useAbs[1] == 0 || useAbs[2] == 0 || useAbs[3] == 0) {
     #if (sum(useAbs) < length(useAbs)) {
-      getstats_noabs <- rowColMeansFrxn(expr_data[Ic, Jc])
-      colm_noabs <- getstats_noabs[[1]]
-      rowm_noabs <- getstats_noabs[[2]]
-      
-      frxnsignR <- getstats_noabs[[3]]
-      frxnsignC <- getstats_noabs[[4]]
-      frxnsignA <- getstats_noabs[[5]]
+  if (UseExprMean == TRUE || frxnsign || (is.null(ERegindex) == 0 && ERegindex != -1)) {
+    getstats_noabs <- rowColMeansFrxn(expr_data[Ic, Jc])
+    colm_noabs <- getstats_noabs[[1]]
+    rowm_noabs <- getstats_noabs[[2]]
+
+    frxnsignR <- getstats_noabs[[3]]
+    frxnsignC <- getstats_noabs[[4]]
+    frxnsignA <- getstats_noabs[[5]]
+  }
     #}
     
     #if (sum(useAbs) > 0) {
@@ -101,7 +103,7 @@ Critp.final <- function(Ic,
     #  colm_abs <- getstats_abs[[1]]
     #  rowm_abs <- getstats_abs[[2]]
     #}
-  }
+  #}
 
 
   if(debug) {
@@ -922,6 +924,9 @@ EgeeCrit_slow.block <- function(data,
 FEModel.block <- function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm, debug) {
 
   #print(paste("debug FEModel.block ", debug))
+  if(debug) {
+    print(paste("I J ARC useAbs", I, J, ARC, useAbs))
+  }
 
   #pscore=NULL,
   
@@ -1122,13 +1127,24 @@ FEModel.block <- function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm, debug) {
   }
   else if (ARC == 1) {
     FEMC <- 0
+    if(debug) {
+      print(paste("ARC == 1 SSEC SSTC", SSEC, SSTC))
+    }
     if (SSEC != 0) {
       FEMC <- 1 - SSEC / SSTC
+    }
+    if(debug) {
+      print(paste("ARC == 1 FEMC ", FEMC))
     }
     FEMR <- 0
     if (SSTR != 0) {
       FEMR <- 1 - SSER / SSTR
     }
+    if(debug) {
+    print(paste("ARC == 1 FEMR ", FEMR))
+    print(paste("ARC == 1 mean ", ((FEMC + FEMR) / 2)))
+    }
+
     (FEMC + FEMR) / 2
   }
   
