@@ -109,7 +109,8 @@ public class Miner {
      *
      */
     public void initDebug() {
-        if (rmb.irv.prm.debug == -1 || rmb.debug == -1) {
+        if (rmb.irv.prm.debug == -10 || rmb.irv.prm.debug == -1 || rmb.debug == -10 || rmb.debug == -1) {
+            System.out.println("Setting debug mode to: silent");
             debug_silent = true;
 
             debug = false;
@@ -1397,6 +1398,7 @@ e.printStackTrace();
     }
 
     /**
+     *
      */
     private void setAddDelGeneExp() {
         if (debug)
@@ -3075,7 +3077,7 @@ e.printStackTrace();
                 }
                 rmb.irv.Rengine.assign("Jc", curJc);
 
-/*TODO : This loops over the rows of preCriteria (rows=no.Ids) and sums them. Should allow a weighted sum */
+                /*TODO : This loops over the rows of preCriteria (rows=no.Ids) and sums them. Should allow a weighted sum */
                 double[] cur_pCritDouble = getCriteriaForBlock(curIc, curJc, rmb.irv.prm.precrit)[0];
                 if (debug_createPreCritTopList) {
                     System.out.println("getTopList VBPCandidate rmb.irv.prm.precrit " + rmb.irv.prm.precrit.crit);
@@ -3527,8 +3529,8 @@ e.printStackTrace();
             }
             //If better or as good
             else if ((curconsideredBlock.full_criterion > currentFullCrit && move_params.Delete_or_Add == 0)
-                || (curconsideredBlock.full_criterion >= currentFullCrit && move_params.Delete_or_Add == 1)) {
-                    //curconsideredBlock.full_criterion > currentFullCrit) {
+                    || (curconsideredBlock.full_criterion >= currentFullCrit && move_params.Delete_or_Add == 1)) {
+                //curconsideredBlock.full_criterion > currentFullCrit) {
                 max_consideredIndex = i;
                 currentFullCrit = curconsideredBlock.full_criterion;
                 int[][] pass = {curconsideredBlock.genes, curconsideredBlock.exps};

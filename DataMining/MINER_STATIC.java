@@ -20,10 +20,8 @@ public final class MINER_STATIC {
     // increasing output
     public final static int DEFAULT_DEBUG = -10;
 
-    public final static String version = "MAKv0.2";
+    public final static String version = "MAKv0.3";
     /*The move types.*/
-    final static String[] ALL_MOVE_TYPES = {"start", "g-", "g+", "e-", "e+",
-            "bg-", "bg+", "be-", "be+"};
     public final static String[] MOVE_TYPES = {"gene-", "gene+", "experiment-", "experiment+"};
     public final static String[] MOVE_LABELS = {"initial", "g-", "g+", "e-", "e+"};
 
