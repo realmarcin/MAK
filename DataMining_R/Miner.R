@@ -323,8 +323,7 @@ Critp.final <- function(Ic,
   #print("Kend")
   if (debug) {
     print(paste("Kend full", paste(critvec, collapse = " "), sep = " "))
-    print(paste("Kend raw ", paste(critvecRaw, collapse = " "), sep =
-                  " "))
+    print(paste("Kend raw ", paste(critvecRaw, collapse = " "), sep = " "))
   }
   
   
@@ -982,8 +981,11 @@ FEModel.block <- function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm, debug) {
     #if(is.null(pscore)==0) curdataR=preScore_block(curdataR,ARC)
     
     #colmthis <- colMeans(curdataR[Ii,])
-    err1R = sweep(curdataR[Ii, ], 2, colm) #colmthis)
+    err1R = sweep(curdataR[Ii, ], 2, colMeans(curdataR[Ii, ])) #colm #colmthis)
     err2R = curdataR[-Ii, ] - mean(curdataR[-Ii, ]) #as.vector()
+
+    #err1 = sweep(curdata[Ii, ], 2, colMeans(curdata[Ii, ])) #colm)#
+    #err2 = curdata[-Ii, ] - mean(as.vector(curdata[-Ii, ]))
     
     nacols <- (colSums(is.na(curdataC)))
     remnacols <-
@@ -1004,6 +1006,9 @@ FEModel.block <- function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm, debug) {
       curdataC = t(apply(curdataC, 1, missfxn))
       #print("imputed C")
     }
+    #else {
+    #
+    #}
     #print(curdataC)
     
     
@@ -1016,8 +1021,13 @@ FEModel.block <- function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm, debug) {
     #print(length(which(curdataC < 0)))
     
     #rowmthis <- rowMeans(curdataC[,Jj])
-    err1C = sweep(curdataC[, Jj], 1, rowm) #rowmthis)
+    err1C = sweep(curdataC[, Jj], 1, rowMeans(curdataC[, Jj])) #rowm) #rowmthis)
     err2C = curdataC[,-Jj] - mean(curdataC[,-Jj]) #as.vector()
+
+
+    #err1 = sweep(curdata[, Jj], 1, rowMeans(curdata[, Jj])) #rowm)#
+    #err2 = curdata[,-Jj] - mean(as.vector(curdata[,-Jj]))
+
     if(debug) {
       #print("err1/2C")
       #print(err1C)
@@ -1028,7 +1038,6 @@ FEModel.block <- function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm, debug) {
       #print(curdataC[,-Jj])
     }
   }
-  
   if (ARC == 2) {
     curdata = data[, Jj]
     
@@ -1098,7 +1107,7 @@ FEModel.block <- function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm, debug) {
     SSE = sum(c(err1, err2) ^ 2)
     SST = sum((curdata - mean(curdata)) ^ 2)
   }
-  else {
+  else if (ARC == 1) {
     SSER = sum(c(err1R, err2R) ^ 2)
     if(debug) {
       #print("SSER")
@@ -1125,6 +1134,7 @@ FEModel.block <- function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm, debug) {
       print(paste((1-SSEC/SSTC) , (1-SSER/SSTR) , (1-SSEC/SSTC) + (1-SSER/SSTR) ))
     }
   }
+
   if (ARC != 1) {
     FEM <- 0
     if (SST != 0) {
@@ -1148,8 +1158,8 @@ FEModel.block <- function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm, debug) {
       FEMR <- 1 - SSER / SSTR
     }
     if(debug) {
-    print(paste("ARC == 1 FEMR ", FEMR))
-    print(paste("ARC == 1 mean ", ((FEMC + FEMR) / 2)))
+      print(paste("ARC == 1 FEMR ", FEMR))
+      print(paste("ARC == 1 mean ", ((FEMC + FEMR) / 2)))
     }
 
     (FEMC + FEMR) / 2
@@ -1701,7 +1711,10 @@ Euclidean.block <- function(data, Ii, Jj, cInd, useAbs) {
   if (cInd == 3 || cInd == 1) {
     nacols <- (colSums(is.na(curdata)))
     if (sum(nacols) > 0) {
-      curdata = t(apply(curdata, 1, missfxn))
+      curdata = apply(curdata, 1, missfxn)
+    }
+    else {
+      curdata <- t(curdata)
     }
     if (useAbs == 1)
       curdata <- abs(curdata)
