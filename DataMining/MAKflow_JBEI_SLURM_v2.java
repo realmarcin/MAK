@@ -1489,6 +1489,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 //System.exit(1);
             }
 
+            System.out.println("level 14 max_walltime "+max_walltime);
             /*
              NOTE: bash script is currently hardcoded to start ListMergeMembers job on JBEI cluster on a single node with 24 memory available.
             */
