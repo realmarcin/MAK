@@ -1793,7 +1793,7 @@ public class StringUtil {
      * @return
      */
     public static boolean isTrueorYes(String s) {
-        if (s.equals("T") || s.equalsIgnoreCase("TRUE") ||
+        if (s.equalsIgnoreCase("T") || s.equalsIgnoreCase("TRUE") ||
                 s.equalsIgnoreCase("Y") || s.equalsIgnoreCase("YES"))
             return true;
         return false;
