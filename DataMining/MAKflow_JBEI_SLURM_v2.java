@@ -2054,7 +2054,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 String cmd = "#!/bin/bash\n#SBATCH --partition=" + server + "\n" +
                         "#SBATCH --account=" + account + "\n" +
                         "#SBATCH --ntasks=1\n" +
-                        "#SBATCH --time=120:00:00\n" +
+                        "#SBATCH --time="+max_walltime+"\n" +
                         "#SBATCH --output=MAKflow_" + setLevel + "_%j.out\n";
                 if (!qos.equals(""))
                     cmd += "#SBATCH --qos=" + qos + "" + "\n";
