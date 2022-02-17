@@ -2747,9 +2747,16 @@ public class MAKflow_JBEI_SLURM_v2 {
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                            } else if (param_key.equalsIgnoreCase("maxwalltime")) {
+                            }
+                            else if (param_key.equalsIgnoreCase("defaultwalltime")) {
                                 try {
                                     default_walltime = "" + Integer.parseInt(param_val) + ":00:00";
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }else if (param_key.equalsIgnoreCase("maxwalltime")) {
+                                try {
+                                    max_walltime = "" + Integer.parseInt(param_val) + ":00:00";
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
