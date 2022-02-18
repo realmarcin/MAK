@@ -739,15 +739,8 @@ ElarsCrit.block <- function(data, Ii, Jj, ARC, I, J, useAbs) {
     }
     
     if (sum(nacols) > 0) {
-      curdataC = apply(curdataC, 1, missfxn)
+      curdataC = t(apply(curdataC, 1, missfxn))
     }
-    else {
-      curdataC <- t(curdataC)
-    }
-    
-    #if(sum(nacols) > 0) {
-    #    curdataC=t(apply(curdataC,1,missfxn))
-    #}
     
     if (useAbs == 1)
       curdataC <- abs(curdataC)
@@ -885,9 +878,7 @@ EgeeCrit_slow.block <- function(data,
     }
     
     if (sum(nacols) > 0)
-      curdata = apply(curdata, 1, missfxn)
-    else
-      curdata <- t(curdata)
+      curdata = t(apply(curdata, 1, missfxn))
     
     if (useAbs == 1)
       curdata = abs(curdata)
@@ -1006,10 +997,6 @@ FEModel.block <- function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm, debug) {
       curdataC = t(apply(curdataC, 1, missfxn))
       #print("imputed C")
     }
-    #else {
-    #
-    #}
-    #print(curdataC)
     
     
     if (useAbs == 1) {
@@ -1291,9 +1278,7 @@ KendExp.crit <- function(data, Ii, Jj, ArcI, useAbs) {
   if (ArcI == 1 || ArcI == 3) {
     nacols <- (colSums(is.na(curdataC)))
     if (sum(nacols) > 0) {
-      curdataC = apply(curdataC, 1, missfxn)
-    } else {
-      curdataC <- t(curdataC)
+      curdataC = t(apply(curdataC, 1, missfxn))
     }
   }
   
@@ -1711,11 +1696,9 @@ Euclidean.block <- function(data, Ii, Jj, cInd, useAbs) {
   if (cInd == 3 || cInd == 1) {
     nacols <- (colSums(is.na(curdata)))
     if (sum(nacols) > 0) {
-      curdata = apply(curdata, 1, missfxn)
+      curdata = t(apply(curdata, 1, missfxn))
     }
-    else {
-      curdata <- t(curdata)
-    }
+
     if (useAbs == 1)
       curdata <- abs(curdata)
     
@@ -2989,6 +2972,9 @@ SpearmanDistFast <- function(data,
                             useAbs = 1) {
   #print(row_or_col)
   data_imputed <- apply(data, row_or_col, missfxn)
+  if(row_or_col == 1) {
+    data_imputed <- t(data_imputed)
+  }
   #print(dim(data_imputed))
   
   ncol <- ncol(data_imputed)
@@ -3035,6 +3021,9 @@ SpearmanDistFastNative <- function(data,
                                   useAbs = 1) {
   #print(row_or_col)
   data_imputed <- apply(data, row_or_col, missfxn)
+  if(row_or_col == 1) {
+    data_imputed <- t(data_imputed)
+  }
   #print(dim(data_imputed))
   
   cormat <- cor(data_imputed, method = "spearman")
@@ -3107,6 +3096,9 @@ CorDistFast <- function(data,
                        useAbs = 1) {
   #missfxn transposes for column, not for row
   data_imputed <- apply(data, row_or_col, missfxn)
+  if(row_or_col == 1) {
+    data_imputed <- t(data_imputed)
+  }
   #print(dim(data_imputed))
   
   ncol <- ncol(data_imputed)
@@ -3148,6 +3140,9 @@ CorDistFastNative <- function(data,
                              useAbs = 1) {
   #missfxn transposes for column, not for row
   data_imputed <- apply(data, row_or_col, missfxn)
+  if(row_or_col == 1) {
+    data_imputed <- t(data_imputed)
+  }
   #print(dim(data_imputed))
   
   cormat <- cor(data_imputed, method = "pearson")
