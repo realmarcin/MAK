@@ -2029,7 +2029,7 @@ BatchCreate <- function(Dmat,
     }
     if (Ig != 1) {
       xmat = abs((Dmat[Ii,-Jj][, (missvec == 1)[-Jj]])) #xmat=(Dmat[Ii,-Jj][,(missvec==1)[-Jj]])#
-      xmat = t(apply(xmat, 2, missfxn)) #function(xm1) {
+      xmat = apply(xmat, 1, missfxn) #function(xm1) {
         #xm1[is.na(xm1)] = mean(xm1, na.rm = TRUE)
         #xm1
       #}))
@@ -2049,7 +2049,7 @@ BatchCreate <- function(Dmat,
     }
     if (Ig != 1) {
       xmat = abs((Dmat[Ii, Jj])) #xmat=(Dmat[Ii,Jj])#
-      xmat = t(apply(xmat, 2, missfxn)) #function(xm1) {
+      xmat = apply(xmat, 1, missfxn) #function(xm1) {
         #xm1[is.na(xm1)] = mean(xm1, na.rm = TRUE)
         #xm1
       #}))
