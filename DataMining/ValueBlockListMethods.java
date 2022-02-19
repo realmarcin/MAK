@@ -471,7 +471,7 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
 
                     try {
                         System.out.println("ValueBlockList.read UniBic");
-                        BIC = ValueBlockListMethods.readUniBic(f, d);
+                        BIC = ValueBlockListMethods.readUniBic(f, 1, d);
                         //System.out.println("ValueBlockList.read vbl " + BIC.size());
                     } catch (Exception e3) {
                         System.out.println("WARNING: failed to recognize a valid bicluster format.");
@@ -850,7 +850,7 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
      * @param debug
      * @return
      */
-    public final static ValueBlockList readUniBic(String f, boolean debug) {
+    public final static ValueBlockList readUniBic(String f,int offset,  boolean debug) {
         if (debug)
             System.out.println("readBIC " + f);
         ValueBlockList vls = null;

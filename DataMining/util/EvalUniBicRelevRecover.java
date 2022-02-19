@@ -79,11 +79,13 @@ public class EvalUniBicRelevRecover {
             System.out.println("ref " + readref);
             ValueBlockList refvbl = null;
             try {
-                refvbl = ValueBlockListMethods.readUniBic(readref, false);
+                refvbl = ValueBlockListMethods.readUniBic(readref, 1, false);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("refvbl " + refvbl.size());
             }
+
+            System.out.println(refvbl.toString());
 
             double jaccard_max_recovery = 0;
             int max_recovery_pos = -1;

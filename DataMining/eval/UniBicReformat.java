@@ -20,13 +20,13 @@ public class UniBicReformat {
         System.out.println("ref " + readref);
         ValueBlockList refvbl = null;
         try {
-            refvbl = ValueBlockListMethods.readUniBic(readref, false);
+            refvbl = ValueBlockListMethods.readUniBic(readref, 1, false);
         } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println("refvbl " + refvbl.size());
 
-        ValueBlockListMethods.writeBIC(args[1], refvbl, 1);
+        ValueBlockListMethods.writeBIC(args[1], refvbl);//, 1);
     }
 
 
