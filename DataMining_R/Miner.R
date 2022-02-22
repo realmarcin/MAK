@@ -1393,6 +1393,9 @@ Corr.block <- function(data, Ii, Jj, CorIndex, useAbs) {
     #print(curdata)
   #col
   if (CorIndex == 3 || CorIndex == 1) {
+
+    curdata <- t(apply(curdata, 1, missfxn))
+
     #print(cor(t(curdata), use = "pairwise.complete.obs"))
     #print("first")
     cors <-
@@ -1434,6 +1437,9 @@ Corr.block <- function(data, Ii, Jj, CorIndex, useAbs) {
   }
   #row
   if (CorIndex == 2 || CorIndex == 1) {
+
+    curdata <- apply(curdata, 2, missfxn)
+
     cors <-
       cor(curdata, method = "pearson", use = "pairwise.complete.obs")
     #print(cors)
