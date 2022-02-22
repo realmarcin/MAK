@@ -452,7 +452,6 @@ public class MAKflow_JBEI_SLURM_v2 {
                             "-nsamp " + nsamp + " " +
                             "-genes " + input + basename + "_geneids.txt " +
                             "-seed " + it + " " +
-                            "-debug n " +
                             "-crits " + criterion + " ";
                     if (TF_file != null) {
                         makenull_pbs += "-inTF " + TF_file + " ";
@@ -462,6 +461,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                     }
 
                     makenull_pbs += "-frxnsign " + frxnsign_param + " " + "-abs " + absvect +
+                            "-debug n " +
                             " &> " + localpath + output_subdir3 + it + "_host.$HT_TASK_ID.out\n";
                 }
 
