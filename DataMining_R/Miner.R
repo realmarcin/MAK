@@ -1385,96 +1385,93 @@ Corr.block <- function(data, Ii, Jj, CorIndex, useAbs) {
   
   dim <- dim(curdata)
   
-  if (isTRUE(curdata)) {
-    AbCor <- 1
-  }
-  else {
+  #if (isTRUE(curdata)) {
+  #  AbCor <- 1
+  #}
+  #else {
     #print(CorIndex)
     #print(curdata)
-    #row
-    if (CorIndex == 3 || CorIndex == 1) {
-      #print(cor(t(curdata), use = "pairwise.complete.obs"))
-      #print("first")
-      cors <-
-        cor(t(curdata), method = "pearson", use = "pairwise.complete.obs")
-      
-      diag(cors) <- 1
-      #print(cors)
-      if (useAbs == 0) {
-        cors <- (cors + 1) / 2
-      }
-      else if (useAbs == 1) {
-        cors <- abs(cors)
-      }
-      
-      #print("dim data 3 & 1")
-      #print(dim(curdata))
-      #print("dim cors")
-      #print(dim(cors))
-      #print(dim[1])
-      for (i in 1:dim[1]) {
-        for (j in 1:dim[1]) {
-          if (i < j && is.na(cors[i, j])) {
-            #print("is.na R")
-            #print(curdata[i, ])
-            #print(curdata[j, ])
-            #print((curdata[i, ] == curdata[j, ]))
-            if (curdata[i, ] == curdata[j, ]) {
-              cors[i, j] <- 1
-              cors[j, i] <- 1
-              #print(cors)
-            }
+  #col
+  if (CorIndex == 3 || CorIndex == 1) {
+    #print(cor(t(curdata), use = "pairwise.complete.obs"))
+    #print("first")
+    cors <-
+      cor(t(curdata), method = "pearson", use = "pairwise.complete.obs")
+
+    diag(cors) <- 1
+    #print(cors)
+    if (useAbs == 0) {
+      cors <- (cors + 1) / 2
+    }
+    else if (useAbs == 1) {
+      cors <- abs(cors)
+    }
+
+    #print("dim data 3 & 1")
+    #print(dim(curdata))
+    #print("dim cors")
+    #print(dim(cors))
+    #print(dim[1])
+    for (i in 1:dim[1]) {
+      for (j in 1:dim[1]) {
+        if (i < j && is.na(cors[i, j])) {
+          #print("is.na R")
+          #print(curdata[i, ])
+          #print(curdata[j, ])
+          #print((curdata[i, ] == curdata[j, ]))
+          if (curdata[i, ] == curdata[j, ]) {
+            cors[i, j] <- 1
+            cors[j, i] <- 1
+            #print(cors)
           }
         }
       }
-      cors[is.na(cors)] <- 0
-      #print(cors)
-      AbCorC <- mean(cors[lower.tri(cors, diag = FALSE)])
-      AbCor <- AbCorC
     }
-    #column
-    if (CorIndex == 2 || CorIndex == 1) {
-      cors <-
-        cor(curdata, method = "pearson", use = "pairwise.complete.obs")
-      #print(cors)
-      if (useAbs == 0) {
-        cors <- (cors + 1) / 2
-      }
-      else if (useAbs == 1) {
-        cors <- abs(cors)
-      }
-      #print(cors)
-      
-      #print("dim data 2 & 1")
-      #print(dim(curdata))
-      #print("dim cors")
-      #print(dim(cors))
-      #print(dim[2])
-      for (i in 1:dim[2]) {
-        for (j in 1:dim[2]) {
-          if (i < j && is.na(cors[i, j])) {
-            #print("is.na C")
-            if (curdata[, i] == curdata[, j]) {
-              cors[i, j] <- 1
-              cors[j, i] <- 1
-            }
+    cors[is.na(cors)] <- 0
+    #print(cors)
+    AbCorC <- mean(cors[lower.tri(cors, diag = FALSE)])
+    AbCor <- AbCorC
+  }
+  #row
+  if (CorIndex == 2 || CorIndex == 1) {
+    cors <-
+      cor(curdata, method = "pearson", use = "pairwise.complete.obs")
+    #print(cors)
+    if (useAbs == 0) {
+      cors <- (cors + 1) / 2
+    }
+    else if (useAbs == 1) {
+      cors <- abs(cors)
+    }
+    #print(cors)
+
+    #print("dim data 2 & 1")
+    #print(dim(curdata))
+    #print("dim cors")
+    #print(dim(cors))
+    #print(dim[2])
+    for (i in 1:dim[2]) {
+      for (j in 1:dim[2]) {
+        if (i < j && is.na(cors[i, j])) {
+          #print("is.na C")
+          if (curdata[, i] == curdata[, j]) {
+            cors[i, j] <- 1
+            cors[j, i] <- 1
           }
         }
       }
-      cors[is.na(cors)] <- 0
-      #print(cors)
-      AbCorR <- mean(cors[lower.tri(cors, diag = FALSE)])
-      
-      if (CorIndex != 1) {
-        AbCor <- AbCorR
-      }
-      else {
-        #print(AbCorR)
-        #print(AbCorC)
-        #print(paste(AbCorR, AbCorC))
-        AbCor <- (AbCorR + AbCorC) / 2
-      }
     }
+    cors[is.na(cors)] <- 0
+    #print(cors)
+    AbCorR <- mean(cors[lower.tri(cors, diag = FALSE)])
+    AbCor <- AbCorR
+  }
+
+  if (CorIndex == 1) {
+    #print(AbCorR)
+    #print(AbCorC)
+    #print(paste(AbCorR, AbCorC))
+    AbCor <- (AbCorR + AbCorC) / 2
   }
   
   #print(AbCorR)
@@ -1488,27 +1485,27 @@ CorrFast.block <- function(data, Ii, Jj, CorIndex, useAbs) {
   AbCor <- 0
   curdata <- data[Ii, Jj]
   
-  if (isTRUE(curdata)) {
-    AbCor <- 1
-  }
-  else {
+  #if (isTRUE(curdata)) {
+  #  AbCor <- 1
+  #}
+  #else {
     #row
-    if (CorIndex == 1 || CorIndex == 2) {
-      cors <- CorDistFastNative(curdata, CorIndex, useAbs)
-      cors[is.na(cors)] <- 1
-      AbCor <- mean(cors[lower.tri(cors, diag = FALSE)])
-    }
-    else if (CorIndex == 3) {
-      corsR <- CorDistFast(curdata, 1, useAbs)
-      corsC <- CorDistFast(curdata, 2, useAbs)
-      
-      corsR[is.na(corsR)] <- 1
-      corsC[is.na(corsC)] <- 1
-      AbCorR <- mean(corsR[lower.tri(corsR, diag = FALSE)])
-      AbCorC <- mean(corsC[lower.tri(corsC, diag = FALSE)])
-      AbCor <- (AbCorR + AbCorC) / 2
-    }
+  if (CorIndex == 2 || CorIndex == 3) {
+    cors <- CorDistFastNative(curdata, CorIndex, useAbs)
+    cors[is.na(cors)] <- 1
+    AbCor <- mean(cors[lower.tri(cors, diag = FALSE)])
   }
+  else if (CorIndex == 1) {
+    corsR <- CorDistFast(curdata, 1, useAbs)
+    corsC <- CorDistFast(curdata, 2, useAbs)
+
+    corsR[is.na(corsR)] <- 1
+    corsC[is.na(corsC)] <- 1
+    AbCorR <- mean(corsR[lower.tri(corsR, diag = FALSE)])
+    AbCorC <- mean(corsC[lower.tri(corsC, diag = FALSE)])
+    AbCor <- (AbCorR + AbCorC) / 2
+  }
+  #}
   
   #print(AbCorR)
   #print(AbCorC)

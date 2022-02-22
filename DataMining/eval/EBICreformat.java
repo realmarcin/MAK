@@ -18,7 +18,6 @@ public class EBICreformat {
      */
     public EBICreformat(String[] args) {
 
-
         String readref = args[0];
         System.out.println("ref " + readref);
         ValueBlockList refvbl = null;
