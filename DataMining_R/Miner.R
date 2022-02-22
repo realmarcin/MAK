@@ -2021,18 +2021,18 @@ BatchCreate <- function(Dmat,
     #addition move
     if (Ig == 1) {
       xmat = abs(t(Dmat[-Ii, Jj][(missvec == 1)[-Ii], ])) #xmat=t(Dmat[-Ii,Jj][(missvec==1)[-Ii],])#
-      xmat = t(apply(xmat, 2, missfxn)) #function(xm1) {
-        #xm1[is.na(xm1)] = mean(xm1, na.rm = TRUE)
-        #(xm1)
-      #}))
+      xmat = t(apply(xmat, 2, function(xm1) {
+        xm1[is.na(xm1)] = mean(xm1, na.rm = TRUE)
+        (xm1)
+      }))
       IndB = (1:dim(Dmat)[1])[-Ii][(missvec == 1)[-Ii]]
     }
     if (Ig != 1) {
       xmat = abs((Dmat[Ii,-Jj][, (missvec == 1)[-Jj]])) #xmat=(Dmat[Ii,-Jj][,(missvec==1)[-Jj]])#
-      xmat = apply(xmat, 1, missfxn) #function(xm1) {
-        #xm1[is.na(xm1)] = mean(xm1, na.rm = TRUE)
-        #xm1
-      #}))
+      xmat = t(apply(xmat, 2, function(xm1) {
+        xm1[is.na(xm1)] = mean(xm1, na.rm = TRUE)
+        xm1
+      }))
       IndB = (1:dim(Dmat)[2])[-Jj][(missvec == 1)[-Jj]]
     }
   }
@@ -2040,19 +2040,19 @@ BatchCreate <- function(Dmat,
     #subtraction move
     if (Ig == 1) {
       xmat = abs(t(Dmat[Ii, Jj])) #xmat=t(Dmat[Ii,Jj])#
-      xmat = t(apply(xmat, 2, missfxn)) #function(xm1) {
-        #xm1[is.na(xm1)] = mean(xm1, na.rm = TRUE)
-        #xm1
-      #}))
+      xmat = t(apply(xmat, 2, function(xm1) {
+        xm1[is.na(xm1)] = mean(xm1, na.rm = TRUE)
+        xm1
+      }))
       IndB = Ii
       #print(rowSums(is.na(xmat)))
     }
     if (Ig != 1) {
       xmat = abs((Dmat[Ii, Jj])) #xmat=(Dmat[Ii,Jj])#
-      xmat = apply(xmat, 1, missfxn) #function(xm1) {
-        #xm1[is.na(xm1)] = mean(xm1, na.rm = TRUE)
-        #xm1
-      #}))
+      xmat = t(apply(xmat, 2, function(xm1) {
+        xm1[is.na(xm1)] = mean(xm1, na.rm = TRUE)
+        xm1
+      }))
       IndB = Jj
       #print(colSums(is.na(xmat)))
     }

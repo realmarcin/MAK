@@ -23,7 +23,7 @@ public class EBICreformat {
         System.out.println("ref " + readref);
         ValueBlockList refvbl = null;
         try {
-            refvbl = ValueBlockListMethods.readUniBic(readref, false);
+            refvbl = ValueBlockListMethods.readUniBic(readref, 0,false);
         } catch (Exception e) {
             e.printStackTrace();
         }
