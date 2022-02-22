@@ -1278,7 +1278,10 @@ KendExp.crit <- function(data, Ii, Jj, ArcI, useAbs) {
   if (ArcI == 1 || ArcI == 3) {
     nacols <- (colSums(is.na(curdataC)))
     if (sum(nacols) > 0) {
-      curdataC = t(apply(curdataC, 1, missfxn))
+      curdataC = apply(curdataC, 1, missfxn)
+    }
+    else {
+      curdataC <- t(curdataC)
     }
   }
   
