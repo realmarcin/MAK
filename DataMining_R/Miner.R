@@ -1531,16 +1531,16 @@ Spearman.block <- function(data, Ii, Jj, SpearIndex, useAbs) {
   #print(paste("dim", dim))
   
   #If all identical values
-  if (isTRUE(curdata)) {
-    AbCor <- 1
-  }
-  else {
+  #if (isTRUE(curdata)) {
+  #  AbCor <- 1
+  #}
+  #else {
     #print(SpearIndex)
     #print(curdata)
     #row
     if (SpearIndex == 3 || SpearIndex == 1) {
       #print("first")
-      cors <- SpearmanDist(curdata, 1, useAbs)
+      cors <- SpearmanDist(curdata, useAbs)
       
       diag(cors) <- 1
       #print(cors)
@@ -1582,7 +1582,7 @@ Spearman.block <- function(data, Ii, Jj, SpearIndex, useAbs) {
     }
     #column
     if (SpearIndex == 2 || SpearIndex == 1) {
-      cors <- SpearmanDist(t(curdata), 2, useAbs)
+      cors <- SpearmanDist(t(curdata), useAbs)
       #print(cors)
       if (useAbs == 0) {
         cors <- (cors + 1) / 2
@@ -1625,7 +1625,7 @@ Spearman.block <- function(data, Ii, Jj, SpearIndex, useAbs) {
         AbCor <- (AbCorR + AbCorC) / 2
       }
     }
-  }
+  #}
   
   #print(AbCorR)
   #print(AbCorC)
@@ -2930,10 +2930,10 @@ SpearmanDist <- function(data,
   d <- mat.or.vec(dim[1], dim[1])
   
   #check if all same values, yes = 1
-  if (isTRUE(curdata)) {
-    d <- 0
-  }
-  else {
+  #if (isTRUE(curdata)) {
+  #  d <- 0
+  #}
+  #else {
     for (j in 1:dim[1]) {
       for (i in 1:dim[1]) {
         if ((sym && j > i) || (!sym && i != j)) {
@@ -2968,7 +2968,7 @@ SpearmanDist <- function(data,
         }
       }
     }
-  }
+  #}
   d
 }
 
