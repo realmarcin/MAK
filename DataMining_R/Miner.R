@@ -1497,7 +1497,7 @@ CorrFast.block <- function(data, Ii, Jj, CorIndex, useAbs) {
   #else {
     #row
   if (CorIndex == 2 || CorIndex == 3) {
-    cors <- CorDistFast(curdata, CorIndex, useAbs) #CorDistFastNative
+    cors <- CorDistFast(curdata, CorIndex-1, useAbs) #CorDistFastNative
     cors[is.na(cors)] <- 1
     AbCor <- mean(cors[lower.tri(cors, diag = FALSE)])
   }
