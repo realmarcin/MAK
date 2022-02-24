@@ -461,7 +461,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                     }
 
                     makenull_pbs += "-frxnsign " + frxnsign_param + " " + "-abs " + absvect +
-                            "-debug n " +
+                            " -debug n " +
                             " &> " + localpath + output_subdir3 + it + "_host.$HT_TASK_ID.out\n";
                 }
 
