@@ -1638,11 +1638,11 @@ SpearmanFast.block <- function(data, Ii, Jj, CorIndex, useAbs) {
   retCor <- 0
   curdata <- data[Ii, Jj]
   
-  if (isTRUE(curdata)) {
+  #if (isTRUE(curdata)) {
     #print("isTRUE")
-    retCor <- 1
-  }
-  else {
+  #  retCor <- 1
+  #}
+  #else {
     #row or column
     if (CorIndex == 1 ||  CorIndex == 2) {
       cors <- SpearmanDistFastNative(curdata, CorIndex, useAbs)
@@ -1660,7 +1660,7 @@ SpearmanFast.block <- function(data, Ii, Jj, CorIndex, useAbs) {
       retCorC <- mean(corsC[lower.tri(corsC, diag = FALSE)])
       retCor <- (retCorR + retCorC) / 2
     }
-  }
+  #}
   
   #print(retCorR)
   #print(retCorC)
@@ -3054,10 +3054,10 @@ CorDist <- function(data,
   d <- mat.or.vec(dim[1], dim[1])
   
   #check if all same values, yes = 1
-  if (isTRUE(curdata)) {
-    d <- 0
-  }
-  else {
+  #if (isTRUE(curdata)) {
+  #  d <- 0
+  #}
+  #else {
     for (j in 1:dim[1]) {
       for (i in 1:dim[1]) {
         if ((sym && j > i) || (!sym && i != j)) {
@@ -3092,7 +3092,7 @@ CorDist <- function(data,
         }
       }
     }
-  }
+  #}
   d
 }
 
@@ -3145,9 +3145,16 @@ CorDistFastNative <- function(data,
                              row_or_col = 1,
                              useAbs = 1) {
   #missfxn transposes for row, not for column
-  data_imputed <- apply(data, row_or_col, missfxn)
   if(row_or_col == 1) {
-    data_imputed <- t(data_imputed)
+    narows <- (rowSums(is.na(data)))
+    if(sum(narows) > 0) {
+      data_imputed <- apply(data, 2, missfxn)
+    }
+  } else if(row_or_col == 2) {
+    nacols <- (colSums(is.na(data)))
+      if(sum(nacols) > 0) { {
+        data_imputed <- t(apply(data, 1, missfxn))
+    }
   }
   #print(dim(data_imputed))
   
