@@ -1497,13 +1497,13 @@ CorrFast.block <- function(data, Ii, Jj, CorIndex, useAbs) {
   #else {
     #row
   if (CorIndex == 2 || CorIndex == 3) {
-    cors <- CorDistFast(curdata, CorIndex-1, useAbs) #CorDistFastNative
+    cors <- CorDistFastNative(curdata, CorIndex-1, useAbs) #CorDistFast
     cors[is.na(cors)] <- 1
     AbCor <- mean(cors[lower.tri(cors, diag = FALSE)])
   }
   else if (CorIndex == 1) {
-    corsR <- CorDistFast(curdata, 1, useAbs)
-    corsC <- CorDistFast(curdata, 2, useAbs)
+    corsR <- CorDistFastNative(curdata, 1, useAbs) #CorDistFast
+    corsC <- CorDistFastNative(curdata, 2, useAbs) #CorDistFast
 
     corsR[is.na(corsR)] <- 1
     corsC[is.na(corsC)] <- 1
@@ -3144,7 +3144,7 @@ CorDistFast <- function(data,
 CorDistFastNative <- function(data,
                              row_or_col = 1,
                              useAbs = 1) {
-  #missfxn transposes for column, not for row
+  #missfxn transposes for row, not for column
   data_imputed <- apply(data, row_or_col, missfxn)
   if(row_or_col == 1) {
     data_imputed <- t(data_imputed)
