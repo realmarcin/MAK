@@ -3152,7 +3152,7 @@ CorDistFastNative <- function(data,
     }
   } else if(row_or_col == 2) {
     nacols <- (colSums(is.na(data)))
-      if(sum(nacols) > 0) { {
+      if(sum(nacols) > 0) {
         data_imputed <- t(apply(data, 1, missfxn))
     }
   }
