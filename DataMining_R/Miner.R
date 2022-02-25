@@ -3100,12 +3100,19 @@ CorDist <- function(data,
 CorDistFast <- function(data,
                        row_or_col = 1,
                        useAbs = 1) {
-  #missfxn transposes for column, not for row
-  data_imputed <- apply(data, row_or_col, missfxn)
-  #if(row_or_col == 1) {
-  #  data_imputed <- t(data_imputed)
-  #}
-  #print(dim(data_imputed))
+  data_imputed <- data
+  #missfxn transposes for row, not for column
+  if(row_or_col == 1) {
+    narows <- (rowSums(is.na(data)))
+    if(sum(narows) > 0) {
+      data_imputed <- apply(data, 2, missfxn)
+    }
+  } else if(row_or_col == 2) {
+    nacols <- (colSums(is.na(data)))
+    if(sum(nacols) > 0) {
+      data_imputed <- t(apply(data, 1, missfxn))
+    }
+  }
   
   ncol <- ncol(data_imputed)
   nrow <- nrow(data_imputed)
@@ -3144,6 +3151,7 @@ CorDistFast <- function(data,
 CorDistFastNative <- function(data,
                              row_or_col = 1,
                              useAbs = 1) {
+  data_imputed <- data
   #missfxn transposes for row, not for column
   if(row_or_col == 1) {
     narows <- (rowSums(is.na(data)))
