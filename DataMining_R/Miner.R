@@ -739,9 +739,16 @@ ElarsCrit.block <- function(data, Ii, Jj, ARC, I, J, useAbs) {
     }
     
     if (sum(nacols) > 0) {
-      curdataC = t(apply(curdataC, 1, missfxn))
+      curdataC = apply(curdataC, 1, missfxn)
     }
-    
+    else {
+      curdataC <- t(curdataC)
+    }
+
+    #if(sum(nacols) > 0) {
+    #    curdataC=t(apply(curdataC,1,missfxn))
+    #}
+
     if (useAbs == 1)
       curdataC <- abs(curdataC)
     
@@ -877,11 +884,13 @@ EgeeCrit_slow.block <- function(data,
       }
     }
     
-    if (sum(nacols) > 0)
+    if (sum(nacols) > 0) {
       curdata = t(apply(curdata, 1, missfxn))
+    }
     
-    if (useAbs == 1)
+    if (useAbs == 1) {
       curdata = abs(curdata)
+    }
     
     #print("1")
     #if(is.null(pscore)==0) curdata=preScore_block(curdata,ARC)
@@ -1410,11 +1419,6 @@ Corr.block <- function(data, Ii, Jj, CorIndex, useAbs) {
       cors <- abs(cors)
     }
 
-    #print("dim data 3 & 1")
-    #print(dim(curdata))
-    #print("dim cors")
-    #print(dim(cors))
-    #print(dim[1])
     for (i in 1:dim[1]) {
       for (j in 1:dim[1]) {
         if (i < j && is.na(cors[i, j])) {
@@ -1451,11 +1455,6 @@ Corr.block <- function(data, Ii, Jj, CorIndex, useAbs) {
     }
     #print(cors)
 
-    #print("dim data 2 & 1")
-    #print(dim(curdata))
-    #print("dim cors")
-    #print(dim(cors))
-    #print(dim[2])
     for (i in 1:dim[2]) {
       for (j in 1:dim[2]) {
         if (i < j && is.na(cors[i, j])) {
@@ -1491,22 +1490,22 @@ CorrFast.block <- function(data, Ii, Jj, CorIndex, useAbs) {
   AbCor <- 0
   curdata <- data[Ii, Jj]
   
-  #if (isTRUE(curdata)) {
+   #if (isTRUE(curdata)) {
   #  AbCor <- 1
   #}
   #else {
     #row
   if (CorIndex == 2 || CorIndex == 3) {
     cors <- CorDistFastNative(curdata, CorIndex-1, useAbs) #CorDistFast
-    cors[is.na(cors)] <- 1
+    cors[is.na(cors)] <- 0
     AbCor <- mean(cors[lower.tri(cors, diag = FALSE)])
   }
   else if (CorIndex == 1) {
     corsR <- CorDistFastNative(curdata, 1, useAbs) #CorDistFast
     corsC <- CorDistFastNative(curdata, 2, useAbs) #CorDistFast
 
-    corsR[is.na(corsR)] <- 1
-    corsC[is.na(corsC)] <- 1
+    corsR[is.na(corsR)] <- 0
+    corsC[is.na(corsC)] <- 0
     AbCorR <- mean(corsR[lower.tri(corsR, diag = FALSE)])
     AbCorC <- mean(corsC[lower.tri(corsC, diag = FALSE)])
     AbCor <- (AbCorR + AbCorC) / 2
@@ -1647,15 +1646,15 @@ SpearmanFast.block <- function(data, Ii, Jj, CorIndex, useAbs) {
     if (CorIndex == 1 ||  CorIndex == 2) {
       cors <- SpearmanDistFastNative(curdata, CorIndex, useAbs)
       #print(dim(cors))
-      cors[is.na(cors)] <- 1
+      cors[is.na(cors)] <- 0
       retCor <- mean(cors[lower.tri(cors, diag = FALSE)])
     }
     else if (CorIndex == 3) {
       corsR <- SpearmanDistFastNative(curdata, 1, useAbs)
       corsC <- SpearmanDistFastNative(curdata, 2, useAbs)
       
-      corsR[is.na(corsR)] <- 1
-      corsC[is.na(corsC)] <- 1
+      corsR[is.na(corsR)] <- 0
+      corsC[is.na(corsC)] <- 0
       retCorR <- mean(corsR[lower.tri(corsR, diag = FALSE)])
       retCorC <- mean(corsC[lower.tri(corsC, diag = FALSE)])
       retCor <- (retCorR + retCorC) / 2
@@ -2977,9 +2976,18 @@ SpearmanDistFast <- function(data,
                             row_or_col = 1,
                             useAbs = 1) {
   #print(row_or_col)
-  data_imputed <- apply(data, row_or_col, missfxn)
+  data_imputed <- data
+  #missfxn transposes for row, not for column
   if(row_or_col == 1) {
-    data_imputed <- t(data_imputed)
+    narows <- (rowSums(is.na(data)))
+    if(sum(narows) > 0) {
+      data_imputed <- apply(data, 2, missfxn)
+    }
+  } else if(row_or_col == 2) {
+    nacols <- (colSums(is.na(data)))
+    if(sum(nacols) > 0) {
+      data_imputed <- t(apply(data, 1, missfxn))
+    }
   }
   #print(dim(data_imputed))
   
@@ -3026,9 +3034,18 @@ SpearmanDistFastNative <- function(data,
                                   row_or_col = 1,
                                   useAbs = 1) {
   #print(row_or_col)
-  data_imputed <- apply(data, row_or_col, missfxn)
+  data_imputed <- data
+  #missfxn transposes for row, not for column
   if(row_or_col == 1) {
-    data_imputed <- t(data_imputed)
+    narows <- (rowSums(is.na(data)))
+    if(sum(narows) > 0) {
+      data_imputed <- apply(data, 2, missfxn)
+    }
+  } else if(row_or_col == 2) {
+    nacols <- (colSums(is.na(data)))
+    if(sum(nacols) > 0) {
+      data_imputed <- t(apply(data, 1, missfxn))
+    }
   }
   #print(dim(data_imputed))
   
