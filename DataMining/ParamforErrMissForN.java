@@ -106,7 +106,7 @@ public class ParamforErrMissForN {
         if (args.length >= 5) {
             ParamforErrMissForN rm = new ParamforErrMissForN(args);
         } else {
-            System.out.println("syntax: java DataMining.func.ObtainPairwiseEnrichmentDistance\n" +
+            System.out.println("syntax: java DataMining.ParamforErrMissForN\n" +
                             "<-out_dir>\n" +
                             "<-param_dir>\n" +
                             "<-results_dir>\n"

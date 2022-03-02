@@ -216,11 +216,13 @@ public class ParamforErrMiss {
                 }
             }
             System.out.println("finished " + datadir + "\t" + missing + "\t" + missingAr.size());
-            String out = MoreArray.arrayListtoString(missingAr, ",");
-            missingArInt = MoreArray.ArrayListtoInt(missingAr);
-            System.out.println(out);
-            ParsePath pp = new ParsePath(datadir);
-            TextFile.write(out, "ParamforErrMiss_" + pp.getLastDirinPath() + ".txt");
+            if(missingAr.size() > 0) {
+                String out = MoreArray.arrayListtoString(missingAr, ",");
+                missingArInt = MoreArray.ArrayListtoInt(missingAr);
+                System.out.println(out);
+                ParsePath pp = new ParsePath(datadir);
+                TextFile.write(out, "ParamforErrMiss_" + pp.getLastDirinPath() + ".txt");
+            }
         }
     }
 
