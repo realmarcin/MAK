@@ -1344,7 +1344,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 }
 
                 long len = fileLen(testlen);
-
+                System.out.println("missing task len " + len);
                 if (len > 0) {
                     try {
                         run_ht_helper(localpath + input + basename + "_rerun_miner.tasks", scriptbox, default_walltime,
@@ -1367,7 +1367,7 @@ public class MAKflow_JBEI_SLURM_v2 {
             if (setLevel == 12 && (stopLevel >= 12 || stopLevel == 0)) {
                 long start = System.currentTimeMillis();
                 int iteration = counter + 1;
-                System.out.println("LEVEL12 iteration "+iteration);
+                System.out.println("LEVEL12 iteration " + iteration);
                 String input = "level7_iter" + iteration + ".1/toplist_files/";
                 String scriptbox = "level12.0/";
                 String output = "level12.1/";
@@ -1439,7 +1439,7 @@ public class MAKflow_JBEI_SLURM_v2 {
 
         /* level13 ApplyCut */
         if (setLevel == 13 && (stopLevel >= 13 || stopLevel == 0)) {
-            System.out.println("LEVEL 13 iteration "+iter);
+            System.out.println("LEVEL 13 iteration " + iter);
             long start = System.currentTimeMillis();
 
             String input = "level12.1/";
@@ -2630,9 +2630,9 @@ public class MAKflow_JBEI_SLURM_v2 {
                                 }
                             } else if (param_key.equalsIgnoreCase("startiter")) {
                                 try {
-                                    if (Integer.parseInt(param_val) > 1) {
-                                        startiter = Integer.parseInt(param_val);
-                                    }
+                                    //if (Integer.parseInt(param_val) > 1) {
+                                    startiter = Integer.parseInt(param_val);
+                                    //}
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
