@@ -50,7 +50,7 @@ public class MakeParamTasks {
                 out.add("java -Xmx1G DataMining.RunMiner -param " + (indir + "/" + files[i]) + " &> " + indir + "_out/" + files[i] + ".out");
 
         }
-        if (files.length > 0)
+        //if (files.length > 0)
             TextFile.write(out, outfile);
     }
 

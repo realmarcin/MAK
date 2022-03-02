@@ -1291,7 +1291,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 task_script = "java -Xmx" + (int) (mem_per_cpu * 1000.0) + "M DataMining.util.MakeParamTasks ";
                 task_script += localpath + "level10_iter" + iteration + ".1/ParamforErrMiss/ " +
                         localpath + "level10_iter" + iteration + ".0/" + task_file + " " + iteration + " " + localpath + " " + (int) mem_per_cpu +
-                        "&> " + localpath + "level10_iter" + iteration + ".1/MakeParamTasks.out";
+                        " &> " + localpath + "level10_iter" + iteration + ".1/MakeParamTasks.out";
                 System.out.println("task_script");
                 System.out.println(task_script);
                 runCmd(task_script, scriptbox, task_script_file);
@@ -1337,16 +1337,21 @@ public class MAKflow_JBEI_SLURM_v2 {
                 createFile(scriptbox);
                 createFile(output);
 
-                if (!doesFileExist(localpath + input + basename + "_rerun_miner.tasks")) {
+                File testlen = new File(localpath + input + basename + "_rerun_miner.tasks");
+                if (!testlen.exists()) {
                     System.out.println("ERROR: The Re-RunMiner task file does not exist: " + localpath + input + basename + "_rerun_miner.tasks" + "\nExiting now...");
                     System.exit(1);
                 }
 
-                try {
-                    run_ht_helper(localpath + input + basename + "_rerun_miner.tasks", scriptbox, default_walltime,
-                            null, max_jobs, mem_per_cpu, false, (int) setLevel);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                long len = fileLen(testlen);
+
+                if (len > 0) {
+                    try {
+                        run_ht_helper(localpath + input + basename + "_rerun_miner.tasks", scriptbox, default_walltime,
+                                null, max_jobs, mem_per_cpu, false, (int) setLevel);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 long end = System.currentTimeMillis();
@@ -1534,8 +1539,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                         " -over 0.25 -mode score -type root -out " + localpath + output +
                         "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0__nr_0.25_score_root.txt" +
                         " &>" + localpath + output + "SelectNRSet.out";
-            }
-            else {
+            } else {
                 String input2 = "level12.1/";
                 selectnrset_script += "java -Xmx" + (int) (mem_per_cpu * 3000.0) + "M DataMining.util.SelectNRSet " +
                         "-bic " + localpath + input2 + "results_" + basename + ".vbl" +
@@ -3329,6 +3333,11 @@ public class MAKflow_JBEI_SLURM_v2 {
                 jobIsRunning = tmp_flag;
             }
         }
+    }
+
+    long fileLen(File f) {
+        long length = f.length();
+        return length;
     }
 
     boolean doesFileExist(String file) {
