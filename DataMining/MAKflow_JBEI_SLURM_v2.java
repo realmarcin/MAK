@@ -1265,9 +1265,8 @@ public class MAKflow_JBEI_SLURM_v2 {
                     pfem_script = "java -Xmx" + (int) (mem_per_cpu * 1000.0) + "M DataMining.ParamforErrMiss ";
                     pfem_script += localpath + "level7_iter" + iteration + ".1/results/ " +
                             localpath + "level7_iter" + iteration + ".1/" + basename + "_1/ " +
-                            localpath + "level10_iter" + iteration + ".1/ParamforErrMiss/ ";
-                    if (stdout)
-                        pfem_script += "&> " + localpath + "level10_iter" + iteration + ".1/param_for_err_miss.out";
+                            localpath + "level10_iter" + iteration + ".1/ParamforErrMiss/ " +
+                            "&> " + localpath + "level10_iter" + iteration + ".1/param_for_err_miss.out";
                     System.out.println("pfem_script " + pfem_script);
                     runCmd(pfem_script, scriptbox, pfem_script_file);
 
@@ -1275,9 +1274,8 @@ public class MAKflow_JBEI_SLURM_v2 {
                     pfem_script = "java -Xmx" + (int) (mem_per_cpu * 1000.0) + "M DataMining.ParamforErrMissForN ";
                     pfem_script += " -results_dir " + localpath + "level7_iter" + iteration + ".1/results/ " +
                             " -param_dir " + localpath + "level7_iter" + iteration + ".1/" + basename + "_1/ " +
-                            " -out_dir " + localpath + "level10_iter" + iteration + ".1/ParamforErrMiss/ ";
-                    if (stdout)
-                        pfem_script += "&> " + localpath + "level10_iter" + iteration + ".1/param_for_err_miss.out";
+                            " -out_dir " + localpath + "level10_iter" + iteration + ".1/ParamforErrMiss/ " +
+                            "&> " + localpath + "level10_iter" + iteration + ".1/param_for_err_miss.out";
                     System.out.println("pfem_script");
                     System.out.println(pfem_script);
                     runCmd(pfem_script, scriptbox, pfem_script_file);
@@ -1292,9 +1290,8 @@ public class MAKflow_JBEI_SLURM_v2 {
 
                 task_script = "java -Xmx" + (int) (mem_per_cpu * 1000.0) + "M DataMining.util.MakeParamTasks ";
                 task_script += localpath + "level10_iter" + iteration + ".1/ParamforErrMiss/ " +
-                        localpath + "level10_iter" + iteration + ".0/" + task_file + " " + iteration + " " + localpath + " " + (int) mem_per_cpu;
-                if (stdout)
-                    task_script += "&> " + localpath + "level10_iter" + iteration + ".1/MakeParamTasks.out";
+                        localpath + "level10_iter" + iteration + ".0/" + task_file + " " + iteration + " " + localpath + " " + (int) mem_per_cpu +
+                        "&> " + localpath + "level10_iter" + iteration + ".1/MakeParamTasks.out";
                 System.out.println("task_script");
                 System.out.println(task_script);
                 runCmd(task_script, scriptbox, task_script_file);
@@ -1535,17 +1532,16 @@ public class MAKflow_JBEI_SLURM_v2 {
                 selectnrset_script += "java -Xmx" + (int) (mem_per_cpu * 3000.0) + "M DataMining.util.SelectNRSet " +
                         "-bic " + localpath + input + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt" +
                         " -over 0.25 -mode score -type root -out " + localpath + output +
-                        "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0__nr_0.25_score_root.txt";
-                if (stdout)
-                    selectnrset_script += " &>" + localpath + output + "SelectNRSet.out";
-            } else {
+                        "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0__nr_0.25_score_root.txt" +
+                        " &>" + localpath + output + "SelectNRSet.out";
+            }
+            else {
                 String input2 = "level12.1/";
                 selectnrset_script += "java -Xmx" + (int) (mem_per_cpu * 3000.0) + "M DataMining.util.SelectNRSet " +
                         "-bic " + localpath + input2 + "results_" + basename + ".vbl" +
                         " -over 0.25 -mode score -type root -out " + localpath + output +
-                        "results_" + basename + "__nr_0.25_score_root.txt";
-                if (stdout)
-                    selectnrset_script += " &>" + localpath + output + "SelectNRSet.out";
+                        "results_" + basename + "__nr_0.25_score_root.txt" +
+                        " &>" + localpath + output + "SelectNRSet.out";
             }
 
             TextFile.write(selectnrset_script, sl_sns);
@@ -2088,10 +2084,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 String name_prefix = basename + "_refine_refinement_input_";
                 String name_suffix = "__" + criterion + "__AG_" + MINER_STATIC.RANDOM_SEEDS[0] + "_out.txt";
 
-                cmd += "java -Xmx" + (int) (mem_per_cpu * 1000.0) + "M DataMining.CollectRefinementResults -indir " + outfile_dir + " -name_prefix " + name_prefix + " -name_suffix " + name_suffix + " -outfile " + tmp_vbl;
-                if (stdout)
-                    cmd += " &> " + localpath + scriptbox + "collect_partial.out";
-
+                cmd += "java -Xmx" + (int) (mem_per_cpu * 1000.0) + "M DataMining.CollectRefinementResults -indir " + outfile_dir + " -name_prefix " + name_prefix + " -name_suffix " + name_suffix + " -outfile " + tmp_vbl + " &> " + localpath + scriptbox + "collect_partial.out";
                 String run_collect_partial = "collect_partial.sl";
                 TextFile.write(cmd, run_collect_partial);
 
@@ -2271,9 +2264,7 @@ public class MAKflow_JBEI_SLURM_v2 {
 
                 listmergeMembers_script += "java -Xmx" + (int) (mem_per_cpu * 1000.0) + "M DataMining.ListMergeMembersPreComputed -dir " + localpath + input + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt" +
                         " -crit " + criterion + " -param " + localpath + scriptbox + "param_example.txt" + " -ocut 0.25 -misscut 1.0 -numgene 1000 " +
-                        "-complete y -live n -out " + localpath + output + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0_ocut_0.25_misscut_1.0_reconstructed.txt";
-                if (stdout)
-                    listmergeMembers_script += "&>" + localpath + output + "ListMergeMembers_0.25_0.out";
+                        "-complete y -live n -out " + localpath + output + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0_ocut_0.25_misscut_1.0_reconstructed.txt &>" + localpath + output + "ListMergeMembers_0.25_0.out";
                 TextFile.write(listmergeMembers_script, sl_lmm);
 
                 String task_shell_out = localpath + scriptbox + "out.txt";
@@ -3107,12 +3098,11 @@ public class MAKflow_JBEI_SLURM_v2 {
         Process p = null;
 
         try {
-            String cmdline = "bash " + scriptbox + scriptname;
-            if (stdout)
-                cmdline += " &> " + scriptbox + scriptname + ".out";
-            p = Runtime.getRuntime().exec(cmdline);
-
+            p = Runtime.getRuntime().exec("bash " + scriptbox + scriptname + " &> " + scriptbox + scriptname + ".out");
             p.waitFor();
+            //if (stdout)
+            //                cmdline += " &> " + scriptbox + scriptname + ".out";
+            //            p = Runtime.getRuntime().exec(cmdline);
         } catch (Exception ex) {
             if (p != null) p.destroy();
             System.out.println(ex);
