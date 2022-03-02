@@ -716,7 +716,7 @@ public class MAKflow_JBEI_SLURM_v2 {
 
         for (int counter = 0; counter <= iter; counter++) {
             /* level7 create parameter files */
-            System.out.println(firstLoop + " " + startiter);
+            System.out.println(firstLoop + " " + startiter+"\t"+counter);
             if (startiter != 0 && firstLoop) {
                 counter = startiter - 1;
                 System.out.println("NEW COUNTER: " + counter);
@@ -1367,7 +1367,7 @@ public class MAKflow_JBEI_SLURM_v2 {
             if (setLevel == 12 && (stopLevel >= 12 || stopLevel == 0)) {
                 long start = System.currentTimeMillis();
                 int iteration = counter + 1;
-                System.out.println("LEVEL12 iteration " + iteration);
+                System.out.println("LEVEL12 iteration " + iter +"\t"+ iteration+"\t"+counter);
                 String input = "level7_iter" + iteration + ".1/toplist_files/";
                 String scriptbox = "level12.0/";
                 String output = "level12.1/";
