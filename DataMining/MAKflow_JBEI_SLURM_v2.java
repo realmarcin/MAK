@@ -1365,9 +1365,9 @@ public class MAKflow_JBEI_SLURM_v2 {
 
             /* level12 ListfromDir */
             if (setLevel == 12 && (stopLevel >= 12 || stopLevel == 0)) {
-                System.out.println("LEVEL12");
                 long start = System.currentTimeMillis();
                 int iteration = counter + 1;
+                System.out.println("LEVEL12 iteration "+iteration);
                 String input = "level7_iter" + iteration + ".1/toplist_files/";
                 String scriptbox = "level12.0/";
                 String output = "level12.1/";
@@ -1439,7 +1439,7 @@ public class MAKflow_JBEI_SLURM_v2 {
 
         /* level13 ApplyCut */
         if (setLevel == 13 && (stopLevel >= 13 || stopLevel == 0)) {
-            System.out.println("LEVEL 13");
+            System.out.println("LEVEL 13 iteration "+iter);
             long start = System.currentTimeMillis();
 
             String input = "level12.1/";
