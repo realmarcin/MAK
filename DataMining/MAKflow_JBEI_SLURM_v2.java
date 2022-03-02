@@ -469,7 +469,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                         makenull_pbs += "-infeat " + feat_file + " ";
                     }
                     makenull_pbs += "-frxnsign " + frxnsign_param + " " + "-abs " + absvect +
-                            " -debug n ";
+                            " -debug n\n";
                     if (stdout)
                         makenull_pbs += " &> " + localpath + output_subdir3 + it + "_host.$HT_TASK_ID.out\n";
                 }
@@ -593,7 +593,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 String Rsmooth_cmd = "#!/bin/bash\n" +
                         "R --vanilla <" + localpath + "level5.0/" + Rsmooth_script_file;
                 if (stdout)
-                    Rsmooth_cmd += " &> " + localpath + "level5.1/" + Rsmooth_script_file + ".out\n";
+                    Rsmooth_cmd += " &> " + localpath + "level5.1/" + Rsmooth_script_file + ".out";
 
                 String Rsmooth_shell = scriptbox + "Rsmooth_shell.sh";
 
@@ -1174,7 +1174,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 for (int it = 0; it < num_start_points; it++) {
                     task_script += "hostname >  " + localpath + subdir_1 + prm.OUTPREFIX + "_" + startfileprefix + "_" + it + "__" + criterion.toUpperCase() + "__AG_" + MINER_STATIC.RANDOM_SEEDS[counter] + "_host.$HT_TASK_ID.host; " +
                             "java  -Xmx" + (int) (mem_per_cpu * 1000.0) + "M DataMining.RunMiner ";
-                    task_script += "-param " + localpath + input + prm.OUTPREFIX + "_" + startfileprefix + "_" + it + "__" + criterion.toUpperCase() + "__AG_" + MINER_STATIC.RANDOM_SEEDS[counter] + "__parameters.txt ";
+                    task_script += "-param " + localpath + input + prm.OUTPREFIX + "_" + startfileprefix + "_" + it + "__" + criterion.toUpperCase() + "__AG_" + MINER_STATIC.RANDOM_SEEDS[counter] + "__parameters.txt\n";
 
                     if (stdout)
                         task_script += "&> "
@@ -2000,7 +2000,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 for (int it = 0; it < num_str_pt_refine; it++) {
                     task_script += "hostname >  " + localpath + subdir_1 + prm.OUTPREFIX + "_" + refinement_prefix + "_" + it + "__" + criterion.toUpperCase() + "__AG_" + MINER_STATIC.RANDOM_SEEDS[0] + "_host.$HT_TASK_ID.host; " +
                             "java  -Xmx" + (int) (mem_per_cpu * 1000.0) + "M DataMining.RunMiner ";
-                    task_script += "-param " + localpath + input + prm.OUTPREFIX + "_" + refinement_prefix + "_" + it + "__" + criterion.toUpperCase() + "__AG_" + MINER_STATIC.RANDOM_SEEDS[0] + "__parameters.txt ";
+                    task_script += "-param " + localpath + input + prm.OUTPREFIX + "_" + refinement_prefix + "_" + it + "__" + criterion.toUpperCase() + "__AG_" + MINER_STATIC.RANDOM_SEEDS[0] + "__parameters.txt\n";
                     if (stdout)
                         task_script += "&> " + localpath + subdir_1 + prm.OUTPREFIX + "_" + refinement_prefix + "_" + it + "__" + criterion.toUpperCase() + "__AG_" + MINER_STATIC.RANDOM_SEEDS[0] + "_host.$HT_TASK_ID.out\n";
                 }
