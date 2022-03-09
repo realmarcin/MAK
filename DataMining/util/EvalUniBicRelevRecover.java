@@ -51,7 +51,7 @@ public class EvalUniBicRelevRecover {
         ArrayList recovery_vals = new ArrayList();
         ArrayList relevance_vals = new ArrayList();
 
-        int limit = 3;
+        int limit = 5;
         if (args[1].indexOf("narrow") != -1)
             limit = 3;
         for (int i = 0; i < limit; i++) {
@@ -82,9 +82,9 @@ public class EvalUniBicRelevRecover {
                 refvbl = ValueBlockListMethods.readUniBic(readref, 1, false);
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("refvbl " + refvbl.size());
             }
 
+            System.out.println("refvbl " + refvbl.size());
             System.out.println(refvbl.toString());
 
             double jaccard_max_recovery = 0;
