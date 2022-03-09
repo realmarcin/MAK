@@ -51,7 +51,7 @@ public class EvalUniBicRelevRecover {
         ArrayList recovery_vals = new ArrayList();
         ArrayList relevance_vals = new ArrayList();
 
-        int limit = 5;
+        int limit = 3;
         if (args[1].indexOf("narrow") != -1)
             limit = 3;
         for (int i = 0; i < limit; i++) {
