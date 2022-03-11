@@ -42,7 +42,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                     "<-server template parameter file>" +
                     "<-account template parameter file>" +
                     "<-qos template parameter file>" +
-                    "<-stdout template parameter file>"
+                    "<-stdout flag for stdout for individual tasks>"
     };
 
     static String arg_desc_str = StringUtil.replace(Arrays.toString(arg_desc), "><", ">\n<");
@@ -165,7 +165,7 @@ public class MAKflow_JBEI_SLURM_v2 {
 
     boolean exclude = false;
 
-    int percent = 66;
+    double cutpercent = 66.0;
 
     boolean usePseudo = true;
     boolean useLog = false;
@@ -1463,21 +1463,21 @@ public class MAKflow_JBEI_SLURM_v2 {
                 System.exit(1);
             }
 
-            percent = 66;
+            //cutpercent = 66.0;
             String number = "NA";
             System.out.println(localpath + input + input_file);
-            String argument[] = new String[]{localpath + input + input_file, percent + "%", number};
+            String argument[] = new String[]{localpath + input + input_file, cutpercent + "%", number};
             ApplyCut.main(argument);
 
-            String move = "mv " + localpath + input + "/results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt " + localpath + output;
+            String move = "mv " + localpath + input + "/results_" + basename + "_cut_scoreperc" + cutpercent + ".0_exprNaN_0.0.txt " + localpath + output;
             /*TODO harsh renaming here with loss of info to maintain expected file name later*/
             if (iter > 1) {
-                move = "mv " + localpath + input + "/results_" + basename + "_concat" + iter + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt " + localpath + output + "/" + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt";
+                move = "mv " + localpath + input + "/results_" + basename + "_concat" + iter + "_cut_scoreperc" + cutpercent + ".0_exprNaN_0.0.txt " + localpath + output + "/" + "results_" + basename + "_cut_scoreperc" + cutpercent + ".0_exprNaN_0.0.txt";
             }
             String move_file = "move.sh";
             runCmd(move, scriptbox, move_file);
 
-            String s = localpath + output + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt";
+            String s = localpath + output + "results_" + basename + "_cut_scoreperc" + cutpercent + ".0_exprNaN_0.0.txt";
             if (!new File(s).exists()) {
                 System.out.println("WARNING: Expected file not seen: " + s);
                 // + "\nExiting.");
@@ -1509,8 +1509,8 @@ public class MAKflow_JBEI_SLURM_v2 {
             createFile(scriptbox);
             File dir = createFile(output);
 
-            if (!doesFileExist(localpath + input + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt")) {
-                System.out.println("WARNING: The ApplyCut filtered result file does not exist: " + localpath + input + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt");
+            if (!doesFileExist(localpath + input + "results_" + basename + "_cut_scoreperc" + cutpercent + ".0_exprNaN_0.0.txt")) {
+                System.out.println("WARNING: The ApplyCut filtered result file does not exist: " + localpath + input + "results_" + basename + "_cut_scoreperc" + cutpercent + ".0_exprNaN_0.0.txt");
                 // + "\nExiting now...");
                 //System.exit(1);
             }
@@ -1533,13 +1533,13 @@ public class MAKflow_JBEI_SLURM_v2 {
             if (!qos.equals(""))
                 selectnrset_script += "#SBATCH --qos=" + qos + "" + "\n";
 
-            File test = new File(localpath + input + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt");
+            File test = new File(localpath + input + "results_" + basename + "_cut_scoreperc" + cutpercent + ".0_exprNaN_0.0.txt");
             if (test.exists()) {
                 //java -mx16000M DataMining.util.SelectNRSet -bic $1 -over 0.25 -mode score -type root
                 selectnrset_script += "java -Xmx" + (int) (mem_per_cpu * 3000.0) + "M DataMining.util.SelectNRSet " +
-                        "-bic " + localpath + input + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt" +
+                        "-bic " + localpath + input + "results_" + basename + "_cut_scoreperc" + cutpercent + ".0_exprNaN_0.0.txt" +
                         " -over 0.25 -mode score -type root -out " + localpath + output +
-                        "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0__nr_0.25_score_root.txt" +
+                        "results_" + basename + "_cut_scoreperc" + cutpercent + ".0_exprNaN_0.0__nr_0.25_score_root.txt" +
                         " &>" + localpath + output + "SelectNRSet.out";
             } else {
                 String input2 = "level12.1/";
@@ -2200,17 +2200,17 @@ public class MAKflow_JBEI_SLURM_v2 {
                     System.exit(1);
                 }
 
-                percent = 66;
+                //cutpercent = 66.0;
                 String number = "NA";
                 System.out.println(localpath + input + input_file);
-                String argument[] = new String[]{localpath + input + input_file, percent + "%", number};
+                String argument[] = new String[]{localpath + input + input_file, cutpercent + "%", number};
                 ApplyCut.main(argument);
 
                 String move = "mv results_" + basename + "_cut_scoreperc* " + output;
                 String move_file = "Move";
                 runCmd(move, scriptbox, move_file);
 
-                if (!new File(localpath + output + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt").exists()) {
+                if (!new File(localpath + output + "results_" + basename + "_cut_scoreperc" + cutpercent + ".0_exprNaN_0.0.txt").exists()) {
                     System.out.println("Expected file not seen. Exiting.");
                     System.exit(0);
                 }
@@ -2250,8 +2250,8 @@ public class MAKflow_JBEI_SLURM_v2 {
                     System.exit(1);
                 }
 
-                if (!doesFileExist(localpath + input + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt")) {
-                    System.out.println("ERROR: The ApplyCut result file does not exist: " + localpath + input + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt" + "\nExiting now...");
+                if (!doesFileExist(localpath + input + "results_" + basename + "_cut_scoreperc" + cutpercent + ".0_exprNaN_0.0.txt")) {
+                    System.out.println("ERROR: The ApplyCut result file does not exist: " + localpath + input + "results_" + basename + "_cut_scoreperc" + cutpercent + ".0_exprNaN_0.0.txt" + "\nExiting now...");
                     System.exit(1);
                 }
 
@@ -2268,9 +2268,9 @@ public class MAKflow_JBEI_SLURM_v2 {
                 if (!qos.equals(""))
                     listmergeMembers_script += "#SBATCH --qos=" + qos + "" + "\n";
 
-                listmergeMembers_script += "java -Xmx" + (int) (mem_per_cpu * 1000.0) + "M DataMining.ListMergeMembersPreComputed -dir " + localpath + input + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0.txt" +
+                listmergeMembers_script += "java -Xmx" + (int) (mem_per_cpu * 1000.0) + "M DataMining.ListMergeMembersPreComputed -dir " + localpath + input + "results_" + basename + "_cut_scoreperc" + cutpercent + ".0_exprNaN_0.0.txt" +
                         " -crit " + criterion + " -param " + localpath + scriptbox + "param_example.txt" + " -ocut 0.25 -misscut 1.0 -numgene 1000 " +
-                        "-complete y -live n -out " + localpath + output + "results_" + basename + "_cut_scoreperc" + percent + ".0_exprNaN_0.0_ocut_0.25_misscut_1.0_reconstructed.txt &>" + localpath + output + "ListMergeMembers_0.25_0.out";
+                        "-complete y -live n -out " + localpath + output + "results_" + basename + "_cut_scoreperc" + cutpercent + ".0_exprNaN_0.0_ocut_0.25_misscut_1.0_reconstructed.txt &>" + localpath + output + "ListMergeMembers_0.25_0.out";
                 TextFile.write(listmergeMembers_script, sl_lmm);
 
                 String task_shell_out = localpath + scriptbox + "out.txt";
@@ -2657,6 +2657,12 @@ public class MAKflow_JBEI_SLURM_v2 {
                                 try {
 
                                     rlemin = Double.parseDouble(param_val);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }else if (param_key.equalsIgnoreCase("cutperc")) {
+                                try {
+                                    cutpercent = Double.parseDouble(param_val);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
