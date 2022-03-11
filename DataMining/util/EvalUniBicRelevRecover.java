@@ -22,6 +22,7 @@ public class EvalUniBicRelevRecover {
 
     String[] dirs = {"ONE", "TWO", "THREE", "FOUR", "FIVE"};
     String[] files = {"data1", "data2", "data3", "data4", "data5"};
+    int topN = -1;
 
     /**
      * @param args
@@ -54,6 +55,10 @@ public class EvalUniBicRelevRecover {
         int limit = 5;
         if (args[1].indexOf("narrow") != -1)
             limit = 3;
+
+        if(args.length == 3)
+            topN = Integer.parseInt(args[2]);
+
         for (int i = 0; i < limit; i++) {
 
             if (prefix.indexOf("tpye") != -1)
@@ -90,8 +95,11 @@ public class EvalUniBicRelevRecover {
             double jaccard_max_recovery = 0;
             int max_recovery_pos = -1;
             double[] recovery_vals_d = new double[refvbl.size()];
+
+            int maxTest = topN != -1? Math.max(topN, refvbl.size()):refvbl.size();
+
             for (int a = 0; a < refvbl.size(); a++) {
-                for (int b = 0; b < testvbl.size(); b++) {
+                for (int b = 0; b < maxTest; b++) {
                     double jaccard = BlockMethods.JaccardIndexGenes((ValueBlock) refvbl.get(a), (ValueBlock) testvbl.get(b));//JaccardIndexGenesExps
                     if (jaccard > jaccard_max_recovery) {
                         jaccard_max_recovery = jaccard;
@@ -106,7 +114,7 @@ public class EvalUniBicRelevRecover {
             int max_relevance_pos = -1;
 
             double[] relevance_vals_d = new double[testvbl.size()];
-            for (int b = 0; b < testvbl.size(); b++) {
+            for (int b = 0; b < maxTest; b++) {
                 for (int a = 0; a < refvbl.size(); a++) {
                     double jaccard = BlockMethods.JaccardIndexGenes((ValueBlock) testvbl.get(b), (ValueBlock) refvbl.get(a));//JaccardIndexGenesExps
                     if (jaccard > jaccard_max_relevance) {
@@ -187,12 +195,13 @@ public class EvalUniBicRelevRecover {
      * @param args
      */
     public static void main(String[] args) {
-        if (args.length == 2) {
+        if (args.length == 2 || args.length == 3) {
             EvalUniBicRelevRecover arg = new EvalUniBicRelevRecover(args);
         } else {
             System.out.println("syntax: java DataMining.util.EvalUniBicRelevRecover\n" +
                     "<ref biclusters dir>\n" +
-                    "<test biclusters dir>"
+                    "<test biclusters dir>\n"+
+                    "<optional top N>"
             );
         }
     }
