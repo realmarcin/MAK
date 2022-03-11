@@ -1466,6 +1466,14 @@ public class MAKflow_JBEI_SLURM_v2 {
             //cutpercent = 66.0;
             String number = "NA";
             System.out.println(localpath + input + input_file);
+
+            /*script is generated but this step is called directly through Java below */
+            String sl_sns = scriptbox + "applycut.sl";
+            String selectnrset_script = "java -Xmx" + (int) (mem_per_cpu * 3000.0) + "M DataMining.util.ApplyCut " +
+                    localpath + input + input_file +" "+cutpercent+" "+number;
+
+            TextFile.write(selectnrset_script, sl_sns);
+
             String argument[] = new String[]{localpath + input + input_file, cutpercent + "%", number};
             ApplyCut.main(argument);
 
@@ -2203,6 +2211,15 @@ public class MAKflow_JBEI_SLURM_v2 {
                 //cutpercent = 66.0;
                 String number = "NA";
                 System.out.println(localpath + input + input_file);
+
+                String sl_sns = scriptbox + "applycut.sl";
+                String selectnrset_script = "";
+                File test = new File(localpath + input + input_file);
+                    selectnrset_script += "java -Xmx" + (int) (mem_per_cpu * 3000.0) + "M DataMining.util.ApplyCut " +
+                            localpath + input + input_file +" "+cutpercent+" "+number;
+
+                TextFile.write(selectnrset_script, sl_sns);
+
                 String argument[] = new String[]{localpath + input + input_file, cutpercent + "%", number};
                 ApplyCut.main(argument);
 
