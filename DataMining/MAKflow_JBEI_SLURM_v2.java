@@ -469,9 +469,11 @@ public class MAKflow_JBEI_SLURM_v2 {
                         makenull_pbs += "-infeat " + feat_file + " ";
                     }
                     makenull_pbs += "-frxnsign " + frxnsign_param + " " + "-abs " + absvect +
-                            " -debug n\n";
+                            " -debug n";
                     if (stdout)
                         makenull_pbs += " &> " + localpath + output_subdir3 + it + "_host.$HT_TASK_ID.out\n";
+                    else
+                        makenull_pbs += "\n";
                 }
 
                 System.out.println("WRITING " + makenull_pbs_file);

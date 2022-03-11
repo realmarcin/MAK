@@ -265,6 +265,7 @@ public class stat {
             }
         }
         double s = Double.NaN;
+        //System.out.println("SDOverSample "+sum+"\t"+k);
         if (k > 1)
             s = Math.sqrt(sum / (double) (k - 1));
         return s;

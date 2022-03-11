@@ -98,7 +98,7 @@ public class EvalUniBicRelevRecover {
                         max_recovery_pos = b;
                     }
                 }
-                System.out.println(max_recovery_pos + "\t" + jaccard_max_recovery);
+                System.out.println("ref "+max_recovery_pos + "\t" + jaccard_max_recovery);
                 recovery_vals_d[a] = jaccard_max_recovery;
             }
 
@@ -114,7 +114,7 @@ public class EvalUniBicRelevRecover {
                         max_relevance_pos = a;
                     }
                 }
-                System.out.println(max_relevance_pos + "\t" + jaccard_max_relevance);
+                System.out.println("test "+max_relevance_pos + "\t" + jaccard_max_relevance);
                 relevance_vals_d[b] = jaccard_max_relevance;
             }
             double mean_recovery = mathy.stat.avg(recovery_vals_d);
