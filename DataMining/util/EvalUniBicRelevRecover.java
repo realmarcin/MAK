@@ -96,7 +96,7 @@ public class EvalUniBicRelevRecover {
             int max_recovery_pos = -1;
             double[] recovery_vals_d = new double[refvbl.size()];
 
-            int maxTest = topN != -1? Math.max(topN, refvbl.size()):refvbl.size();
+            int maxTest = topN != -1? Math.min(topN, testvbl.size()):testvbl.size();
 
             for (int a = 0; a < refvbl.size(); a++) {
                 for (int b = 0; b < maxTest; b++) {
