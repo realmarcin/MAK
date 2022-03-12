@@ -1480,7 +1480,7 @@ public class MAKflow_JBEI_SLURM_v2 {
             String move = "mv " + localpath + input + "/results_" + basename + "_cut_scoreperc" + cutpercent + "_exprNaN_0.0.txt " + localpath + output;
             /*TODO harsh renaming here with loss of info to maintain expected file name later*/
             if (iter > 1) {
-                move = "mv " + localpath + input + "/results_" + basename + "_concat" + iter + "_cut_scoreperc" + cutpercent + ".0_exprNaN_0.0.txt " + localpath + output + "/" + "results_" + basename + "_cut_scoreperc" + cutpercent + ".0_exprNaN_0.0.txt";
+                move = "mv " + localpath + input + "/results_" + basename + "_concat" + iter + "_cut_scoreperc" + cutpercent + "_exprNaN_0.0.txt " + localpath + output + "/" + "results_" + basename + "_cut_scoreperc" + cutpercent + ".0_exprNaN_0.0.txt";
             }
             String move_file = "move.sh";
             runCmd(move, scriptbox, move_file);
