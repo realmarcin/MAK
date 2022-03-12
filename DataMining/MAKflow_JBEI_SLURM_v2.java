@@ -1477,7 +1477,7 @@ public class MAKflow_JBEI_SLURM_v2 {
             String argument[] = new String[]{localpath + input + input_file, cutpercent + "%", number};
             ApplyCut.main(argument);
 
-            String move = "mv " + localpath + input + "/results_" + basename + "_cut_scoreperc" + cutpercent + ".0_exprNaN_0.0.txt " + localpath + output;
+            String move = "mv " + localpath + input + "/results_" + basename + "_cut_scoreperc" + cutpercent + "_exprNaN_0.0.txt " + localpath + output;
             /*TODO harsh renaming here with loss of info to maintain expected file name later*/
             if (iter > 1) {
                 move = "mv " + localpath + input + "/results_" + basename + "_concat" + iter + "_cut_scoreperc" + cutpercent + ".0_exprNaN_0.0.txt " + localpath + output + "/" + "results_" + basename + "_cut_scoreperc" + cutpercent + ".0_exprNaN_0.0.txt";
