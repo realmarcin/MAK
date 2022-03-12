@@ -9,6 +9,7 @@ import util.MoreArray;
 import util.StringUtil;
 import util.TextFile;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -65,6 +66,14 @@ public class EvalUniBicRelevRecover {
                 prefix = StringUtil.replace(prefix, "tpye", "type");
             String readtest = args[1] + "/" + dirs[i] + "/level14.1/" + "results_" + prefix + "_" + files[i] + "_cut_scoreperc66.0_exprNaN_0.0__nr_0.25_score_root.txt";
             System.out.println("test " + readtest);
+            File testf = new File(readtest);
+            if(!testf.exists()) {
+                readtest = args[1] + "/" + dirs[i] + "/level14.1/" + "results_" + prefix + "_" + files[i] + "_cut_scoreperc90.0.0_exprNaN_0.0__nr_0.25_score_root.txt";
+                testf = new File(readtest);
+                if(!testf.exists()) {
+                    readtest = args[1] + "/" + dirs[i] + "/level14.1/" + "results_" + prefix + "_" + files[i] + "_cut_scoreperc90.0_exprNaN_0.0__nr_0.25_score_root.txt";
+                }
+            }
             ValueBlockList testvbl = null;
             try {
                 testvbl = ValueBlockList.read(readtest, false);
