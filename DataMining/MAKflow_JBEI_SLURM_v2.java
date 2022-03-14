@@ -1463,7 +1463,6 @@ public class MAKflow_JBEI_SLURM_v2 {
                 System.exit(1);
             }
 
-            //cutpercent = 66.0;
             String number = "NA";
             System.out.println(localpath + input + input_file);
 
