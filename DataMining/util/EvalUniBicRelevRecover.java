@@ -71,7 +71,11 @@ public class EvalUniBicRelevRecover {
                 readtest = args[1] + "/" + dirs[i] + "/level14.1/" + "results_" + prefix + "_" + files[i] + "_cut_scoreperc90.0.0_exprNaN_0.0__nr_0.25_score_root.txt";
                 testf = new File(readtest);
                 if(!testf.exists()) {
-                    readtest = args[1] + "/" + dirs[i] + "/level14.1/" + "results_" + prefix + "_" + files[i] + "_cut_scoreperc80.0_exprNaN_0.0__nr_0.25_score_root.txt";
+                    readtest = args[1] + "/" + dirs[i] + "/level14.1/" + "results_" + prefix + "_" + files[i] + "_cut_scoreperc80.0.0_exprNaN_0.0__nr_0.25_score_root.txt";
+                    /*testf = new File(readtest);
+                    if(!testf.exists()) {
+                        readtest = args[1] + "/" + dirs[i] + "/level14.1/" + "results_" + prefix + "_" + files[i] + "_cut_scoreperc80.0.0_exprNaN_0.0__nr_0.25_score_root.txt";
+                    }*/
                 }
             }
             ValueBlockList testvbl = null;
