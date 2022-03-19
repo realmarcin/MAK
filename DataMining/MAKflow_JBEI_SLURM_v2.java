@@ -1177,11 +1177,13 @@ public class MAKflow_JBEI_SLURM_v2 {
                 for (int it = 0; it < num_start_points; it++) {
                     task_script += "hostname >  " + localpath + subdir_1 + prm.OUTPREFIX + "_" + startfileprefix + "_" + it + "__" + criterion.toUpperCase() + "__AG_" + MINER_STATIC.RANDOM_SEEDS[counter] + "_host.$HT_TASK_ID.host; " +
                             "java  -Xmx" + (int) (mem_per_cpu * 1000.0) + "M DataMining.RunMiner ";
-                    task_script += "-param " + localpath + input + prm.OUTPREFIX + "_" + startfileprefix + "_" + it + "__" + criterion.toUpperCase() + "__AG_" + MINER_STATIC.RANDOM_SEEDS[counter] + "__parameters.txt\n";
+                    task_script += "-param " + localpath + input + prm.OUTPREFIX + "_" + startfileprefix + "_" + it + "__" + criterion.toUpperCase() + "__AG_" + MINER_STATIC.RANDOM_SEEDS[counter] + "__parameters.txt";
 
                     if (stdout)
-                        task_script += "&> "
+                        task_script += " &> "
                                 + localpath + subdir_1 + prm.OUTPREFIX + "_" + startfileprefix + "_" + it + "__" + criterion.toUpperCase() + "__AG_" + MINER_STATIC.RANDOM_SEEDS[counter] + "_host.$HT_TASK_ID.out\n";
+                    else
+                        task_script +="\n";
                 }
                 System.out.println("RunMiner task file written!");
 
@@ -2010,9 +2012,11 @@ public class MAKflow_JBEI_SLURM_v2 {
                 for (int it = 0; it < num_str_pt_refine; it++) {
                     task_script += "hostname >  " + localpath + subdir_1 + prm.OUTPREFIX + "_" + refinement_prefix + "_" + it + "__" + criterion.toUpperCase() + "__AG_" + MINER_STATIC.RANDOM_SEEDS[0] + "_host.$HT_TASK_ID.host; " +
                             "java  -Xmx" + (int) (mem_per_cpu * 1000.0) + "M DataMining.RunMiner ";
-                    task_script += "-param " + localpath + input + prm.OUTPREFIX + "_" + refinement_prefix + "_" + it + "__" + criterion.toUpperCase() + "__AG_" + MINER_STATIC.RANDOM_SEEDS[0] + "__parameters.txt\n";
+                    task_script += "-param " + localpath + input + prm.OUTPREFIX + "_" + refinement_prefix + "_" + it + "__" + criterion.toUpperCase() + "__AG_" + MINER_STATIC.RANDOM_SEEDS[0] + "__parameters.txt";
                     if (stdout)
-                        task_script += "&> " + localpath + subdir_1 + prm.OUTPREFIX + "_" + refinement_prefix + "_" + it + "__" + criterion.toUpperCase() + "__AG_" + MINER_STATIC.RANDOM_SEEDS[0] + "_host.$HT_TASK_ID.out\n";
+                        task_script += " &> " + localpath + subdir_1 + prm.OUTPREFIX + "_" + refinement_prefix + "_" + it + "__" + criterion.toUpperCase() + "__AG_" + MINER_STATIC.RANDOM_SEEDS[0] + "_host.$HT_TASK_ID.out\n";
+                    else
+                        task_script +="\n";
                 }
                 System.out.println("RunMiner task file written!");
 
