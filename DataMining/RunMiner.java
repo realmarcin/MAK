@@ -1,6 +1,7 @@
 package DataMining;
 
 import dtype.SystemResource;
+import org.rosuda.JRI.REXP;
 import util.MapArgOptions;
 import util.MoreArray;
 
@@ -78,10 +79,29 @@ public class RunMiner extends util.Program {
         }
         if (debug != 0) {
             RunMinerBack rmb = new RunMinerBack(s, sysRes, debug);//options);
+
+            REXP Rexpr = rmb.irv.Rengine.eval("tmp_dir <- tempdir()");
+            System.out.println("removing Rtmp "+Rexpr.toString());
+            Rexpr = rmb.irv.Rengine.eval("unlink(tmp_dir, recursive = T)");
+            System.out.println("removing Rtmp "+Rexpr.toString());
+            Rexpr = rmb.irv.Rengine.eval("dir.exists(tmp_dir)");
+            System.out.println("removed Rtmp "+Rexpr.toString());
+            /*tmp_dir <- tempdir()
+            unlink(tmp_dir, recursive = T)
+            dir.exists(tmp_dir)*/
+
             rmb.irv.Rengine.end();
             System.exit(0);
         } else {
             RunMinerBack rmb = new RunMinerBack(s, sysRes);//options);
+
+            REXP Rexpr = rmb.irv.Rengine.eval("tmp_dir <- tempdir()");
+            System.out.println("removing Rtmp "+Rexpr.toString());
+            Rexpr = rmb.irv.Rengine.eval("unlink(tmp_dir, recursive = T)");
+            System.out.println("removing Rtmp "+Rexpr.toString());
+            Rexpr = rmb.irv.Rengine.eval("dir.exists(tmp_dir)");
+            System.out.println("removed Rtmp "+Rexpr.toString());
+                    
             rmb.irv.Rengine.end();
             System.exit(0);
         }

@@ -470,7 +470,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                     }
                     makenull_pbs += "-frxnsign " + frxnsign_param + " " + "-abs " + absvect +
                             " -debug n";
-                    
+
                     if (stdout)
                         makenull_pbs += " &> " + localpath + output_subdir3 + it + "_host.$HT_TASK_ID.out\n";
                     else
@@ -719,7 +719,7 @@ public class MAKflow_JBEI_SLURM_v2 {
 
         for (int counter = 0; counter <= iter; counter++) {
             /* level7 create parameter files */
-            System.out.println(firstLoop + " " + startiter+"\t"+counter);
+            System.out.println(firstLoop + " " + startiter + "\t" + counter);
             if (startiter != 0 && firstLoop) {
                 counter = startiter - 1;
                 System.out.println("NEW COUNTER: " + counter);
@@ -1183,7 +1183,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                         task_script += " &> "
                                 + localpath + subdir_1 + prm.OUTPREFIX + "_" + startfileprefix + "_" + it + "__" + criterion.toUpperCase() + "__AG_" + MINER_STATIC.RANDOM_SEEDS[counter] + "_host.$HT_TASK_ID.out\n";
                     else
-                        task_script +="\n";
+                        task_script += "\n";
                 }
                 System.out.println("RunMiner task file written!");
 
@@ -1372,7 +1372,7 @@ public class MAKflow_JBEI_SLURM_v2 {
             if (setLevel == 12 && (stopLevel >= 12 || stopLevel == 0)) {
                 long start = System.currentTimeMillis();
                 int iteration = counter + 1;
-                System.out.println("LEVEL12 iteration " + iter +"\t"+ iteration+"\t"+counter);
+                System.out.println("LEVEL12 iteration " + iter + "\t" + iteration + "\t" + counter);
                 String input = "level7_iter" + iteration + ".1/toplist_files/";
                 String scriptbox = "level12.0/";
                 String output = "level12.1/";
@@ -1472,7 +1472,7 @@ public class MAKflow_JBEI_SLURM_v2 {
             /*script is generated but this step is called directly through Java below */
             String sl_sns = scriptbox + "applycut.sl";
             String selectnrset_script = "java -Xmx" + (int) (mem_per_cpu * 3000.0) + "M DataMining.util.ApplyCut " +
-                    localpath + input + input_file +" "+cutpercent+" "+number;
+                    localpath + input + input_file + " " + cutpercent + " " + number;
 
             TextFile.write(selectnrset_script, sl_sns);
 
@@ -2016,7 +2016,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                     if (stdout)
                         task_script += " &> " + localpath + subdir_1 + prm.OUTPREFIX + "_" + refinement_prefix + "_" + it + "__" + criterion.toUpperCase() + "__AG_" + MINER_STATIC.RANDOM_SEEDS[0] + "_host.$HT_TASK_ID.out\n";
                     else
-                        task_script +="\n";
+                        task_script += "\n";
                 }
                 System.out.println("RunMiner task file written!");
 
@@ -2219,8 +2219,8 @@ public class MAKflow_JBEI_SLURM_v2 {
                 String sl_sns = scriptbox + "applycut.sl";
                 String selectnrset_script = "";
                 File test = new File(localpath + input + input_file);
-                    selectnrset_script += "java -Xmx" + (int) (mem_per_cpu * 3000.0) + "M DataMining.util.ApplyCut " +
-                            localpath + input + input_file +" "+cutpercent+" "+number;
+                selectnrset_script += "java -Xmx" + (int) (mem_per_cpu * 3000.0) + "M DataMining.util.ApplyCut " +
+                        localpath + input + input_file + " " + cutpercent + " " + number;
 
                 TextFile.write(selectnrset_script, sl_sns);
 
@@ -2681,7 +2681,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                            }else if (param_key.equalsIgnoreCase("cutperc")) {
+                            } else if (param_key.equalsIgnoreCase("cutperc")) {
                                 try {
                                     cutpercent = Double.parseDouble(param_val);
                                 } catch (Exception e) {
