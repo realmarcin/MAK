@@ -84,8 +84,8 @@ public class RunMiner extends util.Program {
             System.out.println("removing Rtmp "+Rexpr.toString());
             Rexpr = rmb.irv.Rengine.eval("unlink(tmp_dir, recursive = T)");
             System.out.println("removing Rtmp "+Rexpr.toString());
-            Rexpr = rmb.irv.Rengine.eval("dir.exists(tmp_dir)");
-            System.out.println("removed Rtmp "+Rexpr.toString());
+            //Rexpr = rmb.irv.Rengine.eval("dir.exists(tmp_dir)");
+            //System.out.println("removed Rtmp "+Rexpr.toString());
             /*tmp_dir <- tempdir()
             unlink(tmp_dir, recursive = T)
             dir.exists(tmp_dir)*/
