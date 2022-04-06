@@ -223,7 +223,7 @@ public class InitRandVar {
      */
     public void initR() {
         //vanilla = –no-save, –no-environ, –no-site-file, –no-init-file and –no-restore
-        String[] R_args = {"–-vanilla"};
+        String[] R_args = {"--vanilla"};
         System.out.println("RunMinerBack standard: starting Rengine");
         Rengine = new Rengine(R_args, false, new TextConsole());
         Rengine.DEBUG = 0;
