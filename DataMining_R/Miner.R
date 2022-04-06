@@ -1054,8 +1054,9 @@ FEModel.block <- function(data, Ii, Jj, ARC, I, J, useAbs, colm, rowm, debug) {
       }
     }
     
-    if (sum(narows) > 0)
+    if (sum(narows) > 0) {
       curdata = apply(curdata, 2, missfxn)
+    }
     
     if (useAbs == 1)
       curdata = abs(curdata)
