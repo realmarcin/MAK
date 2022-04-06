@@ -849,8 +849,9 @@ EgeeCrit_slow.block <- function(data,
       }
     }
     
-    if (sum(narows) > 0)
+    if (sum(narows) > 0) {
       curdata = apply(curdata, 2, missfxn)
+    }
     
     if (useAbs == 1)
       curdata = abs(curdata)
