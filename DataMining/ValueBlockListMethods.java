@@ -850,7 +850,7 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
      * @param debug
      * @return
      */
-    public final static ValueBlockList readUniBic(String f,int offset,  boolean debug) {
+    public final static ValueBlockList readUniBic(String f, int offset, boolean debug) {
         if (debug)
             System.out.println("readBIC " + f);
         ValueBlockList vls = null;
@@ -936,10 +936,12 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
 
     /**
      * @param f
+     * @param glabels
+     * @param elabels
      * @param debug
      * @return
      */
-    public final static ValueBlockList readRecBic(String f,int offset,  boolean debug) {
+    public final static ValueBlockList readRecBic(String f, String[] glabels, String[] elabels, boolean debug) {
         if (debug)
             System.out.println("readRecBic " + f);
         ValueBlockList vls = null;
@@ -974,21 +976,15 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                     System.out.println("exps: ");
                     MoreArray.printArray(exps);
                 }
+
+                int[] genes_int = StringUtil.crossIndex(genes, glabels);
+                int[] exps_int = StringUtil.crossIndex(exps, elabels);
+                genes_int = Matrix.add(genes_int, 1);
+                exps_int = Matrix.add(exps_int, 1);
+
                 ValueBlock vb = new ValueBlock();
-                try {
-                    vb.genes = MoreArray.tointArray(genes);
-                } catch (Exception e) {
-                    genes = StringUtil.replace(genes, " ", "");
-                    genes = StringUtil.replace(genes, "\"", "");
-                    vb.genes = MoreArray.tointArray(genes);
-                }
-                try {
-                    vb.exps = MoreArray.tointArray(exps);
-                } catch (Exception e) {
-                    exps = StringUtil.replace(exps, " ", "");
-                    exps = StringUtil.replace(exps, "\"", "");
-                    vb.exps = MoreArray.tointArray(exps);
-                }
+                vb.genes = genes_int;
+                vb.exps = exps_int;
 
                 if (vb.genes != null && vb.exps != null) {
 
@@ -997,7 +993,6 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                 } else {
                     System.out.println("failed to parse vb " + count + "\t" + data);
                 }
-
 
                 vls.add(vb);
                 if (debug)
