@@ -956,8 +956,11 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
 
             while (data != null && data.length() > 0) {
                 System.out.println("1 "+data);
-                while (data.indexOf("BC: ") != 0)
+                while (data != null && data.indexOf("BC: ") != 0)
                     data = in.readLine();
+
+                if(data == null)
+                    break;
                 data = in.readLine();
                 System.out.println("2 "+data);
 
