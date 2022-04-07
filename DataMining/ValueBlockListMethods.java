@@ -948,10 +948,7 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
         try {
             vls = new ValueBlockList();
             BufferedReader in = new BufferedReader(new FileReader(f));
-            String data = in.readLine();
-            if (debug)
-                System.out.println("first " + data);
-            data = in.readLine();
+            String data = null;
             int count = 0;
 
             while (data != null && data.length() > 0) {
