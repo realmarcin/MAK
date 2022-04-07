@@ -953,9 +953,11 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                 System.out.println("first " + data);
             data = in.readLine();
             int count = 0;
-            while (data.indexOf("BC: ") != 0)
-                data = in.readLine();
+
             while (data != null && data.length() > 0) {
+                while (data.indexOf("BC: ") != 0)
+                    data = in.readLine();
+                data = in.readLine();
 
                 if (debug)
                     System.out.println("data: " + data);
@@ -968,7 +970,6 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                     MoreArray.printArray(genes);
                 }
 
-                data = in.readLine();
                 data = in.readLine();
                 String[] first2 = data.split(": ");
 
