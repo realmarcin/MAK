@@ -25,7 +25,7 @@ public class RecBicReformat {
         }
         System.out.println("refvbl " + refvbl.size());
 
-        ValueBlockListMethods.writeBIC(args[1], refvbl);//, 1);
+        ValueBlockListMethods.writeBIC(args[2], refvbl);//, 1);
     }
 
 

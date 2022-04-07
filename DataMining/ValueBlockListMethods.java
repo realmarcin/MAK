@@ -955,9 +955,11 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
             int count = 0;
 
             while (data != null && data.length() > 0) {
+                System.out.println("1 "+data);
                 while (data.indexOf("BC: ") != 0)
                     data = in.readLine();
                 data = in.readLine();
+                System.out.println("2 "+data);
 
                 if (debug)
                     System.out.println("data: " + data);
@@ -999,7 +1001,7 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                 vls.add(vb);
                 if (debug)
                     System.out.println("readUniBic vls.size " + vls.size());
-                data = in.readLine();
+                //data = in.readLine();
                 count++;
             }
             if (vls.size() == 0)
