@@ -969,6 +969,7 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                 }
 
                 data = in.readLine();
+                data = in.readLine();
                 String[] first2 = data.split(": ");
 
                 String[] exps = first2[1].split(" ");
