@@ -19,7 +19,7 @@ public class RecBicReformat {
 
         ValueBlockList refvbl = null;
         try {
-            refvbl = ValueBlockListMethods.readRecBic(readref, sm.ylabels, sm.xlabels, false);
+            refvbl = ValueBlockListMethods.readRecBic(readref, sm.ylabels, sm.xlabels, true);
         } catch (Exception e) {
             e.printStackTrace();
         }
