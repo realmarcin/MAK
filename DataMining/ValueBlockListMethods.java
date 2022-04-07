@@ -936,6 +936,87 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
 
     /**
      * @param f
+     * @param debug
+     * @return
+     */
+    public final static ValueBlockList readRecBic(String f,int offset,  boolean debug) {
+        if (debug)
+            System.out.println("readRecBic " + f);
+        ValueBlockList vls = null;
+        try {
+            vls = new ValueBlockList();
+            BufferedReader in = new BufferedReader(new FileReader(f));
+            String data = in.readLine();
+            if (debug)
+                System.out.println("first " + data);
+            data = in.readLine();
+            int count = 0;
+            while (data.indexOf("BC: ") != 0)
+                data = in.readLine();
+            while (data != null && data.length() > 0) {
+
+                if (debug)
+                    System.out.println("data: " + data);
+
+                String[] first = data.split(": ");
+
+                String[] genes = first[1].split(" ");
+                if (debug) {
+                    System.out.println("genes: ");
+                    MoreArray.printArray(genes);
+                }
+
+                data = in.readLine();
+                String[] first2 = data.split(": ");
+
+                String[] exps = first2[1].split(" ");
+                if (debug) {
+                    System.out.println("exps: ");
+                    MoreArray.printArray(exps);
+                }
+                ValueBlock vb = new ValueBlock();
+                try {
+                    vb.genes = MoreArray.tointArray(genes);
+                } catch (Exception e) {
+                    genes = StringUtil.replace(genes, " ", "");
+                    genes = StringUtil.replace(genes, "\"", "");
+                    vb.genes = MoreArray.tointArray(genes);
+                }
+                try {
+                    vb.exps = MoreArray.tointArray(exps);
+                } catch (Exception e) {
+                    exps = StringUtil.replace(exps, " ", "");
+                    exps = StringUtil.replace(exps, "\"", "");
+                    vb.exps = MoreArray.tointArray(exps);
+                }
+
+                if (vb.genes != null && vb.exps != null) {
+
+                    int[][] update = {vb.genes, vb.exps};
+                    vb.NRCoords(update);
+                } else {
+                    System.out.println("failed to parse vb " + count + "\t" + data);
+                }
+
+
+                vls.add(vb);
+                if (debug)
+                    System.out.println("readUniBic vls.size " + vls.size());
+                data = in.readLine();
+                count++;
+            }
+            if (vls.size() == 0)
+                vls = null;
+            in.close();
+        } catch (IOException e) {
+            System.out.println("IOException: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return vls;
+    }
+
+    /**
+     * @param f
      * @return
      */
     public final static ValueBlockList readBICTranslatetoInt(String f) throws Exception {
