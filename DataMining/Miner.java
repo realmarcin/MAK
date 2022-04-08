@@ -3120,11 +3120,11 @@ e.printStackTrace();
                         if (rmb.irv.prm.precrit.SPEARIndex != -1)
                             expr_spear_val_list = MINER_STATIC.shift(expr_spear_val_list, cur_pCritDouble[6], posPre);
                         if (rmb.irv.prm.precrit.isInteractCrit)
-                            ppi_val_list = MINER_STATIC.shift(ppi_val_list, cur_pCritDouble[6], posPre);
+                            ppi_val_list = MINER_STATIC.shift(ppi_val_list, cur_pCritDouble[7], posPre);
                         if (rmb.irv.prm.precrit.isFeatureCrit)
-                            feature_val_list = MINER_STATIC.shift(feature_val_list, cur_pCritDouble[7], posPre);
+                            feature_val_list = MINER_STATIC.shift(feature_val_list, cur_pCritDouble[8], posPre);
                         if (rmb.irv.TFtargetmap != null)
-                            curmaxTF_list = MINER_STATIC.shift(curmaxTF_list, cur_pCritDouble[8], posPre);
+                            curmaxTF_list = MINER_STATIC.shift(curmaxTF_list, cur_pCritDouble[9], posPre);
                         curstring_list = MINER_STATIC.shift(curstring_list, curId, posPre);
 
                         added++;
@@ -3144,11 +3144,11 @@ e.printStackTrace();
                         if (rmb.irv.prm.precrit.SPEARIndex != -1)
                             expr_spear_val_list = MINER_STATIC.shift(expr_spear_val_list, cur_pCritDouble[6], posPre);
                         if (rmb.irv.prm.precrit.isInteractCrit)
-                            ppi_val_list = MINER_STATIC.shift(ppi_val_list, cur_pCritDouble[6], posPre);
+                            ppi_val_list = MINER_STATIC.shift(ppi_val_list, cur_pCritDouble[7], posPre);
                         if (rmb.irv.prm.precrit.isFeatureCrit)
-                            feature_val_list = MINER_STATIC.shift(feature_val_list, cur_pCritDouble[7], posPre);
+                            feature_val_list = MINER_STATIC.shift(feature_val_list, cur_pCritDouble[8], posPre);
                         if (rmb.irv.TFtargetmap != null)
-                            curmaxTF_list = MINER_STATIC.shift(curmaxTF_list, cur_pCritDouble[8], posPre);
+                            curmaxTF_list = MINER_STATIC.shift(curmaxTF_list, cur_pCritDouble[9], posPre);
 
                         curstring_list = MINER_STATIC.shift(curstring_list, curId, posPre);
                         added++;
@@ -3180,11 +3180,11 @@ e.printStackTrace();
                         if (rmb.irv.prm.precrit.SPEARIndex != -1)
                             expr_spear_val_list = MINER_STATIC.shift(expr_spear_val_list, cur_pCritDouble[6], posPre);
                         if (rmb.irv.prm.precrit.isInteractCrit)
-                            ppi_val_list = MINER_STATIC.shift(ppi_val_list, cur_pCritDouble[6], posPre);
+                            ppi_val_list = MINER_STATIC.shift(ppi_val_list, cur_pCritDouble[7], posPre);
                         if (rmb.irv.prm.precrit.isFeatureCrit)
-                            feature_val_list = MINER_STATIC.shift(feature_val_list, cur_pCritDouble[7], posPre);
+                            feature_val_list = MINER_STATIC.shift(feature_val_list, cur_pCritDouble[8], posPre);
                         if (rmb.irv.TFtargetmap != null)
-                            curmaxTF_list = MINER_STATIC.shift(curmaxTF_list, cur_pCritDouble[8], posPre);
+                            curmaxTF_list = MINER_STATIC.shift(curmaxTF_list, cur_pCritDouble[9], posPre);
                         curstring_list = MINER_STATIC.shift(curstring_list, curId, posPre);
                         added++;
                     }

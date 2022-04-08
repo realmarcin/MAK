@@ -142,6 +142,12 @@ public class ComputeCrit {
                     RList rl = rList;
                     crits = (rl.at(0)).asDoubleArray();
                     critsraw = (rl.at(1)).asDoubleArray();
+
+                    if(debug) {
+                         System.out.println("computeOne");
+                         MoreArray.printArray(critsraw);
+                         MoreArray.printArray(crits);
+                    }
                     /*if (debug) {
                         if (irv.TFtargetmap == null) {
                             System.out.println("TFtargetmap null");
@@ -228,6 +234,11 @@ public class ComputeCrit {
                 if (crits == null)
                     crits = new double[9];
                 crits[ValueBlock_STATIC.TF_IND] = irv.Rexpr.asDouble();
+
+                if(debug) {
+                    System.out.println("TF_data "+ValueBlock_STATIC.TF_IND);
+                    System.out.println(crits[ValueBlock_STATIC.TF_IND]);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -251,6 +262,15 @@ public class ComputeCrit {
             double[][] data = computeFeatWithNull(irv, pass, ic, feat_data, debug);
             critsraw = data[0];//(double[]) pass.get(0);
             crits = data[1];//(double[]) pass.get(1);
+
+            //critsraw[ValueBlock_STATIC.feat_IND] = data[0][0];
+            //crits[ValueBlock_STATIC.feat_IND] = data[0][0];
+
+            if(debug) {
+               System.out.println("feat_data "+ValueBlock_STATIC.feat_IND);
+               MoreArray.printArray(data[0]);
+               MoreArray.printArray(data[1]);
+            }
         } else if (debug) {
             System.out.println("ComputeCrit no feat " + (feat_data == null ? "no feat data" : "feat data") +
                     "\t" + criterion.isFeatureCrit);

@@ -473,8 +473,8 @@ Critp.final <- function(Ic,
     critvec = c(critvec, ICmRaw)
     critvecRaw = c(critvecRaw, ICmRaw)
     if (debug) {
-      print(paste("Spearman PPI", paste(critvec, collapse = " "), sep = " "))
-      print(paste("Spearman PPI ", paste(critvecRaw, collapse = " "), sep = " "))
+      print(paste("PPI full", paste(critvec, collapse = " "), sep = " "))
+      print(paste("PPI raw", paste(critvecRaw, collapse = " "), sep = " "))
     }
   }
   else {
