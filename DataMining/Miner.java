@@ -3230,8 +3230,14 @@ e.printStackTrace();
                     vbnow.all_precriteria[ValueBlock_STATIC.interact_IND] = ppi_val_list[i];
                 if (rmb.irv.prm.precrit.isFeatureCrit)
                     vbnow.all_precriteria[ValueBlock_STATIC.feat_IND] = feature_val_list[i];
-                if (rmb.irv.TFtargetmap != null)
+                //if (rmb.irv.TFtargetmap != null)
+                if (rmb.irv.prm.precrit.isTFCrit)
                     vbnow.all_precriteria[ValueBlock_STATIC.TF_IND] = curmaxTF_list[i];
+
+                if(debug_createPreCritTopList) {
+                    System.out.println("getTopList precrit vbnow.all_precriteria");
+                    MoreArray.printArray(vbnow.all_precriteria);
+                }
 
                 if (vbnow.genes == null)
                     System.out.println("vbnow.genes is null :" + curstring_list[i] + ":");
