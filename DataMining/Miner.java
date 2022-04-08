@@ -3236,6 +3236,7 @@ e.printStackTrace();
 
                 if(debug_createPreCritTopList) {
                     System.out.println("getTopList precrit vbnow.all_precriteria");
+                    System.out.println(curmaxTF_list[i]);
                     MoreArray.printArray(vbnow.all_precriteria);
                 }
 
