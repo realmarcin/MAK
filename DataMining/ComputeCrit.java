@@ -143,11 +143,12 @@ public class ComputeCrit {
                     crits = (rl.at(0)).asDoubleArray();
                     critsraw = (rl.at(1)).asDoubleArray();
 
-                    if(debug) {
+                    /*if(debug) {
                          System.out.println("computeOne");
                          MoreArray.printArray(critsraw);
                          MoreArray.printArray(crits);
-                    }
+                    }*/
+                    
                     /*if (debug) {
                         if (irv.TFtargetmap == null) {
                             System.out.println("TFtargetmap null");
