@@ -143,17 +143,17 @@ Critp.final <- function(Ic,
     else {
       critvec = c(critvec, 0)
     }
+
+    if (debug) {
+      print(paste("Mean full", paste(critvec, collapse = " "), sep = " "))
+      print(paste("Mean raw ", paste(critvecRaw, collapse = " "), sep = " "))
+    }
   }
   else {
     critvec = c(critvec, 0)
     critvecRaw = c(critvecRaw, 0)
   }
-  #print(critvecRaw)
-  #print("Mean")
-  if (debug) {
-    print(paste("Mean full", paste(critvec, collapse = " "), sep = " "))
-    print(paste("Mean raw ", paste(critvecRaw, collapse = " "), sep = " "))
-  }
+
   
   #MSE criteria
   if (is.null(ECindex) == 0 &&
@@ -193,17 +193,17 @@ Critp.final <- function(Ic,
     #print(paste("ECm",ECm,ECmRaw))
     critvec = c(critvec, ECm)
     critvecRaw = c(critvecRaw, ECmRaw)
+
+    if (debug) {
+      print(paste("MSE full", paste(critvec, collapse = " "), sep = " "))
+      print(paste("MSE raw ", paste(critvecRaw, collapse = " "), sep = " "))
+    }
   }
   else {
     critvec = c(critvec, 0)
     critvecRaw = c(critvecRaw, 0)
   }
-  #print(critvecRaw)
-  #print("MSE")
-  if (debug) {
-    print(paste("MSE full", paste(critvec, collapse = " "), sep = " "))
-    print(paste("MSE raw ", paste(critvecRaw, collapse = " "), sep = " "))
-  }
+
   
   #print(paste("ERegindex", ERegindex, RegARCind))
   #FEM, LARS
@@ -263,17 +263,16 @@ Critp.final <- function(Ic,
     #print(paste("ECreg", ECreg))
     critvec = c(critvec, ECreg)
     critvecRaw = c(critvecRaw, ECregRaw)
+
+    if (debug) {
+      print(paste("Reg full", paste(critvec, collapse = " "), sep = " "))
+      print(paste("Reg raw ", paste(critvecRaw, collapse = " "), sep = " "))
+    }
   }
   else {
     #if(is.null(ERegindex) || ERegindex == -1)
     critvec = c(critvec, 0)
     critvecRaw = c(critvecRaw, 0)
-  }
-  #print(paste("Ereg",critvecRaw))
-  #print("Reg")
-  if (debug) {
-    print(paste("Reg full", paste(critvec, collapse = " "), sep = " "))
-    print(paste("Reg raw ", paste(critvecRaw, collapse = " "), sep = " "))
   }
   
   #Kendall criterion
@@ -313,18 +312,18 @@ Critp.final <- function(Ic,
     critvec = c(critvec, KCm)
     critvecRaw = c(critvecRaw, KCmRaw)
     #print(paste("Kend null",critvecRaw,useNull,sep=" "))
+
+    if (debug) {
+      print(paste("Kend full", paste(critvec, collapse = " "), sep = " "))
+      print(paste("Kend raw ", paste(critvecRaw, collapse = " "), sep = " "))
+    }
   }
   else {
     critvec = c(critvec, 0)
     critvecRaw = c(critvecRaw, 0)
     #print(paste("Kend ",critvecRaw,useNull,sep=" "))
   }
-  #print(critvecRaw)
-  #print("Kend")
-  if (debug) {
-    print(paste("Kend full", paste(critvec, collapse = " "), sep = " "))
-    print(paste("Kend raw ", paste(critvecRaw, collapse = " "), sep = " "))
-  }
+
   
   
   #Pearson correlation criterion
@@ -352,16 +351,17 @@ Critp.final <- function(Ic,
     }
     critvec = c(critvec, PCm)
     critvecRaw = c(critvecRaw, PCmRaw)
+
+    if (debug) {
+      print(paste("Cor full", paste(critvec, collapse = " "), sep = " "))
+      print(paste("Cor raw ", paste(critvecRaw, collapse = " "), sep = " "))
+    }
   }
   else {
     critvec = c(critvec, 0)
     critvecRaw = c(critvecRaw, 0)
   }
-  #print("Cor")
-  if (debug) {
-    print(paste("Cor full", paste(critvec, collapse = " "), sep = " "))
-    print(paste("Cor raw ", paste(critvecRaw, collapse = " "), sep = " "))
-  }
+
   
   #Euclidean distance
   if (is.null(Eucindex) == 0 &&
@@ -394,16 +394,16 @@ Critp.final <- function(Ic,
     #print(paste("UCm",UCm,UCmRaw))
     critvec = c(critvec, UCm)
     critvecRaw = c(critvecRaw, UCmRaw)
+    if (debug) {
+      print(paste("Euc full", paste(critvec, collapse = " "), sep = " "))
+      print(paste("Euc raw ", paste(critvecRaw, collapse = " "), sep = " "))
+    }
   }
   else {
     critvec = c(critvec, 0)
     critvecRaw = c(critvecRaw, 0)
   }
-  #print("Euc")
-  if (debug) {
-    print(paste("Euc full", paste(critvec, collapse = " "), sep = " "))
-    print(paste("Euc raw ", paste(critvecRaw, collapse = " "), sep = " "))
-  }
+
   
   #Spearman's rho
   if (is.null(Spearindex) == 0 &&
@@ -440,18 +440,17 @@ Critp.final <- function(Ic,
     #print(paste("UCm",UCm,UCmRaw))
     critvec = c(critvec, UCm)
     critvecRaw = c(critvecRaw, UCmRaw)
+
+    if (debug) {
+      print(paste("Spearman full", paste(critvec, collapse = " "), sep = " "))
+      print(paste("Spearman raw ", paste(critvecRaw, collapse = " "), sep = " "))
+    }
   }
   else {
     critvec = c(critvec, 0)
     critvecRaw = c(critvecRaw, 0)
   }
-  #print("Spearman")
-  if (debug) {
-    print(paste("Spearman full", paste(critvec, collapse = " "), sep = " "))
-    print(paste("Spearman raw ", paste(critvecRaw, collapse = " "), sep = " "))
-  }
-  
-  
+
   #interaction criterion
   if (InterI == TRUE &&
       useNull == TRUE &&
@@ -463,12 +462,20 @@ Critp.final <- function(Ic,
     #cat("ICm",ICm)
     critvec = c(critvec, ICm)
     critvecRaw = c(critvecRaw, ICmRaw)
+    if (debug) {
+      print(paste("PPI full", paste(critvec, collapse = " "), sep = " "))
+      print(paste("PPI raw ", paste(critvecRaw, collapse = " "), sep = " "))
+    }
   }
   else if (InterI == TRUE && useNull == FALSE) {
     ICmRaw = InterCrit.block(interact_data, Ic)
     #cat("PPI ICmRaw ",ICmRaw)
     critvec = c(critvec, ICmRaw)
     critvecRaw = c(critvecRaw, ICmRaw)
+    if (debug) {
+      print(paste("Spearman PPI", paste(critvec, collapse = " "), sep = " "))
+      print(paste("Spearman PPI ", paste(critvecRaw, collapse = " "), sep = " "))
+    }
   }
   else {
     critvec = c(critvec, 0)
