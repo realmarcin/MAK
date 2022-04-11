@@ -238,7 +238,7 @@ public class BuildGraph {
                             }
                         }
                     } catch (Exception e1) {
-                        System.out.println("out of bounds indices" + g + "\t" + e + "\tdata dim " + expr_data.data.length + "\t" + expr_data.data[0].length);
+                        System.out.println("out of bounds indices " + g + "\t" + e + "\tdata dim " + expr_data.data.length + "\t" + expr_data.data[0].length);
                         e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                         System.exit(0);
                     }

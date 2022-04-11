@@ -111,7 +111,6 @@ public class MakeNull extends Program {
             //"MADR",
 
 
-
             /*
             //combined criteria
             "MSER_KENDALL_GEERE",
@@ -1251,6 +1250,8 @@ public class MakeNull extends Program {
                         critsraw = new double[ValueBlock_STATIC.NUM_CRIT];
 
                     //System.out.println("assignCrit.CRITTF " + CRIT_IND + "\t" + assignCrit.CRITTF[CRIT_IND]);
+
+                    /*special cases for maxTF, PPI, feature*/
                     if (assignCrit.CRITTF[CRIT_IND] == 1) {
                         critsraw = critMaxTF(VBPInitial, critsraw);
                     } else if (CRIT_MASTER_IND == 41 || CRIT_MASTER_IND == 40) {
