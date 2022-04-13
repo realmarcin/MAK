@@ -1609,6 +1609,9 @@ public class StringUtil {
                     e.printStackTrace();*/
                 }
             }
+            if(ret[i] == -1) {
+                System.out.println("did not find "+i+"\t"+from[i]);
+            }
         }
         return ret;
     }

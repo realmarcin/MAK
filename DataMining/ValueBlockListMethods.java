@@ -1082,8 +1082,10 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                         all_genes = MoreArray.copy(genes);
                     else {
                         System.out.println("length "+all_genes.length +"\t"+ genes.length);
-                        String[] all_genes2 = Arrays.copyOf(genes, all_genes.length + genes.length);
+                        String[] all_genes2 = new String[all_genes.length + genes.length];
+                        System.arraycopy(all_genes, 0, all_genes2, 0, all_genes.length);
                         System.arraycopy(genes, 0, all_genes2, all_genes.length, genes.length);
+
                         System.out.println("length 2 ends "+all_genes2.length+"\t"+all_genes2[all_genes.length]+"\t"+all_genes2[all_genes.length+ genes.length-1]);
                         System.out.println("length 2 ends "+all_genes[all_genes.length-1]+"\t"+genes[genes.length-1]);
                         System.out.println("length 2 starts "+all_genes[0]+"\t"+genes[0]+"\t"+all_genes2[0]);
@@ -1135,8 +1137,11 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                         all_exps = MoreArray.copy(exps);
                     else {
                         System.out.println("length "+all_exps.length +"\t"+ exps.length);
-                        String[] all_exps2 = Arrays.copyOf(exps, all_exps.length + exps.length);
+
+                        String[] all_exps2 = new String[all_exps.length + exps.length];
+                        System.arraycopy(all_exps, 0, all_exps2, 0, all_exps.length);
                         System.arraycopy(exps, 0, all_exps2, all_exps.length, exps.length);
+
                         System.out.println("length 2 ends "+all_exps2.length+"\t"+all_exps2[all_exps.length]+"\t"+all_exps2[all_exps.length+ exps.length-1]);
                         System.out.println("length 2 ends "+all_exps[all_exps.length-1]+"\t"+exps[exps.length-1]);
                         System.out.println("length 2 starts "+all_exps[0]+"\t"+exps[0]+"\t"+all_exps2[0]);
