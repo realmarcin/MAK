@@ -591,7 +591,7 @@ mean.m <- function(vec) {
   #print(class(vec))
   #print(class(is.nan(vec)))
   #print(class(as.vector(is.nan(vec))))
-  vec[as.vector(is.nan(vec))] = NA
+  vec[as.vector(is.nan(unlist(vec)))] = NA
   n = sum(!is.na(vec))
   summ = sum(vec, na.rm = TRUE)
   summ / n
