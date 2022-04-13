@@ -952,17 +952,17 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
             int count = 0;
 
             data = in.readLine();
-            
+
             while (data != null && data.length() > 0) {
-                System.out.println("0 "+data);
+                System.out.println("0 " + data);
                 while (data != null && data.indexOf("BC: ") != 0)
                     data = in.readLine();
-                
-                System.out.println("1 "+data);
-                if(data == null)
+
+                System.out.println("1 " + data);
+                if (data == null)
                     break;
                 data = in.readLine();
-                System.out.println("2 "+data);
+                System.out.println("2 " + data);
 
                 if (debug)
                     System.out.println("data: " + data);
@@ -1005,6 +1005,180 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                 if (debug)
                     System.out.println("readUniBic vls.size " + vls.size());
                 //data = in.readLine();
+                count++;
+            }
+            if (vls.size() == 0)
+                vls = null;
+            in.close();
+        } catch (IOException e) {
+            System.out.println("IOException: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return vls;
+    }
+
+
+    /**
+     * @param f
+     * @param glabels
+     * @param elabels
+     * @param debug
+     * @return
+     */
+    public final static ValueBlockList readFABIA(String f, String[] glabels, String[] elabels, boolean debug) {
+        if (debug)
+            System.out.println("readRecBic " + f);
+        ValueBlockList vls = null;
+        try {
+            vls = new ValueBlockList();
+            BufferedReader in = new BufferedReader(new FileReader(f));
+            String data = null;
+            int count = 0;
+
+            data = in.readLine();
+            System.out.println("1 " + data);
+            while (data != null) {
+                //if(debug)
+                System.out.println("top " + count + "\t\t" + data);
+                //empty
+                data = in.readLine();
+                //[[
+                data = in.readLine();
+                //size
+                data = in.readLine();
+                //empty
+                data = in.readLine();
+                //[[
+                //data = in.readLine();
+                if (debug)
+                    System.out.println("top2 " + count + "\t\t" + data);
+                if(data.indexOf("] ") == -1) {
+                    System.out.println("skipping "+data);
+                    data = in.readLine();
+                }
+                String[] all_genes = null;
+                while (data != null && data.length() > 0) {
+                    int indexbra = data.indexOf("]");
+                    data = data.substring(indexbra+2);
+
+                    data = data.trim().replaceAll(" +", " ");
+                    String[] genes = data.split(" ");
+
+                    genes = Arrays.copyOfRange(genes, 0, genes.length);
+                    if (debug)
+                        System.out.println("start genes " + genes[0]);
+                    ArrayList gene_ar = new ArrayList();
+                    for (int g = 0; g < genes.length; g++) {
+                        if (genes[g] != null && genes[g].length() > 1) {
+                            //System.out.println(g+"\t"+genes[g]);
+                            gene_ar.add(genes[g]);
+                        }
+                    }
+                    genes = MoreArray.ArrayListtoString(gene_ar);
+
+                    if (debug)
+                        System.out.println("genes " + genes.length);
+                    if (all_genes == null)
+                        all_genes = MoreArray.copy(genes);
+                    else {
+                        System.out.println("length "+all_genes.length +"\t"+ genes.length);
+                        String[] all_genes2 = Arrays.copyOf(genes, all_genes.length + genes.length);
+                        System.arraycopy(genes, 0, all_genes2, all_genes.length, genes.length);
+                        System.out.println("length 2 ends "+all_genes2.length+"\t"+all_genes2[all_genes.length]+"\t"+all_genes2[all_genes.length+ genes.length-1]);
+                        System.out.println("length 2 ends "+all_genes[all_genes.length-1]+"\t"+genes[genes.length-1]);
+                        System.out.println("length 2 starts "+all_genes[0]+"\t"+genes[0]+"\t"+all_genes2[0]);
+                        all_genes = MoreArray.copy(all_genes2);
+                        //String[] both = Arrays.copyOf(first, first.length + second.length);
+                        //System.arraycopy(second, 0, both, first.length, second.length);
+                    }
+                    if (debug)
+                        System.out.println("all_genes " + all_genes.length);
+                    data = in.readLine();
+                }
+
+                /*if (debug) {
+                    System.out.println("all_genes: ");
+                    MoreArray.printArray(all_genes);
+                }*/
+
+                if (data == null)
+                    break;
+
+                //[[
+                data = in.readLine();
+                //exps
+                data = in.readLine();
+
+                String[] all_exps = null;
+                while (data != null && data.length() > 0) {
+                    int indexbra = data.indexOf("]");
+                    data = data.substring(indexbra+2);
+
+                    data = data.trim().replaceAll(" +", " ");
+                    String[] exps = data.split(" ");
+
+                    exps = Arrays.copyOfRange(exps, 0, exps.length);
+                    if (debug)
+                        System.out.println("start exps " + exps[0]);
+                    ArrayList exp_ar = new ArrayList();
+                    for (int g = 0; g < exps.length; g++) {
+                        if (exps[g] != null && exps[g].length() > 1) {
+                            //System.out.println(g+"\t"+exps[g]);
+                            exp_ar.add(exps[g]);
+                        }
+                    }
+                    exps = MoreArray.ArrayListtoString(exp_ar);
+
+                    if (debug)
+                        System.out.println("exps " + exps.length);
+                    if (all_exps == null)
+                        all_exps = MoreArray.copy(exps);
+                    else {
+                        System.out.println("length "+all_exps.length +"\t"+ exps.length);
+                        String[] all_exps2 = Arrays.copyOf(exps, all_exps.length + exps.length);
+                        System.arraycopy(exps, 0, all_exps2, all_exps.length, exps.length);
+                        System.out.println("length 2 ends "+all_exps2.length+"\t"+all_exps2[all_exps.length]+"\t"+all_exps2[all_exps.length+ exps.length-1]);
+                        System.out.println("length 2 ends "+all_exps[all_exps.length-1]+"\t"+exps[exps.length-1]);
+                        System.out.println("length 2 starts "+all_exps[0]+"\t"+exps[0]+"\t"+all_exps2[0]);
+                        all_exps = MoreArray.copy(all_exps2);
+                        //String[] both = Arrays.copyOf(first, first.length + second.length);
+                        //System.arraycopy(second, 0, both, first.length, second.length);
+                    }
+                    if (debug)
+                        System.out.println("all_exps " + all_exps.length);
+                    data = in.readLine();
+                }
+                
+                /*if (debug) {
+                    System.out.println("exps: ");
+                    MoreArray.printArray(exps);
+                }*/
+
+                System.out.println("all_genes " + all_genes.length + "\tglabels " + glabels.length);
+
+                int[] genes_int = StringUtil.crossIndex(all_genes, glabels);
+                int[] exps_int = StringUtil.crossIndex(all_exps, elabels);
+                genes_int = Matrix.add(genes_int, 1);
+                exps_int = Matrix.add(exps_int, 1);
+
+                ValueBlock vb = new ValueBlock();
+                vb.genes = genes_int;
+                vb.exps = exps_int;
+
+                if (vb.genes != null && vb.exps != null && vb.genes.length > 1&& vb.exps.length > 1) {
+                    System.out.println("genes " + all_genes.length + " exps " + all_exps.length);
+                    int[][] update = {vb.genes, vb.exps};
+                    vb.NRCoords(update);
+                } else if(vb.genes.length == 1 || vb.exps.length == 1) {
+                    System.out.println("too small " + all_genes.length + " exps " + all_exps.length);
+                } else {
+                    System.out.println("failed to parse vb " + count + "\t" + data);
+                }
+
+                vls.add(vb);
+                if (debug)
+                    System.out.println("FABIA vls.size " + vls.size());
+                data = in.readLine();
                 count++;
             }
             if (vls.size() == 0)

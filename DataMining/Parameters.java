@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 /**
  * User: marcinjoachimiak
- * Date: May 31, 2007                                                                              f
+ * Date: May 31, 2007
  * Time: 11:23:29 PM
  */
 public class Parameters {

@@ -1532,6 +1532,7 @@ public class ScoreBlocks extends Program {
 
             String s = (String) options.get("-param");
             rmb = new RunMinerBack(s, sysRes, 3, false);
+            //RunMinerBack rmb = new RunMinerBack(prm, sysRes, debug);
 
             //prm = new Parameters();
             //

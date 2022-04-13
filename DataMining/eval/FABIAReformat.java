@@ -4,13 +4,13 @@ import DataMining.ValueBlockList;
 import DataMining.ValueBlockListMethods;
 import mathy.SimpleMatrix;
 
-public class RecBicReformat {
+public class FABIAReformat {
 
 
     /**
      * @param args
      */
-    public RecBicReformat(String[] args) {
+    public FABIAReformat(String[] args) {
 
         String readref = args[0];
         System.out.println("ref " + readref);
@@ -18,8 +18,11 @@ public class RecBicReformat {
         SimpleMatrix sm = new SimpleMatrix(args[1]);
 
         ValueBlockList refvbl = null;
+
+        System.out.println("sm.ylabels " + sm.ylabels.length+"\tsm.xlabels " + sm.xlabels.length);
+
         try {
-            refvbl = ValueBlockListMethods.readRecBic(readref, sm.ylabels, sm.xlabels, false);
+            refvbl = ValueBlockListMethods.readFABIA(readref, sm.ylabels, sm.xlabels, true);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -34,9 +37,9 @@ public class RecBicReformat {
      */
     public static void main(String[] args) {
         if (args.length == 3) {
-            DataMining.eval.RecBicReformat arg = new DataMining.eval.RecBicReformat(args);
+            DataMining.eval.FABIAReformat arg = new DataMining.eval.FABIAReformat(args);
         } else {
-            System.out.println("syntax: java DataMining.eval.RecBicReformat\n" +
+            System.out.println("syntax: java DataMining.eval.FABIAReformat\n" +
                     "<input>\n" +
                     "<reference input data file>\n" +
                     "<out file>"

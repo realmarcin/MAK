@@ -1597,11 +1597,16 @@ public class StringUtil {
         int[] ret = MoreArray.initArray(from.length, -1);//new int[from.length];
         for (int i = 0; i < from.length; i++) {
             for (int j = 0; j < to.length; j++) {
-                //System.out.println("crossIndex "+from[i]+"\t"+to[j]);
-                if (from[i].equals(to[j])) {
-                    ret[i] = j;
-                    //System.out.println("crossIndex " + i+"\t"+ from[i] + "\tsetId " + j+"\t"+to[j]);
-                    break;
+                //System.out.println("crossIndex " + i + "\t" + j + "\t" + from[i] + "\t" + to[j]);
+                try {
+                    if (from[i].equals(to[j])) {
+                        ret[i] = j;
+                        //System.out.println("crossIndex " + i+"\t"+ from[i] + "\tsetId " + j+"\t"+to[j]);
+                        break;
+                    }
+                } catch (Exception e) {
+                    /*System.out.println("crossIndex " + i + "\t" + j + "\t" + from[i] + "\t" + to[j]);
+                    e.printStackTrace();*/
                 }
             }
         }
