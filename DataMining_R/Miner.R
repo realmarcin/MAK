@@ -1772,7 +1772,7 @@ GeneWblock <- function(BlockM, expr_data, Ii, Jj) {
 missfxn <- function(vec) {
   mean <- mean(vec, na.rm = TRUE)
   vec[is.na(vec)] = mean
-  vec[is.nan(vec)] = mean
+  vec[is.nan(unlist(vec))] = mean
   if (is.na(mean)) {
     cat("Error imputed mean is na ", mean, vec, "\n", which(is.na(mean)))
   }
