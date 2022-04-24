@@ -144,7 +144,7 @@ public class BuildGraphsToTable {
 
             if (!listout[i].equals(".DS_Store")) {
 
-                System.out.println(i + "\t" + listout[i]);
+                System.out.println("doing "+i + "\t" + listout[i]);
 
                 BlockData blockData = null;
                 try {
@@ -772,6 +772,7 @@ public class BuildGraphsToTable {
                     }
 
                     top_data = TabFile.readtoArray(path, 1, debug);
+                    System.out.println("invoke top_data " + top_data.length);
                     if (debug) {
                         System.out.println("invoke top_data " + top_data.length);
                         MoreArray.printArray(top_data[0]);

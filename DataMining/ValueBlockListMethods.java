@@ -874,10 +874,12 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                 String rawg = null;
                 try {
                     rawg = first[1].substring(0, first[1].indexOf("]"));
+                    System.out.println("rawg 1 "+rawg);
                 } catch (Exception e) {
                     data = in.readLine();
                     first = data.split("\\[");
                     rawg = first[1].substring(0, first[1].indexOf("]"));
+                    System.out.println("rawg 2 "+rawg);
                     //e.printStackTrace();
                 }
                 String rawe = first[2].substring(0, first[2].indexOf("]"));
@@ -900,6 +902,7 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                     genes = StringUtil.replace(genes, " ", "");
                     genes = StringUtil.replace(genes, "\"", "");
                     vb.genes = MoreArray.tointArray(genes);
+                    //MoreArray.printArray(vb.genes);
                 }
                 try {
                     vb.exps = MoreArray.tointArray(exps);
@@ -910,7 +913,12 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                 }
 
                 if (vb.genes != null && vb.exps != null) {
-
+                    vb.genes = mathy.stat.add(vb.genes, offset);
+                    vb.exps = mathy.stat.add(vb.exps, offset);
+                    System.out.println("genes");
+                    MoreArray.printArray(vb.genes);
+                    System.out.println("exps");
+                    MoreArray.printArray(vb.exps);
                     int[][] update = {vb.genes, vb.exps};
                     vb.NRCoords(update);
                 } else {
