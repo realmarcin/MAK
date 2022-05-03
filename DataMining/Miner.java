@@ -1442,16 +1442,24 @@ e.printStackTrace();
                     System.out.println("sum == 1 setAddDelGeneExp bf " + MoreArray.toString(move_params.tried_moves, ",") + "\t" + index + "\t"
                             + move_params.Delete_or_Add + "\t" + move_params.Experiment_or_Gene);
                 //these moves could be more randomized, literally randomly choosing 1/3
+                //currently, assuming the one move tried
+                //gene- -> exp-
                 if (index == 0) {
                     move_params.Delete_or_Add = 0;
                     move_params.Experiment_or_Gene = 0;
-                } else if (index == 1) {
+                }
+                //gene+ -> exp+
+                else if (index == 1) {
                     move_params.Delete_or_Add = 1;
                     move_params.Experiment_or_Gene = 0;
-                } else if (index == 2) {
+                }
+                //exp- -> gene-
+                else if (index == 2) {
                     move_params.Delete_or_Add = 0;
                     move_params.Experiment_or_Gene = 1;
-                } else if (index == 3) {
+                }
+                //exp+ -> gene+
+                else if (index == 3) {
                     move_params.Delete_or_Add = 1;
                     move_params.Experiment_or_Gene = 1;
                 }
@@ -1470,37 +1478,56 @@ e.printStackTrace();
                     //MoreArray.printArray(index);
                 }
 
+                //g-, g+, e-, e+
+
+                //gene- & gene+
+                // exp- | exp+
                 if (index[0] == 0 && index[1] == 0) {
                     move_params.makepA(rmb.irv.Rengine);
                     move_params.Experiment_or_Gene = 1;
                     if (debug)
-                        System.out.println("setAddDelGeneExp random +/-");
-                } else if (index[2] == 0 && index[3] == 0) {
+                        System.out.println("setAddDelGeneExp Gene random +/-");
+                }
+                //exp- & exp+
+                // gene- | gene+
+                else if (index[2] == 0 && index[3] == 0) {
                     move_params.makepA(rmb.irv.Rengine);
                     move_params.Experiment_or_Gene = 1;
-                } else if (index[0] == 0 && index[2] == 0) {
+                }
+                //gene- & exp+
+                // gene+ | exp+
+                else if (index[0] == 0 && index[2] == 0) {
                     move_params.Delete_or_Add = 1;
                     move_params.makepG(rmb.irv.Rengine);
                     if (debug)
-                        System.out.println("setAddDelGeneExp random g/e");
-                } else if (index[1] == 0 && index[3] == 0) {
+                        System.out.println("setAddDelGeneExp Add random g/e");
+                }
+                //gene+ & exp+
+                // gene- | exp-
+                else if (index[1] == 0 && index[3] == 0) {
                     move_params.Delete_or_Add = 0;
                     move_params.makepG(rmb.irv.Rengine);
                     if (debug)
-                        System.out.println("setAddDelGeneExp random g/e");
-                } else if (index[0] == 0 && index[3] == 0) {
+                        System.out.println("setAddDelGeneExp Delete random g/e");
+                }
+                //gene- & exp+
+                // gene+ | exp-
+                else if (index[0] == 0 && index[3] == 0) {
                     move_params.makepG(rmb.irv.Rengine);
                     if (debug)
-                        System.out.println("setAddDelGeneExp random g/e");
+                        System.out.println("setAddDelGeneExp random g/e then random +/-");
                     if (move_params.Experiment_or_Gene == 1) {
                         move_params.Delete_or_Add = 1;
                     } else if (move_params.Experiment_or_Gene == 0) {
                         move_params.Delete_or_Add = 0;
                     }
-                } else if (index[1] == 0 && index[2] == 0) {
+                }
+                //gene+ & exp-
+                // gene- | exp+
+                else if (index[1] == 0 && index[2] == 0) {
                     move_params.makepG(rmb.irv.Rengine);
                     if (debug)
-                        System.out.println("setAddDelGeneExp random g/e");
+                        System.out.println("setAddDelGeneExp random g/e then random +/-");
                     if (move_params.Experiment_or_Gene == 1) {
                         move_params.Delete_or_Add = 0;
                     } else if (move_params.Experiment_or_Gene == 0) {
@@ -3092,7 +3119,7 @@ e.printStackTrace();
                 double curval = ValueBlockPre.computeFullCrit(cur_pCritDouble, true, rmb.irv.prm.crit.which_expr_crits,
                         debug_createPreCritTopList);
                 if (debug_createPreCritTopList) {
-                    System.out.println("getTopList cur_pCritDouble crit " + curval + "\t" + cur_max);
+                    System.out.println("getTopList cur_pCritDouble crit " + curval + "\tcur_max " + cur_max);
                     MoreArray.printArray(cur_pCritDouble);
                 }
 

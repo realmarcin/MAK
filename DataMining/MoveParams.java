@@ -286,7 +286,7 @@ if (OldMovesStrBlockId != null) {
             System.out.println("R: " + s);
         final double pAval = (Reng.eval(s)).asDouble();
         if (debug)
-            System.out.println("pGval " + pAval);
+            System.out.println("pAval " + pAval);
         Delete_or_Add = (int) pAval;
     }
 }

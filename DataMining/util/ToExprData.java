@@ -45,6 +45,7 @@ public class ToExprData {
                 String[] ylab = new String[vb.genes.length];
                 for (int a = 0; a < vb.genes.length; a++) {
                     ylab[a] = sm.ylabels[vb.genes[a] - 1];
+                    System.out.println(a+"\t"+(vb.genes[a] - 1)+"\t"+sm.ylabels[vb.genes[a] - 1]);
                     for (int b = 0; b < vb.exps.length; b++) {
                         xlab[b] = sm.xlabels[vb.exps[b] - 1];
                         smout.data[a][b] = sm.data[vb.genes[a] - 1][vb.exps[b] - 1];
