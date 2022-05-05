@@ -109,6 +109,7 @@ public class AnalyzeOverlaps {
             String x = files[a].substring(0, vs_index);
             String y = files[a].substring(vs_index + "_vs_".length(), files[a].length() - ".overlap".length());
 
+            System.out.println("x y "+ x+"\t"+y);
 
             String testkey = (String) replace.get(x);
             if (testkey != null) {
@@ -124,6 +125,7 @@ public class AnalyzeOverlaps {
             int xind = StringUtil.getFirstEqualsIgnoreCaseIndex(keysStr, x);
             int yind = StringUtil.getFirstEqualsIgnoreCaseIndex(keysStr, y);
 
+            MoreArray.printArray(rowmax);
             //overlap_fraction[yind][xind] = mathy.stat.countGreaterThan(colmax, cutoff) / (double) colmax.length;
             overlap_fraction[yind][xind] = mathy.stat.countGreaterThan(rowmax, cutoff) / (double) rowmax.length;
             System.out.println("fraction overlap " + files[a] + "\toverlap fraction " + overlap_fraction[yind][xind]

@@ -1480,6 +1480,9 @@ e.printStackTrace();
 
                 //g-, g+, e-, e+
 
+
+                //ACTUALLY: only gene- & exp- and gene+ & exp+ are possible based on rule for second move above
+
                 //gene- & gene+
                 // exp- | exp+
                 if (index[0] == 0 && index[1] == 0) {
@@ -1494,7 +1497,7 @@ e.printStackTrace();
                     move_params.makepA(rmb.irv.Rengine);
                     move_params.Experiment_or_Gene = 1;
                 }
-                //gene- & exp+
+                //gene- & exp-
                 // gene+ | exp+
                 else if (index[0] == 0 && index[2] == 0) {
                     move_params.Delete_or_Add = 1;
