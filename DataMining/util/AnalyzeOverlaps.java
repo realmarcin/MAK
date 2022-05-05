@@ -96,6 +96,7 @@ public class AnalyzeOverlaps {
         System.out.println("Methods");
         MoreArray.printArray(keysStr);
         double[][] overlap_fraction = new double[keys.size()][keys.size()];
+        double[][] overlap_mean = new double[keys.size()][keys.size()];
         for (int a = 0; a < files.length; a++) {
             SimpleMatrix sm = new SimpleMatrix(args[0] + "/" + files[a]);
             //int xdim = sm.xlabels.length;
@@ -103,7 +104,6 @@ public class AnalyzeOverlaps {
 
             //double[] colmax = mathy.Matrix.columnMax(sm.data);
             double[] rowmax = mathy.Matrix.rowMax(sm.data);
-
 
             final int vs_index = files[a].indexOf("_vs_");
             String x = files[a].substring(0, vs_index);
@@ -128,6 +128,7 @@ public class AnalyzeOverlaps {
             MoreArray.printArray(rowmax);
             //overlap_fraction[yind][xind] = mathy.stat.countGreaterThan(colmax, cutoff) / (double) colmax.length;
             overlap_fraction[yind][xind] = mathy.stat.countGreaterThan(rowmax, cutoff) / (double) rowmax.length;
+            overlap_mean[yind][xind] = mathy.stat.avgOverSamp(rowmax, rowmax.length);
             System.out.println("fraction overlap " + files[a] + "\toverlap fraction " + overlap_fraction[yind][xind]
                     + "\t rowmax.length" + rowmax.length + "\tsm.data " + sm.data.length + "\t" + sm.data[0].length);
         }
@@ -137,7 +138,9 @@ public class AnalyzeOverlaps {
         }
 
         String outf = args[1];
+        String outf2 = args[1];
         Matrix.writeTab(overlap_fraction, keysStr, keysStr, outf);
+        Matrix.writeTab(overlap_mean, keysStr, keysStr, outf2+"_mean");
     }
 
 
