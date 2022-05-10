@@ -1,6 +1,7 @@
 package DataMining.eval;
 
 import mathy.Matrix;
+import util.MoreArray;
 import util.TabFile;
 
 import java.io.File;
@@ -25,8 +26,7 @@ public class MakeUniBicEvalTable {
         File dir = new File(args[0]);
 
         String[] list = dir.list();
-
-
+        
         double[][] results = new double[2 * 3 * 3][2 * 6];
 
         for (int a = 0; a < list.length; a++) {
@@ -40,7 +40,7 @@ public class MakeUniBicEvalTable {
                                     for (int l = 0; l < recov_relev.length; l++) {
                                         if (curfile.indexOf(recov_relev[l]) != -1) {
 
-                                            String curpath = args[9] + "/" + list[a];
+                                            String curpath = args[0] + "/" + list[a];
 
                                             List<String> lines = Collections.emptyList();
                                             try {
@@ -68,8 +68,7 @@ public class MakeUniBicEvalTable {
             }
         }
 
-        Matrix.write(results, "UniBic_eval_relevance_recovery_table.txt");
-
+        TabFile.write(MoreArray.toString(results, "" ,""), "UniBic_eval_relevance_recovery_table.txt");
     }
 
 
@@ -81,7 +80,7 @@ public class MakeUniBicEvalTable {
         if (args.length == 1) {
             MakeUniBicEvalTable rm = new MakeUniBicEvalTable(args);
         } else {
-            System.out.println("syntax: java DataMining.eval.SummarizeUniBic\n" +
+            System.out.println("syntax: java DataMining.eval.MakeUniBicEvalTable\n" +
                     "< dir of relevance and recovery stat files >"
             );
         }
