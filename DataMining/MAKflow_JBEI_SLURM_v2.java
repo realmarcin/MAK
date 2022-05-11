@@ -3294,9 +3294,9 @@ public class MAKflow_JBEI_SLURM_v2 {
 
         String node_task = "";
         if (twoCoresPerTask) {
-            node_task = sl_header + "ht_helper.sh -v  -t " + taskfile + " -n2";
+            node_task = sl_header + "ht_helper.sh -v  -t " + taskfile + " -n 2";
         } else {
-            node_task = sl_header + "ht_helper.sh -v  -t " + taskfile + " -n1";
+            node_task = sl_header + "ht_helper.sh -v  -t " + taskfile + " -n 1";
         }
 
         String node_task_shell = loc_dir_1 + "slurm_script.sl";
@@ -3428,13 +3428,15 @@ public class MAKflow_JBEI_SLURM_v2 {
      */
     public static void main(String[] args) {
         if (args.length > 1) {
-            for (int levelnumber = 0; levelnumber < 20; levelnumber++) {
+            for (int levelnumber = 0; levelnumber < labels.length; levelnumber++) {
                 printLevelLabels(levelnumber);
             }
-            MAKflow_JBEI_SLURM_v2 arg = new MAKflow_JBEI_SLURM_v2(args);
+            MAKflow_JBEI_SLURM_v2 mjs = new MAKflow_JBEI_SLURM_v2(args);
         } else {
-            System.out.println("syntax: java DataMining.MAKflow_JBEI_SLURM_v2\n" + arg_desc_str
-            );
+            System.out.println("syntax: java DataMining.MAKflow_JBEI_SLURM_v2\n" + arg_desc_str);
+            for (int levelnumber = 0; levelnumber < labels.length; levelnumber++) {
+                printLevelLabels(levelnumber);
+            }
         }
     }
 }
