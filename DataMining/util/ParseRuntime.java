@@ -31,74 +31,76 @@ public class ParseRuntime {
             //if (list[i].indexOf("DS_Store") == -1) {
             String path = args[0] + "/" + list[i];
             File curdir = new File(path);
-            System.out.println(path);
 
-            int ind1 = list[i].indexOf("round");
-            int ind2 = list[i].indexOf("_", ind1 + 1);
+            if (curdir.isDirectory() && list[i].indexOf("round") != -1) {
+                System.out.println(path);
 
-            System.out.println(ind1 + "\t" + ind2);
+                int ind1 = list[i].indexOf("round");
+                int ind2 = list[i].indexOf("_", ind1 + 1);
 
-            if (ind2 == -1) {
-                ind2 = list[i].length();
-            }
-            String label = null;
-            try {
-                label = list[i].substring(ind1, ind2);
-            } catch (Exception e) {
-                label = "1";
-                e.printStackTrace();
-            }
+                System.out.println(ind1 + "\t" + ind2);
 
-            String[] listcur = curdir.list();
-            for (int j = 0; j < listcur.length; j++) {
-                String curfile = path + "/" + listcur[j];
-                //if (curfile.indexOf("DS_Store") == -1) {
+                if (ind2 == -1) {
+                    ind2 = list[i].length();
+                }
+                String label = null;
+                try {
+                    label = list[i].substring(ind1, ind2);
+                } catch (Exception e) {
+                    label = "1";
+                    e.printStackTrace();
+                }
 
-                System.out.println("curfile :" + curfile);
+                String[] listcur = curdir.list();
+                for (int j = 0; j < listcur.length; j++) {
+                    String curfile = path + "/" + listcur[j];
+                    //if (curfile.indexOf("DS_Store") == -1) {
 
-                double[] data = null;
+                    System.out.println("curfile :" + curfile);
 
-                if (list[i].indexOf(".out") != -1) {
+                    double[] data = null;
 
-                    data = countLinesAndFinalCrit(curfile);
-                    if (data != null) {
-                        int lines = (int) data[0];
-                        double sec = (Double) data[1];
-                        //double crit = data[1];
-                        //int index = s.indexOf(" ");
-                        //int index2 = s.indexOf(" ", index + 1);
+                    if (list[i].indexOf(".out") != -1) {
 
-                        //System.out.println(s);
-                        //times.add(label + "\t" + Double.parseDouble(s.substring(index, index2)) + "\t" + lines + "\t" + crit);
-                        times.add(label + "\t" + lines + "\t" + sec);
-                        nums.add(sec);
-                        count++;
+                        data = countLinesAndFinalCrit(curfile);
+                        if (data != null) {
+                            int lines = (int) data[0];
+                            double sec = (Double) data[1];
+                            //double crit = data[1];
+                            //int index = s.indexOf(" ");
+                            //int index2 = s.indexOf(" ", index + 1);
+
+                            //System.out.println(s);
+                            //times.add(label + "\t" + Double.parseDouble(s.substring(index, index2)) + "\t" + lines + "\t" + crit);
+                            times.add(label + "\t" + lines + "\t" + sec);
+                            nums.add(sec);
+                            count++;
+                        }
+                    } else if (list[i].indexOf(".toplist") != -1) {
+                        Scanner sc = null;
+                        try {
+                            sc = new Scanner(new File(curfile));
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        sc.useDelimiter("\\n");
+                        String header = sc.nextLine();
+                        sc.close();
+
+                        int ind3 = header.indexOf("Runtime: ");
+                        if (ind3 != -1) {
+                            ind3 += "Runtime: ".length();
+                            int ind4 = header.indexOf("  number", ind3 + 1);
+                            double sec = Double.parseDouble(header.substring(ind3, ind4));
+                            int lines = countLines(curfile);
+                            times.add(label + "\t" + lines + "\t" + sec);
+                            nums.add(sec);
+                        }
+
+                        //System.out.println("s :"+s);
                     }
-                } else if (list[i].indexOf(".toplist") != -1) {
-                    Scanner sc = null;
-                    try {
-                        sc = new Scanner(new File(curfile));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    sc.useDelimiter("\\n");
-                    String header = sc.nextLine();
-                    sc.close();
-
-                    int ind3 = header.indexOf("Runtime: ");
-                    if(ind3 != -1 ) {
-                        ind3 += "Runtime: ".length();
-                        int ind4 = header.indexOf("  number", ind3+1);
-                        double sec = Double.parseDouble(header.substring(ind3, ind4));
-                        int lines = countLines(curfile);
-                        times.add(label + "\t" + lines + "\t" + sec);
-                        nums.add(sec);
-                    }
-
-                    //System.out.println("s :"+s);
                 }
             }
-
         }
 
         TextFile.write(times, args[0] + "_runtimestats.txt");
@@ -159,6 +161,7 @@ public class ParseRuntime {
 
         return ret;
     }
+
     /**
      * @param path
      * @return
