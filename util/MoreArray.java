@@ -1592,7 +1592,7 @@ public class MoreArray {
                 try {
                     inta[count] = (Integer.parseInt((String) o));
                 } catch (NumberFormatException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e1.printStackTrace();
                 }
                 //System.out.println("tointArray ERROR "+o.toString());
                 //e.printStackTrace();

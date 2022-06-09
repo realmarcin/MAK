@@ -239,7 +239,7 @@ public class BuildGraph {
                         }
                     } catch (Exception e1) {
                         System.out.println("out of bounds indices " + g + "\t" + e + "\tdata dim " + expr_data.data.length + "\t" + expr_data.data[0].length);
-                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        e1.printStackTrace();
                         System.exit(0);
                     }
                 }
@@ -2435,7 +2435,7 @@ for (int j = i + 1; j < size; j++) {
                             System.out.println("TF pval " + pval);
                             System.out.println("unadjusted TF pval < cutoff " + k + "\t" + TFREF_data.ylabels[k]);
 
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            e.printStackTrace();
                         }
 
                         if (pval < TF_pvalue_cutoff) {

@@ -334,7 +334,7 @@ public class BiclusterAnnotforAPI_RNAseqDB {
             try {
                 cor_cut = Double.valueOf(f);
             } catch (NumberFormatException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();
             }
         }
 

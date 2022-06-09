@@ -30,7 +30,7 @@ import java.util.*;
  * Date: 10/15/15
  */
 
-public class MAKflow_JBEI_SLURM_v2 {
+public class MAKflow_JBEI_SLURM_v3 {
     String[] valid_args = {
             "-data", "-parameters", "-server", "-account", "-qos", "-stdout"
     };
@@ -61,7 +61,7 @@ public class MAKflow_JBEI_SLURM_v2 {
             "Create RunMiner task file", //8
             "Execute task file", //9
             "Check that all tasks complete successfully. (ParamforErrMiss)", //10
-            "Rerun tFasks which did not produce results successfully. (RunMiner)", //11
+            "Rerun tasks which did not produce results successfully. (RunMiner)", //11
             "Collects trajectory endpoints. (ListfromDir)", //12
             "Filter endpoints by mean and percent of starting point. (ApplyCut)", //13
             "Bicluster list merge and reconstruction. (ListMergeMembers)", //14
@@ -215,7 +215,7 @@ public class MAKflow_JBEI_SLURM_v2 {
     /**
      * @param args
      */
-    public MAKflow_JBEI_SLURM_v2(String[] args) {
+    public MAKflow_JBEI_SLURM_v3(String[] args) {
 
         init(args);
         runFlow(startlevel, stoplevel);
@@ -509,8 +509,8 @@ public class MAKflow_JBEI_SLURM_v2 {
                 }
 
                 try {
-                    run_ht_helper(localpath + input + basename + "_make_nulls.tasks", scriptbox, default_walltime, null,
-                            Math.min(maxnulljobs, max_jobs), null_mem_per_cpu, false, (int) setLevel);
+                    runGNUParallel(localpath + input + basename + "_make_nulls.tasks", scriptbox, default_walltime, null,
+                            Math.min(maxnulljobs, max_jobs), null_mem_per_cpu, (int) setLevel, "");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -1213,8 +1213,8 @@ public class MAKflow_JBEI_SLURM_v2 {
                 }
 
                 try {
-                    run_ht_helper(localpath + input + basename + "_run_miner.tasks", scriptbox, default_walltime,
-                            null, max_jobs, mem_per_cpu, false, (int) setLevel);
+                    runGNUParallel(localpath + input + basename + "_run_miner.tasks", scriptbox, default_walltime,
+                            null, max_jobs, mem_per_cpu,  (int) setLevel, "");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -1352,7 +1352,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 System.out.println("missing task len " + len);
                 if (len > 0) {
                     try {
-                        run_ht_helper(localpath + input + basename + "_rerun_miner.tasks", scriptbox, default_walltime,
+                        runGNUParallel(localpath + input + basename + "_rerun_miner.tasks", scriptbox, default_walltime,
                                 null, max_jobs, mem_per_cpu, false, (int) setLevel);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -2045,8 +2045,8 @@ public class MAKflow_JBEI_SLURM_v2 {
                 }
 
                 try {
-                    run_ht_helper(localpath + input + basename + "_refine.tasks", scriptbox, default_walltime, null,
-                            max_jobs, mem_per_cpu, false, (int) setLevel);
+                    runGNUParallel(localpath + input + basename + "_refine.tasks", scriptbox, default_walltime, null,
+                            max_jobs, mem_per_cpu,  (int) setLevel, "");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -3253,7 +3253,6 @@ public class MAKflow_JBEI_SLURM_v2 {
         return textData;
     }
 
-
     /**
      * @param taskfile
      * @param scriptbox
@@ -3261,11 +3260,12 @@ public class MAKflow_JBEI_SLURM_v2 {
      * @param constraint
      * @param ntasks
      * @param mempercpu
-     * @param twoCoresPerTask
-     * @throws IOException
+     * @param setLevel
+     * @throws Exception
      */
-    private void run_ht_helper(String taskfile, String scriptbox, String walltime, String constraint, int ntasks,
-                               double mempercpu, boolean twoCoresPerTask, int setLevel) throws IOException {
+    private void runGNUParallel(String taskfile, String scriptbox, String walltime, String constraint, int ntasks,
+                                double mempercpu, int setLevel, String work_dir) throws Exception {
+
         String sl_header = "";
 
         sl_header += "#!/bin/bash\n" +
@@ -3288,42 +3288,46 @@ public class MAKflow_JBEI_SLURM_v2 {
         if (constraint != null)
             sl_header += "#SBATCH --constraint=" + constraint + "\n";
 
-        String loc_dir_1 = localpath + scriptbox + "/sl_script/";
-        System.out.println(loc_dir_1);
-        createFile(loc_dir_1);
 
-        String node_task = "";
-        if (twoCoresPerTask) {
-            node_task = sl_header + "ht_helper.sh -v  -t " + taskfile + " -n 2";
-        } else {
-            node_task = sl_header + "ht_helper.sh -v  -t " + taskfile + " -n 1";
-        }
+        sl_header += "export $JOBS_PER_NODE=`expr $SLURM_MEM_PER_NODE / "+(double)mempercpu+"`";//$SLURM_CPUS_ON_NODE";
+        sl_header += "module load gnu-parallel/2019.03.22";
+        sl_header += "export WDIR=" + work_dir;
+        sl_header += "cd $WDIR";
+        
+        sl_header += "parallel --jobs $JOBS_PER_NODE --slf hostfile --wd $WDIR --joblog MAK_task.log --resume --progress \\\n" +
+                "--colsep ' ' -a task.lst sh run_single_MAK.sh {} ";
 
-        String node_task_shell = loc_dir_1 + "slurm_script.sl";
-        String task_shell_out = loc_dir_1 + "slurm_script.out";
-        TextFile.write(node_task, node_task_shell);
+/*
 
-        String run_sbatch = "";
-        run_sbatch += "sbatch " + node_task_shell + " > " + task_shell_out;
-        String sbatch_shell = "execute_sbatch.sh";
-        runCmd(run_sbatch, scriptbox, sbatch_shell);
+## Command(s) to run (example):
+#
+        module load gnu-parallel/2019.03.22
+        export WDIR=PATH
+        cd $WDIR
+        export JOBS_PER_NODE=$SLURM_CPUS_ON_NODE
+#
+## when each task is multi-threaded, say NTHREADS=2, then JOBS_PER_NODE should be revised as below
+## JOBS_PER_NODE=$(( $SLURM_CPUS_ON_NODE  / NTHREADS ))
+## when memory footprint is large, JOBS_PER_NODE needs to be set ; $SLURM_CPUS_ON_NODE
+#
+        echo $SLURM_JOB_NODELIST |sed s/\,/\\n/g; hostfile
+## when GNU parallel can't detect core# of remote nodes, say --progress/--eta,
+## core# should be prepended to hostnames. e.g. 32/n0149.savio3
+## echo $SLURM_JOB_NODELIST |sed s/\,/\\n/g |awk -v cores=$SLURM_CPUS_ON_NODE '{print cores"/"$1}'hostfile<
+#
+        parallel --jobs $JOBS_PER_NODE --slf hostfile --wd $WDIR --joblog task.log --resume --progress \
+        --colsep ' ' -a task.lst sh run-blast.sh {} output/{/.}.blst $NTHREADS*/
 
-        String slurm_id = "";
-        FileReader file_to_read = new FileReader(task_shell_out);
-        BufferedReader bf = new BufferedReader(file_to_read);
 
-        String aLine = null;
-        while ((aLine = bf.readLine()) != null) {
-            if (aLine.toLowerCase().startsWith("submitted")) {
-                slurm_id = aLine.split(" ")[3];
-            } else {
-                System.out.println("ERROR: SBATCH SUBMISSION FAILED");
-                System.exit(1);
-            }
-        }
-        bf.close();
+        /*
+    #!/bin/bash
 
-        checkSLURMJobIsCompleted(slurm_id, scriptbox);
+    module load R/2.15.1
+    module load java/1.8.0_12
+    java -Xmx4000M DataMining.RunMiner -param $1 &> $2
+    */
+
+
     }
 
     /**
@@ -3428,15 +3432,13 @@ public class MAKflow_JBEI_SLURM_v2 {
      */
     public static void main(String[] args) {
         if (args.length > 1) {
-            for (int levelnumber = 0; levelnumber < labels.length; levelnumber++) {
+            for (int levelnumber = 0; levelnumber < 20; levelnumber++) {
                 printLevelLabels(levelnumber);
             }
-            MAKflow_JBEI_SLURM_v2 mjs = new MAKflow_JBEI_SLURM_v2(args);
+            MAKflow_JBEI_SLURM_v3 arg = new MAKflow_JBEI_SLURM_v3(args);
         } else {
-            System.out.println("syntax: java DataMining.MAKflow_JBEI_SLURM_v2\n" + arg_desc_str);
-            for (int levelnumber = 0; levelnumber < labels.length; levelnumber++) {
-                printLevelLabels(levelnumber);
-            }
+            System.out.println("syntax: java DataMining.MAKflow_JBEI_SLURM_v3\n" + arg_desc_str
+            );
         }
     }
 }

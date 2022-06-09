@@ -399,7 +399,7 @@ public class ComputeCrit {
                     "useAbs=c(" + MoreArray.toString(thiscrit.useAbs, ",") + ")," +
                     "frxnsign=" + (thiscrit.useFrxnSign ? "T" : "F") + ")";
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
             System.exit(1);
         }
         return s;

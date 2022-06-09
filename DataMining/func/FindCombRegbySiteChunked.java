@@ -269,7 +269,7 @@ public class FindCombRegbySiteChunked {
         try {
             irv.Rengine.end();
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
         System.exit(0);
     }

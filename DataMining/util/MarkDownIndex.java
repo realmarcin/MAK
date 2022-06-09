@@ -83,7 +83,7 @@ public class MarkDownIndex {
             try {
                 hits = MoreArray.getArrayIndAll(bic_index, m);
             } catch (Exception e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();
             }
 
             int noimage = 0;

@@ -154,7 +154,7 @@ public class BuildGraphsToTable {
                     System.out.print("listout[i] " + listout[i]);
                     System.out.print("listtop[1] " + listtop[1]);
 
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e.printStackTrace();
                     System.exit(1);
                 }
                 ValueBlockList vbl = blockData.getVbl();
@@ -206,13 +206,29 @@ public class BuildGraphsToTable {
                         stats[10] = Double.parseDouble(data[j].substring(data[j].lastIndexOf("GO biclusters\t") + "GO biclusters\t".length(), data[j].indexOf("\tunique")));
                         stats[14] = Double.parseDouble(data[j].substring(data[j].lastIndexOf("unique GOs ") + "unique GOs ".length(), data[j].indexOf("\tcover")));
                         stats[18] = Double.parseDouble(data[j].substring(data[j].lastIndexOf("cover ") + "cover ".length(), data[j].length()));
+
+                        /*if(debug) {
+                            System.out.println("GO biclusters "+stats[10]);
+                            System.out.println("GO unique "+stats[14]);
+                            System.out.println("GO cover "+stats[18]);
+                        }*/
                     }
 
 
                     if (data[j].startsWith("TF biclusters ")) {
+                        System.out.println(data[j].substring(data[j].lastIndexOf("TF biclusters ") + "TF biclusters ".length(), data[j].indexOf("\tunique")));
+                        System.out.println(data[j].substring(data[j].lastIndexOf("unique TFs ") + "unique TFs ".length(), data[j].indexOf("\tcover")));
+                        System.out.println(data[j].substring(data[j].lastIndexOf("cover ") + "cover ".length(), data[j].length()));
+
                         stats[11] = Double.parseDouble(data[j].substring(data[j].lastIndexOf("TF biclusters ") + "TF biclusters ".length(), data[j].indexOf("\tunique")));
                         stats[15] = Double.parseDouble(data[j].substring(data[j].lastIndexOf("unique TFs ") + "unique TFs ".length(), data[j].indexOf("\tcover")));
                         stats[19] = Double.parseDouble(data[j].substring(data[j].lastIndexOf("cover ") + "cover ".length(), data[j].length()));
+
+                        /*if(debug) {
+                                System.out.println("TF biclusters "+stats[11]);
+                                System.out.println("TF unique "+stats[15]);
+                                System.out.println("TF cover "+stats[19]);
+                        }*/
                     }
 
 
@@ -245,13 +261,16 @@ public class BuildGraphsToTable {
 
 
                 //GO p.b.
-                stats[22] = (stats[10] / stats[1]);
+                stats[22] = (stats[14] / stats[1]);
+                //System.out.println("GO p.b. "+ stats[22] +" = "+ stats[18] +" /  "+stats[1]);
                 //	TF p.b.
-                stats[23] = (stats[13] / stats[1]);
+                //13
+                stats[23] = (stats[15] / stats[1]);
+                //System.out.println("TF p.b. "+ stats[23] +" = "+ stats[19] +" /  "+stats[1]);
                 // 	Path p.b.
                 stats[24] = (stats[16] / stats[1]);
                 // TIGRrole p.b.
-                stats[25] = (stats[19] / stats[1]);
+                stats[25] = (stats[17] / stats[1]);
 
                 //runtime
                 stats[26] = 0;
@@ -476,7 +495,7 @@ public class BuildGraphsToTable {
                     }
                 }
             } else {
-                System.out.println("small row " + i + "\t" + cur.exp_data[0].length);
+                //System.out.println("small row " + i + "\t" + cur.exp_data[0].length);
                 rowCors.add(-1.0);
             }
 
@@ -497,8 +516,8 @@ public class BuildGraphsToTable {
                     }
                 }
             } else {
-                System.out.println("small col " + i + "\t" + cur.exp_data.length);
-                colCors.add(-1.0);
+                //System.out.println("small col " + i + "\t" + cur.exp_data.length);
+                colCors.add(Double.NaN);
             }
 
             //abs row
@@ -519,7 +538,7 @@ public class BuildGraphsToTable {
                     }
                 }
             } else {
-                System.out.println("small row " + i + "\t" + cur.exp_data[0].length);
+                //System.out.println("small row " + i + "\t" + cur.exp_data[0].length);
                 rowCorsAbs.add(-1.0);
             }
 
@@ -541,7 +560,7 @@ public class BuildGraphsToTable {
                     }
                 }
             } else {
-                System.out.println("small col " + i + "\t" + cur.exp_data.length);
+                //System.out.println("small col " + i + "\t" + cur.exp_data.length);
                 colCorsAbs.add(-1.0);
             }
 
@@ -567,7 +586,7 @@ public class BuildGraphsToTable {
                 MoreArray.printArray(cur.exp_data);
                 System.out.println("maxcor[i] " + maxcor[i]);
                 MoreArray.printArray(avg);
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();
             }
             //System.out.println("maxcor[i] af " + maxcor[i]);
         }
@@ -642,7 +661,7 @@ public class BuildGraphsToTable {
             } catch (Exception e) {
                 System.out.println("Error for " + i);
                 System.out.println(data[i]);
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();
             }
         }
 

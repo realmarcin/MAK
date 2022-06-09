@@ -185,7 +185,7 @@ public class AssignFunClass {
         try {
             go = go.toLowerCase();
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
         try {
             path = path.toLowerCase();
@@ -195,7 +195,7 @@ public class AssignFunClass {
         try {
             tigr = tigr.toLowerCase();
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
 
         ArrayList ar = new ArrayList();

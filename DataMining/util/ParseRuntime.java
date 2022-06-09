@@ -46,43 +46,59 @@ public class ParseRuntime {
                 label = list[i].substring(ind1, ind2);
             } catch (Exception e) {
                 label = "1";
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();
             }
 
             String[] listcur = curdir.list();
             for (int j = 0; j < listcur.length; j++) {
                 String curfile = path + "/" + listcur[j];
                 //if (curfile.indexOf("DS_Store") == -1) {
-                Scanner sc = null;
-                try {
-                    sc = new Scanner(new File(curfile));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+
                 System.out.println("curfile :" + curfile);
-                sc.useDelimiter("\\n");
-                String s = sc.nextLine();
-                sc.close();
-                //System.out.println("s :"+s);
+
                 double[] data = null;
 
-                data = countLinesAndFinalCrit(curfile);
-                if (data != null) {
-                    int lines = (int) data[0];
-                    double sec = (Double) data[1];
-                    //double crit = data[1];
-                    //int index = s.indexOf(" ");
-                    //int index2 = s.indexOf(" ", index + 1);
+                if (list[i].indexOf(".out") != -1) {
 
-                    //System.out.println(s);
-                    //times.add(label + "\t" + Double.parseDouble(s.substring(index, index2)) + "\t" + lines + "\t" + crit);
-                    times.add(label + "\t" + lines + "\t" + sec);
-                    nums.add(sec);
-                    count++;
+                    data = countLinesAndFinalCrit(curfile);
+                    if (data != null) {
+                        int lines = (int) data[0];
+                        double sec = (Double) data[1];
+                        //double crit = data[1];
+                        //int index = s.indexOf(" ");
+                        //int index2 = s.indexOf(" ", index + 1);
+
+                        //System.out.println(s);
+                        //times.add(label + "\t" + Double.parseDouble(s.substring(index, index2)) + "\t" + lines + "\t" + crit);
+                        times.add(label + "\t" + lines + "\t" + sec);
+                        nums.add(sec);
+                        count++;
+                    }
+                } else if (list[i].indexOf(".toplist") != -1) {
+                    Scanner sc = null;
+                    try {
+                        sc = new Scanner(new File(curfile));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    sc.useDelimiter("\\n");
+                    String header = sc.nextLine();
+                    sc.close();
+
+                    int ind3 = header.indexOf("Runtime: ");
+                    if(ind3 != -1 ) {
+                        ind3 += "Runtime: ".length();
+                        int ind4 = header.indexOf("  number", ind3+1);
+                        double sec = Double.parseDouble(header.substring(ind3, ind4));
+                        int lines = countLines(curfile);
+                        times.add(label + "\t" + lines + "\t" + sec);
+                        nums.add(sec);
+                    }
+
+                    //System.out.println("s :"+s);
                 }
-                //}
-                //}
             }
+
         }
 
         TextFile.write(times, args[0] + "_runtimestats.txt");
@@ -133,14 +149,32 @@ public class ParseRuntime {
                 ret[1] = Double.parseDouble(split[3]);
             } catch (Exception e) {
                 ret = null;
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();
             }
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         } catch (NumberFormatException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
 
+        return ret;
+    }
+    /**
+     * @param path
+     * @return
+     * @throws IOException
+     */
+    public int countLines(String path) {
+        int ret = -1;
+        try {
+            LineNumberReader rdr = new LineNumberReader(new FileReader(path));
+            ret = rdr.getLineNumber();
+            rdr.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
         return ret;
     }
 
