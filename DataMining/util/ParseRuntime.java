@@ -60,7 +60,7 @@ public class ParseRuntime {
 
                     double[] data = null;
 
-                    if (list[i].indexOf(".out") != -1) {
+                    if (listcur[j].indexOf(".out") != -1) {
 
                         data = countLinesAndFinalCrit(curfile);
                         if (data != null) {
@@ -76,7 +76,7 @@ public class ParseRuntime {
                             nums.add(sec);
                             count++;
                         }
-                    } else if (list[i].indexOf(".toplist") != -1) {
+                    } else if (listcur[j].indexOf("toplist.txt") != -1) {
                         Scanner sc = null;
                         try {
                             sc = new Scanner(new File(curfile));
@@ -86,6 +86,7 @@ public class ParseRuntime {
                         sc.useDelimiter("\\n");
                         String header = sc.nextLine();
                         sc.close();
+                        System.out.println(header);
 
                         int ind3 = header.indexOf("Runtime: ");
                         if (ind3 != -1) {
