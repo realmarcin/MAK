@@ -19,7 +19,7 @@ Massive Associative K-biclustering
 
 3. Run:
 
-java DataMining.MAKFow ...
+java DataMining.MAKFlow ...
 
 Syntax:
 -parameters = input parameter file
