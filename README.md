@@ -18,7 +18,9 @@ Massive Associative K-biclustering
 - maximum wall time (48 hours)
 
 3. Run:
+
 java DataMining.MAKFow ...
+
 Syntax:
 -parameters = input parameter file
 -server = HPC cluster
