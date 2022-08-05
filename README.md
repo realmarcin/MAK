@@ -8,7 +8,7 @@ Massive Associative K-biclustering
 
 2. Edit fields in MAK parameter file:
 - Input TSV data path(s) (up to four)
-- Bicluster coherence criterion (column = MSEC_KENDALLC_GEECE)
+- Bicluster coherence criterion (column = MSEC_KENDALLC_FEM)
 - null size boundaries (y=(2,200), x=(2,100))
 - starting point size range (y=(10,100), x=(10,50))
 - HCL starting point metric and linkage (Pearson correlation and Complete)
@@ -19,7 +19,7 @@ Massive Associative K-biclustering
 
 3. Run:
 
-java DataMining.MAKFlow ...
+java DataMining.MAKflow ...
 
 Syntax:
 -parameters = input parameter file
@@ -28,7 +28,6 @@ Syntax:
 -qos = HPC queue
 
 4. Output:
-- A TSV file of nonredundant, highest scoring biclusters
-in the input data
+- A TSV file of nonredundant, highest scoring biclusters in the input data
 - A set of directories with all intermediate data and results
 - Includes all executed commands and optional logging
