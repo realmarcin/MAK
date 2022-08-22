@@ -27,9 +27,9 @@ public class Parameters {
 
     //The current code uses the median instead of mean and 0.5IQR instead of sd, so variable names are not exactly reflective.
     public String MEANKEND_PATH, MEANKENDR_PATH, MEANKENDC_PATH, MEANCORR_PATH, MEANCORC_PATH, MEANMADR_PATH, MEANMSE_PATH, MEANMSER_PATH, MEANMSEC_PATH, MEANINTERACT_PATH,
-            MEANGEE_PATH, MEANGEERE_PATH, MEANGEECE_PATH, MEANLARSRE_PATH, MEANLARSCE_PATH, MEANCOR_PATH, MEANLARS_PATH, MEANEUC_PATH, MEANSPEAR_PATH,
+            MEANFEM_PATH, MEANFEMR_PATH, MEANFEMC_PATH, MEANLARSRE_PATH, MEANLARSCE_PATH, MEANCOR_PATH, MEANLARS_PATH, MEANEUC_PATH, MEANSPEAR_PATH,
             SDMADR_PATH, SDMSE_PATH, SDMSER_PATH, SDMSEC_PATH, SDKEND_PATH, SDKENDR_PATH, SDKENDC_PATH, SDCORR_PATH, SDCORC_PATH, SDINTERACT_PATH,
-            SDGEE_PATH, SDGEERE_PATH, SDGEECE_PATH, SDLARSRE_PATH, SDLARSCE_PATH, MEANEUCR_PATH, MEANEUCC_PATH, SDEUCR_PATH, SDEUCC_PATH,
+            SDFEM_PATH, SDFEMR_PATH, SDFEMC_PATH, SDLARSRE_PATH, SDLARSCE_PATH, MEANEUCR_PATH, MEANEUCC_PATH, SDEUCR_PATH, SDEUCC_PATH,
             MEANSPEARR_PATH, MEANSPEARC_PATH, SDSPEARR_PATH, SDSPEARC_PATH, MEANMEAN_PATH, SDMEAN_PATH,
             MEANRMEAN_PATH, SDRMEAN_PATH, MEANCMEAN_PATH, SDCMEAN_PATH, SDCOR_PATH, SDLARS_PATH, SDEUC_PATH, SDSPEAR_PATH,
             MEANFEAT_PATH, SDFEAT_PATH, MEANTF_PATH, SDTF_PATH, MEANBINARY_PATH, SDBINARY_PATH, MEANBINARYR_PATH, SDBINARYR_PATH, MEANBINARYC_PATH, SDBINARYC_PATH,
@@ -124,7 +124,7 @@ public class Parameters {
     public boolean USE_ABS = false;
     public boolean FRXN_SIGN = false;
     public boolean OVERRIDE_SHAVING = false;
-    //Three binary integers indicating abs/noabs for MSE/Kendall/GEE.
+    //Three binary integers indicating abs/noabs for MSE/Kendall/FEM.
     //The middle value for 'Kendall' also is applied to Pearson correlation and Euclidean.
     public int[] USE_ABS_AR = null;
     public int[] USE_NULL_AR = null;
@@ -160,9 +160,9 @@ public class Parameters {
             "MEANMSE_PATH",
             "MEANMSER_PATH",
             "MEANMSEC_PATH",
-            "MEANGEE_PATH",
-            "MEANGEERE_PATH",
-            "MEANGEECE_PATH",
+            "MEANFEM_PATH",
+            "MEANFEMR_PATH",
+            "MEANFEMC_PATH",
             "MEANLARSRE_PATH",
             "MEANLARSCE_PATH",
             "MEANEUCR_PATH",
@@ -189,9 +189,9 @@ public class Parameters {
             "SDMSE_PATH",
             "SDMSER_PATH",
             "SDMSEC_PATH",
-            "SDGEE_PATH",
-            "SDGEERE_PATH",
-            "SDGEECE_PATH",
+            "SDFEM_PATH",
+            "SDFEMR_PATH",
+            "SDFEMC_PATH",
             "SDLARSRE_PATH",
             "SDLARSCE_PATH",
             "SDEUCR_PATH",
@@ -339,9 +339,9 @@ public class Parameters {
         MEANMSER_PATH = p.MEANMSER_PATH;
         MEANMSEC_PATH = p.MEANMSEC_PATH;
         MEANINTERACT_PATH = p.MEANINTERACT_PATH;
-        MEANGEE_PATH = p.MEANGEE_PATH;
-        MEANGEERE_PATH = p.MEANGEERE_PATH;
-        MEANGEECE_PATH = p.MEANGEECE_PATH;
+        MEANFEM_PATH = p.MEANFEM_PATH;
+        MEANFEMR_PATH = p.MEANFEMR_PATH;
+        MEANFEMC_PATH = p.MEANFEMC_PATH;
         MEANLARSRE_PATH = p.MEANLARSRE_PATH;
         MEANLARSCE_PATH = p.MEANLARSCE_PATH;
         MEANEUCR_PATH = p.MEANEUCR_PATH;
@@ -371,9 +371,9 @@ public class Parameters {
         SDMSER_PATH = p.SDMSER_PATH;
         SDMSEC_PATH = p.SDMSEC_PATH;
         SDINTERACT_PATH = p.SDINTERACT_PATH;
-        SDGEE_PATH = p.SDGEE_PATH;
-        SDGEERE_PATH = p.SDGEERE_PATH;
-        SDGEECE_PATH = p.SDGEECE_PATH;
+        SDFEM_PATH = p.SDFEM_PATH;
+        SDFEMR_PATH = p.SDFEMR_PATH;
+        SDFEMC_PATH = p.SDFEMC_PATH;
         SDLARSRE_PATH = p.SDLARSRE_PATH;
         SDLARSCE_PATH = p.SDLARSCE_PATH;
         SDEUCR_PATH = p.SDEUCR_PATH;
@@ -521,9 +521,9 @@ public class Parameters {
         MEANMEAN_PATH = null;
         MEANRMEAN_PATH = null;
         MEANCMEAN_PATH = null;
-        MEANGEE_PATH = null;
-        MEANGEERE_PATH = null;
-        MEANGEECE_PATH = null;
+        MEANFEM_PATH = null;
+        MEANFEMR_PATH = null;
+        MEANFEMC_PATH = null;
         MEANLARS_PATH = null;
         MEANLARSRE_PATH = null;
         MEANLARSCE_PATH = null;
@@ -553,9 +553,9 @@ public class Parameters {
         SDMEAN_PATH = null;
         SDRMEAN_PATH = null;
         SDCMEAN_PATH = null;
-        SDGEE_PATH = null;
-        SDGEERE_PATH = null;
-        SDGEECE_PATH = null;
+        SDFEM_PATH = null;
+        SDFEMR_PATH = null;
+        SDFEMC_PATH = null;
         SDLARS_PATH = null;
         SDLARSRE_PATH = null;
         SDLARSCE_PATH = null;
@@ -790,12 +790,12 @@ public class Parameters {
                             MEANMSEC_PATH = extractStr;
                         } else if (cur.matches("(?i)MEANINTERACT_PATH =.*")) {
                             MEANINTERACT_PATH = extractStr;
-                        } else if (cur.matches("(?i)MEANGEE_PATH =.*")) {
-                            MEANGEE_PATH = extractStr;
-                        } else if (cur.matches("(?i)MEANGEERE_PATH =.*")) {
-                            MEANGEERE_PATH = extractStr;
-                        } else if (cur.matches("(?i)MEANGEECE_PATH =.*")) {
-                            MEANGEECE_PATH = extractStr;
+                        } else if (cur.matches("(?i)MEANFEM_PATH =.*")) {
+                            MEANFEM_PATH = extractStr;
+                        } else if (cur.matches("(?i)MEANFEMR_PATH =.*")) {
+                            MEANFEMR_PATH = extractStr;
+                        } else if (cur.matches("(?i)MEANFEMC_PATH =.*")) {
+                            MEANFEMC_PATH = extractStr;
                         } else if (cur.matches("(?i)MEANLARS_PATH =.*")) {
                             MEANLARS_PATH = extractStr;
                         } else if (cur.matches("(?i)MEANLARSRE_PATH =.*")) {
@@ -842,12 +842,12 @@ public class Parameters {
                             SDMSEC_PATH = extractStr;
                         } else if (cur.matches("(?i)SDINTERACT_PATH =.*")) {
                             SDINTERACT_PATH = extractStr;
-                        } else if (cur.matches("(?i)SDGEE_PATH =.*")) {
-                            SDGEE_PATH = extractStr;
-                        } else if (cur.matches("(?i)SDGEERE_PATH =.*")) {
-                            SDGEERE_PATH = extractStr;
-                        } else if (cur.matches("(?i)SDGEECE_PATH =.*")) {
-                            SDGEECE_PATH = extractStr;
+                        } else if (cur.matches("(?i)SDFEM_PATH =.*")) {
+                            SDFEM_PATH = extractStr;
+                        } else if (cur.matches("(?i)SDFEMR_PATH =.*")) {
+                            SDFEMR_PATH = extractStr;
+                        } else if (cur.matches("(?i)SDFEMC_PATH =.*")) {
+                            SDFEMC_PATH = extractStr;
                         } else if (cur.matches("(?i)SDLARS_PATH =.*")) {
                             SDLARS_PATH = extractStr;
                         } else if (cur.matches("(?i)SDLARSRE_PATH =.*")) {
@@ -1422,12 +1422,12 @@ public class Parameters {
                             MEANMSEC_PATH = extractStr;
                         } else if (cur.matches("(?i)MEANINTERACT_PATH =.*")) {
                             MEANINTERACT_PATH = extractStr;
-                        } else if (cur.matches("(?i)MEANGEE_PATH =.*")) {
-                            MEANGEE_PATH = extractStr;
-                        } else if (cur.matches("(?i)MEANGEERE_PATH =.*")) {
-                            MEANGEERE_PATH = extractStr;
-                        } else if (cur.matches("(?i)MEANGEECE_PATH =.*")) {
-                            MEANGEECE_PATH = extractStr;
+                        } else if (cur.matches("(?i)MEANFEM_PATH =.*")) {
+                            MEANFEM_PATH = extractStr;
+                        } else if (cur.matches("(?i)MEANFEMR_PATH =.*")) {
+                            MEANFEMR_PATH = extractStr;
+                        } else if (cur.matches("(?i)MEANFEMC_PATH =.*")) {
+                            MEANFEMC_PATH = extractStr;
                         } else if (cur.matches("(?i)MEANLARS_PATH =.*")) {
                             MEANLARS_PATH = extractStr;
                         } else if (cur.matches("(?i)MEANLARSRE_PATH =.*")) {
@@ -1474,12 +1474,12 @@ public class Parameters {
                             SDMSEC_PATH = extractStr;
                         } else if (cur.matches("(?i)SDINTERACT_PATH =.*")) {
                             SDINTERACT_PATH = extractStr;
-                        } else if (cur.matches("(?i)SDGEE_PATH =.*")) {
-                            SDGEE_PATH = extractStr;
-                        } else if (cur.matches("(?i)SDGEERE_PATH =.*")) {
-                            SDGEERE_PATH = extractStr;
-                        } else if (cur.matches("(?i)SDGEECE_PATH =.*")) {
-                            SDGEECE_PATH = extractStr;
+                        } else if (cur.matches("(?i)SDFEM_PATH =.*")) {
+                            SDFEM_PATH = extractStr;
+                        } else if (cur.matches("(?i)SDFEMR_PATH =.*")) {
+                            SDFEMR_PATH = extractStr;
+                        } else if (cur.matches("(?i)SDFEMC_PATH =.*")) {
+                            SDFEMC_PATH = extractStr;
                         } else if (cur.matches("(?i)SDLARS_PATH =.*")) {
                             SDLARS_PATH = extractStr;
                         } else if (cur.matches("(?i)SDLARSRE_PATH =.*")) {
@@ -2117,9 +2117,9 @@ public class Parameters {
         MEANSPEARR_PATH = replace(MEANSPEARR_PATH);
         MEANSPEARC_PATH = replace(MEANSPEARC_PATH);
         MEANFEAT_PATH = replace(MEANFEAT_PATH);
-        MEANGEE_PATH = replace(MEANGEE_PATH);
-        MEANGEECE_PATH = replace(MEANGEECE_PATH);
-        MEANGEERE_PATH = replace(MEANGEERE_PATH);
+        MEANFEM_PATH = replace(MEANFEM_PATH);
+        MEANFEMC_PATH = replace(MEANFEMC_PATH);
+        MEANFEMR_PATH = replace(MEANFEMR_PATH);
         MEANKEND_PATH = replace(MEANKEND_PATH);
         MEANKENDR_PATH = replace(MEANKENDR_PATH);
         MEANKENDC_PATH = replace(MEANKENDC_PATH);
@@ -2148,9 +2148,9 @@ public class Parameters {
         SDSPEARC_PATH = replace(SDSPEARC_PATH);
         SDSPEARR_PATH = replace(SDSPEARR_PATH);
         SDFEAT_PATH = replace(SDFEAT_PATH);
-        SDGEE_PATH = replace(SDGEE_PATH);
-        SDGEECE_PATH = replace(SDGEECE_PATH);
-        SDGEERE_PATH = replace(SDGEERE_PATH);
+        SDFEM_PATH = replace(SDFEM_PATH);
+        SDFEMC_PATH = replace(SDFEMC_PATH);
+        SDFEMR_PATH = replace(SDFEMR_PATH);
         SDKEND_PATH = replace(SDKEND_PATH);
         SDKENDR_PATH = replace(SDKENDR_PATH);
         SDKENDC_PATH = replace(SDKENDC_PATH);
@@ -2294,20 +2294,20 @@ public class Parameters {
                 s6 += MEANINTERACT_PATH;
             pw.println(s6 + " #Interaction proportion mean null distribution");
 
-            String s4c = "MEANGEE_PATH = ";
-            if (MEANGEE_PATH != null)
-                s4c += MEANGEE_PATH;
-            pw.println(s4c + " #GEERE mean null distribution");
+            String s4c = "MEANFEM_PATH = ";
+            if (MEANFEM_PATH != null)
+                s4c += MEANFEM_PATH;
+            pw.println(s4c + " #FEMR mean null distribution");
 
-            String s4ca = "MEANGEERE_PATH = ";
-            if (MEANGEERE_PATH != null)
-                s4ca += MEANGEERE_PATH;
-            pw.println(s4ca + " #GEERE mean null distribution");
+            String s4ca = "MEANFEMR_PATH = ";
+            if (MEANFEMR_PATH != null)
+                s4ca += MEANFEMR_PATH;
+            pw.println(s4ca + " #FEMR mean null distribution");
 
-            String s4d = "MEANGEECE_PATH = ";
-            if (MEANGEECE_PATH != null)
-                s4d += MEANGEECE_PATH;
-            pw.println(s4d + " #GEECE mean null distribution");
+            String s4d = "MEANFEMC_PATH = ";
+            if (MEANFEMC_PATH != null)
+                s4d += MEANFEMC_PATH;
+            pw.println(s4d + " #FEMC mean null distribution");
 
             String s4ex = "MEANLARS_PATH = ";
             if (MEANLARS_PATH != null)
@@ -2451,20 +2451,20 @@ public class Parameters {
                 s5d += SDINTERACT_PATH;
             pw.println(s5d + " #Interaction proportion SD null distribution");
 
-            String s5e = "SDGEE_PATH = ";
-            if (SDGEE_PATH != null)
-                s5e += SDGEE_PATH;
-            pw.println(s5e + " #GEE SD null distribution");
+            String s5e = "SDFEM_PATH = ";
+            if (SDFEM_PATH != null)
+                s5e += SDFEM_PATH;
+            pw.println(s5e + " #FEM SD null distribution");
 
-            String s5ea = "SDGEERE_PATH = ";
-            if (SDGEERE_PATH != null)
-                s5ea += SDGEERE_PATH;
-            pw.println(s5ea + " #GEERE SD null distribution");
+            String s5ea = "SDFEMR_PATH = ";
+            if (SDFEMR_PATH != null)
+                s5ea += SDFEMR_PATH;
+            pw.println(s5ea + " #FEMR SD null distribution");
 
-            String s5f = "SDGEECE_PATH = ";
-            if (SDGEECE_PATH != null)
-                s5f += SDGEECE_PATH;
-            pw.println(s5f + " #GEECE SD null distribution");
+            String s5f = "SDFEMC_PATH = ";
+            if (SDFEMC_PATH != null)
+                s5f += SDFEMC_PATH;
+            pw.println(s5f + " #FEMC SD null distribution");
 
             String s5gx = "SDLARS_PATH = ";
             if (SDLARS_PATH != null)
@@ -3012,9 +3012,9 @@ public class Parameters {
         ret += "MEANMSER_PATH = " + MEANMSER_PATH + "\n";
         ret += "MEANMSEC_PATH = " + MEANMSEC_PATH + "\n";
         ret += "MEANINTERACT_PATH = " + MEANINTERACT_PATH + "\n";
-        ret += "MEANGEE_PATH = " + MEANGEE_PATH + "\n";
-        ret += "MEANGEERE_PATH = " + MEANGEERE_PATH + "\n";
-        ret += "MEANGEECE_PATH = " + MEANGEECE_PATH + "\n";
+        ret += "MEANFEM_PATH = " + MEANFEM_PATH + "\n";
+        ret += "MEANFEMR_PATH = " + MEANFEMR_PATH + "\n";
+        ret += "MEANFEMC_PATH = " + MEANFEMC_PATH + "\n";
         ret += "MEANLARS_PATH = " + MEANLARS_PATH + "\n";
         ret += "MEANLARSRE_PATH = " + MEANLARSRE_PATH + "\n";
         ret += "MEANLARSCE_PATH = " + MEANLARSCE_PATH + "\n";
@@ -3044,9 +3044,9 @@ public class Parameters {
         ret += "SDMSER_PATH = " + SDMSER_PATH + "\n";
         ret += "SDMSEC_PATH = " + SDMSEC_PATH + "\n";
         ret += "SDINTERACT_PATH = " + SDINTERACT_PATH + "\n";
-        ret += "SDGEE_PATH = " + SDGEE_PATH + "\n";
-        ret += "SDGEERE_PATH = " + SDGEERE_PATH + "\n";
-        ret += "SDGEECE_PATH = " + SDGEECE_PATH + "\n";
+        ret += "SDFEM_PATH = " + SDFEM_PATH + "\n";
+        ret += "SDFEMR_PATH = " + SDFEMR_PATH + "\n";
+        ret += "SDFEMC_PATH = " + SDFEMC_PATH + "\n";
         ret += "SDLARS_PATH = " + SDLARS_PATH + "\n";
         ret += "SDLARSRE_PATH = " + SDLARSRE_PATH + "\n";
         ret += "SDLARSCE_PATH = " + SDLARSCE_PATH + "\n";
@@ -3249,30 +3249,30 @@ public class Parameters {
             }
         }
 
-        if (MEANGEE_PATH != null) {
-            File mecr = new File(MEANGEE_PATH);
+        if (MEANFEM_PATH != null) {
+            File mecr = new File(MEANFEM_PATH);
             if (mecr.exists()) {
-                System.out.println("MEANGEE_PATH exists " + MEANGEE_PATH);
+                System.out.println("MEANFEM_PATH exists " + MEANFEM_PATH);
             } else {
-                System.out.println("MEANGEE_PATH DNE " + MEANGEE_PATH);
+                System.out.println("MEANFEM_PATH DNE " + MEANFEM_PATH);
             }
         }
 
-        if (MEANGEERE_PATH != null) {
-            File mecr = new File(MEANGEERE_PATH);
+        if (MEANFEMR_PATH != null) {
+            File mecr = new File(MEANFEMR_PATH);
             if (mecr.exists()) {
-                System.out.println("MEANGEERE_PATH exists " + MEANGEERE_PATH);
+                System.out.println("MEANFEMR_PATH exists " + MEANFEMR_PATH);
             } else {
-                System.out.println("MEANGEERE_PATH DNE " + MEANGEERE_PATH);
+                System.out.println("MEANFEMR_PATH DNE " + MEANFEMR_PATH);
             }
         }
 
-        if (MEANGEECE_PATH != null) {
-            File mecc = new File(MEANGEECE_PATH);
+        if (MEANFEMC_PATH != null) {
+            File mecc = new File(MEANFEMC_PATH);
             if (mecc.exists()) {
-                System.out.println("MEANGEECE_PATH exists " + MEANGEECE_PATH);
+                System.out.println("MEANFEMC_PATH exists " + MEANFEMC_PATH);
             } else {
-                System.out.println("MEANGEECE_PATH DNE " + MEANGEECE_PATH);
+                System.out.println("MEANFEMC_PATH DNE " + MEANFEMC_PATH);
             }
         }
         if (MEANLARS_PATH != null) {
@@ -3394,28 +3394,28 @@ public class Parameters {
         }
 
 
-        if (MEANGEE_PATH != null) {
-            File mear = new File(MEANGEE_PATH);
+        if (MEANFEM_PATH != null) {
+            File mear = new File(MEANFEM_PATH);
             if (mear.exists()) {
-                System.out.println("MEANGEE_PATH exists " + MEANGEE_PATH);
+                System.out.println("MEANFEM_PATH exists " + MEANFEM_PATH);
             } else {
-                System.out.println("MEANGEE_PATH DNE " + MEANGEE_PATH);
+                System.out.println("MEANFEM_PATH DNE " + MEANFEM_PATH);
             }
         }
-        if (MEANGEERE_PATH != null) {
-            File mear = new File(MEANGEERE_PATH);
+        if (MEANFEMR_PATH != null) {
+            File mear = new File(MEANFEMR_PATH);
             if (mear.exists()) {
-                System.out.println("MEANGEERE_PATH exists " + MEANGEERE_PATH);
+                System.out.println("MEANFEMR_PATH exists " + MEANFEMR_PATH);
             } else {
-                System.out.println("MEANGEERE_PATH DNE " + MEANGEERE_PATH);
+                System.out.println("MEANFEMR_PATH DNE " + MEANFEMR_PATH);
             }
         }
-        if (MEANGEECE_PATH != null) {
-            File mear = new File(MEANGEECE_PATH);
+        if (MEANFEMC_PATH != null) {
+            File mear = new File(MEANFEMC_PATH);
             if (mear.exists()) {
-                System.out.println("MEANGEECE_PATH exists " + MEANGEECE_PATH);
+                System.out.println("MEANFEMC_PATH exists " + MEANFEMC_PATH);
             } else {
-                System.out.println("MEANGEECE_PATH DNE " + MEANGEECE_PATH);
+                System.out.println("MEANFEMC_PATH DNE " + MEANFEMC_PATH);
             }
         }
 
@@ -3500,30 +3500,30 @@ public class Parameters {
         }
 
 
-        if (SDGEE_PATH != null) {
-            File mecr = new File(SDGEE_PATH);
+        if (SDFEM_PATH != null) {
+            File mecr = new File(SDFEM_PATH);
             if (mecr.exists()) {
-                System.out.println("SDGEE_PATH exists " + SDGEE_PATH);
+                System.out.println("SDFEM_PATH exists " + SDFEM_PATH);
             } else {
-                System.out.println("SDGEE_PATH DNE " + SDGEE_PATH);
+                System.out.println("SDFEM_PATH DNE " + SDFEM_PATH);
             }
         }
 
-        if (SDGEERE_PATH != null) {
-            File mecr = new File(SDGEERE_PATH);
+        if (SDFEMR_PATH != null) {
+            File mecr = new File(SDFEMR_PATH);
             if (mecr.exists()) {
-                System.out.println("SDGEERE_PATH exists " + SDGEERE_PATH);
+                System.out.println("SDFEMR_PATH exists " + SDFEMR_PATH);
             } else {
-                System.out.println("SDGEERE_PATH DNE " + SDGEERE_PATH);
+                System.out.println("SDFEMR_PATH DNE " + SDFEMR_PATH);
             }
         }
 
-        if (SDGEECE_PATH != null) {
-            File mecc = new File(SDGEECE_PATH);
+        if (SDFEMC_PATH != null) {
+            File mecc = new File(SDFEMC_PATH);
             if (mecc.exists()) {
-                System.out.println("SDGEECE_PATH exists " + SDGEECE_PATH);
+                System.out.println("SDFEMC_PATH exists " + SDFEMC_PATH);
             } else {
-                System.out.println("SDGEECE_PATH DNE " + SDGEECE_PATH);
+                System.out.println("SDFEMC_PATH DNE " + SDFEMC_PATH);
             }
         }
         if (SDLARS_PATH != null) {

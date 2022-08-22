@@ -21,7 +21,7 @@ public class MergeSeries {
                     "-dir",
                     args[0],
                     "-crit",
-                    "MSEC_KendallC_GEECE_inter_feat_MAXTF_MEDCMEAN",
+                    "MSEC_KendallC_FEMC_inter_feat_MAXTF_MEDCMEAN",
                     "-param",
                     "../yeast_cmonkey_weighexpr_parameters_TF_inter_feat_mean.txt",
                     "-ocut",

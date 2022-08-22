@@ -280,7 +280,7 @@ class BootBlocks extends Program {
 
         //System.out.print(".");
         if (debug) {
-            System.out.println("computeCrit " + criterion.crit + "\t" + criterion.isGEE);
+            System.out.println("computeCrit " + criterion.crit + "\t" + criterion.isFEM);
             System.out.println("R: Ic<-c(" + MoreArray.toString(Ic, ",") + ")");
             System.out.println("R: Jc<-c(" + MoreArray.toString(Jc, ",") + ")");
             //System.out.println("R: nullRegData <- NULL");

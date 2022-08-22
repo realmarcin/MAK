@@ -25,7 +25,7 @@ public class CriteriaCombo {
     public final static String[] notMSERnotMSECnonull = {"MSER", "MSEC", "nonull"};
     public final static String[] notMSERnotMSECnotnonullnotint = {"MSER", "MSEC", "nonull", "int"};
     public final static String[] notKENDALLCnotKENDALLRnonull = {"KENDALLR", "KENDALLC", "nonull", "int"};
-    public final static String[] notGEEREGEECE = {"GEERE", "GEECE"};
+    public final static String[] notFEMRFEMC = {"FEMR", "FEMC"};
     public final static String[] notLARSRELARSCE = {"LARSRE", "LASRCE"};
 
     //MSER  criteria
@@ -71,11 +71,11 @@ public class CriteriaCombo {
     public int[] LARSonlyCrit;
     public int[] LARSRECrit;
     public int[] LARSCECrit;
-    //GEERE criteria
-    public int[] GEECrit;
-    public int[] GEEonlyCrit;
-    public int[] GEERECrit;
-    public int[] GEECECrit;
+    //FEMR criteria
+    public int[] FEMCrit;
+    public int[] FEMonlyCrit;
+    public int[] FEMRCrit;
+    public int[] FEMCCrit;
 
     public int[] interCrit;
     public int[] TFcrit;
@@ -95,18 +95,18 @@ public class CriteriaCombo {
     public String[] expr_cor_crit = {"none", "MSE", "MSER", "MSEC", "KENDALL", "KENDALLR", "KENDALLC",
             "MSEnonull", "MSERnonull", "MSECnonull", "KENDALLnonull", "KENDALLRnonull", "KENDALLCnonull"};
     public String[] expr_cor_crit_special = {"none", "MSEnonull_noninvert", "MSERnonull_noninvert", "MSECnonull_noninvert"};
-    public String[] expr_reg_crit = {"none", "LARS", "LARSRE", "LARSCE", "GEE", "GEERE", "GEECE",
-            "LARSnonull", "LARSREnonull", "LARSCEnonull", "GEEnonull", "GEEREnonull", "GEECEnonull",};
+    public String[] expr_reg_crit = {"none", "LARS", "LARSRE", "LARSCE", "FEM", "FEMR", "FEMC",
+            "LARSnonull", "LARSREnonull", "LARSCEnonull", "FEMnonull", "FEMRnonull", "FEMCnonull",};
     public String[] interact_crit = {"none", "int", "intnonull"};
     public String[] tf_crit = {"none", "MaxTF", "MaxTFnonull"};
     public String[] feature_crit = {"none", "LARS"};
-    public String[] total_crit = {"MSE", "MEAN", "KENDALL", "LARS", "GEE", "COR", "EUC",
-            "MSEnonull", "MEANnonull", "KENDALLnonull", "LARSnonull", "GEEnonull", "CORnonull", "EUCnonull"};
-    public String[] row_crit = {"MSER", "MEANR", "LARSRE", "GEERE",
-            "KENDALLR", "CORR", "EUCR", "MSERnonull", "MEANRnonull", "LARSREnonull", "GEEREnonull", "KENDALLRnonull",
+    public String[] total_crit = {"MSE", "MEAN", "KENDALL", "LARS", "FEM", "COR", "EUC",
+            "MSEnonull", "MEANnonull", "KENDALLnonull", "LARSnonull", "FEMnonull", "CORnonull", "EUCnonull"};
+    public String[] row_crit = {"MSER", "MEANR", "LARSRE", "FEMR",
+            "KENDALLR", "CORR", "EUCR", "MSERnonull", "MEANRnonull", "LARSREnonull", "FEMRnonull", "KENDALLRnonull",
             "CORRnonull", "EUCRnonull"};
-    public String[] col_crit = {"MSEC", "MEANC", "LARSCE", "GEECE", "KENDALLC", "CORC", "EUCC",
-            "MSECnonull", "MEANCnonull", "LARSCEnonull", "GEECEnonull", "KENDALLCnonull", "CORCnonull", "EUCCnonull"};
+    public String[] col_crit = {"MSEC", "MEANC", "LARSCE", "FEMC", "KENDALLC", "CORC", "EUCC",
+            "MSECnonull", "MEANCnonull", "LARSCEnonull", "FEMCnonull", "KENDALLCnonull", "CORCnonull", "EUCCnonull"};
 
 
     /*total, row, column*/
@@ -178,17 +178,17 @@ public class CriteriaCombo {
         LARSonlyCrit = stat.add(StringUtil.occurIndexButNot(crit_labels, "LARS", notLARSRELARSCE), 1);
         LARSRECrit = stat.add(StringUtil.locateIndexOf(crit_labels, "LARSRE", -2), 1);
         LARSCECrit = stat.add(StringUtil.locateIndexOf(crit_labels, "LARSCE", -2), 1);
-        //GEERE criteria
-        GEECrit = stat.add(StringUtil.locateIndexOf(crit_labels, "GEE", -2), 1);
-        GEEonlyCrit = stat.add(StringUtil.occurIndexButNot(crit_labels, "GEE", notGEEREGEECE), 1);
-        GEERECrit = stat.add(StringUtil.locateIndexOf(crit_labels, "GEERE", -2), 1);
-        GEECECrit = stat.add(StringUtil.locateIndexOf(crit_labels, "GEECE", -2), 1);
+        //FEMR criteria
+        FEMCrit = stat.add(StringUtil.locateIndexOf(crit_labels, "FEM", -2), 1);
+        FEMonlyCrit = stat.add(StringUtil.occurIndexButNot(crit_labels, "FEM", notFEMRFEMC), 1);
+        FEMRCrit = stat.add(StringUtil.locateIndexOf(crit_labels, "FEMR", -2), 1);
+        FEMCCrit = stat.add(StringUtil.locateIndexOf(crit_labels, "FEMC", -2), 1);
 
         //by axis
         totalCrit = MoreArray.add(MoreArray.add(MoreArray.add(MSECrit, KENDALLCrit), KENDALLCritnoint), 46);
         rowCrit = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(
-                MSERCrit, MSERCritnoint), MADRCrit), MADRCritnoint), LARSRECrit), GEERECrit), KENDALLRCrit), KENDALLRCritnoint), 47);
-        colCrit = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MSECCrit, MSECCritnoint), LARSCECrit), GEECECrit), KENDALLCCrit), KENDALLCCritnoint), 48);
+                MSERCrit, MSERCritnoint), MADRCrit), MADRCritnoint), LARSRECrit), FEMRCrit), KENDALLRCrit), KENDALLRCritnoint), 47);
+        colCrit = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MSECCrit, MSECCritnoint), LARSCECrit), FEMCCrit), KENDALLCCrit), KENDALLCCritnoint), 48);
     }
 
     /**

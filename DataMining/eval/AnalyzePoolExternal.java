@@ -31,7 +31,7 @@ public class AnalyzePoolExternal extends Program {
     ArrayList results_max;
 
     String[] other_crit = {"external", "none",
-            "GEERE,MSER_GEERE,MSER_GEERE_PPI,LARSRE,LARSRE_PPI,MSER_LARSRE_PPI"};
+            "FEMR,MSER_FEMR,MSER_FEMR_PPI,LARSRE,LARSRE_PPI,MSER_LARSRE_PPI"};
     //zero indexed
     int[] combined_crit = {2};
     String[] use_crit_labels = StringUtil.splice(other_crit, MINER_STATIC.CRIT_LABELS);

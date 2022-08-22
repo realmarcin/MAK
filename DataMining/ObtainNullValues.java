@@ -116,7 +116,7 @@ public class ObtainNullValues {
             System.out.println("set is feat " + crit.isFeatureCrit + "\t" + crit.crit + "\t" + MINER_STATIC.CRIT_LABELS[crit.crit - 1]);
             System.out.println("set is TF " + crit.isTFCrit + "\t" + crit.crit + "\t" + MINER_STATIC.CRIT_LABELS[crit.crit - 1]);
             System.out.println("set is expr_COR " + crit.isMSE + "\t" + crit.isMSER + "\t" + crit.isMSEC + "\t" + crit.isMAD + "\t" + crit.KENDALLIndex);
-            System.out.println("set is expr_reg " + crit.isLARS + "\t" + crit.isGEE);
+            System.out.println("set is expr_reg " + crit.isLARS + "\t" + crit.isFEM);
         }
 
         if (crit.usemean) {
@@ -156,11 +156,11 @@ public class ObtainNullValues {
             System.out.println("ERROR: nullMSEData is expected but null");*/
 
 
-        if (crit.isGEE || crit.isLARS) {
+        if (crit.isFEM || crit.isLARS) {
             try {
                 nullRegData = setRegNull(genes.length, exps.length);
             } catch (Exception e) {
-                System.out.println("nullRegData is not defined for GEE/LARS");
+                System.out.println("nullRegData is not defined for FEM/LARS");
             }
             if (nullRegData != null) {
                 if (debug)
@@ -766,12 +766,12 @@ public class ObtainNullValues {
             loadExprNulls(prm.MEANMADR_PATH, prm.SDMADR_PATH);
         }
 
-        if (prm.crit.isonlyGEE) {// && prm.MEANGEE_PATH != null) {
-            loadRegNulls(prm.MEANGEE_PATH, prm.SDGEE_PATH);
-        } else if (prm.crit.isGEERE) {//  && prm.MEANGEERE_PATH != null) {
-            loadRegNulls(prm.MEANGEERE_PATH, prm.SDGEERE_PATH);
-        } else if (prm.crit.isGEECE) {//  && prm.MEANGEECE_PATH != null) {
-            loadRegNulls(prm.MEANGEECE_PATH, prm.SDGEECE_PATH);
+        if (prm.crit.isonlyFEM) {// && prm.MEANFEM_PATH != null) {
+            loadRegNulls(prm.MEANFEM_PATH, prm.SDFEM_PATH);
+        } else if (prm.crit.isFEMR) {//  && prm.MEANFEMR_PATH != null) {
+            loadRegNulls(prm.MEANFEMR_PATH, prm.SDFEMR_PATH);
+        } else if (prm.crit.isFEMC) {//  && prm.MEANFEMC_PATH != null) {
+            loadRegNulls(prm.MEANFEMC_PATH, prm.SDFEMC_PATH);
         } else if (prm.crit.isonlyLARS) {//  && prm.MEANLARS_PATH != null) {
             loadRegNulls(prm.MEANLARS_PATH, prm.SDLARS_PATH);
         } else if (prm.crit.isLARSRE) {//  && prm.MEANLARSRE_PATH != null) {
@@ -953,55 +953,55 @@ public class ObtainNullValues {
             }
         }
 
-        if (prm.precrit.isonlyGEE && prm.MEANGEE_PATH != null && prm.precrit.neednull[2]) {
-            if (prm.MEANGEE_PATH != null && prm.SDGEE_PATH != null) {
-                File t1 = new File(prm.MEANGEE_PATH);
+        if (prm.precrit.isonlyFEM && prm.MEANFEM_PATH != null && prm.precrit.neednull[2]) {
+            if (prm.MEANFEM_PATH != null && prm.SDFEM_PATH != null) {
+                File t1 = new File(prm.MEANFEM_PATH);
                 if (!t1.exists()) {
-                    System.out.println("prm.MEANGEE_PATH broken " + prm.MEANGEE_PATH);
+                    System.out.println("prm.MEANFEM_PATH broken " + prm.MEANFEM_PATH);
                     System.exit(0);
                 }
-                File t2 = new File(prm.SDGEE_PATH);
+                File t2 = new File(prm.SDFEM_PATH);
                 if (!t2.exists()) {
-                    System.out.println("prm.SDGEE_PATH broken " + prm.SDGEE_PATH);
+                    System.out.println("prm.SDFEM_PATH broken " + prm.SDFEM_PATH);
                     System.exit(0);
                 }
-                loadPreCritRegNulls(prm.MEANGEE_PATH, prm.SDGEE_PATH);
+                loadPreCritRegNulls(prm.MEANFEM_PATH, prm.SDFEM_PATH);
             } else {
-                System.out.println("GEE null PATH broken " + prm.MEANGEE_PATH + "\t" + prm.SDGEE_PATH);
+                System.out.println("FEM null PATH broken " + prm.MEANFEM_PATH + "\t" + prm.SDFEM_PATH);
                 System.exit(0);
             }
-        } else if (prm.precrit.isGEERE && prm.MEANGEERE_PATH != null && prm.precrit.neednull[2]) {
-            if (prm.MEANGEERE_PATH != null && prm.SDGEERE_PATH != null) {
-                File t1 = new File(prm.MEANGEERE_PATH);
+        } else if (prm.precrit.isFEMR && prm.MEANFEMR_PATH != null && prm.precrit.neednull[2]) {
+            if (prm.MEANFEMR_PATH != null && prm.SDFEMR_PATH != null) {
+                File t1 = new File(prm.MEANFEMR_PATH);
                 if (!t1.exists()) {
-                    System.out.println("prm.MEANGEERE_PATH broken " + prm.MEANGEERE_PATH);
+                    System.out.println("prm.MEANFEMR_PATH broken " + prm.MEANFEMR_PATH);
                     System.exit(0);
                 }
-                File t2 = new File(prm.SDGEERE_PATH);
+                File t2 = new File(prm.SDFEMR_PATH);
                 if (!t2.exists()) {
-                    System.out.println("prm.SDGEERE_PATH broken " + prm.SDGEERE_PATH);
+                    System.out.println("prm.SDFEMR_PATH broken " + prm.SDFEMR_PATH);
                     System.exit(0);
                 }
-                loadPreCritRegNulls(prm.MEANGEERE_PATH, prm.SDGEERE_PATH);
+                loadPreCritRegNulls(prm.MEANFEMR_PATH, prm.SDFEMR_PATH);
             } else {
-                System.out.println("GEERE null PATH broken " + prm.MEANGEERE_PATH + "\t" + prm.SDGEERE_PATH);
+                System.out.println("FEMR null PATH broken " + prm.MEANFEMR_PATH + "\t" + prm.SDFEMR_PATH);
                 System.exit(0);
             }
-        } else if (prm.precrit.isGEECE && prm.MEANGEECE_PATH != null && prm.precrit.neednull[2]) {
-            if (prm.MEANGEECE_PATH != null && prm.SDGEECE_PATH != null) {
-                File t1 = new File(prm.MEANGEECE_PATH);
+        } else if (prm.precrit.isFEMC && prm.MEANFEMC_PATH != null && prm.precrit.neednull[2]) {
+            if (prm.MEANFEMC_PATH != null && prm.SDFEMC_PATH != null) {
+                File t1 = new File(prm.MEANFEMC_PATH);
                 if (!t1.exists()) {
-                    System.out.println("prm.MEANGEECE_PATH broken " + prm.MEANGEECE_PATH);
+                    System.out.println("prm.MEANFEMC_PATH broken " + prm.MEANFEMC_PATH);
                     System.exit(0);
                 }
-                File t2 = new File(prm.SDGEECE_PATH);
+                File t2 = new File(prm.SDFEMC_PATH);
                 if (!t2.exists()) {
-                    System.out.println("prm.SDGEECE_PATH broken " + prm.SDGEECE_PATH);
+                    System.out.println("prm.SDFEMC_PATH broken " + prm.SDFEMC_PATH);
                     System.exit(0);
                 }
-                loadPreCritRegNulls(prm.MEANGEECE_PATH, prm.SDGEECE_PATH);
+                loadPreCritRegNulls(prm.MEANFEMC_PATH, prm.SDFEMC_PATH);
             } else {
-                System.out.println("GEECE null PATH broken " + prm.MEANGEECE_PATH + "\t" + prm.SDGEECE_PATH);
+                System.out.println("FEMC null PATH broken " + prm.MEANFEMC_PATH + "\t" + prm.SDFEMC_PATH);
                 System.exit(0);
             }
         } else if (prm.precrit.isonlyLARS && prm.MEANLARS_PATH != null) {

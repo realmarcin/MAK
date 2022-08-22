@@ -25,7 +25,7 @@ public class EvalCOALESCE {
                     "last.percentOrigExp\tfirst.precrit\tlast.precrit\tnumber moves\tpassed\tpassed_final\t" +
                     "F1g\tspecificityg\tsensitivityg\tF1e\tspecifitye\tsensitivitye\tspecificityge\tsensitivityge\tF1ge\truntime";
 
-    String suffix = "_1_MSE_Kendall_GEE_top_cut_scoreperc66.0_0.0__nr_trim.txt";
+    String suffix = "_1_MSE_Kendall_FEM_top_cut_scoreperc66.0_0.0__nr_trim.txt";
 
     /**
      * @param args

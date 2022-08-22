@@ -24,7 +24,7 @@ public class BlockMembers {
 
     String[] xlabels, ylabels;
 
-    String targetcrit = "__MSEC_KendallC_GEECE__";
+    String targetcrit = "__MSEC_KendallC_FEMC__";
 
     /**
      * @param args
@@ -245,7 +245,7 @@ public class BlockMembers {
             System.out.println("syntax: java DataMining.BlockMembers\n" +
                     "<dir of dirs of trajectories or list file of final blocks>\n" +
                     "<outfile>\n" +
-                    "<OPTIONAL target crit e.g. '__GEERE__' >\n" +
+                    "<OPTIONAL target crit e.g. '__FEMR__' >\n" +
                     "<OPTIONAL list file of start blocks>"
             );
         }

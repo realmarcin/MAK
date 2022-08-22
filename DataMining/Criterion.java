@@ -18,13 +18,13 @@ public class Criterion {
     public boolean isMSEC = false;
     public boolean isMAD = false;
     public int KENDALLIndex = -1;
-    public boolean isGEE = false;
-    public boolean isonlyGEE = false;
+    public boolean isFEM = false;
+    public boolean isonlyFEM = false;
     public boolean isonlyLARS = false;
     public boolean isLARS = false;
-    public boolean isGEERE = false;
+    public boolean isFEMR = false;
     public boolean isLARSRE = false;
-    public boolean isGEECE = false;
+    public boolean isFEMC = false;
     public boolean isLARSCE = false;
     public int CORIndex = -1;
     public int EUCIndex = -1;
@@ -151,11 +151,11 @@ public class Criterion {
             requires_null = false;
         }
 
-        //GEE
+        //FEM
         neednull[2] = true;
-        if (crit > 0 && (MINER_STATIC.CRIT_LABELS[crit - 1].indexOf("GEEnonull") != -1 ||
-                MINER_STATIC.CRIT_LABELS[crit - 1].indexOf("GEECEnonull") != -1 ||
-                MINER_STATIC.CRIT_LABELS[crit - 1].indexOf("GEEREnonull") != -1)) {
+        if (crit > 0 && (MINER_STATIC.CRIT_LABELS[crit - 1].indexOf("FEMnonull") != -1 ||
+                MINER_STATIC.CRIT_LABELS[crit - 1].indexOf("FEMCnonull") != -1 ||
+                MINER_STATIC.CRIT_LABELS[crit - 1].indexOf("FEMRnonull") != -1)) {
             neednull[2] = false;
             requires_null = false;
         }
@@ -216,13 +216,13 @@ public class Criterion {
         isMSEC = c.isMSEC;
         isMAD = c.isMAD;
         KENDALLIndex = c.KENDALLIndex;
-        isGEE = c.isGEE;
-        isonlyGEE = c.isonlyGEE;
+        isFEM = c.isFEM;
+        isonlyFEM = c.isonlyFEM;
         isonlyLARS = c.isonlyLARS;
         isLARS = c.isLARS;
-        isGEERE = c.isGEERE;
+        isFEMR = c.isFEMR;
         isLARSRE = c.isLARSRE;
-        isGEECE = c.isGEECE;
+        isFEMC = c.isFEMC;
         isLARSCE = c.isLARSCE;
         CORIndex = c.CORIndex;
         EUCIndex = c.EUCIndex;
@@ -278,13 +278,13 @@ public class Criterion {
         isMSEC = false;
         isMAD = false;
         KENDALLIndex = -1;
-        isGEE = false;
-        isonlyGEE = false;
+        isFEM = false;
+        isonlyFEM = false;
         isonlyLARS = false;
         isLARS = false;
-        isGEERE = false;
+        isFEMR = false;
         isLARSRE = false;
-        isGEECE = false;
+        isFEMC = false;
         isLARSCE = false;
         CORIndex = -1;
         EUCIndex = -1;
@@ -478,14 +478,14 @@ public class Criterion {
             } else if (MoreArray.getArrayInd(MINER_STATIC.MSECCritAll, crit) != -1) {
                 count[2]++;
             }
-            //if (MoreArray.getArrayInd(MINER_STATIC.GEEtotalCrit, crit) != -1) {
-            if (MoreArray.getArrayInd(MINER_STATIC.GEECritAll, crit) != -1) {
+            //if (MoreArray.getArrayInd(MINER_STATIC.FEMtotalCrit, crit) != -1) {
+            if (MoreArray.getArrayInd(MINER_STATIC.FEMCritAll, crit) != -1) {
                 count[0]++;
-                //} else if (MoreArray.getArrayInd(MINER_STATIC.GEERECrit, crit) != -1) {
-            } else if (MoreArray.getArrayInd(MINER_STATIC.GEERECritAll, crit) != -1) {
+                //} else if (MoreArray.getArrayInd(MINER_STATIC.FEMRCrit, crit) != -1) {
+            } else if (MoreArray.getArrayInd(MINER_STATIC.FEMRCritAll, crit) != -1) {
                 count[1]++;
-                //} else if (MoreArray.getArrayInd(MINER_STATIC.GEECECrit, crit) != -1) {
-            } else if (MoreArray.getArrayInd(MINER_STATIC.GEECECritAll, crit) != -1) {
+                //} else if (MoreArray.getArrayInd(MINER_STATIC.FEMCCrit, crit) != -1) {
+            } else if (MoreArray.getArrayInd(MINER_STATIC.FEMCCritAll, crit) != -1) {
                 count[2]++;
             }
 
@@ -810,13 +810,13 @@ public class Criterion {
         try {
             if (expr_reg_crit != -1) {
 
-                if (MoreArray.getArrayInd(MINER_STATIC.LARSCritAll, crit) != -1 || MoreArray.getArrayInd(MINER_STATIC.GEECritAll, crit) != -1)
+                if (MoreArray.getArrayInd(MINER_STATIC.LARSCritAll, crit) != -1 || MoreArray.getArrayInd(MINER_STATIC.FEMCritAll, crit) != -1)
                     expr_reg_axis = 1;
                 if (MoreArray.getArrayInd(MINER_STATIC.LARSRECrit, crit) != -1 ||
-                        MoreArray.getArrayInd(MINER_STATIC.GEERECrit, crit) != -1)
+                        MoreArray.getArrayInd(MINER_STATIC.FEMRCrit, crit) != -1)
                     expr_reg_axis = 2;
                 else if (MoreArray.getArrayInd(MINER_STATIC.LARSCECrit, crit) != -1 ||
-                        MoreArray.getArrayInd(MINER_STATIC.GEECECrit, crit) != -1)
+                        MoreArray.getArrayInd(MINER_STATIC.FEMCCrit, crit) != -1)
                     expr_reg_axis = 3;
             }
         } catch (Exception e) {
@@ -1039,34 +1039,34 @@ public class Criterion {
      *
      */
     public void regCrit() {
-        //System.out.println("regCrit GEECrit " + MoreArray.getArrayInd(MINER_STATIC.GEECrit, crit));
-        //System.out.println("regCrit GEECrit " + MoreArray.toString(MINER_STATIC.GEECrit, ","));
+        //System.out.println("regCrit FEMCrit " + MoreArray.getArrayInd(MINER_STATIC.FEMCrit, crit));
+        //System.out.println("regCrit FEMCrit " + MoreArray.toString(MINER_STATIC.FEMCrit, ","));
 
         boolean[] erdata = exprRegType();
-        isGEERE = erdata[0];
-        isGEECE = erdata[1];
-        isonlyGEE = erdata[4];
-        if (isGEERE || isGEECE || isonlyGEE)
-            isGEE = true;
+        isFEMR = erdata[0];
+        isFEMC = erdata[1];
+        isonlyFEM = erdata[4];
+        if (isFEMR || isFEMC || isonlyFEM)
+            isFEM = true;
 
         isLARSRE = erdata[2];
         isLARSCE = erdata[3];
         isonlyLARS = erdata[5];
         if (isLARSRE || isLARSCE || isonlyLARS)
             isLARS = true;
-        //System.out.println("Criterion " + isGEE + "\t" + isLARS + "\t" + MoreArray.toString(erdata, ","));
+        //System.out.println("Criterion " + isFEM + "\t" + isLARS + "\t" + MoreArray.toString(erdata, ","));
         expr_reg_crit = -1;//"NULL ";
         if (isLARS) {
             expr_reg_crit = 1;//"1";
             //System.out.println("regCrit LARSCrit");
         }
-        if (isGEE) {
+        if (isFEM) {
             expr_reg_crit = 2;//"2";
-            //System.out.println("regCrit GEECrit");
+            //System.out.println("regCrit FEMCrit");
         }
 
         if (debug) {
-            System.out.println("regCrit isGEE " + isGEE + "\tisonlyGEE" + isonlyGEE + "\tisGEERE " + isGEERE + "\tisGEECE " + isGEECE + "\texpr_reg_crit " + expr_reg_crit);
+            System.out.println("regCrit isFEM " + isFEM + "\tisonlyFEM" + isonlyFEM + "\tisFEMR " + isFEMR + "\tisFEMC " + isFEMC + "\texpr_reg_crit " + expr_reg_crit);
             System.out.println("regCrit isLARS " + isLARS + "\tisonlyLARS" + isonlyLARS + "\tisLARSRE " + isLARSRE + "\tisLARSCE " + isLARSCE + "\texpr_reg_crit " + expr_reg_crit);
         }
     }
@@ -1077,15 +1077,15 @@ public class Criterion {
      */
     public boolean[] exprRegType() {
         boolean[] ret = new boolean[6];
-        //System.out.println("exprRegType ind GEERECrit "+ind);
+        //System.out.println("exprRegType ind FEMRCrit "+ind);
         try {
-            if (MoreArray.getArrayInd(MINER_STATIC.GEERECrit, crit) != -1) {
+            if (MoreArray.getArrayInd(MINER_STATIC.FEMRCrit, crit) != -1) {
                 ret[0] = true;
                 ret[1] = false;
                 ret[2] = false;
                 ret[3] = false;
                 ret[4] = false;
-            } else if (MoreArray.getArrayInd(MINER_STATIC.GEECECrit, crit) != -1) {
+            } else if (MoreArray.getArrayInd(MINER_STATIC.FEMCCrit, crit) != -1) {
                 ret[0] = false;
                 ret[1] = true;
                 ret[2] = false;
@@ -1103,7 +1103,7 @@ public class Criterion {
                 ret[2] = false;
                 ret[3] = true;
                 ret[4] = false;
-            } else if (MoreArray.getArrayInd(MINER_STATIC.GEECritAll, crit) != -1) {
+            } else if (MoreArray.getArrayInd(MINER_STATIC.FEMCritAll, crit) != -1) {
                 ret[0] = false;
                 ret[1] = false;
                 ret[2] = false;

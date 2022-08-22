@@ -12,7 +12,7 @@
 #UseExprMean is an index that specifies whether or not you use the block total/row/column MEAN criterion
 #MeanARCind is an index for full(1),row(2),or column(3) and applies only to the MEAN calculation
 #ARCind is an index for full(1),row(2),or column(3) and applies only to MSE and MAD calculation
-#RegARCind is an index for full(1), row(2),or column(3) and applies only LARS and GEE
+#RegARCind is an index for full(1), row(2),or column(3) and applies only LARS and FEM
 #InterI is an index for whether or not the interaction subcriteria is added to the criteria vector
 #FeatI is an index for whether or not the feature subcriteria is added to the criteria vector
 #Invert is a toggle for inverting MSE,MSER,MSEC,MAD,MADR,MADC,EucR,EucC
@@ -57,7 +57,7 @@ Critp.final <- function(Ic,
                        useAbs,
                        frxnsign = F,
                        debug = F) {
-  #useNull = MEAN, MSE,  KENDALL, GEE, COR, EUC
+  #useNull = MEAN, MSE,  KENDALL, FEM, COR, EUC
   critvec = critvecRaw = NULL
   I = dim(expr_data)[1]
   J = dim(expr_data)[2]
@@ -826,7 +826,7 @@ ElarsCrit.block <- function(data, Ii, Jj, ARC, I, J, useAbs) {
   LARS
 }
 
-###GEE crit
+###FEM crit
 EgeeCrit_slow.block <- function(data,
                                Ii,
                                Jj,

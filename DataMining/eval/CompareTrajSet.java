@@ -618,8 +618,8 @@ public class CompareTrajSet {
 
         out[0] = last.full_criterion;
         out[1] = s.indexOf("PPI") != -1 ? 1 : 0;
-        out[2] = s.indexOf("LARS") != -1 || s.indexOf("GEE") != -1 ? 1 : 0;
-        out[3] = (s.indexOf("PPI") == -1 && s.indexOf("LARS") == -1 && s.indexOf("GEE") == -1) ? 1 : 0;
+        out[2] = s.indexOf("LARS") != -1 || s.indexOf("FEM") != -1 ? 1 : 0;
+        out[3] = (s.indexOf("PPI") == -1 && s.indexOf("LARS") == -1 && s.indexOf("FEM") == -1) ? 1 : 0;
         out[4] = s.indexOf("nonull") != -1 ? 0 : 1;
         out[5] = s.indexOf("BS") != -1 ? 1 : 0;
 

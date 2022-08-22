@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class DiscoveryParameters {
 
     //DvH example parameters
-    public String null_data_path = "/global/homes/m/marcinj/common/DvH_select_GEECE_median_full.txt";
+    public String null_data_path = "/global/homes/m/marcinj/common/DvH_select_FEMC_median_full.txt";
     public String taxon = "882";
     public int rounds = 2;
     public boolean refine = true;

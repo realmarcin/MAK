@@ -189,19 +189,19 @@ public class TestCritAssign {
         labels = MoreArray.getIndexed(mathy.stat.subtract(MINER_STATIC.LARSCECrit, 1), MINER_STATIC.CRIT_LABELS);
         MoreArray.printArray(labels);
 
-        System.out.println("GEECritAll");
-        //MoreArray.printArray(MINER_STATIC.GEECritAll);
-        labels = MoreArray.getIndexed(mathy.stat.subtract(MINER_STATIC.GEECritAll, 1), MINER_STATIC.CRIT_LABELS);
+        System.out.println("FEMCritAll");
+        //MoreArray.printArray(MINER_STATIC.FEMCritAll);
+        labels = MoreArray.getIndexed(mathy.stat.subtract(MINER_STATIC.FEMCritAll, 1), MINER_STATIC.CRIT_LABELS);
         MoreArray.printArray(labels);
 
-        System.out.println("GEERECrit");
-        //MoreArray.printArray(MINER_STATIC.GEERECrit);
-        labels = MoreArray.getIndexed(mathy.stat.subtract(MINER_STATIC.GEERECrit, 1), MINER_STATIC.CRIT_LABELS);
+        System.out.println("FEMRCrit");
+        //MoreArray.printArray(MINER_STATIC.FEMRCrit);
+        labels = MoreArray.getIndexed(mathy.stat.subtract(MINER_STATIC.FEMRCrit, 1), MINER_STATIC.CRIT_LABELS);
         MoreArray.printArray(labels);
 
-        System.out.println("GEECECrit");
-        //MoreArray.printArray(MINER_STATIC.GEECECrit);
-        labels = MoreArray.getIndexed(mathy.stat.subtract(MINER_STATIC.GEECECrit, 1), MINER_STATIC.CRIT_LABELS);
+        System.out.println("FEMCCrit");
+        //MoreArray.printArray(MINER_STATIC.FEMCCrit);
+        labels = MoreArray.getIndexed(mathy.stat.subtract(MINER_STATIC.FEMCCrit, 1), MINER_STATIC.CRIT_LABELS);
         MoreArray.printArray(labels);
 
         System.out.println("CORtotalCrit");

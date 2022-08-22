@@ -90,9 +90,9 @@ public class MakeNull extends Program {
             "KENDALLR",
             "KENDALLC",
 
-            "GEE",
-            "GEERE",
-            "GEECE",
+            "FEM",
+            "FEMR",
+            "FEMC",
 */
 
 
@@ -113,23 +113,23 @@ public class MakeNull extends Program {
 
             /*
             //combined criteria
-            "MSER_KENDALL_GEERE",
-            "MSEC_KENDALLC_GEECE",
-            "MSER_KENDALL_GEERE_inter",
-            "MSEC_KENDALLC_GEECE_inter",
-            "MSER_KENDALL_GEERE_MAXTF",
-            "MSEC_KENDALLC_GEECE_MAXTF",
-            "MSER_KENDALL_GEERE_inter_MAXTF",
-            "MSEC_KENDALLC_GEECE_inter_MAXTF",
+            "MSER_KENDALL_FEMR",
+            "MSEC_KENDALLC_FEMC",
+            "MSER_KENDALL_FEMR_inter",
+            "MSEC_KENDALLC_FEMC_inter",
+            "MSER_KENDALL_FEMR_MAXTF",
+            "MSEC_KENDALLC_FEMC_MAXTF",
+            "MSER_KENDALL_FEMR_inter_MAXTF",
+            "MSEC_KENDALLC_FEMC_inter_MAXTF",
 
             "MSE_KENDALL",
             "MSER_KENDALL",
             "MSEC_KENDALL",
 
-            "MSE_KENDALL_GEERE",
-            "MSE_KENDALL_GEECE",
-            "MSER_KENDALL_GEERE",
-            "MSEC_KENDALL_GEECE",
+            "MSE_KENDALL_FEMR",
+            "MSE_KENDALL_FEMC",
+            "MSER_KENDALL_FEMR",
+            "MSEC_KENDALL_FEMC",
             */
 
     };

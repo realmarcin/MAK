@@ -83,13 +83,13 @@ public class CollectPartial {
                     }
                     //System.out.println("j " + j + "\tout " + outparam + "\t" + listout[j]);
 
-                    //yeast_cmonkey_noabs_refine_results_yeast_cmonkey_1_expr_MSEC_KendallC_GEECE_round12345_top_plusbypass_cut_scoreperc66.0_0.0
+                    //yeast_cmonkey_noabs_refine_results_yeast_cmonkey_1_expr_MSEC_KendallC_FEMC_round12345_top_plusbypass_cut_scoreperc66.0_0.0
                     // _cut_
                     // 0.25_1.0_c_reconstructed_
 
 
-                    //COALESCE_null_00_results_coalesce_1_toplist_00_1_cut_scoreperc66.0_0.0_0.25_0.25_c_liven_reconstructed_161__MSEC_KendallC_GEECE__AG_759820__parameters.txt
-                    //COALESCE_null_00_results_coalesce_1_toplist_00_1_cut_scoreperc66.0_0.0_0.25_0.25_c_liven_reconstructed_100__MSEC_KendallC_GEECE__AG_759820_759820_-1_N_32_toplist.txt
+                    //COALESCE_null_00_results_coalesce_1_toplist_00_1_cut_scoreperc66.0_0.0_0.25_0.25_c_liven_reconstructed_161__MSEC_KendallC_FEMC__AG_759820__parameters.txt
+                    //COALESCE_null_00_results_coalesce_1_toplist_00_1_cut_scoreperc66.0_0.0_0.25_0.25_c_liven_reconstructed_100__MSEC_KendallC_FEMC__AG_759820_759820_-1_N_32_toplist.txt
                /* String delimiternow = null;
                 if (delimiter2 != "") {
                     delimiternow = delimiter2;

@@ -1652,7 +1652,7 @@ public class ListMergeMembersPreComputed {
         } else {
             System.out.println("syntax: java DataMining.ListMergeMembersPreComputed\n" +
                     "<-dir dir of block lists or file of trajectory endpoints>\n" +
-                    "<-crit criterion label e.g. __GEERE__ >\n" +
+                    "<-crit criterion label e.g. __FEMR__ >\n" +
                     "<-param parameter file>\n" +
                     "<-ocut OPTIONAL overlap cutoff>\n" +
                     "<-misscut OPTIONAL missing frxn cutoff>\n" +

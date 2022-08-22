@@ -24,7 +24,7 @@ public class BuildGraph {
     boolean doTFEXP = false, doTFREF = false, doGO = false, doPATH = false, doCOG = false, doTIGR = false, doGMT = false;
 
     String[] valid_args = {
-            "-bic", "-expr", "-mode", "-cut", "-TFEXP", "-TFREF", "-GOT", "-goyeast", "-PATH", "-over",
+            "-bic", "-expr", "-mode", "-cut", "-TFEXP", "-TFREF", "-goyeast", "-PATH", "-over",
             "-pval", "-addcoreg", "-exclude", "-pairs", "-geneids", "-goref", "-tab", "-cogcode", "-sgdxref", "-goobo",
             "-debug", "-geneMapTab", "-outdir", "-allpval"
     };
@@ -4839,11 +4839,6 @@ for (int j = i + 1; j < size; j++) {
             }
         }
 
-        if (options.get("-GOT") != null) {
-            String f = (String) options.get("-GOT");
-            GO_data = TabFile.readtoArray(f);
-        }
-
         if (options.get("-sgdxref") != null) {
             String f = (String) options.get("-sgdxref");
             sgdxref_data = TabFile.readtoArray(f);
@@ -5343,7 +5338,6 @@ for (int j = i + 1; j < size; j++) {
                     }*/
                     }
                 }
-                // RAUFS CHANGE ORIGINAL CODE WAS: if (yeast_gene_names == null && doCOG && tab_data[i][11] != null && tab_data[i][11].length() > 0) {
                 if (doCOG && tab_data[i][11] != null && tab_data[i][11].length() > 0 && options.get("-cogcode") != null) {
 
                     Object o2 = COGmap.get(tab_data[i][0]);
@@ -5943,18 +5937,17 @@ for (int j = i + 1; j < size; j++) {
      * @param args
      */
     public static void main(String[] args) {
-        if (args.length >= 6 && args.length <= 41) { //Rauf: possibly increment 38 to 39 due to new argument
+        if (args.length >= 6 && args.length <= 44) {
             BuildGraph rm = new BuildGraph(args);
         } else {
             System.out.println("syntax: java DataMining.func.BuildGraph\n" +
                     "<-bic valueblock list>\n" +
                     "<-expr expr data path>\n" +
-                    "<-mode mode = tf,COG,member>\n" +//,TIGR
+                    "<-mode mode = tf,COG,member>\n" +
                     "<-cut OPTIONAL block_overlap_cutoff = block_overlap_cutoff all edges below, default = 0>\n" +
                     "<-pval OPTIONAL p-value cutoff, default = 0.1>\n" +
                     "<-tab OPTIONAL tab genome annotation file>\n" +
-                    "<-geneMapTab OPTIONAL tab seperated file which maps genes to GO terms.>\n" +
-                    "<-GOT OPTIONAL GO annotation file>\n" +
+                    "<-geneMapTab OPTIONAL tab seperated file which maps genes to arbitrary term from a classification.>\n" +
                     "<-goyeast OPTIONAL GO yeast annotation file>\n" +
                     "<-TFEXP OPTIONAL TF-gene experimental data file>\n" +
                     "<-TFREF OPTIONAL TF-gene mapping file>\n" +

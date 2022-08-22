@@ -40,7 +40,7 @@ public class ScoreMergedPairs extends Program {
     AssignCrit assignCrit;
 
     public static String[] CRITlabels = {
-            "MSEC_KendallC_GEECE"};
+            "MSEC_KendallC_FEMC"};
 
     public String dist = "min";
 
@@ -161,17 +161,17 @@ public class ScoreMergedPairs extends Program {
 
         //System.out.print(".");
         if (debug) {
-            System.out.println("computeCrit " + criterion.crit + "\t" + criterion.isGEE);
+            System.out.println("computeCrit " + criterion.crit + "\t" + criterion.isFEM);
             System.out.println("R: Ic<-c(" + MoreArray.toString(Ic, ",") + ")");
             System.out.println("R: Jc<-c(" + MoreArray.toString(Jc, ",") + ")");
             //System.out.println("R: nullRegData <- NULL");
         }
 
-        //remove last 2 exps for GEE and LARS if all exps part of block
-        /*if ((criterion.isGEE || criterion.isLARS) && Jc.length == expr_data.data[0].length) {
+        //remove last 2 exps for FEM and LARS if all exps part of block
+        /*if ((criterion.isFEM || criterion.isLARS) && Jc.length == expr_data.data[0].length) {
             Jc = MoreArray.remove(Jc, Jc.length - 1);
             Jc = MoreArray.remove(Jc, Jc.length - 1);
-            System.out.println("WARNING GEE/LARS: # of columns = # of experiments. Removing last 2 experiments.");
+            System.out.println("WARNING FEM/LARS: # of columns = # of experiments. Removing last 2 experiments.");
         }
 */
         if (Ic.length > rmb.orig_prm.IMAX) {

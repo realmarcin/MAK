@@ -119,7 +119,7 @@ public class ComputeCrit {
         }
 
        /* if (debug) {
-            System.out.println("runCrit isGEE " + criterion.isGEE);
+            System.out.println("runCrit isFEM " + criterion.isFEM);
             if (irv.onv.nullRegData != null)
                 System.out.println("runCrit nullRegData " +
                         MoreArray.toString(irv.onv.nullRegData, ","));

@@ -716,12 +716,12 @@ public class MAKflow_Cori_SLURM_v3 {
                 prm.SDINTERACT_PATH = "";
                 prm.INTERACT_DATA_PATH = "";
 
-                prm.MEANGEE_PATH = "";
-                prm.SDGEE_PATH = "";
-                prm.MEANGEECE_PATH = "";
-                prm.SDGEECE_PATH = "";
-                prm.MEANGEERE_PATH = "";
-                prm.SDGEERE_PATH = "";
+                prm.MEANFEM_PATH = "";
+                prm.SDFEM_PATH = "";
+                prm.MEANFEMC_PATH = "";
+                prm.SDFEMC_PATH = "";
+                prm.MEANFEMR_PATH = "";
+                prm.SDFEMR_PATH = "";
 
                 prm.MEANKEND_PATH = "";
                 prm.MEANKENDC_PATH = "";
@@ -776,27 +776,27 @@ public class MAKflow_Cori_SLURM_v3 {
                 }
 
                 // Specify Expression Criterion
-                if (criterion.contains("GEE") && !criterion.contains("GEECE") && !criterion.contains("GEERE")) {
-                    prm.MEANGEE_PATH = localpath + "level5.1/" + nullprefix + "GEE_median_full.txt";
-                    prm.SDGEE_PATH = localpath + "level5.1/" + nullprefix + "GEE_0.5IQR_full.txt";
-                    if (!doesFileExist(prm.MEANGEE_PATH) || !doesFileExist(prm.SDGEE_PATH)) {
-                        System.out.println("ERROR: The paths to the null files for the GEE criteria are incorrect. Please check that these null files exist in level5.1/\nExiting now...");
+                if (criterion.contains("FEM") && !criterion.contains("FEMC") && !criterion.contains("FEMR")) {
+                    prm.MEANFEM_PATH = localpath + "level5.1/" + nullprefix + "FEM_median_full.txt";
+                    prm.SDFEM_PATH = localpath + "level5.1/" + nullprefix + "FEM_0.5IQR_full.txt";
+                    if (!doesFileExist(prm.MEANFEM_PATH) || !doesFileExist(prm.SDFEM_PATH)) {
+                        System.out.println("ERROR: The paths to the null files for the FEM criteria are incorrect. Please check that these null files exist in level5.1/\nExiting now...");
                         System.exit(1);
                     }
                 }
-                if (criterion.contains("GEECE")) {
-                    prm.MEANGEECE_PATH = localpath + "level5.1/" + nullprefix + "GEECE_median_full.txt";
-                    prm.SDGEECE_PATH = localpath + "level5.1/" + nullprefix + "GEECE_0.5IQR_full.txt";
-                    if (!doesFileExist(prm.MEANGEECE_PATH) || !doesFileExist(prm.SDGEECE_PATH)) {
-                        System.out.println("ERROR: The paths to the null files for the GEECE criteria are incorrect. Please check that these null files exist in level5.1/\nExiting now...");
+                if (criterion.contains("FEMC")) {
+                    prm.MEANFEMC_PATH = localpath + "level5.1/" + nullprefix + "FEMC_median_full.txt";
+                    prm.SDFEMC_PATH = localpath + "level5.1/" + nullprefix + "FEMC_0.5IQR_full.txt";
+                    if (!doesFileExist(prm.MEANFEMC_PATH) || !doesFileExist(prm.SDFEMC_PATH)) {
+                        System.out.println("ERROR: The paths to the null files for the FEMC criteria are incorrect. Please check that these null files exist in level5.1/\nExiting now...");
                         System.exit(1);
                     }
                 }
-                if (criterion.contains("GEERE")) {
-                    prm.MEANGEERE_PATH = localpath + "level5.1/" + nullprefix + "GEERE_median_full.txt";
-                    prm.SDGEERE_PATH = localpath + "level5.1/" + nullprefix + "GEERE_0.5IQR_full.txt";
-                    if (!doesFileExist(prm.MEANGEERE_PATH) || !doesFileExist(prm.SDGEERE_PATH)) {
-                        System.out.println("ERROR: The paths to the null files for the GEERE criteria are incorrect. Please check that these null files exist in level5.1/\nExiting now...");
+                if (criterion.contains("FEMR")) {
+                    prm.MEANFEMR_PATH = localpath + "level5.1/" + nullprefix + "FEMR_median_full.txt";
+                    prm.SDFEMR_PATH = localpath + "level5.1/" + nullprefix + "FEMR_0.5IQR_full.txt";
+                    if (!doesFileExist(prm.MEANFEMR_PATH) || !doesFileExist(prm.SDFEMR_PATH)) {
+                        System.out.println("ERROR: The paths to the null files for the FEMR criteria are incorrect. Please check that these null files exist in level5.1/\nExiting now...");
                         System.exit(1);
                     }
                 }
@@ -1461,12 +1461,12 @@ public class MAKflow_Cori_SLURM_v3 {
                 prm.SDINTERACT_PATH = "";
                 prm.INTERACT_DATA_PATH = "";
 
-                prm.MEANGEE_PATH = "";
-                prm.SDGEE_PATH = "";
-                prm.MEANGEECE_PATH = "";
-                prm.SDGEECE_PATH = "";
-                prm.MEANGEERE_PATH = "";
-                prm.SDGEERE_PATH = "";
+                prm.MEANFEM_PATH = "";
+                prm.SDFEM_PATH = "";
+                prm.MEANFEMC_PATH = "";
+                prm.SDFEMC_PATH = "";
+                prm.MEANFEMR_PATH = "";
+                prm.SDFEMR_PATH = "";
 
                 prm.MEANKEND_PATH = "";
                 prm.MEANKENDC_PATH = "";
@@ -1529,27 +1529,27 @@ public class MAKflow_Cori_SLURM_v3 {
                 }
 
                 // Specify Expression Criterion
-                if (criterion.contains("GEE") && !criterion.contains("GEECE") && !criterion.contains("GEERE")) {
-                    prm.MEANGEE_PATH = localpath + "level5.1/" + nullprefix + "GEE_median_full.txt";
-                    prm.SDGEE_PATH = localpath + "level5.1/" + nullprefix + "GEE_0.5IQR_full.txt";
-                    if (!doesFileExist(prm.MEANGEE_PATH) || !doesFileExist(prm.SDGEE_PATH)) {
-                        System.out.println("ERROR: The paths to the null files for the GEE criteria are incorrect. Please check that these null files exist in level5.1/\nExiting now...");
+                if (criterion.contains("FEM") && !criterion.contains("FEMC") && !criterion.contains("FEMR")) {
+                    prm.MEANFEM_PATH = localpath + "level5.1/" + nullprefix + "FEM_median_full.txt";
+                    prm.SDFEM_PATH = localpath + "level5.1/" + nullprefix + "FEM_0.5IQR_full.txt";
+                    if (!doesFileExist(prm.MEANFEM_PATH) || !doesFileExist(prm.SDFEM_PATH)) {
+                        System.out.println("ERROR: The paths to the null files for the FEM criteria are incorrect. Please check that these null files exist in level5.1/\nExiting now...");
                         System.exit(1);
                     }
                 }
-                if (criterion.contains("GEECE")) {
-                    prm.MEANGEECE_PATH = localpath + "level5.1/" + nullprefix + "GEECE_median_full.txt";
-                    prm.SDGEECE_PATH = localpath + "level5.1/" + nullprefix + "GEECE_0.5IQR_full.txt";
-                    if (!doesFileExist(prm.MEANGEECE_PATH) || !doesFileExist(prm.SDGEECE_PATH)) {
-                        System.out.println("ERROR: The paths to the null files for the GEECE criteria are incorrect. Please check that these null files exist in level5.1/\nExiting now...");
+                if (criterion.contains("FEMC")) {
+                    prm.MEANFEMC_PATH = localpath + "level5.1/" + nullprefix + "FEMC_median_full.txt";
+                    prm.SDFEMC_PATH = localpath + "level5.1/" + nullprefix + "FEMC_0.5IQR_full.txt";
+                    if (!doesFileExist(prm.MEANFEMC_PATH) || !doesFileExist(prm.SDFEMC_PATH)) {
+                        System.out.println("ERROR: The paths to the null files for the FEMC criteria are incorrect. Please check that these null files exist in level5.1/\nExiting now...");
                         System.exit(1);
                     }
                 }
-                if (criterion.contains("GEERE")) {
-                    prm.MEANGEERE_PATH = localpath + "level5.1/" + nullprefix + "GEERE_median_full.txt";
-                    prm.SDGEERE_PATH = localpath + "level5.1/" + nullprefix + "GEERE_0.5IQR_full.txt";
-                    if (!doesFileExist(prm.MEANGEERE_PATH) || !doesFileExist(prm.SDGEERE_PATH)) {
-                        System.out.println("ERROR: The paths to the null files for the GEERE criteria are incorrect. Please check that these null files exist in level5.1/\nExiting now...");
+                if (criterion.contains("FEMR")) {
+                    prm.MEANFEMR_PATH = localpath + "level5.1/" + nullprefix + "FEMR_median_full.txt";
+                    prm.SDFEMR_PATH = localpath + "level5.1/" + nullprefix + "FEMR_0.5IQR_full.txt";
+                    if (!doesFileExist(prm.MEANFEMR_PATH) || !doesFileExist(prm.SDFEMR_PATH)) {
+                        System.out.println("ERROR: The paths to the null files for the FEMR criteria are incorrect. Please check that these null files exist in level5.1/\nExiting now...");
                         System.exit(1);
                     }
                 }
@@ -1767,7 +1767,7 @@ public class MAKflow_Cori_SLURM_v3 {
 
                 String result_vbl = "results_" + basename + ".vbl";
                 String tmp_vbl = localpath + output + "tmp.vbl";
-                // E.g. yeast_cmonkey_refine_refinement_input_315__MSEC_KENDALLC_GEECE__AG_759820_out.txt
+                // E.g. yeast_cmonkey_refine_refinement_input_315__MSEC_KENDALLC_FEMC__AG_759820_out.txt
                 String name_prefix = basename + "_refine_refinement_input_";
                 String name_suffix = "__" + criterion + "__AG_" + MINER_STATIC.RANDOM_SEEDS[0] + "_out.txt";
 

@@ -621,7 +621,7 @@ public class TreeMergeMembers {
                     "<tree level matrix>\n" +
                     "<dir of block lists or file of trajectory endpoints>\n" +
                     "<outfile>\n" +
-                    "<criterion label e.g. __GEERE__ >\n" +
+                    "<criterion label e.g. __FEMR__ >\n" +
                     "<parameter file>\n" +
                     "<OPTIONAL score cutoff>"
             );

@@ -625,7 +625,7 @@ public class Miner {
         } else {
             //remove last 2 genes if LARS
             //int maxlen = MoreArray.getArrayInd(MINER_STATIC.LARSCrit, rmb.irv.prm.CRIT_TYPE_INDEX) != -1 /*||
-            //        MoreArray.getArrayInd(MINER_STATIC.GEECrit, rmb.irv.prm.CRIT_TYPE_INDEX) != -1*/ ?
+            //        MoreArray.getArrayInd(MINER_STATIC.FEMCrit, rmb.irv.prm.CRIT_TYPE_INDEX) != -1*/ ?
             //        rmb.irv.prm.DATA_LEN_GENES - 2 : rmb.irv.prm.DATA_LEN_GENES;
             int maxlen = rmb.irv.prm.DATA_LEN_GENES;
             int addnum = (int) Math.min(maxlen - VBPInitial.genes.length, (rmb.irv.prm.RANDOMFLOOD_PERC * VBPInitial.genes.length));
@@ -2961,7 +2961,7 @@ e.printStackTrace();
             //prevent experiment addition
             if ((Jc.length >= prm.JMAX && !prm.OVERRIDE_SHAVING) || prm.FIX_EXPS /*||
                     (Jc.length >= prm.JMAX - 2 &&
-                            MoreArray.getArrayInd(MINER_STATIC.GEECrit, prm.CRIT_TYPE_INDEX) != -1)*/)
+                            MoreArray.getArrayInd(MINER_STATIC.FEMCrit, prm.CRIT_TYPE_INDEX) != -1)*/)
                 pmoves[3] = -1;
         }
         // Don't add in batch mode unless within at most N of the max limit and don't delete unless within N of min *//*
@@ -2976,7 +2976,7 @@ e.printStackTrace();
                 pmoves[1] = -1;
             if ((Jc.length >= prm.JMAX /*- 1*/ - prm.MIN_NONMISSING_FOR_BATCH && !prm.OVERRIDE_SHAVING) || prm.FIX_EXPS /*||
                     (Jc.length >= prm.JMAX - 2 - prm.MIN_NONMISSING_FOR_BATCH &&
-                            MoreArray.getArrayInd(MINER_STATIC.GEECrit, rmb.irv.prm.CRIT_TYPE_INDEX) != -1)*/)
+                            MoreArray.getArrayInd(MINER_STATIC.FEMCrit, rmb.irv.prm.CRIT_TYPE_INDEX) != -1)*/)
                 pmoves[3] = -1;
         }
 

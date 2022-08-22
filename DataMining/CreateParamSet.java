@@ -69,42 +69,42 @@ public class CreateParamSet {
 
     int[] do_crit = null;//{
     //24,//"MSE"
-    //180,//GEE
-           /* 183,//Kendall_GEE
-            184,//MSE_GEE
-            182,//MSE_Kendall_GEERE
+    //180,//FEM
+           /* 183,//Kendall_FEM
+            184,//MSE_FEM
+            182,//MSE_Kendall_FEMR
 
             4,//MSER
-            10,//GEERE
+            10,//FEMR
             6,//KendallR
-            93,//MSER_KendallR_GEERE
+            93,//MSER_KendallR_FEMR
 
-            51,//GEECE
+            51,//FEMC
             26,//MSEC
-            67,//MSEC_GEECE
-            160,//"MSEC_KendallC_GEECE",
+            67,//MSEC_FEMC
+            160,//"MSEC_KendallC_FEMC",
 */
 
     //178//kendall
-    //20,//"MSER_GEERE"
+    //20,//"MSER_FEMR"
 
-    //161//  MSEC_KendallC_GEECE_inter
-    //17,//"MSER_GEERE_inter",
+    //161//  MSEC_KendallC_FEMC_inter
+    //17,//"MSER_FEMR_inter",
 
-    //168//  MSEC_KendallC_GEECE_feat
-    //170,//"MSER_GEERE_feat",
+    //168//  MSEC_KendallC_FEMC_feat
+    //170,//"MSER_FEMR_feat",
 
-    //171 //"MSEC_KendallC_GEECE_inter_feat",
-    //173 //"MSER_GEERE_inter_feat",
+    //171 //"MSEC_KendallC_FEMC_inter_feat",
+    //173 //"MSER_FEMR_inter_feat",
 
-    //171 //"MSER_Kendall_GEERE_inter_feat",
-    //93,//"MSER_Kendall_GEERE",
-    //119,//"MSER_Kendall_GEERE_inter",
-    //61//MSER GEECE
-    //30//MSEC_GEERE
-    //10, //GEERE
-    //51  //GEECE
-    //9 // GEERE_inter
+    //171 //"MSER_Kendall_FEMR_inter_feat",
+    //93,//"MSER_Kendall_FEMR",
+    //119,//"MSER_Kendall_FEMR_inter",
+    //61//MSER FEMC
+    //30//MSEC_FEMR
+    //10, //FEMR
+    //51  //FEMC
+    //9 // FEMR_inter
     //95 //MSE_Kendall_LARSRE
     //77 //MSER_Kendall
     //133 //MSEC_KendallC
@@ -122,7 +122,7 @@ public class CreateParamSet {
 
     int[] pre_crits;
 
-    /*omit all but MSER, MSER_inter, GEERE, MSER_GEERE, GEERE_inter, MSER_GEERE_inter
+    /*omit all but MSER, MSER_inter, FEMR, MSER_FEMR, FEMR_inter, MSER_FEMR_inter
     * 1
     * 4
     * 10
@@ -131,7 +131,7 @@ public class CreateParamSet {
     * 17
     *
     * */
-    int[] ignore_crit_MSERGEERE = {
+    int[] ignore_crit_MSERFEMR = {
             /* 2, 3, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 18, 19,
 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
@@ -486,7 +486,7 @@ public class CreateParamSet {
         /*if (mode == 1) {
             ignore_crit = ignore_crit_all;
         } else if (mode == 2) {
-            ignore_crit = ignore_crit_MSERGEERE;
+            ignore_crit = ignore_crit_MSERFEMR;
         }*/
 
        /* if (options.get("-precrit") != null) {
@@ -757,7 +757,7 @@ public class CreateParamSet {
                     "<-dataymax OPTIONAL with -rand>\n" +
                     "<-dataf OPTIONAL with -rand>n" +
                     "<-exclude file or dir of files OPTIONAL with -rand>\n" +
-                    "<-mode OPTIONAL 1=all non null non invert criteria, 2=only MSER and GEERE combos>\n" +
+                    "<-mode OPTIONAL 1=all non null non invert criteria, 2=only MSER and FEMR combos>\n" +
                     "<-seed OPTIONAL random seed>\n" +
                     "<-top OPTIONAL y = restrict to top crit\n" +
                     "<-start OPTIONAL comma delim list of start blocks>\n" +

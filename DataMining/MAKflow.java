@@ -14,7 +14,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-//import org.apache.commons.lang3.StringUtils;
 
 /**
  * MAK workflow
@@ -24,31 +23,25 @@ import java.util.*;
  * - R
  * - R packages and JRI (through rJava)
  * <p/>
- * Created by Rauf Salamzade
  * Developers: Marcin Joachimiak, Rauf Salamzade, Kevin Meng
- * User: raufs
- * Date: 10/15/15
  */
 
-public class MAKflow_JBEI_SLURM_v3 {
+public class MAKflow {
     String[] valid_args = {
-            "-data", "-parameters", "-server", "-account", "-qos", "-stdout"
+            "-data", "-parameters", "-partition", "-account", "-qos", "-stdout"
     };
 
     HashMap options;
     static String[] arg_desc = {
             "<-data real valued dataset>" +
                     "<-parameter template parameter file>" +
-                    "<-server template parameter file>" +
-                    "<-account template parameter file>" +
+                    "<-partition cluster partition>" +
+                    "<-account cluster account>" +
                     "<-qos template parameter file>" +
                     "<-stdout flag for stdout for individual tasks>"
     };
 
     static String arg_desc_str = StringUtil.replace(Arrays.toString(arg_desc), "><", ">\n<");
-
-
-    //static double[] levels = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22};
 
     static String[] labels = {
             "Compute general statistics about data matrix", //1
@@ -61,7 +54,7 @@ public class MAKflow_JBEI_SLURM_v3 {
             "Create RunMiner task file", //8
             "Execute task file", //9
             "Check that all tasks complete successfully. (ParamforErrMiss)", //10
-            "Rerun tasks which did not produce results successfully. (RunMiner)", //11
+            "Rerun tFasks which did not produce results successfully. (RunMiner)", //11
             "Collects trajectory endpoints. (ListfromDir)", //12
             "Filter endpoints by mean and percent of starting point. (ApplyCut)", //13
             "Bicluster list merge and reconstruction. (ListMergeMembers)", //14
@@ -77,7 +70,6 @@ public class MAKflow_JBEI_SLURM_v3 {
 
     SimpleMatrix sm;
     Parameters prm;
-    Runtime runtime;
 
     boolean firstLoop = true;
     int startiter;
@@ -99,10 +91,6 @@ public class MAKflow_JBEI_SLURM_v3 {
     String basename;
     String filename;
 
-    //String localuser = null;
-    //String clusteruser = null;
-    //String clusteruser_prefix = null;
-    //String clusterpath = null;
     String localpath = null;
 
     String qos = "";
@@ -113,21 +101,21 @@ public class MAKflow_JBEI_SLURM_v3 {
     int criterion_index = 160;
     int num_criterion = 3;
 
-    int precriterion_index = -1;//26;//MSEC
-    int num_precriterion = -1;//1;
+    int precriterion_index = -1;
+    int num_precriterion = -1;
     String precriterion = null;
 
     String nullprefix;
     String tab_file;
 
-    //for MakeNull and Parameter
+    //for nulls
     int Imin = 2;
     int Imax = 200;
     int Jmin = 2;
     int Jmax = 100;
     int nsamp = 50;
     int maxnulljobs = 100;
-    String absvect = "0,0,1";
+    String absvect = "0,0,0";
     double mem_per_cpu = 2;
     double null_mem_per_cpu = 4;
 
@@ -158,11 +146,6 @@ public class MAKflow_JBEI_SLURM_v3 {
     String refinement_prefix = "";
     int num_str_pt_refine = 0;
 
-    //String[] str_pt_index = null;
-
-    //boolean test_mode = false;
-    //String mode = "normal";//or "test"
-
     boolean exclude = false;
 
     double cutpercent = 66.0;
@@ -170,7 +153,6 @@ public class MAKflow_JBEI_SLURM_v3 {
     boolean usePseudo = true;
     boolean useLog = false;
 
-    //String nullJobID = null;
 
     long period = 60000; // 60000 = 1 min.
 
@@ -179,9 +161,6 @@ public class MAKflow_JBEI_SLURM_v3 {
     String[] levelTimes = new String[50];
     String[] levelNames = new String[50];
     int levelIndex = 0;
-
-    //String[] jobIdsArray = new String[10000];
-    //int jobIdsArrayCounter = 0;
 
     String TF_file = null;
     String feat_file = null;
@@ -193,13 +172,12 @@ public class MAKflow_JBEI_SLURM_v3 {
 
     String runmode = "BS";
 
-
     final double min_complete_percent = 0.3;
 
     int max_jobs = 500;
     private String exclude_path;
 
-    String server = null;
+    String partition = null;
     String account = null;
 
     String[] precrit_list;
@@ -215,7 +193,7 @@ public class MAKflow_JBEI_SLURM_v3 {
     /**
      * @param args
      */
-    public MAKflow_JBEI_SLURM_v3(String[] args) {
+    public MAKflow(String[] args) {
 
         init(args);
         runFlow(startlevel, stoplevel);
@@ -243,33 +221,12 @@ public class MAKflow_JBEI_SLURM_v3 {
             System.out.println("Criterion");
             System.out.println(criterion);
 
-            /*String[] crits = criterion.split("_");
-            String[] precrits = precriterion.split("_");
-            ArrayList allcrits = new ArrayList();
-            for (int i = 0; i < crits.length; i++) {
-                allcrits.add(crits[0]);
-            }
-            for (int i = 0; i < precrits.length; i++) {
-                int index = Arrays.asList(crits).indexOf(precrits[0]);
-                if (index == -1) {
-                    allcrits.add(precrits[0]);
-                }
-            }
-
-            String[] allcritsAr = (String[]) allcrits.toArray(new String[0]);*/
-
-
-            // Check to ensure that the first row of the dataset is interpretted the same in Java and in R.
-
+            //Check to ensure that the first row of the dataset is interpretted the same in Java and in R.
             FileInputStream fstream = null;
             try {
-                fstream = new FileInputStream(filename);//basename + ".txt");
+                fstream = new FileInputStream(filename);
             } catch (FileNotFoundException e) {
-                //try {
-                //fstream = new FileInputStream(basename + ".tsv");
-                //} catch (FileNotFoundException e) {
                 e.printStackTrace();
-                //}
             }
             BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
             try {
@@ -288,7 +245,6 @@ public class MAKflow_JBEI_SLURM_v3 {
             }
 
             String Rprep = "expr_data <- as.matrix(read.table(\"" + filename + "\",sep=\"\\t\",header=T,row.names=1))\n";
-            //String Rprep = "expr_data <- as.matrix(read.table(\"" + basename + ".txt\",sep=\"\\t\",header=T,row.names=1))\n";
 
             if (TF_file != null) {
                 Rprep += "tf_data <- as.matrix(read.table(\"" + TF_file + "\", sep=\"\\t\",header=T,row.names=1))\n";
@@ -308,15 +264,12 @@ public class MAKflow_JBEI_SLURM_v3 {
             Rprep += "rowvar_zero <- which(rowvar == 0)\n";
             Rprep += "colvar_zero <- which(colvar == 0)\n";
             Rprep += "expr_data_orig <- expr_data\n";
-            //expr_data <- expr_data_orig[-16597,]
             Rprep += "if(length(rowvar_zero) > 0) expr_data <- expr_data_orig[-rowvar_zero,]\n";
             Rprep += "if(length(colvar_zero) > 0) expr_data <- expr_data_orig[,-colvar_zero]\n";
 
             Rprep += "write.table(expr_data, sep=\"\\t\", file =\"" + filename + "\", col.names=NA)\n";
-            //Rprep += "write.table(expr_data, sep=\"\\t\", file =\"" + basename + ".txt\", col.names=NA)\n";
 
             // Check to ensure that the first row of the dataset is interpretted the same in Java and in R.
-
             Rprep += "write.table(expr_data[1,], sep=\"\\t\", file =\"" + output + "firstRow_R.txt\")\n";
             Rprep += "source(\"" + R_path + "\")\n";
             Rprep += "mode <- Mode(as.matrix(expr_data))\n";
@@ -329,45 +282,23 @@ public class MAKflow_JBEI_SLURM_v3 {
             Rprep += "colvar <- apply(expr_data,2,var)\n";
             Rprep += "rmean <- rowMeans(expr_data)\n";
             Rprep += "rowvar <- apply(expr_data,1,var)\n";
-            /*
-            Rprep += "library(ggplot2)\n";
-            Rprep += "p1 <- ggplot(data.frame(rowvar), aes(x=rowvar)) + geom_histogram(fill=\"blue\") + labs(list(title=\"Variance of Rows\", x=\"Variance\", y=\"Count\"))\n";
-            Rprep += "p2 <- ggplot(data.frame(colvar), aes(x=colvar)) + geom_histogram(fill=\"red\") + labs(list(title=\"Variance of Columns\", x=\"Variance\", y=\"Count\"))\n";
-            Rprep += "p3 <- ggplot(data.frame(rmean), aes(x=rmean)) + geom_histogram(fill=\"yellow\") + labs(list(title=\"Mean of Rows\", x=\"Mean\", y=\"Count\"))\n";
-            Rprep += "p4 <- ggplot(data.frame(cmean), aes(x=cmean)) + geom_histogram(fill=\"green\") + labs(list(title=\"Mean of Columns\", x=\"Mean\", y=\"Count\"))\n";
-            Rprep += "pdf(\"" + output + "data_statistics.pdf\", height=10, width=20)\n";
-            Rprep += "multiplot(p1, p2, p3, p4, cols=2)\n";
-            Rprep += "dev.off()\n";
-            */
+
             Rprep += "write.table(rownames(expr_data), col.names = F, \"" + output + geneids_file + "\",sep=\"\\t\")\n";
             Rprep += "write.table(colnames(expr_data),col.names = F,\"" + output + expids_file + "\",sep=\"\\t\")\n";
-            //Rprep += "expr_data <- data.matrix(expr_data)\n";
 
             if (feat_file != null && TF_file != null && inter_file != null) {
-                //Rprep += "interact_data <- as.matrix(read.table(\"" + inter_file + "\", sep=\"\\t\",header=T,row.names=1))\n";
-                //Rprep += "tf_data <- as.matrix(read.table(\"" + TF_file + "\", sep=\"\\t\",header=T,row.names=1))\n";
-                //Rprep += "feat_data <- as.matrix(read.table(\"" + feat_file + "\", sep=\"\\t\",header=T,row.names=1))\n";
                 Rprep += "save(expr_data, interact_data, feat_data, tf_data, file=\"" + output + Rdata_file + "\")\n";
             } else if (feat_file != null && inter_file != null) {
-                //Rprep += "feat_data <- as.matrix(read.table(\"" + feat_file + "\", sep=\"\\t\",header=T,row.names=1))\n";
-                //Rprep += "interact_data <- as.matrix(read.table(\"" + inter_file + "\", sep=\"\\t\",header=T,row.names=1))\n";
                 Rprep += "save(expr_data, feat_data, interact_data, file=\"" + output + Rdata_file + "\")\n";
             } else if (feat_file != null && TF_file != null) {
-                //Rprep += "feat_data <- as.matrix(read.table(\"" + feat_file + "\", sep=\"\\t\",header=T,row.names=1))\n";
-                //Rprep += "tf_data <- as.matrix(read.table(\"" + TF_file + "\", sep=\"\\t\",header=T,row.names=1))\n";
                 Rprep += "save(expr_data, feat_data, tf_data, file=\"" + output + Rdata_file + "\")\n";
             } else if (TF_file != null && inter_file != null) {
-                //Rprep += "interact_data <- as.matrix(read.table(\"" + inter_file + "\", sep=\"\\t\",header=T,row.names=1))\n";
-                //Rprep += "tf_data <- as.matrix(read.table(\"" + TF_file + "\", sep=\"\\t\",header=T,row.names=1))\n";
                 Rprep += "save(expr_data, interact_data, tf_data, file=\"" + output + Rdata_file + "\")\n";
             } else if (inter_file != null) {
-                //Rprep += "interact_data <- as.matrix(read.table(\"" + inter_file + "\", sep=\"\\t\",header=T,row.names=1))\n";
                 Rprep += "save(expr_data, interact_data, file=\"" + output + Rdata_file + "\")\n";
             } else if (TF_file != null) {
-                //Rprep += "tf_data <- as.matrix(read.table(\"" + TF_file + "\", sep=\"\\t\",header=T,row.names=1))\n";
                 Rprep += "save(expr_data, tf_data, file=\"" + output + Rdata_file + "\")\n";
             } else if (feat_file != null) {
-                //Rprep += "feat_data <- as.matrix(read.table(\"" + feat_file + "\", sep=\"\\t\",header=T,row.names=1))\n";
                 Rprep += "save(expr_data, feat_data, file=\"" + output + Rdata_file + "\")\n";
             } else {
                 Rprep += "save(expr_data, file=\"" + output + Rdata_file + "\")\n";
@@ -386,7 +317,6 @@ public class MAKflow_JBEI_SLURM_v3 {
             System.out.println("RUNNING R --vanilla < " + Rprep_script_file);
 
             String copydata = "cp " + filename + " level1.1/";
-            //String copydata = "cp " + basename + ".txt level1.1/";
             String copyexprdata = "copy_data.sh";
             runCmd(copydata, scriptbox, copyexprdata);
 
@@ -433,7 +363,7 @@ public class MAKflow_JBEI_SLURM_v3 {
             createFile(output_subdir3);
 
 
-            if (criterion.indexOf("Binary") != -1) {//useAbs == 1 ||
+            if (criterion.indexOf("Binary") != -1) {
                 frxnsign_param = "F";
             }
 
@@ -449,7 +379,7 @@ public class MAKflow_JBEI_SLURM_v3 {
             if (!noNull) {
                 for (int it = 1; it <= maxnulljobs; it++) {
                     makenull_pbs += "hostname >  " + localpath + output_subdir3 + it + "_host.$HT_TASK_ID.host; " +
-                            "java -Xmx" + (int) (null_mem_per_cpu * 1000.0) + "M DataMining.MakeNull  " +//-Xms2G
+                            "java -Xmx" + (int) (null_mem_per_cpu * 1000.0) + "M DataMining.MakeNull  " +
                             "-source " + R_path + " " +
                             "-intxt " + localpath + filename + " " +
                             "-inR " + input + basename + ".Rdata " +
@@ -509,8 +439,8 @@ public class MAKflow_JBEI_SLURM_v3 {
                 }
 
                 try {
-                    runGNUParallel(localpath + input + basename + "_make_nulls.tasks", scriptbox, default_walltime, null,
-                            Math.min(maxnulljobs, max_jobs), null_mem_per_cpu, (int) setLevel, "");
+                    run_ht_helper(localpath + input + basename + "_make_nulls.tasks", scriptbox, default_walltime, null,
+                            Math.min(maxnulljobs, max_jobs), null_mem_per_cpu, false, (int) setLevel);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -653,7 +583,7 @@ public class MAKflow_JBEI_SLURM_v3 {
                 Rstarts_script += "nbs2=allpossibleInitial(expr_data_col," + Imin_start + "," + Imax_start + "," + Jmin_start + "," + Jmax_start + ",\"" + hclmetric + "\",useAbs=" + useAbs + ", isCol=0,linkmethod=\"" + hcllink + "\")\n";
                 Rstarts_script += "nbsall <- c(nbs1, nbs2)\n";
             } else if (start_method.equalsIgnoreCase("RLE")) {
-                int rle_useAbs = 0;//useAbs;
+                int rle_useAbs = 0;
 
                 Rstarts_script += "nbs1=allpossibleInitialRLE(expr_data_row,useAbs=" + rle_useAbs + ", isCol=1,discretize_step=" + rlestep + ",min_run_length=" + rlemin + ")\n";
                 Rstarts_script += "nbs2=allpossibleInitialRLE(expr_data_col,useAbs=" + rle_useAbs + ", isCol=0,discretize_step=" + rlestep + ",min_run_length=" + rlemin + ")\n";
@@ -731,14 +661,6 @@ public class MAKflow_JBEI_SLURM_v3 {
 
                 String input = "level6.1/";
 
-                /*try {
-                    criterion_index = StringUtil.getFirstEqualsIndex(MINER_STATIC.CRIT_LABELS, criterion);
-                } catch (Exception e) {
-                    System.out.println("The criterion combination specified is not valid. Try shuffling the order of the criteria.\n" +
-                            "Remember, the feat and MAXTF should always be the last criteria in the combination.");
-                    e.printStackTrace();
-                }*/
-
                 criterion_index = StringUtil.getFirstEqualsIndexIgnoreCase(MINER_STATIC.CRIT_LABELS, criterion);
                 precriterion_index = StringUtil.getFirstEqualsIndexIgnoreCase(MINER_STATIC.CRIT_LABELS, precriterion);
 
@@ -790,7 +712,6 @@ public class MAKflow_JBEI_SLURM_v3 {
 
                 prm.OUTDIR = localpath + subdir_2;
                 prm.EXPR_DATA_PATH = localpath + "/level1.1/" + filename;
-                //prm.EXPR_DATA_PATH = localpath + "/level1.1/" + basename + ".txt";
                 prm.FEAT_DATA_PATH = "";
                 prm.INTERACT_DATA_PATH = "";
                 prm.MEANINTERACT_PATH = "";
@@ -839,23 +760,13 @@ public class MAKflow_JBEI_SLURM_v3 {
                 if (useAbs == 1) {
                     prm.USE_ABS = true;
                     prm.USE_ABS_AR = absvectIntArray;
-                    //prm.FRXN_SIGN = false;
                 } else if (useAbs == 0) {
                     prm.USE_ABS = false;
                     prm.USE_ABS_AR = absvectIntArray;
-                    /*if (frxnsign_param == "F")
-                        prm.FRXN_SIGN = false;
-                    else if (frxnsign_param == "T")
-                        prm.FRXN_SIGN = true;*/
-                } /*else if (criterion.toLowerCase().indexOf("Binary".toLowerCase()) == -1) {
-                    prm.USE_ABS = false;
-                    prm.USE_ABS_AR = absvectIntArray;
-                    prm.FRXN_SIGN = true;
-                }*/
+                }
                 if (criterion.toLowerCase().indexOf("Binary".toLowerCase()) != -1) {
                     prm.USE_ABS = false;
                     prm.USE_ABS_AR = absvectIntArray;
-                    //prm.FRXN_SIGN = false;
                 }
 
                 prm.MEANTF_PATH = "";
@@ -1063,7 +974,6 @@ public class MAKflow_JBEI_SLURM_v3 {
                 if (criterion.contains("SPEARMANR") && !criterion.toLowerCase().contains("SPEARMANRnonull".toLowerCase())) {
                     prm.MEANSPEARR_PATH = localpath + "level5.1/" + nullprefix + "SPEARMANR_median_full.txt";
                     prm.SDSPEARR_PATH = localpath + "level5.1/" + nullprefix + "SPEARMANR_0.5IQR_full.txt";
-                    //System.out.println("MAKflow set SPEARMANR " + prm.SDSPEARR_PATH);
                     if (!doesFileExist(prm.MEANSPEARR_PATH) || !doesFileExist(prm.SDSPEARR_PATH)) {
                         System.out.println("ERROR: The paths to the null files for the SPEARMANR criteria are incorrect. Please check that these null files exist in level5.1/\nExiting now...");
                         System.exit(1);
@@ -1213,8 +1123,8 @@ public class MAKflow_JBEI_SLURM_v3 {
                 }
 
                 try {
-                    runGNUParallel(localpath + input + basename + "_run_miner.tasks", scriptbox, default_walltime,
-                            null, max_jobs, mem_per_cpu,  (int) setLevel, "");
+                    run_ht_helper(localpath + input + basename + "_run_miner.tasks", scriptbox, default_walltime,
+                            null, max_jobs, mem_per_cpu, false, (int) setLevel);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -1248,7 +1158,6 @@ public class MAKflow_JBEI_SLURM_v3 {
                 createFile(pfem_dir);
 
                 // check that at least 90% of the starting points produced results, if otherwise, exit...
-
                 int num_results = new File(localpath + "level7_iter" + iteration + ".1/results/").listFiles().length / 4;
                 double percent_complete = Double.parseDouble(String.valueOf(num_results)) / Double.parseDouble(String.valueOf(num_start_points));
 
@@ -1275,7 +1184,7 @@ public class MAKflow_JBEI_SLURM_v3 {
                     System.out.println("pfem_script " + pfem_script);
                     runCmd(pfem_script, scriptbox, pfem_script_file);
 
-                } else {// if (runmode.compareToIgnoreCase("N") == 0) {
+                } else {
                     pfem_script = "java -Xmx" + (int) (mem_per_cpu * 1000.0) + "M DataMining.ParamforErrMissForN ";
                     pfem_script += " -results_dir " + localpath + "level7_iter" + iteration + ".1/results/ " +
                             " -param_dir " + localpath + "level7_iter" + iteration + ".1/" + basename + "_1/ " +
@@ -1290,9 +1199,6 @@ public class MAKflow_JBEI_SLURM_v3 {
                 String task_file = basename + "_rerun_miner.tasks";
                 String task_script = "";
 
-                //File folder = new File(localpath + "level10_iter" + iteration + ".1/ParamforErrMiss/");
-                //File[] listOfFiles = folder.listFiles();
-
                 task_script = "java -Xmx" + (int) (mem_per_cpu * 1000.0) + "M DataMining.util.MakeParamTasks ";
                 task_script += localpath + "level10_iter" + iteration + ".1/ParamforErrMiss/ " +
                         localpath + "level10_iter" + iteration + ".0/" + task_file + " " + iteration + " " + localpath + " " + (int) mem_per_cpu +
@@ -1300,21 +1206,6 @@ public class MAKflow_JBEI_SLURM_v3 {
                 System.out.println("task_script");
                 System.out.println(task_script);
                 runCmd(task_script, scriptbox, task_script_file);
-
-                /*for (int i = 0; i < listOfFiles.length; i++) {
-                    if (listOfFiles[i].getName().endsWith("parameters.txt")) {
-                        String infile = localpath + "level10_iter" + iteration + ".1/ParamforErrMiss/" + listOfFiles[i].getName();
-                        String outfile = localpath + "level8_iter" + iteration + ".1/out_files/" + listOfFiles[i].getName() + "_host.$HT_TASK_ID.out";
-
-                        task_script += "hostname >  " + localpath + "level8_iter" + iteration + ".1/out_files/" + listOfFiles[i].getName() + "_host.$HT_TASK_ID.host; " +
-                                "java  -Xmx" + (int) (mem_per_cpu * 1000.0) + "M DataMining.RunMiner ";
-                        task_script += "-param " + infile +
-                                "&> " + outfile + '\n';
-                    }
-                }
-
-                TextFile.write(task_script, scriptbox + task_file);
-                System.out.println("Re-RunMiner task file written!");*/
 
                 File testdir = new File(testoutput);
                 System.out.println("\"" + toplist_dir + "\": " + dir.length() + ", " +
@@ -1352,7 +1243,7 @@ public class MAKflow_JBEI_SLURM_v3 {
                 System.out.println("missing task len " + len);
                 if (len > 0) {
                     try {
-                        runGNUParallel(localpath + input + basename + "_rerun_miner.tasks", scriptbox, default_walltime,
+                        run_ht_helper(localpath + input + basename + "_rerun_miner.tasks", scriptbox, default_walltime,
                                 null, max_jobs, mem_per_cpu, false, (int) setLevel);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -1382,7 +1273,6 @@ public class MAKflow_JBEI_SLURM_v3 {
                 createFile(scriptbox);
 
                 String mv = "";
-                //mv += "mv " + localpath + "level7_iter" + iteration + ".1/results/*toplist.txt " + localpath + "level7_iter" + iteration + ".1/toplist_files/\n";
                 mv += "find " + localpath + "level7_iter" + iteration + ".1/results/ -name '*toplist.txt' -exec mv {} " + localpath + "level7_iter" + iteration + ".1/toplist_files/ \\;\n";
                 String mv_shell = "ssh.sh";
                 runCmd(mv, scriptbox, mv_shell);
@@ -1472,7 +1362,7 @@ public class MAKflow_JBEI_SLURM_v3 {
             /*script is generated but this step is called directly through Java below */
             String sl_sns = scriptbox + "applycut.sl";
             String selectnrset_script = "java -Xmx" + (int) (mem_per_cpu * 3000.0) + "M DataMining.util.ApplyCut " +
-                    localpath + input + input_file + " " + cutpercent + " " + number;
+                    localpath + input + input_file + " " + cutpercent + "% " + number;
 
             TextFile.write(selectnrset_script, sl_sns);
 
@@ -1526,18 +1416,14 @@ public class MAKflow_JBEI_SLURM_v3 {
             }
 
             System.out.println("level 14 max_walltime " + max_walltime);
-            /*
-             NOTE: bash script is currently hardcoded to start ListMergeMembers job on JBEI cluster on a single node with 24 memory available.
-            */
+
             String sl_sns = scriptbox + "selectnrset.sl";
             String selectnrset_script = "#!/bin/bash\n" +
-                    //"#SBATCH --qos=lr_normal\n" +
-                    "#SBATCH --partition=" + server + "\n" +//"#SBATCH --partition=lr3\n" +
+                    "#SBATCH --partition=" + partition + "\n" +
                     "#SBATCH --account=" + account + "\n" +
-                    //"#SBATCH --constraint=lr3_c16\n" +
                     "#SBATCH --ntasks=1\n" +
                     "#SBATCH --cpus-per-task=1\n" +
-                    "#SBATCH --mem=22G\n" +
+                    "#SBATCH --mem="+(mem_per_cpu * 3000.0)+"M\n" +
                     "#SBATCH --time=" + max_walltime + "\n" +
                     "#SBATCH --output=MAKflow_" + setLevel + "_%j.out\n";
             if (!qos.equals(""))
@@ -1545,7 +1431,6 @@ public class MAKflow_JBEI_SLURM_v3 {
 
             File test = new File(localpath + input + "results_" + basename + "_cut_scoreperc" + cutpercent + "_exprNaN_0.0.txt");
             if (test.exists()) {
-                //java -mx16000M DataMining.util.SelectNRSet -bic $1 -over 0.25 -mode score -type root
                 selectnrset_script += "java -Xmx" + (int) (mem_per_cpu * 3000.0) + "M DataMining.util.SelectNRSet " +
                         "-bic " + localpath + input + "results_" + basename + "_cut_scoreperc" + cutpercent + "_exprNaN_0.0.txt" +
                         " -over 0.25 -mode score -type root -out " + localpath + output +
@@ -1617,9 +1502,8 @@ public class MAKflow_JBEI_SLURM_v3 {
 
         // REFINEMENT ROUND
         if (!refine) {
-            setLevel = 21; //check if this is correct later
+            setLevel = 21;
         } else {
-            /*  */
             /* level15 create parameter files */
             if (setLevel == 15 && (stopLevel >= 15 || stopLevel == 0)) {
                 System.out.println("LEVEL 15");
@@ -1705,19 +1589,15 @@ public class MAKflow_JBEI_SLURM_v3 {
                 if (useAbs == 1) {
                     prm.USE_ABS = true;
                     prm.USE_ABS_AR = absvectIntArray;
-                    //prm.FRXN_SIGN = false;
                 } else if (useAbs == 0) {
                     prm.USE_ABS = false;
                     prm.USE_ABS_AR = absvectIntArray;
-                    //prm.FRXN_SIGN = true;
                 } else if (criterion.indexOf("Binary") == -1) {
                     prm.USE_ABS = false;
                     prm.USE_ABS_AR = absvectIntArray;
-                    //prm.FRXN_SIGN = true;
                 } else if (criterion.indexOf("Binary") != -1) {
                     prm.USE_ABS = false;
                     prm.USE_ABS_AR = absvectIntArray;
-                    //prm.FRXN_SIGN = false;
                 }
 
                 prm.MEANTF_PATH = "";
@@ -2045,8 +1925,8 @@ public class MAKflow_JBEI_SLURM_v3 {
                 }
 
                 try {
-                    runGNUParallel(localpath + input + basename + "_refine.tasks", scriptbox, default_walltime, null,
-                            max_jobs, mem_per_cpu,  (int) setLevel, "");
+                    run_ht_helper(localpath + input + basename + "_refine.tasks", scriptbox, default_walltime, null,
+                            max_jobs, mem_per_cpu, false, (int) setLevel);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -2079,7 +1959,6 @@ public class MAKflow_JBEI_SLURM_v3 {
                 createFile(ex_out);
 
                 String mv = "";
-                //mv += "mv " + localpath + "level15.1/results/*toplist.txt " + localpath + "level15.1/toplist_files/\n";
                 mv += "find " + localpath + "level15.1/results/ -name '*toplist.txt' -exec mv {} " + localpath + "level15.1/toplist_files/ \\;\n";
                 String mv_shell = "ssh.sh";
                 runCmd(mv, scriptbox, mv_shell);
@@ -2090,7 +1969,7 @@ public class MAKflow_JBEI_SLURM_v3 {
 
                 String result_vbl = "results_" + basename + ".vbl";
                 String tmp_vbl = localpath + output + "tmp.vbl";
-                String cmd = "#!/bin/bash\n#SBATCH --partition=" + server + "\n" +
+                String cmd = "#!/bin/bash\n#SBATCH --partition=" + partition + "\n" +
                         "#SBATCH --account=" + account + "\n" +
                         "#SBATCH --ntasks=1\n" +
                         "#SBATCH --time=" + max_walltime + "\n" +
@@ -2112,7 +1991,6 @@ public class MAKflow_JBEI_SLURM_v3 {
                 runCmd(run_cp, scriptbox, cp_file);
 
                 // RUN SLURM Job and Wait for it to complete.
-
                 String slurm_id = "";
                 FileReader file_to_read = null;
                 try {
@@ -2166,7 +2044,7 @@ public class MAKflow_JBEI_SLURM_v3 {
                         String[] as = aLine2.split("\t");
                         System.out.println(aLine2);
                         System.out.println(MoreArray.toString(Arrays.copyOfRange(as, 1, as.length)));
-                        result += "" + result_counter + "\t" + MoreArray.toString(Arrays.copyOfRange(as, 1, as.length), "\t") + "\n"; // Check that this is working as should
+                        result += "" + result_counter + "\t" + MoreArray.toString(Arrays.copyOfRange(as, 1, as.length), "\t") + "\n";
                         result_counter++;
                     }
                 } catch (IOException e) {
@@ -2212,7 +2090,6 @@ public class MAKflow_JBEI_SLURM_v3 {
                     System.exit(1);
                 }
 
-                //cutpercent = 66.0;
                 String number = "NA";
                 System.out.println(localpath + input + input_file);
 
@@ -2280,9 +2157,8 @@ public class MAKflow_JBEI_SLURM_v3 {
                 /*
                 NOTE: Running LMM is hardcoded as a SLURM script.
                  */
-                String listmergeMembers_script = "#!/bin/bash\n#SBATCH --partition=" + server + "\n" +
+                String listmergeMembers_script = "#!/bin/bash\n#SBATCH --partition=" + partition + "\n" +
                         "#SBATCH --account=" + account + "\n" +
-                        //"#SBATCH --constraint=jbei_m24\n" +
                         "#SBATCH --ntasks=1\n" +
                         "#SBATCH --output=MAKflow_" + setLevel + "_%j.out\n";
 
@@ -2300,7 +2176,6 @@ public class MAKflow_JBEI_SLURM_v3 {
                 runCmd(run_lmm, scriptbox, listmergeMembers_file);
 
                 // RUN SLURM Job and Wait for it to complete.
-
                 String slurm_id = "";
                 FileReader file_to_read = null;
                 try {
@@ -2361,10 +2236,10 @@ public class MAKflow_JBEI_SLURM_v3 {
         options = MapArgOptions.maptoMap(args, valid_args);
         String error_msg = "syntax: java DataMining.MAKflow\n" + arg_desc_str;
 
-        if (options.get("-server") != null) {
+        if (options.get("-partition") != null) {
             try {
-                server = (String) options.get("-server");
-                System.out.println("init server " + server);
+                partition = (String) options.get("-partition");
+                System.out.println("init partition " + partition);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -2387,7 +2262,7 @@ public class MAKflow_JBEI_SLURM_v3 {
         if (options.get("-stdout") != null) {
             try {
                 String s = (String) options.get("-stdout");
-                stdout = StringUtil.isTrueorYes(s);//(String) options.get("-qos");
+                stdout = StringUtil.isTrueorYes(s);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -2456,19 +2331,16 @@ public class MAKflow_JBEI_SLURM_v3 {
                                     filename = f;
                                     basename = f.substring(inde + 1, f.lastIndexOf("."));
 
-                                    //
                                     geneids_file = basename + "_geneids.txt";
                                     expids_file = basename + "_expids.txt";
                                     Rdata_file = basename + ".Rdata";
 
                                     try {
                                         // Load data matrix as SimpleMatrix in Java
-
                                         sm = new SimpleMatrix(f);
 
                                         // Check for Duplicates in Row Data and Labels
                                         // O(n) where n is number of rows and m is number of columns
-
                                         ArrayList<double[]> uniqueRows = new ArrayList();
                                         ArrayList<String> uniqueRowsLabels = new ArrayList();
                                         int duplicateRows = 0;
@@ -2488,7 +2360,6 @@ public class MAKflow_JBEI_SLURM_v3 {
 
                                         // Check for Duplicates in Row Data and Labels
                                         // O(m*n) where n is number of rows and m is number of columns
-
                                         System.out.println(sm.xlabels.length + "\t" + sm.ylabels.length);
                                         System.out.println(sm.ylabels);
                                         ArrayList<double[]> uniqueCols = new ArrayList();
@@ -2653,9 +2524,7 @@ public class MAKflow_JBEI_SLURM_v3 {
                                 }
                             } else if (param_key.equalsIgnoreCase("startiter")) {
                                 try {
-                                    //if (Integer.parseInt(param_val) > 1) {
                                     startiter = Integer.parseInt(param_val);
-                                    //}
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -2695,7 +2564,7 @@ public class MAKflow_JBEI_SLURM_v3 {
                                 }
                             } else if (param_key.equalsIgnoreCase("localpath")) {
                                 try {
-                                    localpath = param_val; // WILL APPEND CLUSTERWORKSPACE TO THE END LATER ON
+                                    localpath = param_val; // will append cluster workspace path later
                                     String[] path_split = localpath.split("/");
                                     if (!(localpath.endsWith("/"))) {
                                         localpath += "/";
@@ -2706,11 +2575,9 @@ public class MAKflow_JBEI_SLURM_v3 {
                             } else if (param_key.equalsIgnoreCase("abs")) {
                                 try {
                                     absvect = param_val;
-                                    if (absvect.contains("1")) {// && !start_method.equals("RLE")) {
+                                    if (absvect.contains("1")) {
                                         useAbs = 1;
-                                    } /*if (absvect.contains("1") && !start_method.equals("RLE")) {
-                                        useAbs = 1;
-                                    }*/ else {
+                                    }  else {
                                         useAbs = 0;
                                     }
                                 } catch (Exception e) {
@@ -2953,8 +2820,7 @@ public class MAKflow_JBEI_SLURM_v3 {
             }
         }
 
-        // ENSURE THE NULL BOUNDS SPECIFIED ARE VALID AND ARE NOT LARGER THAN THE BOUNDS OF THE DATA MATRIX.
-
+        // ensure the null bounds specified are valid and are not larger than the bounds of the input data matrix (primary data layer)
         int[] row_col = new int[0];
 
         try {
@@ -2977,13 +2843,11 @@ public class MAKflow_JBEI_SLURM_v3 {
             System.out.println("WARNING: JMAX were changed from the specified values.");
             Jmax = num_col;
         }
-        // TAKE CARE OF NAMING OF NULL FILES, STARTING POINTS FILE.
-
+        //naming of null distribution and starting point files
         nullprefix = basename + "_nulls_abs" + StringUtil.replace(absvect, ",", "") + "_g" + Imin + "_" + Imax + "_e" + Jmin + "_" + Jmax + "_n" + nsamp + "_";
         startfileprefix = basename + "_STARTS_abs" + useAbs + "_I" + Imin_start + "_" + Imax_start + "_J" + Jmin_start + "_" + Jmax_start + "_RC";
 
         // Set local directory path and specify path for RunMiner parameter file example.
-
         localpath += clusterWorkspace + '/';
         if (!doesFileExist(localpath)) {
             System.out.println("ERROR: The localpath/workspace you specified does not exist. MAK will NOT automatically make these directories.\nExiting now ...");
@@ -2992,7 +2856,6 @@ public class MAKflow_JBEI_SLURM_v3 {
 
 
         // Ensure that if TF, feat, or interaction files are provided in the parameter file, that they are also specified in the criteria and visa versa.
-
         String lev1_outdir = "level1.1/";
 
         if (criterion.indexOf("MAXTF") != -1) {
@@ -3044,7 +2907,6 @@ public class MAKflow_JBEI_SLURM_v3 {
         }
 
         // Ensure that starting point file and the number of starting points is correctly set.
-
         if (startlevel > 6) {
             startoutfile = localpath + "level6.1/" + basename + "_STARTS_abs" + useAbs + "_I" + Imin_start + "_" + Imax_start + "_J" + Jmin_start + "_" + Jmax_start + "_RC.txt";
             startfileprefix = basename + "_STARTS_abs" + useAbs + "_I" + Imin_start + "_" + Imax_start + "_J" + Jmin_start + "_" + Jmax_start + "_RC";
@@ -3072,7 +2934,6 @@ public class MAKflow_JBEI_SLURM_v3 {
         }
 
         // Ensure that refinement starting point file and the number of starting points is correctly set.
-
         if (startlevel >= 15 && stoplevel < 21 && refine) {
             num_str_pt_refine = 0;
             String lmm_results = "level14.1/";
@@ -3105,8 +2966,8 @@ public class MAKflow_JBEI_SLURM_v3 {
         }
 
 
-        if (account == null || server == null) {
-            System.out.println("ERROR: account and/or server parameters are null. Account: " + account + "\taerver:" + server);
+        if (account == null || partition == null) {
+            System.out.println("ERROR: account and/or partition parameters are null. Account: " + account + "\taerver:" + partition);
         }
     }
 
@@ -3124,18 +2985,12 @@ public class MAKflow_JBEI_SLURM_v3 {
      */
     private void runCmd(String cmd, String scriptbox, String scriptname) {
 
-        //System.out.println("path " + scriptbox + scriptname);
-        //System.out.println(cmd);
-
         TextFile.write(cmd, scriptbox + scriptname);
         Process p = null;
 
         try {
             p = Runtime.getRuntime().exec("bash " + scriptbox + scriptname + " &> " + scriptbox + scriptname + ".out");
             p.waitFor();
-            //if (stdout)
-            //                cmdline += " &> " + scriptbox + scriptname + ".out";
-            //            p = Runtime.getRuntime().exec(cmdline);
         } catch (Exception ex) {
             if (p != null) p.destroy();
             System.out.println(ex);
@@ -3253,6 +3108,7 @@ public class MAKflow_JBEI_SLURM_v3 {
         return textData;
     }
 
+
     /**
      * @param taskfile
      * @param scriptbox
@@ -3260,16 +3116,15 @@ public class MAKflow_JBEI_SLURM_v3 {
      * @param constraint
      * @param ntasks
      * @param mempercpu
-     * @param setLevel
-     * @throws Exception
+     * @param twoCoresPerTask
+     * @throws IOException
      */
-    private void runGNUParallel(String taskfile, String scriptbox, String walltime, String constraint, int ntasks,
-                                double mempercpu, int setLevel, String work_dir) throws Exception {
-
+    private void run_ht_helper(String taskfile, String scriptbox, String walltime, String constraint, int ntasks,
+                               double mempercpu, boolean twoCoresPerTask, int setLevel) throws IOException {
         String sl_header = "";
 
         sl_header += "#!/bin/bash\n" +
-                "#SBATCH --partition=" + server + "\n" +
+                "#SBATCH --partition=" + partition + "\n" +
                 "#SBATCH --account=" + account + "\n";
 
         if (mempercpu > 11) {
@@ -3288,46 +3143,42 @@ public class MAKflow_JBEI_SLURM_v3 {
         if (constraint != null)
             sl_header += "#SBATCH --constraint=" + constraint + "\n";
 
+        String loc_dir_1 = localpath + scriptbox + "/sl_script/";
+        System.out.println(loc_dir_1);
+        createFile(loc_dir_1);
 
-        sl_header += "export $JOBS_PER_NODE=`expr $SLURM_MEM_PER_NODE / "+(double)mempercpu+"`";//$SLURM_CPUS_ON_NODE";
-        sl_header += "module load gnu-parallel/2019.03.22";
-        sl_header += "export WDIR=" + work_dir;
-        sl_header += "cd $WDIR";
-        
-        sl_header += "parallel --jobs $JOBS_PER_NODE --slf hostfile --wd $WDIR --joblog MAK_task.log --resume --progress \\\n" +
-                "--colsep ' ' -a task.lst sh run_single_MAK.sh {} ";
+        String node_task = "";
+        if (twoCoresPerTask) {
+            node_task = sl_header + "ht_helper.sh -v  -t " + taskfile + " -n 2";
+        } else {
+            node_task = sl_header + "ht_helper.sh -v  -t " + taskfile + " -n 1";
+        }
 
-/*
+        String node_task_shell = loc_dir_1 + "slurm_script.sl";
+        String task_shell_out = loc_dir_1 + "slurm_script.out";
+        TextFile.write(node_task, node_task_shell);
 
-## Command(s) to run (example):
-#
-        module load gnu-parallel/2019.03.22
-        export WDIR=PATH
-        cd $WDIR
-        export JOBS_PER_NODE=$SLURM_CPUS_ON_NODE
-#
-## when each task is multi-threaded, say NTHREADS=2, then JOBS_PER_NODE should be revised as below
-## JOBS_PER_NODE=$(( $SLURM_CPUS_ON_NODE  / NTHREADS ))
-## when memory footprint is large, JOBS_PER_NODE needs to be set ; $SLURM_CPUS_ON_NODE
-#
-        echo $SLURM_JOB_NODELIST |sed s/\,/\\n/g; hostfile
-## when GNU parallel can't detect core# of remote nodes, say --progress/--eta,
-## core# should be prepended to hostnames. e.g. 32/n0149.savio3
-## echo $SLURM_JOB_NODELIST |sed s/\,/\\n/g |awk -v cores=$SLURM_CPUS_ON_NODE '{print cores"/"$1}'hostfile<
-#
-        parallel --jobs $JOBS_PER_NODE --slf hostfile --wd $WDIR --joblog task.log --resume --progress \
-        --colsep ' ' -a task.lst sh run-blast.sh {} output/{/.}.blst $NTHREADS*/
+        String run_sbatch = "";
+        run_sbatch += "sbatch " + node_task_shell + " > " + task_shell_out;
+        String sbatch_shell = "execute_sbatch.sh";
+        runCmd(run_sbatch, scriptbox, sbatch_shell);
 
+        String slurm_id = "";
+        FileReader file_to_read = new FileReader(task_shell_out);
+        BufferedReader bf = new BufferedReader(file_to_read);
 
-        /*
-    #!/bin/bash
+        String aLine = null;
+        while ((aLine = bf.readLine()) != null) {
+            if (aLine.toLowerCase().startsWith("submitted")) {
+                slurm_id = aLine.split(" ")[3];
+            } else {
+                System.out.println("ERROR: SBATCH SUBMISSION FAILED");
+                System.exit(1);
+            }
+        }
+        bf.close();
 
-    module load R/2.15.1
-    module load java/1.8.0_12
-    java -Xmx4000M DataMining.RunMiner -param $1 &> $2
-    */
-
-
+        checkSLURMJobIsCompleted(slurm_id, scriptbox);
     }
 
     /**
@@ -3344,7 +3195,7 @@ public class MAKflow_JBEI_SLURM_v3 {
             if (System.currentTimeMillis() - lastTime >= period) {
                 lastTime = System.currentTimeMillis();
                 String run_squeue = "";
-                run_squeue += "squeue | grep '" + server + "' | awk '{print $1}' > " + squeue_file;//grep 'slurm_sc' |
+                run_squeue += "squeue | grep '" + partition + "' | awk '{print $1}' > " + squeue_file;
                 String squeue_shell = "execute_sbatch.sh";
                 runCmd(run_squeue, scriptbox, squeue_shell);
 
@@ -3419,10 +3270,10 @@ public class MAKflow_JBEI_SLURM_v3 {
     private File createFile(String path) {
         File dir = new File(path);
         boolean testdir = dir.mkdir();
-        //if (!testdir) {
-        //   System.out.println("mkdir failed " + path);
-        //   System.exit(0);
-        //}
+        if (!testdir) {
+            System.out.println("mkdir failed? " + path);
+           //System.exit(0);
+        }
         return dir;
     }
 
@@ -3432,13 +3283,15 @@ public class MAKflow_JBEI_SLURM_v3 {
      */
     public static void main(String[] args) {
         if (args.length > 1) {
-            for (int levelnumber = 0; levelnumber < 20; levelnumber++) {
+            for (int levelnumber = 0; levelnumber < labels.length; levelnumber++) {
                 printLevelLabels(levelnumber);
             }
-            MAKflow_JBEI_SLURM_v3 arg = new MAKflow_JBEI_SLURM_v3(args);
+            MAKflow mjs = new MAKflow(args);
         } else {
-            System.out.println("syntax: java DataMining.MAKflow_JBEI_SLURM_v3\n" + arg_desc_str
-            );
+            System.out.println("syntax: java DataMining.MAKflow\n" + arg_desc_str);
+            for (int levelnumber = 0; levelnumber < labels.length; levelnumber++) {
+                printLevelLabels(levelnumber);
+            }
         }
     }
 }

@@ -179,11 +179,11 @@ public class MinerFast {
                 //System.exit(0);
             }
 
-            //remove last 2 experiments if all exps in starting block for any LARSRE or GEERE criterion
+            //remove last 2 experiments if all exps in starting block for any LARSRE or FEMR criterion
                 /*if ((rmb.irv.prm.DATA_LEN_EXPS - VBPInitial.exps.length) < 2 &&
                         (MoreArray.getArrayInd(MINER_STATIC.LARSCrit, rmb.irv.prm.CRIT_TYPE_INDEX) != -1
-                                || MoreArray.getArrayInd(MINER_STATIC.GEECrit, rmb.irv.prm.CRIT_TYPE_INDEX) != -1)) {
-                    System.out.println("Too many exps for LARSRE or GEERE in starting block, removed last 2 exps. " +
+                                || MoreArray.getArrayInd(MINER_STATIC.FEMCrit, rmb.irv.prm.CRIT_TYPE_INDEX) != -1)) {
+                    System.out.println("Too many exps for LARSRE or FEMR in starting block, removed last 2 exps. " +
                             VBPInitial.exps.length + "\t" + rmb.irv.prm.DATA_LEN_EXPS);
                     ArrayList a = MoreArray.convtoArrayList(VBPInitial.exps);
                     while ((rmb.irv.prm.DATA_LEN_EXPS - a.size()) < 2) {
@@ -577,7 +577,7 @@ public class MinerFast {
         } else {
             //remove last 2 genes if LARS
             //int maxlen = MoreArray.getArrayInd(MINER_STATIC.LARSCrit, rmb.irv.prm.CRIT_TYPE_INDEX) != -1 /*||
-            //        MoreArray.getArrayInd(MINER_STATIC.GEECrit, rmb.irv.prm.CRIT_TYPE_INDEX) != -1*/ ?
+            //        MoreArray.getArrayInd(MINER_STATIC.FEMCrit, rmb.irv.prm.CRIT_TYPE_INDEX) != -1*/ ?
             //        rmb.irv.prm.DATA_LEN_GENES - 2 : rmb.irv.prm.DATA_LEN_GENES;
             int maxlen = rmb.irv.prm.DATA_LEN_GENES;
             int addnum = (int) Math.min(maxlen - VBPInitial.genes.length, (rmb.irv.prm.RANDOMFLOOD_PERC * VBPInitial.genes.length));
@@ -2731,7 +2731,7 @@ public class MinerFast {
             //prevent experiment addition
             if ((Jc.length >= prm.JMAX && !prm.OVERRIDE_SHAVING) || prm.FIX_EXPS /*||
                         (Jc.length >= prm.JMAX - 2 &&
-                                MoreArray.getArrayInd(MINER_STATIC.GEECrit, prm.CRIT_TYPE_INDEX) != -1)*/)
+                                MoreArray.getArrayInd(MINER_STATIC.FEMCrit, prm.CRIT_TYPE_INDEX) != -1)*/)
                 pmoves[3] = -1;
         }
         // Don't add in batch mode unless within at most N of the max limit and don't delete unless within N of min *//*
@@ -2746,7 +2746,7 @@ public class MinerFast {
                 pmoves[1] = -1;
             if ((Jc.length >= prm.JMAX /*- 1*/ - prm.MIN_NONMISSING_FOR_BATCH && !prm.OVERRIDE_SHAVING) || prm.FIX_EXPS /*||
                         (Jc.length >= prm.JMAX - 2 - prm.MIN_NONMISSING_FOR_BATCH &&
-                                MoreArray.getArrayInd(MINER_STATIC.GEECrit, rmb.irv.prm.CRIT_TYPE_INDEX) != -1)*/)
+                                MoreArray.getArrayInd(MINER_STATIC.FEMCrit, rmb.irv.prm.CRIT_TYPE_INDEX) != -1)*/)
                 pmoves[3] = -1;
         }
 

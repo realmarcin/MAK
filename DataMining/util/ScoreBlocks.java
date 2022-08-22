@@ -83,33 +83,33 @@ public class ScoreBlocks extends Program {
     
      */
     public static String[] CRITlabels = {
-            "MSEC_KendallC_GEECE"
-            //"MSEC_KendallC_GEECE_PPI_MAXTF"
+            "MSEC_KendallC_FEMC"
+            //"MSEC_KendallC_FEMC_PPI_MAXTF"
             //"MSEC_KendallC_PPI_MAXTF"
             /*"MSER",
             "MSEC",*/
-            //"MSER_GEECE_MEDRMEAN"
+            //"MSER_FEMC_MEDRMEAN"
             /*
             "MSER_LARSRE_PPI",//11
             "MADR_LARSRE_PPI",//12
             "Kendall_LARSRE_PPI",//13
-            "MSER_GEERE_PPI",//17
-            "MADR_GEERE_PPI",//18
-            "Kendall_GEERE_PPI",//19
+            "MSER_FEMR_PPI",//17
+            "MADR_FEMR_PPI",//18
+            "Kendall_FEMR_PPI",//19
             "MSEC_LARSRE_PPI",//27                                                                                                      SOMR1_expr_geneids.txt
-            "MSEC_GEERE_PPI",//29
+            "MSEC_FEMR_PPI",//29
             "MSER_LARSCE_PPI",//52
             "MADR_LARSCE_PPI",//53
             "Kendall_LARSCE_PPI",//54
-            "MSER_GEECE_PPI",//58
-            "MADR_GEECE_PPI",//59
-            "Kendall_GEECE_PPI",//60
+            "MSER_FEMC_PPI",//58
+            "MADR_FEMC_PPI",//59
+            "Kendall_FEMC_PPI",//60
             "MSEC_LARSCE_PPI",//64
-            "MSEC_GEECE_PPI",//66
+            "MSEC_FEMC_PPI",//66
             "MSE_LARSRE_PPI",//68
-            "MSE_GEERE_PPI",//70
+            "MSE_FEMR_PPI",//70
             "MSE_LARSCE_PPI",//72
-            "MSE_GEECE_PPI",//74*/
+            "MSE_FEMC_PPI",//74*/
     };
 
     //maxproportion + "\t" + ftest + "\t" + curTIGRlab + "\t" + noTIGRprop + "\t" + ftestnoTIGR;
@@ -334,7 +334,7 @@ public class ScoreBlocks extends Program {
 
         //System.out.print(".");
         if (debug) {
-            System.out.println("computeCrit " + criterion.crit + "\t" + criterion.isGEE);
+            System.out.println("computeCrit " + criterion.crit + "\t" + criterion.isFEM);
             System.out.println("Ic size " + curblockindex + "\t" + Ic.length);
             System.out.println("Jc size " + curblockindex + "\t" + Jc.length);
             System.out.println("R: Jc<-c(" + MoreArray.toString(Jc, ",") + ")");
@@ -343,11 +343,11 @@ public class ScoreBlocks extends Program {
             //System.out.println("R: nullRegData <- NULL");
         }
 
-        //remove last 2 exps for GEE and LARS if all exps part of block
-        /*if ((criterion.isGEE || criterion.isLARS) && Jc.length == expr_data.data[0].length) {
+        //remove last 2 exps for FEM and LARS if all exps part of block
+        /*if ((criterion.isFEM || criterion.isLARS) && Jc.length == expr_data.data[0].length) {
             Jc = MoreArray.remove(Jc, Jc.length - 1);
             Jc = MoreArray.remove(Jc, Jc.length - 1);
-            System.out.println("WARNING GEE/LARS: # of columns = # of experiments. Removing last 2 experiments.");
+            System.out.println("WARNING FEM/LARS: # of columns = # of experiments. Removing last 2 experiments.");
         }
 */
         if (Ic.length > rmb.orig_prm.IMAX) {

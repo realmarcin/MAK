@@ -47,10 +47,10 @@ public class InterPolateNulls {
             "EXPR_BINARYR_0.5IQR",
             "EXPR_BINARYC_MEDIAN",                         //17
             "EXPR_BINARYC_0.5IQR",
-            "EXPR_GEERE_MEDIAN",                           //19
-            "EXPR_GEERE_0.5IQR",
-            "EXPR_GEECE_MEDIAN",                           //21
-            "EXPR_GEECE_0.5IQR",
+            "EXPR_FEMR_MEDIAN",                           //19
+            "EXPR_FEMR_0.5IQR",
+            "EXPR_FEMC_MEDIAN",                           //21
+            "EXPR_FEMC_0.5IQR",
             "EXPR_LARSRE_MEDIAN",                          //23
             "EXPR_LARSRE_0.5IQR",
             "EXPR_LARSCE_MEDIAN",                          //25
@@ -74,10 +74,10 @@ public class InterPolateNulls {
             "EXPR_MSER_MEDRMEAN_0.5IQR",
             "EXPR_MSEC_MEDCMEAN_MEDIAN",
             "EXPR_MSEC_MEDCMEAN_0.5IQR",
-            "EXPR_MSER_GEERE_MEDRMEAN_MEDIAN",
-            "EXPR_MSER_GEERE_MEDRMEAN_0.5IQR",
-            "EXPR_MSEC_GEECE_MEDCMEAN_MEDIAN",
-            "EXPR_MSEC_GEECE_MEDCMEAN_0.5IQR",
+            "EXPR_MSER_FEMR_MEDRMEAN_MEDIAN",
+            "EXPR_MSER_FEMR_MEDRMEAN_0.5IQR",
+            "EXPR_MSEC_FEMC_MEDCMEAN_MEDIAN",
+            "EXPR_MSEC_FEMC_MEDCMEAN_0.5IQR",
 
             "EXPR_MSE_KENDALLR_MEDIAN",
             "EXPR_MSE_KENDALLR_0.5IQR",
@@ -93,23 +93,23 @@ public class InterPolateNulls {
             "EXPR_MSEC_KENDALLC_MEDCMEAN_MEDIAN",
             "EXPR_MSEC_KENDALLC_MEDCMEAN_0.5IQR",
 
-            "EXPR_MSE_KENDALLR_GEERE_MEDIAN",
-            "EXPR_MSE_KENDALLR_GEERE_0.5IQR",
-            "EXPR_MSE_KENDALLR_GEECE_MEDIAN",
-            "EXPR_MSE_KENDALLR_GEECE_0.5IQR",
-            "EXPR_MSER_KENDALLR_GEERE_MEDIAN",
-            "EXPR_MSER_KENDALLR_GEERE_0.5IQR",
-            "EXPR_MSEC_KENDALLC_GEECE_MEDIAN",
-            "EXPR_MSEC_KENDALLC_GEECE_0.5IQR",
+            "EXPR_MSE_KENDALLR_FEMR_MEDIAN",
+            "EXPR_MSE_KENDALLR_FEMR_0.5IQR",
+            "EXPR_MSE_KENDALLR_FEMC_MEDIAN",
+            "EXPR_MSE_KENDALLR_FEMC_0.5IQR",
+            "EXPR_MSER_KENDALLR_FEMR_MEDIAN",
+            "EXPR_MSER_KENDALLR_FEMR_0.5IQR",
+            "EXPR_MSEC_KENDALLC_FEMC_MEDIAN",
+            "EXPR_MSEC_KENDALLC_FEMC_0.5IQR",
 
-            "EXPR_MSE_KENDALLR_GEERE_MEDRMEAN_MEDIAN",
-            "EXPR_MSE_KENDALLR_GEERE_MEDRMEAN_0.5IQR",
-            "EXPR_MSE_KENDALLC_GEECE_MEDCMEAN_MEDIAN",
-            "EXPR_MSE_KENDALLC_GEECE_MEDCMEAN_0.5IQR",
-            "EXPR_MSER_KENDALLR_GEERE_MEDRMEAN_MEDIAN",
-            "EXPR_MSER_KENDALLR_GEERE_MEDRMEAN_0.5IQR",
-            "EXPR_MSEC_KENDALLC_GEECE_MEDCMEAN_MEDIAN",
-            "EXPR_MSEC_KENDALLC_GEECE_MEDCMEAN_0.5IQR",
+            "EXPR_MSE_KENDALLR_FEMR_MEDRMEAN_MEDIAN",
+            "EXPR_MSE_KENDALLR_FEMR_MEDRMEAN_0.5IQR",
+            "EXPR_MSE_KENDALLC_FEMC_MEDCMEAN_MEDIAN",
+            "EXPR_MSE_KENDALLC_FEMC_MEDCMEAN_0.5IQR",
+            "EXPR_MSER_KENDALLR_FEMR_MEDRMEAN_MEDIAN",
+            "EXPR_MSER_KENDALLR_FEMR_MEDRMEAN_0.5IQR",
+            "EXPR_MSEC_KENDALLC_FEMC_MEDCMEAN_MEDIAN",
+            "EXPR_MSEC_KENDALLC_FEMC_MEDCMEAN_0.5IQR",
 */
             "EXPR_CORR_MEDIAN",//79
             "EXPR_CORR_0.5IQR",//79
@@ -152,14 +152,14 @@ public class InterPolateNulls {
             "EXPR_CORR_KENDALLR_MEDRMEAN_0.5IQR",//87
             "EXPR_CORC_KENDALLC_MEDCMEAN_MEDIAN",//88
             "EXPR_CORC_KENDALLC_MEDCMEAN_0.5IQR",//88
-            "EXPR_MSER_CORR_KENDALLR_GEERE_MEDIAN",//89
-            "EXPR_MSER_CORR_KENDALLR_GEERE_0.5IQR",//89
-            "EXPR_MSEC_CORC_KENDALLC_GEECE_MEDIAN",//90
-            "EXPR_MSEC_CORC_KENDALLC_GEECE_0.5IQR",//90
-            "EXPR_MSER_CORR_KENDALLR_GEERE_MEDRMEAN_MEDIAN",//89
-            "EXPR_MSER_CORR_KENDALLR_GEERE_MEDRMEAN_0.5IQR",//89
-            "EXPR_MSEC_CORC_KENDALLC_GEECE_MEDCMEAN_MEDIAN",//90
-            "EXPR_MSEC_CORC_KENDALLC_GEECE_MEDCMEAN_0.5IQR",//90*/
+            "EXPR_MSER_CORR_KENDALLR_FEMR_MEDIAN",//89
+            "EXPR_MSER_CORR_KENDALLR_FEMR_0.5IQR",//89
+            "EXPR_MSEC_CORC_KENDALLC_FEMC_MEDIAN",//90
+            "EXPR_MSEC_CORC_KENDALLC_FEMC_0.5IQR",//90
+            "EXPR_MSER_CORR_KENDALLR_FEMR_MEDRMEAN_MEDIAN",//89
+            "EXPR_MSER_CORR_KENDALLR_FEMR_MEDRMEAN_0.5IQR",//89
+            "EXPR_MSEC_CORC_KENDALLC_FEMC_MEDCMEAN_MEDIAN",//90
+            "EXPR_MSEC_CORC_KENDALLC_FEMC_MEDCMEAN_0.5IQR",//90*/
 
             "EXPR_EUCR_MEDIAN",//79
             "EXPR_EUCR_0.5IQR",//79
@@ -170,8 +170,8 @@ public class InterPolateNulls {
             "EXPR_KENDALL_0.5IQR",
             "EXPR_BINARY_MEDIAN",
             "EXPR_BINARY_0.5IQR",
-            "EXPR_GEE_MEDIAN",
-            "EXPR_GEE_0.5IQR",
+            "EXPR_FEM_MEDIAN",
+            "EXPR_FEM_0.5IQR",
 
             "EXPR_LARS_MEDIAN",
             "EXPR_LARS_0.5IQR",
@@ -229,10 +229,10 @@ public class InterPolateNulls {
             "BINARYR",//11
             "BINARYC",
             "BINARYC",//13
-            "GEERE",
-            "GEERE",//15
-            "GEECE",
-            "GEECE",//17
+            "FEMR",
+            "FEMR",//15
+            "FEMC",
+            "FEMC",//17
             "LARSRE",
             "LARSRE",//19
             "LARSCE",
@@ -254,10 +254,10 @@ public class InterPolateNulls {
             "MSER_MEDRMEAN",
             "MSEC_MEDCMEAN",
             "MSEC_MEDCMEAN",
-            "MSER_GEERE_MEDRMEAN",
-            "MSER_GEERE_MEDRMEAN",
-            "MSEC_GEECE_MEDCMEAN",
-            "MSEC_GEECE_MEDCMEAN",
+            "MSER_FEMR_MEDRMEAN",
+            "MSER_FEMR_MEDRMEAN",
+            "MSEC_FEMC_MEDCMEAN",
+            "MSEC_FEMC_MEDCMEAN",
 
             "MSE_Kendall",
             "MSE_Kendall",
@@ -273,23 +273,23 @@ public class InterPolateNulls {
             "MSEC_KendallC_MEDCMEAN",
             "MSEC_KendallC_MEDCMEAN",
 
-            "MSE_KendallR_GEERE",
-            "MSE_KendallR_GEERE",
-            "MSE_KendallR_GEECE",
-            "MSE_KendallR_GEECE",
-            "MSER_KendallR_GEERE",
-            "MSER_KendallR_GEERE",
-            "MSEC_KendallC_GEECE",
-            "MSEC_KendallC_GEECE",
+            "MSE_KendallR_FEMR",
+            "MSE_KendallR_FEMR",
+            "MSE_KendallR_FEMC",
+            "MSE_KendallR_FEMC",
+            "MSER_KendallR_FEMR",
+            "MSER_KendallR_FEMR",
+            "MSEC_KendallC_FEMC",
+            "MSEC_KendallC_FEMC",
 
-            "MSE_KendallR_GEERE_MEDRMEAN",
-            "MSE_KendallR_GEERE_MEDRMEAN",
-            "MSE_KendallR_GEECE_MEDCMEAN",
-            "MSE_KendallR_GEECE_MEDCMEAN",
-            "MSER_KendallR_GEERE_MEDRMEAN",
-            "MSER_KendallR_GEERE_MEDRMEAN",
-            "MSEC_KendallC_GEECE_MEDCMEAN",
-            "MSEC_KendallC_GEECE_MEDCMEAN",*/
+            "MSE_KendallR_FEMR_MEDRMEAN",
+            "MSE_KendallR_FEMR_MEDRMEAN",
+            "MSE_KendallR_FEMC_MEDCMEAN",
+            "MSE_KendallR_FEMC_MEDCMEAN",
+            "MSER_KendallR_FEMR_MEDRMEAN",
+            "MSER_KendallR_FEMR_MEDRMEAN",
+            "MSEC_KendallC_FEMC_MEDCMEAN",
+            "MSEC_KendallC_FEMC_MEDCMEAN",*/
 
             "CORR",
             "CORR",
@@ -332,14 +332,14 @@ public class InterPolateNulls {
             "KendallR_CORR_MEDRMEAN",
             "KendallC_CORC_MEDCMEAN",
             "KendallC_CORC_MEDCMEAN",
-            "MSER_KendallR_CORR_GEERE",
-            "MSER_KendallR_CORR_GEERE",
-            "MSEC_KendallC_CORC_GEECE",
-            "MSEC_KendallC_CORC_GEECE",
-            "MSER_KendallR_CORR_GEERE_MEDRMEAN",
-            "MSER_KendallR_CORR_GEERE_MEDRMEAN",
-            "MSEC_KendallC_CORC_GEECE_MEDCMEAN",
-            "MSEC_KendallC_CORC_GEECE_MEDCMEAN",
+            "MSER_KendallR_CORR_FEMR",
+            "MSER_KendallR_CORR_FEMR",
+            "MSEC_KendallC_CORC_FEMC",
+            "MSEC_KendallC_CORC_FEMC",
+            "MSER_KendallR_CORR_FEMR_MEDRMEAN",
+            "MSER_KendallR_CORR_FEMR_MEDRMEAN",
+            "MSEC_KendallC_CORC_FEMC_MEDCMEAN",
+            "MSEC_KendallC_CORC_FEMC_MEDCMEAN",
 */
             "EUCR",
             "EUCR",
@@ -350,8 +350,8 @@ public class InterPolateNulls {
             "KENDALL",
             "BINARY",
             "BINARY",
-            "GEE",
-            "GEE",
+            "FEM",
+            "FEM",
 
             "LARS",
             "LARS",

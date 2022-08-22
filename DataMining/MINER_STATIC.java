@@ -63,20 +63,20 @@ public final class MINER_STATIC {
             "KENDALLR",//6
             "LARSRE_inter",//7
             "LARSRE",//8
-            "GEERE_inter",//9
-            "GEERE",//10
+            "FEMR_inter",//9
+            "FEMR",//10
             "MSER_LARSRE_inter",//11
             "MADR_LARSRE_inter",//12
             "KENDALLR_LARSRE_inter",//13
             "MSER_LARSRE",//14
             "MADR_LARSRE",//15
             "KENDALLR_LARSRE",//16
-            "MSER_GEERE_inter",//17
-            "MADR_GEERE_inter",//18
-            "KENDALLR_GEERE_inter",//19
-            "MSER_GEERE",//20
-            "MADR_GEERE",//21
-            "KENDALLR_GEERE",//22
+            "MSER_FEMR_inter",//17
+            "MADR_FEMR_inter",//18
+            "KENDALLR_FEMR_inter",//19
+            "MSER_FEMR",//20
+            "MADR_FEMR",//21
+            "KENDALLR_FEMR",//22
             "MSE_inter",//23
             "MSE",//24  SINGLE
 
@@ -84,8 +84,8 @@ public final class MINER_STATIC {
             "MSEC",//26   SINGLE
             "MSEC_LARSRE_inter",//27
             "MSEC_LARSRE",//28
-            "MSEC_GEERE_inter",//29
-            "MSEC_GEERE",//30
+            "MSEC_FEMR_inter",//29
+            "MSEC_FEMR",//30
 
             "MSERnonull_noninvert",//31
             "MSEnonull_noninvert",//32
@@ -110,35 +110,35 @@ public final class MINER_STATIC {
 
             "LARSCE_inter",//48
             "LARSCE",//49
-            "GEECE_inter",//50
-            "GEECE",//51
+            "FEMC_inter",//50
+            "FEMC",//51
             "MSER_LARSCE_inter",//52
             "MADR_LARSCE_inter",//53
             "KENDALLR_LARSCE_inter",//54
             "MSER_LARSCE",//55
             "MADR_LARSCE",//56
             "KENDALLR_LARSCE",//57
-            "MSER_GEECE_inter",//58
-            "MADR_GEECE_inter",//59
-            "KENDALLR_GEECE_inter",//60
-            "MSER_GEECE",//61
-            "MADR_GEECE",//62
-            "KENDALLR_GEECE",//63
+            "MSER_FEMC_inter",//58
+            "MADR_FEMC_inter",//59
+            "KENDALLR_FEMC_inter",//60
+            "MSER_FEMC",//61
+            "MADR_FEMC",//62
+            "KENDALLR_FEMC",//63
 
             "MSEC_LARSCE_inter",//64
             "MSEC_LARSCE",//65
-            "MSEC_GEECE_inter",//66
-            "MSEC_GEECE",//67
+            "MSEC_FEMC_inter",//66
+            "MSEC_FEMC",//67
 
             "MSE_LARSRE_inter",//68
             "MSE_LARSRE",//69
-            "MSE_GEERE_inter",//70
-            "MSE_GEERE",//71
+            "MSE_FEMR_inter",//70
+            "MSE_FEMR",//71
 
             "MSE_LARSCE_inter",//72
             "MSE_LARSCE",//73
-            "MSE_GEECE_inter",//74
-            "MSE_GEECE",//75
+            "MSE_FEMC_inter",//74
+            "MSE_FEMC",//75
 
             "MSE_KENDALLR",//76
             "MSER_KENDALLR",//77
@@ -155,13 +155,13 @@ public final class MINER_STATIC {
             "MSEC_KENDALLR_CORC",//86
             "KENDALLR_CORR",//87
             "KENDALLR_CORC",//88
-            "MSER_KENDALLR_CORR_GEERE",//89
-            "MSEC_KENDALLR_CORC_GEECE",//90
+            "MSER_KENDALLR_CORR_FEMR",//89
+            "MSEC_KENDALLR_CORC_FEMC",//90
 
-            "MSE_KENDALLR_GEERE",//91
-            "MSE_KENDALLR_GEECE",//92
-            "MSER_KENDALLR_GEERE",//93
-            "MSEC_KENDALLR_GEECE",//94
+            "MSE_KENDALLR_FEMR",//91
+            "MSE_KENDALLR_FEMC",//92
+            "MSER_KENDALLR_FEMR",//93
+            "MSEC_KENDALLR_FEMC",//94
 
             "MSE_KENDALLR_LARSRE",//95
             "MSE_KENDALLR_LARSCE",//96
@@ -171,8 +171,8 @@ public final class MINER_STATIC {
             "MSE_KENDALLR_CORR",//99
             "MSE_KENDALLR_CORC",//100
 
-            "MSE_KENDALLR_CORR_GEERE",//101
-            "MSE_KENDALLR_CORC_GEECE",//102
+            "MSE_KENDALLR_CORR_FEMR",//101
+            "MSE_KENDALLR_CORC_FEMC",//102
 
             "MSE_KENDALLR_CORR_LARSRE",//103
             "MSE_KENDALLR_CORC_LARSCE",//104
@@ -188,13 +188,13 @@ public final class MINER_STATIC {
             "MSEC_KENDALLR_CORC_inter",//112
             "KENDALLR_CORR_inter",//113
             "KENDALLR_CORC_inter",//114
-            "MSER_KENDALLR_CORR_GEERE_inter",//115
-            "MSEC_KENDALLR_CORC_GEECE_inter",//116
+            "MSER_KENDALLR_CORR_FEMR_inter",//115
+            "MSEC_KENDALLR_CORC_FEMC_inter",//116
 
-            "MSE_KENDALLR_GEERE_inter",//117
-            "MSE_KENDALLR_GEECE_inter",//118
-            "MSER_KENDALLR_GEERE_inter",//119
-            "MSEC_KENDALLR_GEECE_inter",//120
+            "MSE_KENDALLR_FEMR_inter",//117
+            "MSE_KENDALLR_FEMC_inter",//118
+            "MSER_KENDALLR_FEMR_inter",//119
+            "MSEC_KENDALLR_FEMC_inter",//120
 
             "MSE_KENDALLR_LARSRE_inter",//121
             "MSE_KENDALLR_LARSCE_inter",//122
@@ -204,8 +204,8 @@ public final class MINER_STATIC {
             "MSE_KENDALLR_CORR_inter",//125
             "MSE_KENDALLR_CORC_inter",//126
 
-            "MSE_KENDALLR_CORR_GEERE_inter",//127
-            "MSE_KENDALLR_CORC_GEECE_inter",//128
+            "MSE_KENDALLR_CORR_FEMR_inter",//127
+            "MSE_KENDALLR_CORC_FEMC_inter",//128
 
             "MSE_KENDALLR_CORR_LARSRE_inter",//129
             "MSE_KENDALLR_CORC_LARSCE_inter",//130
@@ -228,8 +228,8 @@ public final class MINER_STATIC {
             "MSEC_KENDALLR_EUCC",//143
             "KENDALLR_EUCR",//144
             "KENDALLR_EUCC",//145
-            "MSER_KENDALLR_EUCR_GEERE",//146
-            "MSEC_KENDALLR_EUCC_GEECE",//147
+            "MSER_KENDALLR_EUCR_FEMR",//146
+            "MSEC_KENDALLR_EUCC_FEMC",//147
 
             "EUCR_inter",//148
             "EUCC_inter",//149
@@ -242,40 +242,40 @@ public final class MINER_STATIC {
             "MSEC_KENDALLR_EUCC_inter",//155
             "KENDALLR_EUCR_inter",//156
             "KENDALLR_EUCC_inter",//157
-            "MSER_KENDALLR_EUCR_GEERE_inter",//158
-            "MSEC_KENDALLR_EUCC_GEECE_inter",//159
+            "MSER_KENDALLR_EUCR_FEMR_inter",//158
+            "MSEC_KENDALLR_EUCC_FEMC_inter",//159
 
-            "MSEC_KENDALLC_GEECE",//160
-            "MSEC_KENDALLC_GEECE_inter",//161
+            "MSEC_KENDALLC_FEMC",//160
+            "MSEC_KENDALLC_FEMC_inter",//161
 
-            "KENDALLC_GEECE",//162
-            "KENDALLC_GEECE_inter",//163
+            "KENDALLC_FEMC",//162
+            "KENDALLC_FEMC_inter",//163
 
             "KENDALLC_LARSCE",//164
             "KENDALLC_LARSCE_inter",//165
             "feat",//166
             "featnonull",//167
-            "MSEC_KENDALLC_GEECE_feat",//168
-            "MSER_KENDALLR_GEERE_feat",//169
-            "MSER_GEERE_feat",//170
+            "MSEC_KENDALLC_FEMC_feat",//168
+            "MSER_KENDALLR_FEMR_feat",//169
+            "MSER_FEMR_feat",//170
 
-            "MSEC_KENDALLC_GEECE_inter_feat",//171
-            "MSER_KENDALLR_GEERE_inter_feat",//172
-            "MSER_GEERE_inter_feat",//173
+            "MSEC_KENDALLC_FEMC_inter_feat",//171
+            "MSER_KENDALLR_FEMR_inter_feat",//172
+            "MSER_FEMR_inter_feat",//173
 
-            "MSEC_KENDALLC_GEERE",//174
-            "MSEC_KENDALLC_GEECE_CORR",//175
+            "MSEC_KENDALLC_FEMR",//174
+            "MSEC_KENDALLC_FEMC_CORR",//175
 
-            "MSER_KENDALLR_GEECE",//176
-            "MSER_KENDALLR_GEERE_CORC",//177
+            "MSER_KENDALLR_FEMC",//176
+            "MSER_KENDALLR_FEMR_CORC",//177
 
             "KENDALL",//178
             "KENDALLnonull",//179
-            "GEE",//180
-            "GEEnonull",//181
-            "MSE_KENDALL_GEE",//182
-            "KENDALL_GEE",//183
-            "MSE_GEE",//184
+            "FEM",//180
+            "FEMnonull",//181
+            "MSE_KENDALL_FEM",//182
+            "KENDALL_FEM",//183
+            "MSE_FEM",//184
 
             "COR",//185
             "EUC",//186
@@ -290,27 +290,27 @@ public final class MINER_STATIC {
             "LARSnonull",//194
             "LARSREnonull",//195
             "LARSCEnonull",//196
-            "GEEREnonull",//197
-            "GEECEnonull",//198
+            "FEMRnonull",//197
+            "FEMCnonull",//198
 
-            "MSECnonull_KENDALLC_GEECE",//199
-            "MSECnonull_KENDALLCnonull_GEECE",//200
-            "MSECnonull_KENDALLC_GEECEnonull",//201
-            "MSECnonull_KENDALLCnonull_GEECEnonull",//202
-            "MSEC_KENDALLCnonull_GEECE",//203
-            "MSEC_KENDALLC_GEECEnonull",//204
-            "MSEC_KENDALLCnonull_GEECEnonull",//205
+            "MSECnonull_KENDALLC_FEMC",//199
+            "MSECnonull_KENDALLCnonull_FEMC",//200
+            "MSECnonull_KENDALLC_FEMCnonull",//201
+            "MSECnonull_KENDALLCnonull_FEMCnonull",//202
+            "MSEC_KENDALLCnonull_FEMC",//203
+            "MSEC_KENDALLC_FEMCnonull",//204
+            "MSEC_KENDALLCnonull_FEMCnonull",//205
 
-            "KENDALL_GEE_feat",//206
-            "GEECE_feat",//207
-            "GEE_feat",//208
+            "KENDALL_FEM_feat",//206
+            "FEMC_feat",//207
+            "FEM_feat",//208
 
-            "MSEC_KENDALLC_GEECE_MAXTF",//209
-            "MSEC_KENDALLC_GEECE_inter_MAXTF",//210
-            "MSEC_KENDALLC_GEECE_feat_MAXTF",//211
-            "MSEC_KENDALLC_GEECE_inter_feat_MAXTF",//212
+            "MSEC_KENDALLC_FEMC_MAXTF",//209
+            "MSEC_KENDALLC_FEMC_inter_MAXTF",//210
+            "MSEC_KENDALLC_FEMC_feat_MAXTF",//211
+            "MSEC_KENDALLC_FEMC_inter_feat_MAXTF",//212
             "MAXTF", //213
-            "KENDALL_GEE_MAXTF", //214
+            "KENDALL_FEM_MAXTF", //214
             "Binarynonull", //215
             "Binary", //216
             "BinaryRnonull", //217
@@ -323,11 +323,11 @@ public final class MINER_STATIC {
             "SPEARMANR", //223
             "SPEARMAN",   //224
 
-            "KENDALL_SPEARMAN_GEE",//225
-            "KENDALLC_SPEARMANC_GEECE",//226
-            "MSEC_KENDALLC_SPEARMANC_GEECE",//227
-            "KENDALLR_SPEARMANR_GEERE",//228
-            "MSE_KENDALL_SPEARMAN_GEE",//229
+            "KENDALL_SPEARMAN_FEM",//225
+            "KENDALLC_SPEARMANC_FEMC",//226
+            "MSEC_KENDALLC_SPEARMANC_FEMC",//227
+            "KENDALLR_SPEARMANR_FEMR",//228
+            "MSE_KENDALL_SPEARMAN_FEM",//229
 
             "SPEARMANC_nonull", //230
             "SPEARMANR_nonull", //231
@@ -335,8 +335,8 @@ public final class MINER_STATIC {
 
     };
     public final static String[] notnonull = {"nonull"};
-    public final static String[] notnonullGEEREGEECE = {"nonull", "GEERE", "GEECE"};
-    //public final static String[] notnonullGEEREGEECE = {"GEEnonull","GEEREnonull","GEECEnonull", "GEERE", "GEECE"};
+    public final static String[] notnonullFEMRFEMC = {"nonull", "FEMR", "FEMC"};
+    //public final static String[] notnonullFEMRFEMC = {"FEMnonull","FEMRnonull","FEMCnonull", "FEMR", "FEMC"};
     public final static String[] notnonullLARSRELARSCE = {"nonull", "LARSRE", "LARSCE"};
     //public final static String[] notnonullLARSRELARSCE = {"LARSnonull","LASRCEnonull","LASRREnonull", "LARSRE", "LARSCE"};
     public final static String[] notnonullCORRCORC = {"nonull", "CORR", "CORC"};
@@ -421,7 +421,7 @@ public final class MINER_STATIC {
     public final static int[] MEANCritAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "MEAN"), 1);
 
     public final static String[] notMEDCMEANoMEDRMEAN = {"MEDCMEAN", "MEDRMEAN"};
-    public final static int[] MEANtotalCrit = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "MEAN", notMEDCMEANoMEDRMEAN), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "GEE", -2), 1);
+    public final static int[] MEANtotalCrit = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "MEAN", notMEDCMEANoMEDRMEAN), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "FEM", -2), 1);
 
     //block mean/median with null
     public final static int[] MEANRCrit = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "MEANR", notnonull), 1);//{42, 43, 44};
@@ -453,20 +453,20 @@ public final class MINER_STATIC {
     public final static int[] LARSTotalCritAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "LARS"), 1);
     public final static int[] LARSRECritAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "LARSRE"), 1);
     public final static int[] LARSCECritAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "LARSCE"), 1);
-    public final static int[] LARSCritAll = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "LARS", notLARSREnoLARSCE), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "GEE", -2), 1);
-    public final static int[] LARStotalCrit = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "LARS", notnonullLARSRELARSCE), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "GEE", -2), 1);
+    public final static int[] LARSCritAll = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "LARS", notLARSREnoLARSCE), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "FEM", -2), 1);
+    public final static int[] LARStotalCrit = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "LARS", notnonullLARSRELARSCE), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "FEM", -2), 1);
     public final static int[] LARSRECrit = stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "LARSRE", -2), 1);
     public final static int[] LARSCECrit = stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "LARSCE", -2), 1);
 
-    //GEERE criteria
-    public final static String[] notGEEREnoGEECE = {"GEERE", "GEECE"};
-    public final static int[] GEETotalCritAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "GEE"), 1);
-    public final static int[] GEERECritAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "GEERE"), 1);
-    public final static int[] GEECECritAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "GEECE"), 1);
-    public final static int[] GEECritAll = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "GEE", notGEEREnoGEECE), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "GEE", -2), 1);
-    public final static int[] GEEtotalCrit = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "GEE", notnonullGEEREGEECE), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "GEE", -2), 1);
-    public final static int[] GEERECrit = stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "GEERE", -2), 1);
-    public final static int[] GEECECrit = stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "GEECE", -2), 1);
+    //FEMR criteria
+    public final static String[] notFEMRnoFEMC = {"FEMR", "FEMC"};
+    public final static int[] FEMTotalCritAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "FEM"), 1);
+    public final static int[] FEMRCritAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "FEMR"), 1);
+    public final static int[] FEMCCritAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "FEMC"), 1);
+    public final static int[] FEMCritAll = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "FEM", notFEMRnoFEMC), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "FEM", -2), 1);
+    public final static int[] FEMtotalCrit = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "FEM", notnonullFEMRFEMC), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "FEM", -2), 1);
+    public final static int[] FEMRCrit = stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "FEMR", -2), 1);
+    public final static int[] FEMCCrit = stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "FEMC", -2), 1);
 
 
     //Pearson
@@ -474,8 +474,8 @@ public final class MINER_STATIC {
     public final static int[] CORTotalCritAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "COR"), 1);
     public final static int[] CORRCritAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "CORR"), 1);
     public final static int[] CORCCritAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "CORC"), 1);
-    public final static int[] CORCritAll = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "COR", notCORRnoCORC), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "GEE", -2), 1);
-    public final static int[] CORtotalCrit = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "COR", notnonullCORRCORC), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "GEE", -2), 1);
+    public final static int[] CORCritAll = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "COR", notCORRnoCORC), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "FEM", -2), 1);
+    public final static int[] CORtotalCrit = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "COR", notnonullCORRCORC), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "FEM", -2), 1);
     public final static int[] CORRCrit = stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "CORR", -2), 1);
     public final static int[] CORCCrit = stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "CORC", -2), 1);
 
@@ -485,8 +485,8 @@ public final class MINER_STATIC {
     public final static int[] EUCCritTotalAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "EUC"), 1);
     public final static int[] EUCRCritAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "EUCR"), 1);
     public final static int[] EUCCCritAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "EUCC"), 1);
-    public final static int[] EUCCritAll = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "EUC", notEUCRnoEUCC), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "GEE", -2), 1);
-    public final static int[] EUCtotalCrit = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "EUC", notnonullEUCREUCC), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "GEE", -2), 1);
+    public final static int[] EUCCritAll = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "EUC", notEUCRnoEUCC), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "FEM", -2), 1);
+    public final static int[] EUCtotalCrit = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "EUC", notnonullEUCREUCC), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "FEM", -2), 1);
     public final static int[] EUCRCrit = stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "EUCR", -2), 1);
     public final static int[] EUCCCrit = stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "EUCC", -2), 1);
 
@@ -495,8 +495,8 @@ public final class MINER_STATIC {
     public final static int[] SPEARMANCritTotalAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "SPEARMAN"), 1);
     public final static int[] SPEARMANRCritAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "SPEARMANR"), 1);
     public final static int[] SPEARMANCCritAll = stat.add(StringUtil.occurIndex(CRIT_LABELS, "SPEARMANC"), 1);
-    public final static int[] SPEARMANCritAll = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "SPEARMAN", notSPEARMANRnotSPEARMANC), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "GEE", -2), 1);
-    public final static int[] SPEARMANtotalCrit = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "SPEARMAN", notnonullSPEARMANRSPEARMANC), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "GEE", -2), 1);
+    public final static int[] SPEARMANCritAll = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "SPEARMAN", notSPEARMANRnotSPEARMANC), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "FEM", -2), 1);
+    public final static int[] SPEARMANtotalCrit = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "SPEARMAN", notnonullSPEARMANRSPEARMANC), 1);//stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "FEM", -2), 1);
     //public final static int[] SPEARMANRCrit = stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "SPEARMANR", -2), 1);
     //public final static int[] SPEARMANCCrit = stat.add(StringUtil.locateIndexOf(CRIT_LABELS, "SPEARMANC", -2), 1);
 
@@ -511,20 +511,20 @@ public final class MINER_STATIC {
     //        StringUtil.occurIndexButNot(CRIT_LABELS, "MSE", notMSERnotMSEC), 1), MEANCritAll);
 
     public final static int[] totalCrit = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(
-            MSEtotalCrit, LARStotalCrit), GEEtotalCrit), CORtotalCrit), EUCtotalCrit), SPEARMANtotalCrit), KENDALLtotalCrit), MEANCrit);//MADCrit
+            MSEtotalCrit, LARStotalCrit), FEMtotalCrit), CORtotalCrit), EUCtotalCrit), SPEARMANtotalCrit), KENDALLtotalCrit), MEANCrit);//MADCrit
     public final static int[] CritAll = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(
-            MSECritAll, LARSCritAll), GEECritAll), CORCritAll), EUCCritAll), SPEARMANCritAll), KENDALLCritAll), MEANCritAll);
+            MSECritAll, LARSCritAll), FEMCritAll), CORCritAll), EUCCritAll), SPEARMANCritAll), KENDALLCritAll), MEANCritAll);
 
     public final static int[] rowCrit = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(
-            MSERCrit, MADRCrit), LARSRECrit), GEERECrit), CORRCrit), EUCRCrit), SPEARMANRCrit), KENDALLRCrit), MEANRCrit);
+            MSERCrit, MADRCrit), LARSRECrit), FEMRCrit), CORRCrit), EUCRCrit), SPEARMANRCrit), KENDALLRCrit), MEANRCrit);
     public final static int[] rowCritAll = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(
-            MSERCritAll, MADRCritAll), LARSRECritAll), GEERECritAll), CORRCritAll), EUCRCritAll), SPEARMANRCritAll), KENDALLRCritAll), MEANRCritAll);
+            MSERCritAll, MADRCritAll), LARSRECritAll), FEMRCritAll), CORRCritAll), EUCRCritAll), SPEARMANRCritAll), KENDALLRCritAll), MEANRCritAll);
 
     public final static int[] colCrit = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(
-            MSECCrit, MADRCrit), LARSCECrit), GEECECrit), CORCCrit), EUCCCrit), SPEARMANCCrit), KENDALLCCrit), MEANCCrit);
+            MSECCrit, MADRCrit), LARSCECrit), FEMCCrit), CORCCrit), EUCCCrit), SPEARMANCCrit), KENDALLCCrit), MEANCCrit);
 
     public final static int[] colCritAll = MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(MoreArray.add(
-            MSECCritAll, MADRCritAll), LARSCECritAll), GEECECritAll), CORCCritAll), EUCCCritAll), SPEARMANCCritAll), KENDALLCCritAll), MEANCCritAll);
+            MSECCritAll, MADRCritAll), LARSCECritAll), FEMCCritAll), CORCCritAll), EUCCCritAll), SPEARMANCCritAll), KENDALLCCritAll), MEANCCritAll);
 
     public final static int[] isNoninvertCrit = stat.add(StringUtil.occurIndex(CRIT_LABELS, "noninvert"), 1);
 
