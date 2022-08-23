@@ -39,7 +39,7 @@ export R_HOME=path/to/R/4.2.1/lib64/R/
 ```
 
 
-## Running
+## Running the MAK bicluster discovery pipeline
 1. Input data:
 - Simple TSV file(s) with row and column labels
 (with shared identifier axes if multiple data layers)
