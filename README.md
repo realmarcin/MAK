@@ -1,10 +1,14 @@
 # MAK
 Massive Associative K-biclustering
 
+
 ## Installation
+Requirements:
+- Java (tested with 1.8)
+- R (tested with 2.15.1)
 
 Obtain these JAR files:
-- MAK/MAK_build/MAK.jar
+- From this repo: MAK/MAK_build/MAK.jar
 - JRI.jar (the easiest way is by installing the rJava R package, e.g. 
 ```
 install.packages("rJava")
@@ -13,6 +17,20 @@ install.packages("rJava")
 ```
 export CLASSPATH=$CLASSPATH:path/to/JRI.jar:path/to/MAK.jar
 ```
+The MAK.jar is found in the MAK_build subdirectory of this repository. Alternatively, you can build MAK.jar from scratch by running
+```
+source antbuild_git.sh
+```
+in the MAK_build subdirectory of this repo.
+- Add JRI shared library files to LD_LIBRARY PATH variable, e.g. on linux bash:
+```
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:path/to/R-4.2.1/library/rJava/jri
+```
+- Check/set your R_HOME variable, e.g. on linux bash:
+```
+export R_HOME=path/to/R/4.2.1/lib64/R/
+```
+
 
 ## Running
 1. Input data:
