@@ -25,7 +25,7 @@ Once rJava is installed you can find the location of the JRI.jar file by:
 ```
 system.file("jri",package="rJava")
 ```
-- Add these JAR files to your system CLASSPATH variable, e.g on linux bash:
+- Add the paths to these JAR files to your system CLASSPATH variable, e.g on linux bash:
 ```
 export CLASSPATH=$CLASSPATH:path/to/JRI.jar:path/to/MAK.jar
 ```
