@@ -56,13 +56,18 @@ tar zxf MAK_example.tar.gz
 cd MAK_example
 source run.sh
 ```
+4. You can perform different searches by changing the value of the INIT_BLOCKS field in MAK_parameters.txt. The indices are 1-offset and based on the row and column labels in the yeast_cmonkey.txt input file. The format of the value is:
+```
+{a,b,c/x,y,z
+```
+where a,b,c,x,y,z are integers in the range of the dimensions of the input matrix.
 
 ## Running the MAK HPC bicluster discovery pipeline
 1. Input data:
 - Simple TSV file(s) with row and column labels
 (with shared identifier axes if multiple data layers)
 
-2. Edit fields in MAK parameter file:
+2. Edit fields in MAKflow input parameter file:
 - Input TSV data path(s) (up to four)
 - Bicluster coherence criterion (column = MSEC_KENDALLC_FEM)
 - null size boundaries (y=(2,200), x=(2,100))
