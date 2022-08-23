@@ -38,8 +38,20 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:path/to/R-2.15.1/library/rJava/jri
 export R_HOME=path/to/R/2.15.1/lib64/R/
 ```
 
+## Running a single bicluster search using precomputed null distributions
+1. Download the MAK yeast example tar ball:
+https://github.com/realmarcin/MAK_results/raw/master/results/yeast/input/example/MAK_example.tar.gz
+2. Place this tar ball in the top level MAK repo directory and extract it:
+```
+tar zxf MAK_example.tar.gz
+```
+3. Run a single MAK trajectory:
+```
+cd MAK_example
+source run.sh
+```
 
-## Running the MAK bicluster discovery pipeline
+## Running the HPC MAK bicluster discovery pipeline
 1. Input data:
 - Simple TSV file(s) with row and column labels
 (with shared identifier axes if multiple data layers)
