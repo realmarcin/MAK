@@ -41,7 +41,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:path/to/JRI.jar
 ```
 - Check/set your R_HOME variable, e.g. on linux bash:
 ```
-export R_HOME=path/to/R/2.15.1/lib64/R/
+export R_HOME=path/to/R/lib64/R/
 ```
 
 ## Running a single bicluster search using precomputed null distributions
