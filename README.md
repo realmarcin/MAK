@@ -1,6 +1,9 @@
 # MAK
 Massive Associative K-biclustering
 
+Index
+https://github.com/realmarcin/MAK/blob/master/README.md#installation
+https://github.com/realmarcin/MAK/blob/master/README.md#running-a-single-bicluster-search-using-precomputed-null-distributions
 
 ## Installation
 Requirements:
