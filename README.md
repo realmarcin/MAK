@@ -1,13 +1,17 @@
 # MAK
 Massive Associative K-biclustering
 
-##Installation
+## Installation
 
 Obtain these JAR files:
 - MAK/MAK_build/MAK.jar
 - JRI.jar (the easiest way is by installing the rJava R package, e.g. 
 ```
 install.packages("rJava")
+```
+- Add these JAR files to your system CLASSPATH variable, e.g on linux bash:
+```
+export CLASSPATH=$CLASSPATH:path/to/JRI.jar:path/to/MAK.jar
 ```
 
 ## Running
