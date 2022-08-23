@@ -1,7 +1,16 @@
 # MAK
 Massive Associative K-biclustering
 
+##Installation
 
+Obtain these JAR files:
+- MAK/MAK_build/MAK.jar
+- JRI.jar (the easiest way is by installing the rJava R package, e.g. 
+```
+install.packages("rJava")
+```
+
+## Running
 1. Input data:
 - Simple TSV file(s) with row and column labels
 (with shared identifier axes if multiple data layers)
