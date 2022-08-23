@@ -1,13 +1,12 @@
 # MAK
 Massive Associative K-biclustering
 
-Index
-
 [Installation](https://github.com/realmarcin/MAK/blob/master/README.md#installation)
 
-[yeast column bicluster single CPU example (precomputed nulls)](https://github.com/realmarcin/MAK/blob/master/README.md#running-a-single-bicluster-search-using-precomputed-null-distributions)
+[Yeast column bicluster single CPU example (precomputed nulls)](https://github.com/realmarcin/MAK/blob/master/README.md#running-a-single-bicluster-search-using-precomputed-null-distributions)
 
 [MAK HPC bicluster discovery pipeline](https://github.com/realmarcin/MAK/blob/master/README.md#running-the-hpc-mak-bicluster-discovery-pipeline)
+
 
 ## Installation
 Requirements:
