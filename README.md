@@ -14,7 +14,7 @@ MAK_build/MAK.jar
 ```
 or build from scratch by
 ```
-cd MAK_build
+cd MAK_build/
 source antbuild_git.sh
 ```
 - JRI.jar (the easiest way is by installing the rJava R package, e.g. 
@@ -29,11 +29,6 @@ system.file("jri",package="rJava")
 ```
 export CLASSPATH=$CLASSPATH:path/to/JRI.jar:path/to/MAK.jar
 ```
-The MAK.jar is found in the MAK_build subdirectory of this repository. Alternatively, you can build MAK.jar from scratch by running
-```
-source antbuild_git.sh
-```
-in the MAK_build subdirectory of this repo.
 - Add JRI shared library files to LD_LIBRARY PATH variable, e.g. on linux bash:
 ```
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:path/to/R-4.2.1/library/rJava/jri
