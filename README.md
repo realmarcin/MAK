@@ -8,10 +8,22 @@ Requirements:
 - R (tested with 2.15.1)
 
 Obtain these JAR files:
-- From this repo: MAK/MAK_build/MAK.jar
+- Found in this repo
+```
+MAK_build/MAK.jar
+```
+or build from scratch by
+```
+cd MAK_build
+source antbuild_git.sh
+```
 - JRI.jar (the easiest way is by installing the rJava R package, e.g. 
 ```
 install.packages("rJava")
+```
+Once rJava is installed you can find the location of the JRI.jar file by:
+```
+system.file("jri",package="rJava")
 ```
 - Add these JAR files to your system CLASSPATH variable, e.g on linux bash:
 ```
