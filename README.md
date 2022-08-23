@@ -56,9 +56,9 @@ tar zxf MAK_example.tar.gz
 cd MAK_example
 source run.sh
 ```
-4. You can perform different searches by changing the value of the INIT_BLOCKS field in MAK_parameters.txt. The indices are 1-offset and based on the row and column labels in the yeast_cmonkey.txt input file. The format of the value is:
+4. You can perform searches for any starting point in this dataset by changing the value of the INIT_BLOCKS field in the  MAK_parameters.txt parameter input file. The indices are 1-offset and based on the row and column labels in the yeast_cmonkey.txt input file. The format of the value is:
 ```
-{a,b,c/x,y,z
+{a,b,c/x,y,z}
 ```
 where a,b,c,x,y,z are integers in the range of the dimensions of the input matrix.
 
