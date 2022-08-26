@@ -13,12 +13,11 @@ Requirements:
 - Java (tested with version 11.0.16)
 - R (tested with 2.15.1)
 
-Obtain these JAR files:
-- Found in this repo
+- Use the MAK.jar file found in this repo
 ```
 MAK_build/MAK.jar
 ```
-or build from scratch by
+or build it from scratch by
 ```
 cd MAK_build/
 source antbuild_git.sh
