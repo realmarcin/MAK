@@ -10,8 +10,8 @@ Massive Associative K-biclustering
 
 ## Installation
 Requirements:
-- Java (tested with version 11.0.16)
-- R (tested with 2.15.1)
+-- Java (tested with version 11.0.16)
+-- R (tested with 2.15.1)
 
 - Use the MAK.jar file found in this repo
 ```
