@@ -27,7 +27,7 @@ source antbuild_git.sh
 ```
 install.packages("rJava")
 ```
-Once rJava is installed you can find the location of the JRI.jar file by:
+Once rJava is installed you can find the location of the JRI.jar file using this command in R:
 ```
 system.file("jri",package="rJava")
 ```
