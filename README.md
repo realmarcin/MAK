@@ -23,7 +23,7 @@ or build from scratch by
 cd MAK_build/
 source antbuild_git.sh
 ```
-- JRI.jar (the easiest way is by installing the rJava R package, e.g. 
+- Install the Java to R Interface (JRI) -- the easiest way is by installing the rJava R package, e.g. 
 ```
 install.packages("rJava")
 ```
