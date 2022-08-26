@@ -33,7 +33,7 @@ system.file("jri",package="rJava")
 ```
 - Add the paths to these JAR files to your system CLASSPATH variable, e.g on linux bash:
 ```
-export CLASSPATH=$CLASSPATH:path/to/JRI.jar:path/to/MAK.jar
+export CLASSPATH=$CLASSPATH:path/to/JRI/JRI.jar:path/to/MAK.jar
 ```
 - Add JRI shared library files to LD_LIBRARY PATH variable, e.g. on linux bash:
 ```
