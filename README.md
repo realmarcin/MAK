@@ -10,7 +10,7 @@ Massive Associative K-biclustering
 
 ## Installation
 Requirements:
-- Java (tested with 1.8)
+- Java (tested with version 11.0.16)
 - R (tested with 2.15.1)
 
 Obtain these JAR files:
