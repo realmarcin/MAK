@@ -37,7 +37,7 @@ export CLASSPATH=$CLASSPATH:path/to/JRI.jar:path/to/MAK.jar
 ```
 - Add JRI shared library files to LD_LIBRARY PATH variable, e.g. on linux bash:
 ```
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:path/to/JRI.jar
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:path/to/JRI/
 ```
 - Check/set your R_HOME variable, e.g. on linux bash:
 ```
