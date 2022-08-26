@@ -1,5 +1,5 @@
-# MAK
-Massive Associative K-biclustering
+# Massive Associative K-biclustering -- MAK
+
 
 [Installation](https://github.com/realmarcin/MAK/blob/master/README.md#installation)
 
