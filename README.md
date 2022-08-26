@@ -68,6 +68,7 @@ where a,b,c,x,y,z are integers in the range of the dimensions of the input matri
 (with shared identifier axes if multiple data layers)
 
 2. Edit fields in MAKflow input parameter file:
+E.g:
 - Input TSV data path(s) (up to four)
 - Bicluster coherence criterion (column = MSEC_KENDALLC_FEM)
 - null size boundaries (y=(2,200), x=(2,100))
