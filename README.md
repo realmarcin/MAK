@@ -11,7 +11,7 @@
 ## Installation
 ### Requirements:
 1. Java (tested with version 11.0.16)
-2. R (tested with 2.15.1)
+2. R (tested with 4.2.1)
 3. Java-to-R interface JRI (instructions below)
 
 ### Installation steps:
