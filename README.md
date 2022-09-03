@@ -42,13 +42,18 @@ system.file("jri",package="rJava")
 ```
 export CLASSPATH=$CLASSPATH:path/to/JRI/JRI.jar:path/to/MAK.jar
 ```
-- Add JRI shared library files to LD_LIBRARY PATH variable, e.g. on linux bash:
-```
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:path/to/JRI/
-```
 - Check/set your R_HOME variable, e.g. on linux bash:
+To find you R home dir use this R command:
 ```
-export R_HOME=path/to/R/lib64/R/
+R.home()
+```
+And use this path to set the $R_HOME environment variable:
+```
+export R_HOME=path/to/R
+```
+- Add JRI shared library files and R shared library files to LD_LIBRARY PATH variable, e.g. on linux bash:
+```
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:path/to/JRI/:$R_HOME/lib
 ```
 
 ## Running a single bicluster search using precomputed null distributions
@@ -62,6 +67,10 @@ tar zxf MAK_example.tar.gz
 ```
 cd MAK_example
 source run.sh
+```
+If you get a java library path error, you can specify this path in the java command:
+```
+java -Djava.library.path=path/to/JRI/ -Xmx2G DataMining.RunMiner -param MAK_parameters.txt -debug 0
 ```
 4. You can perform searches for any starting point in this dataset by changing the value of the INIT_BLOCKS field in the  MAK_parameters.txt parameter input file. The indices are 1-offset and based on the row and column labels in the yeast_cmonkey.txt input file. The format of the value is:
 ```
