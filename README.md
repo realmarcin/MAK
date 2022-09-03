@@ -37,7 +37,7 @@ source antbuild_git.sh
 ```
 > system.file("jri",package="rJava")
 ```
-- Add the JRI and MAK jar paths to your system CLASSPATH variable, e.g in linux bash:
+- Add the JRI and MAK JAR paths to your system CLASSPATH variable, e.g in linux bash:
 ```
 export CLASSPATH=$CLASSPATH:path/to/JRI/JRI.jar:path/to/MAK.jar
 ```
