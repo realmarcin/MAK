@@ -24,29 +24,25 @@ or build it from scratch
 cd MAK_build/
 source antbuild_git.sh
 ```
-- Install three R package dependencies ('fields' is required for the MAKflow discovery pipeline):
+- Install three R package dependencies ('fields' is required for the MAKflow discovery pipeline) with these R commands on the R command line:
 ```
-install.packages("fields")
-install.packages("amap")
-install.packages("irr")
-install.packages("rJava")
+> install.packages("fields")
+> install.packages("amap")
+> install.packages("irr")
+> install.packages("rJava")
 ```
-- Install the Java to R Interface (JRI) -- the easiest way is by installing the rJava R package, i.e.
+- Once rJava is installed you can find the location of the JRI.jar file using this R command on the R command line:
 ```
-install.packages("rJava")
+> system.file("jri",package="rJava")
 ```
-Once rJava is installed you can find the location of the JRI.jar file using this R command:
-```
-system.file("jri",package="rJava")
-```
-- Add the paths to these JAR files to your system CLASSPATH variable, e.g on linux bash:
+- Add the JRI and MAK jar paths to your system CLASSPATH variable, e.g in linux bash:
 ```
 export CLASSPATH=$CLASSPATH:path/to/JRI/JRI.jar:path/to/MAK.jar
 ```
-- Check/set your R_HOME variable, e.g. on linux bash:
-To find you R home dir use this R command:
+- Check/set your R_HOME variable, e.g. in linux bash:
+To find you R home dir use this R command on the R command line:
 ```
-R.home()
+> R.home()
 ```
 And use this path to set the $R_HOME environment variable:
 ```
