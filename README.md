@@ -11,8 +11,8 @@
 ## Installation
 ### Requirements:
 1. Java (tested with version 11.0.16)
-2. R (tested with 4.2.1)
-3. Java-to-R interface JRI (instructions below)
+2. R, compiled with --enable-R-shlib (tested with 4.2.1)
+3. Four R packages including rJava which installs JRI, the Java-to-R interface 
 
 The installation has been tested in the bash shell on Linux and Mac OS.
 
