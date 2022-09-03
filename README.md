@@ -19,7 +19,7 @@
 ```
 MAK_build/MAK.jar
 ```
-or build it from scratch by
+or build it from scratch
 ```
 cd MAK_build/
 source antbuild_git.sh
