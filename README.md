@@ -14,6 +14,8 @@
 2. R (tested with 4.2.1)
 3. Java-to-R interface JRI (instructions below)
 
+The installation has been tested in the bash shell on Linux and Mac OS.
+
 ### Installation steps:
 - Use the MAK.jar file found in this repo
 ```
@@ -48,7 +50,7 @@ And use this path to set the $R_HOME environment variable:
 ```
 export R_HOME=path/to/R
 ```
-- Add JRI shared library files and R shared library files to LD_LIBRARY PATH variable, e.g. on linux bash:
+- Add JRI shared library files and R shared library files to the LD_LIBRARY PATH variable:
 ```
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:path/to/JRI/:$R_HOME/lib
 ```
