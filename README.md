@@ -26,7 +26,7 @@ or build it from scratch
 cd MAK_build/
 source antbuild_git.sh
 ```
-- Install three R package dependencies ('fields' is required for the MAKflow discovery pipeline) with these R commands on the R command line:
+- Install R package dependencies with these R commands on the R command line:
 ```
 > install.packages("fields")
 > install.packages("amap")
