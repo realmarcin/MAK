@@ -24,9 +24,10 @@ or build it from scratch
 cd MAK_build/
 source antbuild_git.sh
 ```
-- Install three R package dependencies (required for the MAKflow discovery pipeline):
+- Install three R package dependencies ('fields' is required for the MAKflow discovery pipeline):
 ```
 install.packages("fields")
+install.packages("amap")
 install.packages("irr")
 install.packages("rJava")
 ```
