@@ -49,7 +49,7 @@ public class SelectMerged {
 
             //order by block area descending, KEY FOR NEXT STEPS
             traj = ValueBlockListMethods.sort("area", traj);
-            merged = ValueBlockListMethods.sort("area",merged);
+            merged = ValueBlockListMethods.sort("area", merged);
 
             System.out.println("1 traj " + traj.size() + "\tmerged " + merged.size());
             //originally this list is sorted by full criterion better to sort by size

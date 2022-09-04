@@ -85,6 +85,7 @@ public class AnalyzeSynthTest extends Program {
     }
 
     /**
+     *
      */
     private void start() {
         results = new ArrayList();
@@ -315,6 +316,7 @@ public class AnalyzeSynthTest extends Program {
     }
 
     /**
+     *
      */
     private void write(String outname) {
         /*String HEADER_EVAL = "criterion\ttest\tfirst ref. count\tlast ref. count\tregulon_size\t" +
@@ -338,6 +340,7 @@ public class AnalyzeSynthTest extends Program {
     }
 
     /**
+     *
      */
     private void writeMeanSD(String file_label) {
         try {

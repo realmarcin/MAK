@@ -72,6 +72,7 @@ public class MotifNetwork {
 
 
     /**
+     *
      */
     private void labelYeastNames() {
 
@@ -239,6 +240,7 @@ public class MotifNetwork {
     }
 
     /**
+     *
      */
     private void makeEdgesCount() {
         System.out.println("makeEdgesCount ");

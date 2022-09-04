@@ -874,12 +874,12 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                 String rawg = null;
                 try {
                     rawg = first[1].substring(0, first[1].indexOf("]"));
-                    System.out.println("rawg 1 "+rawg);
+                    System.out.println("rawg 1 " + rawg);
                 } catch (Exception e) {
                     data = in.readLine();
                     first = data.split("\\[");
                     rawg = first[1].substring(0, first[1].indexOf("]"));
-                    System.out.println("rawg 2 "+rawg);
+                    System.out.println("rawg 2 " + rawg);
                     //e.printStackTrace();
                 }
                 String rawe = first[2].substring(0, first[2].indexOf("]"));
@@ -1060,14 +1060,14 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                 //data = in.readLine();
                 if (debug)
                     System.out.println("top2 " + count + "\t\t" + data);
-                if(data.indexOf("] ") == -1) {
-                    System.out.println("skipping "+data);
+                if (data.indexOf("] ") == -1) {
+                    System.out.println("skipping " + data);
                     data = in.readLine();
                 }
                 String[] all_genes = null;
                 while (data != null && data.length() > 0) {
                     int indexbra = data.indexOf("]");
-                    data = data.substring(indexbra+2);
+                    data = data.substring(indexbra + 2);
 
                     data = data.trim().replaceAll(" +", " ");
                     String[] genes = data.split(" ");
@@ -1089,14 +1089,14 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                     if (all_genes == null)
                         all_genes = MoreArray.copy(genes);
                     else {
-                        System.out.println("length "+all_genes.length +"\t"+ genes.length);
+                        System.out.println("length " + all_genes.length + "\t" + genes.length);
                         String[] all_genes2 = new String[all_genes.length + genes.length];
                         System.arraycopy(all_genes, 0, all_genes2, 0, all_genes.length);
                         System.arraycopy(genes, 0, all_genes2, all_genes.length, genes.length);
 
-                        System.out.println("length 2 ends "+all_genes2.length+"\t"+all_genes2[all_genes.length]+"\t"+all_genes2[all_genes.length+ genes.length-1]);
-                        System.out.println("length 2 ends "+all_genes[all_genes.length-1]+"\t"+genes[genes.length-1]);
-                        System.out.println("length 2 starts "+all_genes[0]+"\t"+genes[0]+"\t"+all_genes2[0]);
+                        System.out.println("length 2 ends " + all_genes2.length + "\t" + all_genes2[all_genes.length] + "\t" + all_genes2[all_genes.length + genes.length - 1]);
+                        System.out.println("length 2 ends " + all_genes[all_genes.length - 1] + "\t" + genes[genes.length - 1]);
+                        System.out.println("length 2 starts " + all_genes[0] + "\t" + genes[0] + "\t" + all_genes2[0]);
                         all_genes = MoreArray.copy(all_genes2);
                         //String[] both = Arrays.copyOf(first, first.length + second.length);
                         //System.arraycopy(second, 0, both, first.length, second.length);
@@ -1122,7 +1122,7 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                 String[] all_exps = null;
                 while (data != null && data.length() > 0) {
                     int indexbra = data.indexOf("]");
-                    data = data.substring(indexbra+2);
+                    data = data.substring(indexbra + 2);
 
                     data = data.trim().replaceAll(" +", " ");
                     String[] exps = data.split(" ");
@@ -1144,15 +1144,15 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                     if (all_exps == null)
                         all_exps = MoreArray.copy(exps);
                     else {
-                        System.out.println("length "+all_exps.length +"\t"+ exps.length);
+                        System.out.println("length " + all_exps.length + "\t" + exps.length);
 
                         String[] all_exps2 = new String[all_exps.length + exps.length];
                         System.arraycopy(all_exps, 0, all_exps2, 0, all_exps.length);
                         System.arraycopy(exps, 0, all_exps2, all_exps.length, exps.length);
 
-                        System.out.println("length 2 ends "+all_exps2.length+"\t"+all_exps2[all_exps.length]+"\t"+all_exps2[all_exps.length+ exps.length-1]);
-                        System.out.println("length 2 ends "+all_exps[all_exps.length-1]+"\t"+exps[exps.length-1]);
-                        System.out.println("length 2 starts "+all_exps[0]+"\t"+exps[0]+"\t"+all_exps2[0]);
+                        System.out.println("length 2 ends " + all_exps2.length + "\t" + all_exps2[all_exps.length] + "\t" + all_exps2[all_exps.length + exps.length - 1]);
+                        System.out.println("length 2 ends " + all_exps[all_exps.length - 1] + "\t" + exps[exps.length - 1]);
+                        System.out.println("length 2 starts " + all_exps[0] + "\t" + exps[0] + "\t" + all_exps2[0]);
                         all_exps = MoreArray.copy(all_exps2);
                         //String[] both = Arrays.copyOf(first, first.length + second.length);
                         //System.arraycopy(second, 0, both, first.length, second.length);
@@ -1178,11 +1178,11 @@ public class ValueBlockListMethods implements Serializable, Cloneable {
                 vb.genes = genes_int;
                 vb.exps = exps_int;
 
-                if (vb.genes != null && vb.exps != null && vb.genes.length > 1&& vb.exps.length > 1) {
+                if (vb.genes != null && vb.exps != null && vb.genes.length > 1 && vb.exps.length > 1) {
                     System.out.println("genes " + all_genes.length + " exps " + all_exps.length);
                     int[][] update = {vb.genes, vb.exps};
                     vb.NRCoords(update);
-                } else if(vb.genes.length == 1 || vb.exps.length == 1) {
+                } else if (vb.genes.length == 1 || vb.exps.length == 1) {
                     System.out.println("too small " + all_genes.length + " exps " + all_exps.length);
                 } else {
                     System.out.println("failed to parse vb " + count + "\t" + data);

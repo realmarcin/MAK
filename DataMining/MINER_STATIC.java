@@ -52,7 +52,7 @@ public final class MINER_STATIC {
     public final static String[] HCL_DMETHODS = {"euclidean", "maximum", "manhattan", "canberra", "binary", "pearson", "abspearson", "correlation", "abscorrelation", "spearman", "kendall"};
     public final static String[] HCL_LINKMETHODS = {"ward", "single", "complete", "average", "mcquitty", "median", "centroid", "centroid2"};
 
-    /*    
+    /*
      */
     public final static String[] CRIT_LABELS = {
             "MSER_inter",//1
@@ -505,7 +505,7 @@ public final class MINER_STATIC {
     public final static String[] SPEARMANCnonullCrit = {"SPEARMANCnonull"};
     public final static int[] SPEARMANCCrit = stat.add(StringUtil.occurIndexButNot(CRIT_LABELS, "SPEARMANC", SPEARMANCnonullCrit), 1);
 
-    
+
     //public final static int[] totalCrit = MoreArray.add(MSEtotalCrit, MEANCrit);
     //public final static int[] CritAll = MoreArray.add(stat.add(
     //        StringUtil.occurIndexButNot(CRIT_LABELS, "MSE", notMSERnotMSEC), 1), MEANCritAll);

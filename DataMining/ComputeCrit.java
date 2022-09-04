@@ -91,7 +91,7 @@ public class ComputeCrit {
                 MINER_STATIC.CRIT_LABELS[criterion.crit - 1].contains("MEDCMEAN") ||
                 MINER_STATIC.CRIT_LABELS[criterion.crit - 1].contains("MEAN"))
             //&& MINER_STATIC.CRIT_LABELS[criterion.crit - 1].indexOf("_") == -1
-                ) {
+        ) {
             prm.USE_MEAN = true;
             if (debug)
                 System.out.println("computeOne usemean bf " + prm.USE_MEAN + "\t" + criterion.usemean);
@@ -236,8 +236,8 @@ public class ComputeCrit {
                     crits = new double[9];
                 crits[ValueBlock_STATIC.TF_IND] = irv.Rexpr.asDouble();
 
-                if(debug) {
-                    System.out.println("TF_data "+ValueBlock_STATIC.TF_IND);
+                if (debug) {
+                    System.out.println("TF_data " + ValueBlock_STATIC.TF_IND);
                     System.out.println(crits[ValueBlock_STATIC.TF_IND]);
                 }
             } catch (Exception e) {
@@ -267,10 +267,10 @@ public class ComputeCrit {
             //critsraw[ValueBlock_STATIC.feat_IND] = data[0][0];
             //crits[ValueBlock_STATIC.feat_IND] = data[0][0];
 
-            if(debug) {
-               System.out.println("feat_data "+ValueBlock_STATIC.feat_IND);
-               MoreArray.printArray(data[0]);
-               MoreArray.printArray(data[1]);
+            if (debug) {
+                System.out.println("feat_data " + ValueBlock_STATIC.feat_IND);
+                MoreArray.printArray(data[0]);
+                MoreArray.printArray(data[1]);
             }
         } else if (debug) {
             System.out.println("ComputeCrit no feat " + (feat_data == null ? "no feat data" : "feat data") +

@@ -109,7 +109,7 @@ public class AnalyzeOverlaps {
             String x = files[a].substring(0, vs_index);
             String y = files[a].substring(vs_index + "_vs_".length(), files[a].length() - ".overlap".length());
 
-            System.out.println("x y "+ x+"\t"+y);
+            System.out.println("x y " + x + "\t" + y);
 
             String testkey = (String) replace.get(x);
             if (testkey != null) {
@@ -140,7 +140,7 @@ public class AnalyzeOverlaps {
         String outf = args[1];
         String outf2 = args[1];
         Matrix.writeTab(overlap_fraction, keysStr, keysStr, outf);
-        Matrix.writeTab(overlap_mean, keysStr, keysStr, outf2+"_mean");
+        Matrix.writeTab(overlap_mean, keysStr, keysStr, outf2 + "_mean");
     }
 
 

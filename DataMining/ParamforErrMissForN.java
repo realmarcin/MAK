@@ -10,8 +10,7 @@ import java.util.HashMap;
 
 /**
  * Created by rauf on 4/12/16.
- *
- * */
+ */
 public class ParamforErrMissForN {
     HashMap options;
 
@@ -27,11 +26,11 @@ public class ParamforErrMissForN {
         try {
             init(args);
 
-            File [] result_files = new File(results_dir).listFiles();
+            File[] result_files = new File(results_dir).listFiles();
 
             File[] param_files = new File(param_dir).listFiles();
 
-            for (int i =0; i < param_files.length; i++) {
+            for (int i = 0; i < param_files.length; i++) {
                 File curr_param_file = param_files[i];
                 String param_file_name = curr_param_file.getName();
                 String param_index = param_file_name.split("_RC_")[1].split("_")[0];
@@ -107,9 +106,9 @@ public class ParamforErrMissForN {
             ParamforErrMissForN rm = new ParamforErrMissForN(args);
         } else {
             System.out.println("syntax: java DataMining.ParamforErrMissForN\n" +
-                            "<-out_dir>\n" +
-                            "<-param_dir>\n" +
-                            "<-results_dir>\n"
+                    "<-out_dir>\n" +
+                    "<-param_dir>\n" +
+                    "<-results_dir>\n"
             );
         }
     }

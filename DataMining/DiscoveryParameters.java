@@ -29,6 +29,7 @@ public class DiscoveryParameters {
     public String final_bicluster_type = "expression";
 
     /**
+     *
      */
     public DiscoveryParameters() {
     }
@@ -87,7 +88,7 @@ public class DiscoveryParameters {
                             System.out.println("Parameters read null_data_path " + null_data_path);
                         } else if (cur.matches("(?i)taxon =.*")) {
                             taxon = extractStr;
-                        }else if (cur.matches("(?i)rounds =.*")) {
+                        } else if (cur.matches("(?i)rounds =.*")) {
                             rounds = Integer.parseInt(extractStr);
                         } else if (cur.matches("(?i)refine =.*")) {
                             refine = extractStr.equalsIgnoreCase("y") ? true : false;

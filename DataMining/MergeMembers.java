@@ -11,9 +11,8 @@ import java.util.Set;
 
 
 /**
- *
  * DEPRECATED!
- *
+ * <p>
  * <p/>
  * Produces merged blocks based on HCL clustering and tree cut at height h.
  * <p/>

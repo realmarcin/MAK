@@ -21,7 +21,7 @@ public class LabelTrajGenes {
     CheckTraj ct;
     SimpleMatrix sm;
 
-    String outbicat ="";
+    String outbicat = "";
 
     boolean requireOverlap = false;
 
@@ -77,7 +77,7 @@ public class LabelTrajGenes {
                         if (positions[i].equalsIgnoreCase("s")) {
                             cur = 0;
                         }
-                        if (positions[i].equalsIgnoreCase("m")) {                            
+                        if (positions[i].equalsIgnoreCase("m")) {
                             //System.out.println("doOne "+in);
                             cur = ValueBlockListMethods.findLastBFRandom(ct.vbl);//int) ((ct.vbl.size() - 1.0) / 2.0);
 
@@ -88,14 +88,13 @@ public class LabelTrajGenes {
                             }*/
                         } else if (positions[i].equalsIgnoreCase("f")) {
                             cur = ct.vbl.size() - 1;
-                            ValueBlock v = (ValueBlock)ct.vbl.get(cur);
-                            outbicat += ""+v.genes.length+" "+v.exps.length+"\n";
-                            outbicat += MoreArray.toString(v.genes, " ")+"\n";
-                            outbicat += MoreArray.toString(v.exps, " ")+"\n";
+                            ValueBlock v = (ValueBlock) ct.vbl.get(cur);
+                            outbicat += "" + v.genes.length + " " + v.exps.length + "\n";
+                            outbicat += MoreArray.toString(v.genes, " ") + "\n";
+                            outbicat += MoreArray.toString(v.exps, " ") + "\n";
                         }
                     }
                     //ValueBlock pass = (ValueBlock) ct.vbl.get(cur);
-
 
 
                     int[] posindex = ct.getPos(cur, sm.data);

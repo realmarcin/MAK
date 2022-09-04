@@ -30,44 +30,44 @@ public class AnalyzeExternal extends Program {
     ArrayList results_max;
 
     public String[][] use_crit = {{"external"}, {"none"},
-           /* {"MSER_PPI", "MSER", "MSER_FEMR_PPI", "MSER_FEMR", "MSER_LARSRE_PPI"},
-            {"MSER_PPI"},
-            {"MADR_PPI"},
-            {"Kendall_PPI"},
-            {"MSER"},
-            {"MADR"},
-            {"Kendall"},
-            {"LARSRE_PPI"},
-            {"LARSRE"},
-            {"FEMR_PPI"},
-            {"FEMR"},
-            {"MSER_LARSRE_PPI"},
-            {"MADR_LARSRE_PPI"},
-            {"Kendall_LARSRE_PPI"},
-            {"MSER_LARSRE"},
-            {"MADR_LARSRE"},
-            {"Kendall_LARSRE"},
-            {"MSER_FEMR_PPI"},
-            {"MADR_FEMR_PPI"},
-            {"Kendall_FEMR_PPI"},
-            {"MSER_FEMR"},
-            {"MADR_FEMR"},
-            {"Kendall_FEMR"},
-            {"MSE_INT"},
-            {"MSE"},
-            {"MSE_LARSRE_PPI"},
-            {"MSE_LARSRE"},
-            {"MSE_FEMR_PPI"},
-            {"MSE_FEMR"},
-            {"MSEC_INT"},
-            {"MSEC"},
-            {"MSEC_LARSRE_PPI"},
-            {"MSEC_LARSRE"},
-            {"MSEC_FEMR_PPI"},
-            {"MSEC_FEMR"},
-            {"MSERnonull"},
-            {"MSEnonull"},
-            {"MSECnonull"}*/
+            /* {"MSER_PPI", "MSER", "MSER_FEMR_PPI", "MSER_FEMR", "MSER_LARSRE_PPI"},
+             {"MSER_PPI"},
+             {"MADR_PPI"},
+             {"Kendall_PPI"},
+             {"MSER"},
+             {"MADR"},
+             {"Kendall"},
+             {"LARSRE_PPI"},
+             {"LARSRE"},
+             {"FEMR_PPI"},
+             {"FEMR"},
+             {"MSER_LARSRE_PPI"},
+             {"MADR_LARSRE_PPI"},
+             {"Kendall_LARSRE_PPI"},
+             {"MSER_LARSRE"},
+             {"MADR_LARSRE"},
+             {"Kendall_LARSRE"},
+             {"MSER_FEMR_PPI"},
+             {"MADR_FEMR_PPI"},
+             {"Kendall_FEMR_PPI"},
+             {"MSER_FEMR"},
+             {"MADR_FEMR"},
+             {"Kendall_FEMR"},
+             {"MSE_INT"},
+             {"MSE"},
+             {"MSE_LARSRE_PPI"},
+             {"MSE_LARSRE"},
+             {"MSE_FEMR_PPI"},
+             {"MSE_FEMR"},
+             {"MSEC_INT"},
+             {"MSEC"},
+             {"MSEC_LARSRE_PPI"},
+             {"MSEC_LARSRE"},
+             {"MSEC_FEMR_PPI"},
+             {"MSEC_FEMR"},
+             {"MSERnonull"},
+             {"MSEnonull"},
+             {"MSECnonull"}*/
     };
 
     ArrayList labels;
@@ -411,8 +411,8 @@ public class AnalyzeExternal extends Program {
             AnalyzeExternal arg = new AnalyzeExternal(args);
         } else {
             System.out.println("syntax: java DataMining.eval.AnalyzeExternal\n" +
-                    "<-dir dir of toplists>\n" +
-                    "<-mode basic,const,incr>"//\n" +
+                            "<-dir dir of toplists>\n" +
+                            "<-mode basic,const,incr>"//\n" +
                     //"<-block 1 or 2>"
             );
         }

@@ -248,7 +248,7 @@ public class ComparecMonkey {
             value = BlockMethods.computeBlockOverlapGeneExpRootProduct(two, one,
                     oglen, tglen, oelen, telen);
         } /*else if (arrayInd == 1) {
-            *//*double p = BlockMethods.computeBlockPrecisionGenes(two, one);
+         *//*double p = BlockMethods.computeBlockPrecisionGenes(two, one);
             double r = BlockMethods.computeBlockRecallGenes(two, one);
             value = (2 * p * r) / (p + r);*//*
             //value = BlockMethods.computeBlockOverlapGeneMin(two, one, false);

@@ -221,6 +221,7 @@ public class RunMinerBack {
     }
 
     /**
+     *
      */
     public void run() {
         System.out.println("RunMinerBack run");
@@ -857,6 +858,7 @@ public class RunMinerBack {
     }
 
     /**
+     *
      */
     public void initFast() {
         checkRLibVersion();

@@ -22,19 +22,18 @@ public class IPR2GO2Sankey {
 
         HashMap count = new HashMap<String, Integer>();
         for (int i = 0; i < text.length; i++) {
-            System.out.println(i+"\t"+text[i]);
+            System.out.println(i + "\t" + text[i]);
             String[] split1 = text[i].split(" ");
             Object o = count.get(split1[0]);
-            if(o == null) {
+            if (o == null) {
                 count.put(split1[0], 1);
-            }
-            else {
-                count.put(split1[0], (Integer)o + 1);
+            } else {
+                count.put(split1[0], (Integer) o + 1);
             }
         }
 
         for (int i = 0; i < text.length; i++) {
-            System.out.println(i+"\t"+text[i]);
+            System.out.println(i + "\t" + text[i]);
             String[] split1 = text[i].split(" ");
             String[] split2 = text[i].split(" > ");
             String[] split3 = split2[1].split(" ; ");
@@ -42,7 +41,7 @@ public class IPR2GO2Sankey {
             String curstr = split1[0] + " [1] " + split3[1];
             System.out.println(curstr);
             Object o = count.get(split1[0]);
-            if((Integer)o > 5) {
+            if ((Integer) o > 5) {
                 out.add(curstr);
             }
 

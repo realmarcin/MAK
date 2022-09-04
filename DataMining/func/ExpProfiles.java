@@ -195,7 +195,7 @@ public class ExpProfiles {
             String label1 = (String) get.get(0);
             double weight = Double.NaN;
             try {
-                 weight = (Double) get.get(1);
+                weight = (Double) get.get(1);
             } catch (Exception e) {
                 weight = (Integer) get.get(1);
                 //e.printStackTrace();
@@ -251,7 +251,7 @@ public class ExpProfiles {
      */
     private void init(String[] args) throws Exception {
         vbl = ValueBlockListMethods.readAny(args[0]);
-       // System.exit(0);
+        // System.exit(0);
         prefix = args[0];
 
         sm = new SimpleMatrix(args[1]);

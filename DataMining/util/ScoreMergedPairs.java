@@ -192,7 +192,7 @@ public class ScoreMergedPairs extends Program {
             if (gene_labels == null)
                 System.out.println("gene_labels is null");
             //if (rmb.feat_matrix == null)
-             //   System.out.println("rmb.feat_matrix is null");
+            //   System.out.println("rmb.feat_matrix is null");
             if (rmb.orig_prm == null)
                 System.out.println("rmb.orig_prm is null");
 
@@ -278,10 +278,10 @@ public class ScoreMergedPairs extends Program {
             ScoreMergedPairs rm = new ScoreMergedPairs(args);
         } else {
             System.out.println("syntax: java DataMining.func.FindCombRegbySite\n" +
-                    "<overlap data>\n" +
-                    "<vbl>\n" +
-                    "<expression data>\n" +
-                    "<parameter file>"
+                            "<overlap data>\n" +
+                            "<vbl>\n" +
+                            "<expression data>\n" +
+                            "<parameter file>"
                     //"<gene labels>\n" +
                     //"<exp labels>"
             );

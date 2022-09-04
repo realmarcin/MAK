@@ -123,14 +123,14 @@ public class CreateParamSet {
     int[] pre_crits;
 
     /*omit all but MSER, MSER_inter, FEMR, MSER_FEMR, FEMR_inter, MSER_FEMR_inter
-    * 1
-    * 4
-    * 10
-    * 20
-    * 9
-    * 17
-    *
-    * */
+     * 1
+     * 4
+     * 10
+     * 20
+     * 9
+     * 17
+     *
+     * */
     int[] ignore_crit_MSERFEMR = {
             /* 2, 3, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 18, 19,
 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
@@ -329,9 +329,7 @@ public class CreateParamSet {
         if (sampledirs > 1)
             for (
                     int n = 0;
-                    n < sampledirs; n++)
-
-            {
+                    n < sampledirs; n++) {
                 rs = new runShell();
                 e = "tar -zcf " + outpath + "_" + (n + 1) +
                         ".tar.gz " + outpath + "_" + (n + 1) + "/";

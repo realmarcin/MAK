@@ -108,22 +108,20 @@ public class ApplyCut {
 
         finallist = processList(vbl, finallist, uniqueD);
 
-        if(finallist.size() > 0) {
+        if (finallist.size() > 0) {
             write(args[0], cutlabel, finallist.toString(vbl.header));
-        }
-        else {
+        } else {
             System.out.println("WARNING: No biclusters left after filtering.");
         }
 
     }
 
     /**
-     *
      * @param vbl
      * @param finallist
      * @param uniqueD
      */
-    private ValueBlockList processList (ValueBlockList vbl, ValueBlockList finallist, double[] uniqueD) {
+    private ValueBlockList processList(ValueBlockList vbl, ValueBlockList finallist, double[] uniqueD) {
         if (!Double.isNaN(scorecut) && Double.isNaN(exprcut) && Double.isNaN(exprperccut)) {
             System.out.println("score cut");
             for (int i = 0; i < vbl.size(); i++) {
@@ -308,7 +306,6 @@ public class ApplyCut {
     }
 
     /**
-     *
      * @param arg
      * @param cutlabel
      * @param out1

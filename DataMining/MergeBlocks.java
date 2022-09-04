@@ -100,7 +100,7 @@ public class MergeBlocks {
 
         System.out.println("merged from " + total + " to " + master.size());
         System.out.println("writing " + args[1]);
-        ValueBlockListMethods.writeBIC(args[1],master);
+        ValueBlockListMethods.writeBIC(args[1], master);
     }
 
 

@@ -19,7 +19,7 @@ public class ConvertCOALESCEsim {
 
         try {
             ValueBlockList reflist = ValueBlockListMethods.readCOALESCESim(args[0]);
-            ValueBlockListMethods.writeBIC(args[0] + ".bic",reflist);
+            ValueBlockListMethods.writeBIC(args[0] + ".bic", reflist);
         } catch (Exception e) {
             e.printStackTrace();
         }

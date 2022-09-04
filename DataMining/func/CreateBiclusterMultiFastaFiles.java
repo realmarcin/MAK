@@ -138,10 +138,10 @@ public class CreateBiclusterMultiFastaFiles {
                     String tmp = "";
                     if (only_upstream) {
                         if (gene_start < start) {
-                            if ((start-1) >= seq.length()) {
-                                tmp = seq.substring(gene_start+9);
+                            if ((start - 1) >= seq.length()) {
+                                tmp = seq.substring(gene_start + 9);
                             } else {
-                                tmp = seq.substring(gene_start+9, start-1);
+                                tmp = seq.substring(gene_start + 9, start - 1);
                             }
                         }
                     } else if (start >= seq.length()) {
@@ -150,7 +150,7 @@ public class CreateBiclusterMultiFastaFiles {
                         tmp = seq.substring(stop - 1, start);
                     }
                     tmp = new StringBuilder(tmp).reverse().toString().toUpperCase();
-                    HashMap myMap = new  HashMap<String, String>();
+                    HashMap myMap = new HashMap<String, String>();
                     myMap.put('A', 'T');
                     myMap.put('C', 'G');
                     myMap.put('G', 'C');
@@ -168,7 +168,7 @@ public class CreateBiclusterMultiFastaFiles {
                     String tmp = "";
                     if (only_upstream) {
                         if (start < gene_start) {
-                            tmp = seq.substring(start, gene_start-10);
+                            tmp = seq.substring(start, gene_start - 10);
                         }
                     } else if (stop == seq.length()) {
                         tmp = seq.substring(start - 1);
@@ -235,15 +235,15 @@ public class CreateBiclusterMultiFastaFiles {
             CreateBiclusterMultiFastaFiles rm = new CreateBiclusterMultiFastaFiles(args);
         } else {
             System.out.println("syntax: java DataMining.func.CreateBiclusterMultiFastaFiles\n" +
-                            "<-microbes_online_tab>\n" +
-                            "<-microbes_online_genome_fasta>\n" +
-                            "<-vbl\n" + //change to vbl
-                            "<-gene_ids>\n" +
-                            "<-ouput_prefix>\n" +
-                            "<-upstream_length>\n" +
-                            "<-only_upstream>\n" +
-                            "<-output_directory>\n" +
-                            "<-debug y/n OPTIONAL>"
+                    "<-microbes_online_tab>\n" +
+                    "<-microbes_online_genome_fasta>\n" +
+                    "<-vbl\n" + //change to vbl
+                    "<-gene_ids>\n" +
+                    "<-ouput_prefix>\n" +
+                    "<-upstream_length>\n" +
+                    "<-only_upstream>\n" +
+                    "<-output_directory>\n" +
+                    "<-debug y/n OPTIONAL>"
             );
         }
     }

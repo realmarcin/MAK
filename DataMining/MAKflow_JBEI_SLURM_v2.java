@@ -1537,7 +1537,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                     //"#SBATCH --constraint=lr3_c16\n" +
                     "#SBATCH --ntasks=1\n" +
                     "#SBATCH --cpus-per-task=1\n" +
-                    "#SBATCH --mem="+(mem_per_cpu * 3000.0)+"M\n" +
+                    "#SBATCH --mem=" + (mem_per_cpu * 3000.0) + "M\n" +
                     "#SBATCH --time=" + max_walltime + "\n" +
                     "#SBATCH --output=MAKflow_" + setLevel + "_%j.out\n";
             if (!qos.equals(""))

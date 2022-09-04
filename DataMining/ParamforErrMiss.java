@@ -82,6 +82,7 @@ public class ParamforErrMiss {
 
 
     /**
+     *
      */
     public void run() {
         //corresponding parameter dir
@@ -216,7 +217,7 @@ public class ParamforErrMiss {
                 }
             }
             System.out.println("finished " + datadir + "\t" + missing + "\t" + missingAr.size());
-            if(missingAr.size() > 0) {
+            if (missingAr.size() > 0) {
                 String out = MoreArray.arrayListtoString(missingAr, ",");
                 missingArInt = MoreArray.ArrayListtoInt(missingAr);
                 System.out.println(out);
@@ -227,6 +228,7 @@ public class ParamforErrMiss {
     }
 
     /**
+     *
      */
     public void runNoSuffix() {
         System.out.println("runNoSuffix");

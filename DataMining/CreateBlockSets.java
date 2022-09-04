@@ -33,8 +33,8 @@ public class CreateBlockSets extends Program {
     int blocks_index = 2;
 
     /*
-    * @param args
-    */
+     * @param args
+     */
     public CreateBlockSets(String[] args) {
         super();
         prm = new Parameters();

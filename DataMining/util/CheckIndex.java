@@ -25,7 +25,7 @@ public class CheckIndex {
             int exps = sm.data[0].length;
 
             for (int i = 0; i < vbl.size(); i++) {
-                System.out.println("i "+i);
+                System.out.println("i " + i);
                 ValueBlock vb = (ValueBlock) vbl.get(i);
 
                 for (int a = 0; a < vb.genes.length; a++) {

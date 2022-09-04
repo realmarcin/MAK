@@ -26,7 +26,7 @@ public class MakeUniBicEvalTable {
         File dir = new File(args[0]);
 
         String[] list = dir.list();
-        
+
         double[][] results = new double[2 * 3 * 3][2 * 6];
 
         for (int a = 0; a < list.length; a++) {
@@ -53,7 +53,7 @@ public class MakeUniBicEvalTable {
                                             double mean = Double.parseDouble(((String) lines.get(0)));
                                             double sd = Double.parseDouble(((String) lines.get(1)));
 
-                                            System.out.println("i "+i + "\tj " + j + "\tk " + k + "\tl " + l);
+                                            System.out.println("i " + i + "\tj " + j + "\tk " + k + "\tl " + l);
                                             int row_index = i * 6 + (j * 2);
                                             int col_index = k * 2 + l;
                                             results[row_index][col_index] = mean;
@@ -68,7 +68,7 @@ public class MakeUniBicEvalTable {
             }
         }
 
-        TabFile.write(MoreArray.toString(results, "" ,""), "UniBic_eval_relevance_recovery_table.txt");
+        TabFile.write(MoreArray.toString(results, "", ""), "UniBic_eval_relevance_recovery_table.txt");
     }
 
 

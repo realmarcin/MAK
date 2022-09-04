@@ -119,7 +119,7 @@ public class RunMinerFast extends util.Program {
         String s = MoreArray.toString(vb.genes, ",") + "/" + MoreArray.toString(vb.exps, ",");
         prm.init_block_list = (ArrayList) Arrays.asList(s);
 
-            /*TODO if exps not defined than start with all exps, if genes not defined start with all genes */
+        /*TODO if exps not defined than start with all exps, if genes not defined start with all genes */
 
         //if (debug != 0) {
         RunMinerBack rmb = new RunMinerBack(prm, sysRes, debug);

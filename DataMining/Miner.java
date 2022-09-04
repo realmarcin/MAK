@@ -2347,7 +2347,7 @@ e.printStackTrace();
         boolean retjri = rmb.irv.Rengine.assign("Iibatch", Ic);
         if (debug_getCriteriaForBlock)
             System.out.println("R: Iibatch <- c(" + MoreArray.toString(Ic, ",") + ")");
-        boolean retjri2 =  rmb.irv.Rengine.assign("Jjbatch", Jc);
+        boolean retjri2 = rmb.irv.Rengine.assign("Jjbatch", Jc);
         if (debug_getCriteriaForBlock)
             System.out.println("R: Jjbatch <- c(" + MoreArray.toString(Jc, ",") + ")");
         boolean retjri3 = rmb.irv.Rengine.assign("missvec", missvec);
@@ -3264,7 +3264,7 @@ e.printStackTrace();
                 if (rmb.irv.prm.precrit.isTFCrit)
                     vbnow.all_precriteria[ValueBlock_STATIC.TF_IND] = curmaxTF_list[i];
 
-                if(debug_createPreCritTopList) {
+                if (debug_createPreCritTopList) {
                     System.out.println("getTopList precrit vbnow.all_precriteria");
                     System.out.println(rmb.irv.prm.crit.isInteractCrit);
                     System.out.println(rmb.irv.prm.precrit.isInteractCrit);

@@ -13,19 +13,19 @@ import java.util.List;
 
 /**
  * Created by rauf on 5/7/15.
- *
+ * <p>
  * Performs a comparison for all bicluster pairs from set A and B which have an overlap measure past the specified threshold.
  */
 public class ObtainPairwiseEnrichmentDistance {
     HashMap options;
 
-    String [] bad_nodes = new String[]{"nodearea", "nodecriterion", "nodeGMT", "nodeGOval", "nodemeanexpr", "nodePathval", "nodeTFval", "nodeTIGRroleGO", "nodeTIGRroleGOPath", "nodeTIGRroleval", "nodeTIGRval", "nodeTFexpval", "nodeTFexp", null};
+    String[] bad_nodes = new String[]{"nodearea", "nodecriterion", "nodeGMT", "nodeGOval", "nodemeanexpr", "nodePathval", "nodeTFval", "nodeTIGRroleGO", "nodeTIGRroleGOPath", "nodeTIGRroleval", "nodeTIGRval", "nodeTFexpval", "nodeTFexp", null};
 
     String[] valid_args = {
             "-setA_dir", "-setB_dir", "-outfile", "-similarity_matrix", "-threshold"
     };
 
-    String [] keys = new String[20];
+    String[] keys = new String[20];
     String setA_dir;
     String setB_dir;
     String outfile;
@@ -52,7 +52,7 @@ public class ObtainPairwiseEnrichmentDistance {
                 String key = keys[i];
                 String fileA = (String) noa_dict_a.get(key);
                 String fileB = (String) noa_dict_b.get(key);
-                if (key != null && fileA != null && fileB != null ) {
+                if (key != null && fileA != null && fileB != null) {
                     storeBiclusterToAnnotInfo(fileA, fileB, key);
                 }
             }
@@ -108,7 +108,7 @@ public class ObtainPairwiseEnrichmentDistance {
                     count = 0;
                     String unique_to_b = "";
                     for (String temp : bic_b_annots) {
-                        if (!tmp.contains(temp) && temp.replaceAll("\\s+","") != "" && temp != null) {
+                        if (!tmp.contains(temp) && temp.replaceAll("\\s+", "") != "" && temp != null) {
                             if (count == 0) {
                                 unique_to_b += temp;
                             } else {
@@ -119,7 +119,7 @@ public class ObtainPairwiseEnrichmentDistance {
                     }
                     count = 0;
                     for (String temp : tmp) {
-                        if (temp.replaceAll("\\s+","") != "" && temp != null) {
+                        if (temp.replaceAll("\\s+", "") != "" && temp != null) {
                             if (count == 0) {
                                 intersection += temp;
                             } else {
@@ -147,19 +147,19 @@ public class ObtainPairwiseEnrichmentDistance {
         int count = 0;
         while ((aLine = bf_a.readLine()) != null) {
             if (count > 0) {
-                String bicluster = aLine.split("=")[0].replaceAll("\\s+","");
+                String bicluster = aLine.split("=")[0].replaceAll("\\s+", "");
                 ArrayList currentlist = a_terms.get(bicluster);
                 if (currentlist == null) {
                     currentlist = new ArrayList();
                 }
-                String [] annotations = aLine.split("=")[1].split("_");
+                String[] annotations = aLine.split("=")[1].split("_");
                 for (int i = 0; i < annotations.length; i++) {
-                    String annot = annotations[i].replaceAll("\\s+","").replace("GO:", "").replace("Path:", "").replace("TIGR:", "").replace("TIGRrole:", "");
+                    String annot = annotations[i].replaceAll("\\s+", "").replace("GO:", "").replace("Path:", "").replace("TIGR:", "").replace("TIGRrole:", "");
                     currentlist.add(key + "_|_" + annot);
                 }
                 a_terms.put(bicluster, currentlist);
             }
-            count ++;
+            count++;
         }
 
         FileReader file_b = new FileReader(fileB);
@@ -173,32 +173,32 @@ public class ObtainPairwiseEnrichmentDistance {
                 if (currentlist == null) {
                     currentlist = new ArrayList();
                 }
-                String [] annotations = bLine.split("=")[1].split("_");
+                String[] annotations = bLine.split("=")[1].split("_");
                 for (int i = 0; i < annotations.length; i++) {
-                    String annot = annotations[i].replaceAll("\\s+","").replace("GO:", "").replace("Path:", "").replace("TIGR:", "").replace("TIGRrole:", "");
+                    String annot = annotations[i].replaceAll("\\s+", "").replace("GO:", "").replace("Path:", "").replace("TIGR:", "").replace("TIGRrole:", "");
                     currentlist.add(key + "_|_" + annot);
                 }
                 b_terms.put(bicluster, currentlist);
             }
-            count ++;
+            count++;
         }
     }
 
     private void getFileMap(String indir, HashMap dictionary) {
         File directory = new File(indir);
         File[] myarray;
-        myarray=new File[10];
+        myarray = new File[10];
         myarray = directory.listFiles();
         int count = 0;
         for (int i = 0; i < myarray.length; i++) {
             File curr_file = myarray[i];
-            String [] cs1 = ("" + curr_file).split("/");
-            String curr_file_name = ("" + curr_file).split("/")[cs1.length-1];
-            String [] cs2 = (curr_file_name).split("_");
+            String[] cs1 = ("" + curr_file).split("/");
+            String curr_file_name = ("" + curr_file).split("/")[cs1.length - 1];
+            String[] cs2 = (curr_file_name).split("_");
             if (curr_file_name.endsWith(".noa")) {
-                String key = curr_file_name.split("_")[cs2.length-1].split("\\.")[0];
+                String key = curr_file_name.split("_")[cs2.length - 1].split("\\.")[0];
                 boolean flag = false;
-                for (int j=0; j < bad_nodes.length; j++) {
+                for (int j = 0; j < bad_nodes.length; j++) {
                     if (key.equalsIgnoreCase(bad_nodes[j])) {
                         flag = true;
                     }
@@ -257,11 +257,11 @@ public class ObtainPairwiseEnrichmentDistance {
             ObtainPairwiseEnrichmentDistance rm = new ObtainPairwiseEnrichmentDistance(args);
         } else {
             System.out.println("syntax: java DataMining.func.ObtainPairwiseEnrichmentDistance\n" +
-                            "<-similarity_matrix>\n" +
-                            "<-setA_dir>\n" +
-                            "<-setB_dir>\n" +
-                            "<-threshold>\n" +
-                            "<-outfile>\n"
+                    "<-similarity_matrix>\n" +
+                    "<-setA_dir>\n" +
+                    "<-setB_dir>\n" +
+                    "<-threshold>\n" +
+                    "<-outfile>\n"
             );
         }
     }

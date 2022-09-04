@@ -45,7 +45,7 @@ public class ExpandProfile {
         ArrayList data = TextFile.readtoList(infile, "\t");
 
         ArrayList labs = new ArrayList();
-        for (int i = 0; i < data.size();) {
+        for (int i = 0; i < data.size(); ) {
             //String id = ((String[]) data.get(i))[0];
             String[] lab = (String[]) data.get(i + 1);
             //String[] goval = (String[]) data.get(i + 2);
@@ -60,7 +60,7 @@ public class ExpandProfile {
         int size = (int) ((double) data.size() / 3.0);
         double[][] out = new double[size][labs.size()];
         //System.out.println("labels " + labs.size() + "\t" + size);
-        for (int i = 0; i < data.size();) {
+        for (int i = 0; i < data.size(); ) {
             String[] lab = (String[]) data.get(i + 1);
             String[] val = (String[]) data.get(i + 2);
             for (int j = 0; j < lab.length; j++) {

@@ -54,10 +54,6 @@ public class ConvertGeneLabelJsontoVBL {
     }
 
 
-
-
-
-
     /**
      * @param path
      */

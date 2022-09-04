@@ -89,9 +89,9 @@ public class MakeNRList {
         */
 
         String s = vbl.toString("#" + MINER_STATIC.HEADER_VBL);//ValueBlock.toStringShortColumns());
-        String [] ss = s.split("\n");
+        String[] ss = s.split("\n");
         String news = "";
-        for (int co=0; co < ss.length; co++) {
+        for (int co = 0; co < ss.length; co++) {
             if (co != 0) {
                 news += "\"" + ss[co].split("\t")[2] + "\"\n";
             }

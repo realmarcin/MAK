@@ -43,7 +43,7 @@ public class RTest {
             RVector v = x.asVector();
             if (v.getNames() != null) {
                 System.out.println("has names:");
-                for (Enumeration e = v.getNames().elements(); e.hasMoreElements();) {
+                for (Enumeration e = v.getNames().elements(); e.hasMoreElements(); ) {
                     System.out.println(e.nextElement());
                 }
             }

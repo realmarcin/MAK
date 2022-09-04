@@ -80,7 +80,7 @@ public class ScoreBlocks extends Program {
 
 
     /*
-    
+
      */
     public static String[] CRITlabels = {
             "MSEC_KendallC_FEMC"
@@ -368,7 +368,7 @@ public class ScoreBlocks extends Program {
             if (gene_labels == null)
                 System.out.println("gene_labels is null");
             //if (rmb.feat_matrix == null)
-             //   System.out.println("rmb.feat_matrix is null");
+            //   System.out.println("rmb.feat_matrix is null");
             if (rmb.orig_prm == null)
                 System.out.println("rmb.orig_prm is null");
 

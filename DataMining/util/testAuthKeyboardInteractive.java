@@ -8,7 +8,7 @@ package DataMining.util;
  * To change this template use File | Settings | File Templates.
  */
 public class testAuthKeyboardInteractive {
-    public static void main () {
+    public static void main() {
 
     }
 }

@@ -677,7 +677,7 @@ public class Parameters {
                     MINER_STATIC.CRIT_LABELS[PRECRIT_TYPE_INDEX - 1].contains("MEDCMEAN") ||
                     MINER_STATIC.CRIT_LABELS[PRECRIT_TYPE_INDEX - 1].contains("MEAN"))
                 //&& MINER_STATIC.CRIT_LABELS[PRECRIT_TYPE_INDEX - 1].indexOf("_") == -1
-                    ) {
+            ) {
                 USE_MEAN = true;
                 if (debug > 0)
                     System.out.println("defaults USE_MEAN " + USE_MEAN);

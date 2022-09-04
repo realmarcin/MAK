@@ -196,7 +196,7 @@ public class MarkOrder {
      */
     private void doLinearList() {
         String[] outdata = new String[list.size() + 1];
-        outdata[0] =  MINER_STATIC.HEADER_VBL + "\tgdist\tedist\tgedist";//"index\t" +  ValueBlock.toStringShortColumns() +
+        outdata[0] = MINER_STATIC.HEADER_VBL + "\tgdist\tedist\tgedist";//"index\t" +  ValueBlock.toStringShortColumns() +
         for (int i = 0; i < list.size(); i++) {
             ValueBlock vcur = (ValueBlock) list.get(i);
             double gdist = 0;

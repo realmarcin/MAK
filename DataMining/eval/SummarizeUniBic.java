@@ -67,7 +67,7 @@ public class SummarizeUniBic {
 
                 String nowprefix = patterns[mask[0]] + "_bic_" + size[mask[1]] + "_";
                 int end_index = list[i].indexOf(recov_relev[mask[3]]);//patterns[mask[0]] + "_" + size[mask[2]]);
-                String label = list[i].substring(nowprefix.length()+1, end_index - 1);
+                String label = list[i].substring(nowprefix.length() + 1, end_index - 1);
                 //System.out.println(label);
                 labels.add(label);
                 paths.add(inpath);
@@ -114,7 +114,7 @@ public class SummarizeUniBic {
                                             //System.out.println("recovery "+(double) mean_data.get(i));
                                         }
                                         //System.out.println("max " + labels.get(i) + "\t" + curmax);//+ "\t" + labels.get(j)
-                                        if (curmax > max__patterns_size_types[a][b][c] ) {
+                                        if (curmax > max__patterns_size_types[a][b][c]) {
                                             System.out.println("NEW MAX " + patterns[a] + "\t" + size[b] + "\t" + types[c] + "\t\t" + curmax);
                                             max__patterns_size_types[a][b][c] = curmax;
                                             maxlabel__patterns_size_types[a][b][c] = test_label;
@@ -133,9 +133,9 @@ public class SummarizeUniBic {
         for (int a = 0; a < patterns.length; a++) {
             for (int b = 0; b < size.length; b++) {
                 for (int c = 0; c < types.length; c++) {
-                    if(max__patterns_size_types[a][b][c] > 0) {
+                    if (max__patterns_size_types[a][b][c] > 0) {
                         System.out.println("FINAL " + patterns[a] + "\t" + size[b] + "\t" + types[c] + "\t\t" + max__patterns_size_types[a][b][c]);
-                        System.out.println("FINAL " + maxlabel__patterns_size_types[a][b][c] );
+                        System.out.println("FINAL " + maxlabel__patterns_size_types[a][b][c]);
                     }
                 }
             }

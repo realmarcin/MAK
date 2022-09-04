@@ -26,11 +26,11 @@ public class MatrixtoPairs {
 
         for (int i = 0; i < sm.ylabels.length; i++) {
             String ylab = sm.ylabels[i];
-            for (int j = i+1; j < sm.xlabels.length; j++) {
+            for (int j = i + 1; j < sm.xlabels.length; j++) {
                 if (sm.data[i][j] > cutoff) {
                     String xlab = sm.xlabels[j];
                     //out.add(ylab + " has a " + xlab + " and ");
-                    out.add(ylab + "\t" + xlab+"\t"+sm.data[i][j]);
+                    out.add(ylab + "\t" + xlab + "\t" + sm.data[i][j]);
                 }
             }
         }

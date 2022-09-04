@@ -16,15 +16,14 @@ import java.util.HashMap;
 
 /**
  * Created by rauf on 5/7/15.
- *
- *  Performs a comparison between biclusters in set A and their corresponding best overlapping bicluster in set B and visa versa.
- *
+ * <p>
+ * Performs a comparison between biclusters in set A and their corresponding best overlapping bicluster in set B and visa versa.
  */
 public class PairwiseOverlapEnrichmentAnalysis {
     HashMap options;
 
-    String [] bad_nodes = new String[]{"nodearea", "nodecriterion", "nodeGMT", "nodeGOval", "nodemeanexpr", "nodePathval", "nodeTFval", "nodeTIGRroleGO", "nodeTIGRroleGOPath", "nodeTIGRroleval", "nodeTIGRval", "nodeTFexpval", "nodeTFexp", null};
-    String [] valid_nodes = {"funclass", "nodePath", "nodeGO", "nodeTF", "nodeTIGRrole", "nodeTIGR", "localize"};
+    String[] bad_nodes = new String[]{"nodearea", "nodecriterion", "nodeGMT", "nodeGOval", "nodemeanexpr", "nodePathval", "nodeTFval", "nodeTIGRroleGO", "nodeTIGRroleGOPath", "nodeTIGRroleval", "nodeTIGRval", "nodeTFexpval", "nodeTFexp", null};
+    String[] valid_nodes = {"funclass", "nodePath", "nodeGO", "nodeTF", "nodeTIGRrole", "nodeTIGR", "localize"};
 
     String[] valid_args = {
             "-setA_dir", "-setB_dir", "-outfile", "-similarity_matrix", "-threshold", "-setA_vbl", "-setB_vbl"
@@ -36,7 +35,7 @@ public class PairwiseOverlapEnrichmentAnalysis {
     int A_vbl_size;
     int B_vbl_size;
 
-    String [] keys = new String[20];
+    String[] keys = new String[20];
     String setA_dir;
     String setB_dir;
     String outfile;
@@ -70,7 +69,7 @@ public class PairwiseOverlapEnrichmentAnalysis {
                 String key = keys[i];
                 String fileA = (String) noa_dict_a.get(key);
                 String fileB = (String) noa_dict_b.get(key);
-                if (key != null && fileA != null && fileB != null ) {
+                if (key != null && fileA != null && fileB != null) {
                     storeBiclusterToAnnotInfo(fileA, fileB, key);
                 }
             }
@@ -165,7 +164,7 @@ public class PairwiseOverlapEnrichmentAnalysis {
                     int b_elen = (Integer) b_exp_len.get(bic_b);
 
                     outstring += bic_a + "\t" + bic_b + "\t" + similarity_value + "\t" +
-                                 a_glen + "\t" + a_elen + "\t" + b_glen + "\t" + b_elen;
+                            a_glen + "\t" + a_elen + "\t" + b_glen + "\t" + b_elen;
 
                     for (int n = 0; n < valid_nodes.length; n++) {
                         String node = valid_nodes[n];
@@ -349,7 +348,7 @@ public class PairwiseOverlapEnrichmentAnalysis {
                 if (currentlist == null) {
                     currentlist = new ArrayList();
                 }
-                String [] annotations = aLine.split("=")[1].split("_");
+                String[] annotations = aLine.split("=")[1].split("_");
                 for (int i = 0; i < annotations.length; i++) {
                     String annot = annotations[i].trim().replace("GO:", "").replace("Path:", "").replace("TIGR:", "").replace("TIGRrole:", "");
                     if (!annot.trim().equalsIgnoreCase("null") && !annot.trim().equalsIgnoreCase("none")) {
@@ -358,7 +357,7 @@ public class PairwiseOverlapEnrichmentAnalysis {
                 }
                 a_terms.put(bicluster, currentlist);
             }
-            count ++;
+            count++;
         }
 
         FileReader file_b = new FileReader(fileB);
@@ -372,16 +371,16 @@ public class PairwiseOverlapEnrichmentAnalysis {
                 if (currentlist == null) {
                     currentlist = new ArrayList();
                 }
-                String [] annotations = bLine.split("=")[1].split("_");
+                String[] annotations = bLine.split("=")[1].split("_");
                 for (int i = 0; i < annotations.length; i++) {
                     String annot = annotations[i].trim().replace("GO:", "").replace("Path:", "").replace("TIGR:", "").replace("TIGRrole:", "");
-                    if (!annot.trim().equalsIgnoreCase("null")  && !annot.trim().equalsIgnoreCase("none")) {
+                    if (!annot.trim().equalsIgnoreCase("null") && !annot.trim().equalsIgnoreCase("none")) {
                         currentlist.add(key + "_|_" + annot.toLowerCase());
                     }
                 }
                 b_terms.put(bicluster, currentlist);
             }
-            count ++;
+            count++;
         }
     }
 
@@ -401,18 +400,18 @@ public class PairwiseOverlapEnrichmentAnalysis {
     private void getFileMap(String indir, HashMap dictionary) {
         File directory = new File(indir);
         File[] myarray;
-        myarray=new File[10];
+        myarray = new File[10];
         myarray = directory.listFiles();
         int count = 0;
         for (int i = 0; i < myarray.length; i++) {
             File curr_file = myarray[i];
-            String [] cs1 = ("" + curr_file).split("/");
-            String curr_file_name = ("" + curr_file).split("/")[cs1.length-1];
-            String [] cs2 = (curr_file_name).split("_");
+            String[] cs1 = ("" + curr_file).split("/");
+            String curr_file_name = ("" + curr_file).split("/")[cs1.length - 1];
+            String[] cs2 = (curr_file_name).split("_");
             if (curr_file_name.endsWith(".noa")) {
-                String key = curr_file_name.split("_")[cs2.length-1].split("\\.")[0];
+                String key = curr_file_name.split("_")[cs2.length - 1].split("\\.")[0];
                 boolean flag = false;
-                for (int j=0; j < bad_nodes.length; j++) {
+                for (int j = 0; j < bad_nodes.length; j++) {
                     if (key.equalsIgnoreCase(bad_nodes[j])) {
                         flag = true;
                     }
@@ -495,13 +494,13 @@ public class PairwiseOverlapEnrichmentAnalysis {
             PairwiseOverlapEnrichmentAnalysis rm = new PairwiseOverlapEnrichmentAnalysis(args);
         } else {
             System.out.println("syntax: java DataMining.func.PairwiseOVerlapEnrichmentAnalysis\n" +
-                            "<-similarity_matrix>\n" +
-                            "<-setA_dir>\n" +
-                            "<-setB_dir>\n" +
-                            "<-setA_vbl>\n" +
-                            "<-setB_vbl>\n" +
-                            "<-threshold>\n" +
-                            "<-outfile>\n"
+                    "<-similarity_matrix>\n" +
+                    "<-setA_dir>\n" +
+                    "<-setB_dir>\n" +
+                    "<-setA_vbl>\n" +
+                    "<-setB_vbl>\n" +
+                    "<-threshold>\n" +
+                    "<-outfile>\n"
             );
         }
     }

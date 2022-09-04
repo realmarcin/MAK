@@ -19,7 +19,7 @@ public class FABIAReformat {
 
         ValueBlockList refvbl = null;
 
-        System.out.println("sm.ylabels " + sm.ylabels.length+"\tsm.xlabels " + sm.xlabels.length);
+        System.out.println("sm.ylabels " + sm.ylabels.length + "\tsm.xlabels " + sm.xlabels.length);
 
         try {
             refvbl = ValueBlockListMethods.readFABIA(readref, sm.ylabels, sm.xlabels, true);

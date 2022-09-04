@@ -143,7 +143,7 @@ public class AnalyzeCritTest extends Program {
 
                 /*int nextindex = in.indexOf("_", index + id[i].length());
 
-                *//*while (in.charAt(nextindex) == '_') {
+                 *//*while (in.charAt(nextindex) == '_') {
                     System.out.println("skipping _ " + in.charAt(nextindex));
                     nextindex += 1;
                 }*//*

@@ -43,15 +43,14 @@ public class MakeRandomSet {
         File make = new File(args[2]);
         make.mkdir();
 
-        if(args.length ==4) {
+        if (args.length == 4) {
 
-        }
-        else {
-        rand = new Random(seed);
+        } else {
+            rand = new Random(seed);
         }
 
         sb = new SampleBlocks(MINER_STATIC.DEFAULT_percent_allowed_missing_in_block, MINER_STATIC.DEFAULT_percent_allowed_missing_genes,
-                               MINER_STATIC.DEFAULT_percent_allowed_missing_exps, expr.data.length, expr.data[0].length, rand, expr.data, false);
+                MINER_STATIC.DEFAULT_percent_allowed_missing_exps, expr.data.length, expr.data[0].length, rand, expr.data, false);
 
         for (int j = 0; j < samples; j++) {
 

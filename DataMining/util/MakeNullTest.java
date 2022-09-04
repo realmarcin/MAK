@@ -73,29 +73,29 @@ public class MakeNullTest extends Program {
             //"CORC",
 
             //"MADR"
-    /*
+            /*
 
-                "EUC",
-                "EUCR",
-                "EUCC",
+                        "EUC",
+                        "EUCR",
+                        "EUCC",
 
-                "MSE",
-                "MSER",
-                "MSEC",
+                        "MSE",
+                        "MSER",
+                        "MSEC",
 
-                "KENDALL",
-                "KENDALLR",
-                "KENDALLC",
+                        "KENDALL",
+                        "KENDALLR",
+                        "KENDALLC",
 
-                "FEM",
-                "FEMR",
-                "FEMC",
-    */
+                        "FEM",
+                        "FEMR",
+                        "FEMC",
+            */
 
 
-                /*"MEAN",
-                "MEDRMEAN",
-                "MEDCMEAN",*/
+            /*"MEAN",
+            "MEDRMEAN",
+            "MEDCMEAN",*/
 
             //"LARS",
             //"LARSRE",
@@ -108,27 +108,26 @@ public class MakeNullTest extends Program {
             //"MADR",
 
 
+            /*
+            //combined criteria
+            "MSER_KENDALL_FEMR",
+            "MSEC_KENDALLC_FEMC",
+            "MSER_KENDALL_FEMR_inter",
+            "MSEC_KENDALLC_FEMC_inter",
+            "MSER_KENDALL_FEMR_MAXTF",
+            "MSEC_KENDALLC_FEMC_MAXTF",
+            "MSER_KENDALL_FEMR_inter_MAXTF",
+            "MSEC_KENDALLC_FEMC_inter_MAXTF",
 
-                /*
-                //combined criteria
-                "MSER_KENDALL_FEMR",
-                "MSEC_KENDALLC_FEMC",
-                "MSER_KENDALL_FEMR_inter",
-                "MSEC_KENDALLC_FEMC_inter",
-                "MSER_KENDALL_FEMR_MAXTF",
-                "MSEC_KENDALLC_FEMC_MAXTF",
-                "MSER_KENDALL_FEMR_inter_MAXTF",
-                "MSEC_KENDALLC_FEMC_inter_MAXTF",
+            "MSE_KENDALL",
+            "MSER_KENDALL",
+            "MSEC_KENDALL",
 
-                "MSE_KENDALL",
-                "MSER_KENDALL",
-                "MSEC_KENDALL",
-
-                "MSE_KENDALL_FEMR",
-                "MSE_KENDALL_FEMC",
-                "MSER_KENDALL_FEMR",
-                "MSEC_KENDALL_FEMC",
-                */
+            "MSE_KENDALL_FEMR",
+            "MSE_KENDALL_FEMC",
+            "MSER_KENDALL_FEMR",
+            "MSEC_KENDALL_FEMC",
+            */
 
     };
 
@@ -575,7 +574,7 @@ public class MakeNullTest extends Program {
             System.exit(0);
         }
 
-            /*TODO disable this feature */
+        /*TODO disable this feature */
         /*    if (SELECT_CRIT_LABELS == null || SELECT_CRIT_LABELS.length == 0) {
                 System.out.println("WARNING WARNING WARNING");
                 System.out.println("USING ALL CRITERIA!!! ... except inter and feat and maxtf");

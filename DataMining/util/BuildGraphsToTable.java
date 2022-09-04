@@ -144,7 +144,7 @@ public class BuildGraphsToTable {
 
             if (!listout[i].equals(".DS_Store")) {
 
-                System.out.println("doing "+i + "\t" + listout[i]);
+                System.out.println("doing " + i + "\t" + listout[i]);
 
                 BlockData blockData = null;
                 try {

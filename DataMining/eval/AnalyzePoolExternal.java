@@ -830,12 +830,12 @@ public class AnalyzePoolExternal extends Program {
             AnalyzePoolExternal arg = new AnalyzePoolExternal(args);
         } else {
             System.out.println("syntax: java DataMining.eval.AnalyzePoolExternal\n" +
-                    "<-dir relative path to dir of toplists>\n" +
-                    "<-mode basic,const,incr>\n" +
-                    "<-ext bicluster results>\n" +
-                    "<-cut floorAndCeling for pooling default = 0.5>\n" +
-                    "<-lastdel y/n>\n" +
-                    "<-debug y/n>"
+                            "<-dir relative path to dir of toplists>\n" +
+                            "<-mode basic,const,incr>\n" +
+                            "<-ext bicluster results>\n" +
+                            "<-cut floorAndCeling for pooling default = 0.5>\n" +
+                            "<-lastdel y/n>\n" +
+                            "<-debug y/n>"
                     //"<-block 1 or 2>"
             );
         }

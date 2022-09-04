@@ -27,7 +27,7 @@ public class MinerFast {
     public RunMinerBackFast rmb;
     /*Static variable containing the initial settings of all variables.*/
     //Parameters prm;
-        /*Dynamic variable containing the current state of all algorithm parameters related to moving.*/
+    /*Dynamic variable containing the current state of all algorithm parameters related to moving.*/
     MoveParams move_params;
 
     //ObtainNullValues onv;
@@ -37,7 +37,7 @@ public class MinerFast {
     /*Custom list object for storing the search trajectory.*/
     public ValueBlockList trajectory, finalVarListGenes, finalVarListExp;
 
-        /*TF to target map*/
+    /*TF to target map*/
     //SimpleMatrix TFtargetmap;
 
     //HashMap tried_blocks;
@@ -162,7 +162,7 @@ public class MinerFast {
                 VBPInitial.setDataAndMean(rmb.expr_matrix.data);
             }
 
-                /*TODO reinstante trimNaN*/
+            /*TODO reinstante trimNaN*/
             VBPInitial.trimNAN(rmb.expr_matrix.data, rmb.irv.prm.PERCENT_ALLOWED_MISSING_GENES, rmb.irv.prm.PERCENT_ALLOWED_MISSING_EXP, debug_createPreCritTopList);
 
             if (VBPInitial.genes.length < rmb.irv.prm.IMIN || VBPInitial.exps.length < rmb.irv.prm.JMIN) {
@@ -318,7 +318,7 @@ public class MinerFast {
                 e.printStackTrace();
             }
         }
-            /*Generates text and graphical output.*/
+        /*Generates text and graphical output.*/
         //if (!rmb.irv.prm.RANDOMFLOOD)
 
         if (trajectory.size() > 0) {
@@ -1059,7 +1059,7 @@ public class MinerFast {
                     }
                 }
             }*/
-            /*Additional lists used for lookup when topN truncation implemented.*/
+        /*Additional lists used for lookup when topN truncation implemented.*/
     }
 
     /**
@@ -1292,6 +1292,7 @@ public class MinerFast {
     }
 
     /**
+     *
      */
     private void setAddDelGeneExp() {
         if (debug)
@@ -1706,7 +1707,7 @@ public class MinerFast {
                 cur.setDataAndMean(rmb.expr_matrix.data);
 
                 //remove any gene or exps rows which violate the missing data threshold
-                    /*TODO reinstate trimNaN*/
+                /*TODO reinstate trimNaN*/
                 //cur.trimNAN(rmb.expr_matrix.data, rmb.irv.prm.PERCENT_ALLOWED_MISSING_GENES, rmb.irv.prm.PERCENT_ALLOWED_MISSING_EXP, debug_createPreCritTopList);
                 cur.basictrimNAN(rmb.expr_matrix.data, rmb.irv.prm.PERCENT_ALLOWED_MISSING_GENES, rmb.irv.prm.PERCENT_ALLOWED_MISSING_EXP, debug_createPreCritTopList);
 
@@ -1766,7 +1767,7 @@ public class MinerFast {
                     cur.setDataAndMean(rmb.expr_matrix.data);
 
                     //remove any gene or exps rows which violate the missing data threshold
-                        /*TODO reinstate trimNaN*/
+                    /*TODO reinstate trimNaN*/
                     //cur.trimNAN(rmb.expr_matrix.data, rmb.irv.prm.PERCENT_ALLOWED_MISSING_GENES, rmb.irv.prm.PERCENT_ALLOWED_MISSING_EXP, debug_createPreCritTopList);
                     cur.basictrimNAN(rmb.expr_matrix.data, rmb.irv.prm.PERCENT_ALLOWED_MISSING_GENES, rmb.irv.prm.PERCENT_ALLOWED_MISSING_EXP, debug_createPreCritTopList);
 
@@ -1819,7 +1820,7 @@ public class MinerFast {
                 cur.setDataAndMean(rmb.expr_matrix.data);
 
                 //remove any gene or exps rows which violate the missing data threshold
-                    /*TODO reinstate trimNaN*/
+                /*TODO reinstate trimNaN*/
                 //cur.trimNAN(rmb.expr_matrix.data, rmb.irv.prm.PERCENT_ALLOWED_MISSING_GENES, rmb.irv.prm.PERCENT_ALLOWED_MISSING_EXP, debug_createPreCritTopList);
                 cur.basictrimNAN(rmb.expr_matrix.data, rmb.irv.prm.PERCENT_ALLOWED_MISSING_GENES, rmb.irv.prm.PERCENT_ALLOWED_MISSING_EXP, debug_createPreCritTopList);
 
@@ -1883,7 +1884,7 @@ public class MinerFast {
                     cur.NRCoords(newcoords);
                     cur.setDataAndMean(rmb.expr_matrix.data);
                     //remove any gene or exps rows which violate the missing data threshold
-                        /*TODO reinstate trimNaN*/
+                    /*TODO reinstate trimNaN*/
                     //cur.trimNAN(rmb.expr_matrix.data, rmb.irv.prm.PERCENT_ALLOWED_MISSING_GENES, rmb.irv.prm.PERCENT_ALLOWED_MISSING_EXP, debug_createPreCritTopList);
                     cur.basictrimNAN(rmb.expr_matrix.data, rmb.irv.prm.PERCENT_ALLOWED_MISSING_GENES, rmb.irv.prm.PERCENT_ALLOWED_MISSING_EXP, debug_createPreCritTopList);
 
@@ -2874,7 +2875,7 @@ public class MinerFast {
                 }
                 boolean retjri2 = rmb.irv.Rengine.assign("Jc", curJc);
 
-    /*TODO : This loops over the rows of preCriteria (rows=no.Ids) and sums them. Should allow a weighted sum */
+                /*TODO : This loops over the rows of preCriteria (rows=no.Ids) and sums them. Should allow a weighted sum */
                 double[] cur_pCritDouble = getCriteriaForBlock(curIc, curJc, rmb.irv.prm.precrit)[0];
                 if (debug_createPreCritTopList) {
                     System.out.println("getTopList VBPCandidate rmb.irv.prm.precrit " + rmb.irv.prm.precrit.crit);
@@ -2893,7 +2894,7 @@ public class MinerFast {
                     MoreArray.printArray(cur_pCritDouble);
                 }
 
-                    /*TODO test for ties */
+                /*TODO test for ties */
                 //System.out.println("curval_list " + curval_list.length);
                 if (added < listsize) {
                     if (curval > cur_max)
@@ -3656,7 +3657,7 @@ public class MinerFast {
             if (rmb.irv.prm.param_path != null && rmb.irv.prm.param_path.indexOf(workdir) != 0) {
                 parampath = workdir + sysRes.file_separator + rmb.irv.prm.param_pathli;
             }*/
-            /*output trajectory */
+        /*output trajectory */
         if (trajectory.size() > 0) {
             String stoplist = trajectory.toString(header + "\n" + MINER_STATIC.HEADER_VBL);// ValueBlock.toStringShortColumns());
             String outpath = rmb.irv.prm.OUTDIR + outprefix_from_param + outlabel_combo + "_" +
@@ -3666,20 +3667,20 @@ public class MinerFast {
             System.out.println("final trajectory param_path " + stoplist);
         }
 
-            /*output graphic of block trajectory and stats*/
+        /*output graphic of block trajectory and stats*/
         if (rmb.mvb != null) {
             rmb.mvb.backmvc.writecanJPEG(rmb.irv.prm.OUTDIR + outprefix_from_param + outlabel_combo + "_" +
                     move_params.current_move_class + ".jpeg");
             //rmb.mvb.backmvc.writecanEPS(rmb.irv.prm.OUTDIR + outprefix_from_param + outlabel_combo + "_" +
             //        move_params.current_move_class + ".eps");
         }
-            /* ? */
+        /* ? */
         if (VBPInitial.genes != null && VBPInitial.exps != null) {
             rmb.irv.prm.INIT_BLOCKS = new ArrayList[2];
             rmb.irv.prm.INIT_BLOCKS[0] = util.MoreArray.addElements(rmb.irv.prm.INIT_BLOCKS[0], VBPInitial.genes);
             rmb.irv.prm.INIT_BLOCKS[1] = util.MoreArray.addElements(rmb.irv.prm.INIT_BLOCKS[1], VBPInitial.exps);
         }
-            /*output parameter state*/
+        /*output parameter state*/
         String outfile = rmb.irv.prm.OUTDIR + outprefix_from_param + outlabel_combo + "_" + rmb.irv.prm.move_class +
                 "_parameters.txt";
         System.out.println("outputing used params " + outfile);

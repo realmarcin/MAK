@@ -61,8 +61,8 @@ public class TFCrit {
             if (index != -1) {
                 data.add(TFtargetmap.data[index]);
 //                if (debug)
-                   // System.out.println("getTF8merRank added");
-                   // System.out.println(TFtargetmap.data[index]);
+                // System.out.println("getTF8merRank added");
+                // System.out.println(TFtargetmap.data[index]);
             } else
                 notfound++;
         }

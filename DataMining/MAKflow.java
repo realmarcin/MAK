@@ -1423,7 +1423,7 @@ public class MAKflow {
                     "#SBATCH --account=" + account + "\n" +
                     "#SBATCH --ntasks=1\n" +
                     "#SBATCH --cpus-per-task=1\n" +
-                    "#SBATCH --mem="+(mem_per_cpu * 3000.0)+"M\n" +
+                    "#SBATCH --mem=" + (mem_per_cpu * 3000.0) + "M\n" +
                     "#SBATCH --time=" + max_walltime + "\n" +
                     "#SBATCH --output=MAKflow_" + setLevel + "_%j.out\n";
             if (!qos.equals(""))
@@ -2577,7 +2577,7 @@ public class MAKflow {
                                     absvect = param_val;
                                     if (absvect.contains("1")) {
                                         useAbs = 1;
-                                    }  else {
+                                    } else {
                                         useAbs = 0;
                                     }
                                 } catch (Exception e) {
@@ -3272,7 +3272,7 @@ public class MAKflow {
         boolean testdir = dir.mkdir();
         if (!testdir) {
             System.out.println("mkdir failed? " + path);
-           //System.exit(0);
+            //System.exit(0);
         }
         return dir;
     }

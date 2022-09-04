@@ -123,9 +123,7 @@ public class BlocktoPajek {
                 }
             }
             out.close();
-        }
-
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Error creating or writing file " + outf);
             System.out.println("IOException: " + e.getMessage());
         }

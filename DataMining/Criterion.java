@@ -1009,7 +1009,7 @@ public class Criterion {
                     MINER_STATIC.CRIT_LABELS[crit - 1].contains("MEDCMEAN") ||
                     MINER_STATIC.CRIT_LABELS[crit - 1].contains("MEAN"))
                 //&& MINER_STATIC.CRIT_LABELS[crit - 1].indexOf("_") == -1
-                    ) {
+            ) {
                 usemean = true;
                 System.out.println("usemean = true");
                 if (MINER_STATIC.CRIT_LABELS[crit - 1].contains("MEDRMEAN") &&

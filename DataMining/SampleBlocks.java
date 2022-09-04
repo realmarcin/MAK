@@ -46,7 +46,7 @@ public class SampleBlocks {
     public int[][] sampleRetInt(int g, int e, boolean debug) {
 
         boolean origdebug = debug2;
-        if(debug)
+        if (debug)
             debug2 = true;
 
         //System.out.println("debug2 "+debug2);

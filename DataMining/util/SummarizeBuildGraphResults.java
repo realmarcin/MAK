@@ -13,13 +13,13 @@ import java.util.HashMap;
 public class SummarizeBuildGraphResults {
     HashMap options;
 
-    String [] bad_nodes = new String[]{"nodearea", "nodecriterion", "nodeGMT", "nodeGOval", "nodemeanexpr", "nodePathval", "nodeTFval", "nodeTIGRroleGO", "nodeTIGRroleGOPath", "nodeTIGRroleval", "nodeTIGRval", "nodeTFexpval", null};
+    String[] bad_nodes = new String[]{"nodearea", "nodecriterion", "nodeGMT", "nodeGOval", "nodemeanexpr", "nodePathval", "nodeTFval", "nodeTIGRroleGO", "nodeTIGRroleGOPath", "nodeTIGRroleval", "nodeTIGRval", "nodeTFexpval", null};
 
     String[] valid_args = {
             "-setA_dir", "-setB_dir", "-outfile"
     };
 
-    String [] keys = new String[20];
+    String[] keys = new String[20];
     String setA_dir;
     String setB_dir;
     String outfile;
@@ -41,7 +41,7 @@ public class SummarizeBuildGraphResults {
                 String key = keys[i];
                 String fileA = (String) noa_dict_a.get(key);
                 String fileB = (String) noa_dict_b.get(key);
-                if (key != null && fileA != null && fileB != null ) {
+                if (key != null && fileA != null && fileB != null) {
                     writeTableForNode(fileA, fileB, key);
                 }
             }
@@ -58,7 +58,7 @@ public class SummarizeBuildGraphResults {
     }
 
     private void writeTableForNode(String fileA, String fileB, String key) throws IOException {
-        String [] keywords = new String[10000];
+        String[] keywords = new String[10000];
         HashMap map_a = new HashMap<String, Integer>();
         HashMap map_b = new HashMap<String, Integer>();
 
@@ -73,9 +73,9 @@ public class SummarizeBuildGraphResults {
         int count = 0;
         while ((aLine = bf_a.readLine()) != null) {
             if (count > 0) {
-                String [] annotations = aLine.split("=")[1].split("_");
+                String[] annotations = aLine.split("=")[1].split("_");
                 for (int i = 0; i < annotations.length; i++) {
-                    String annot = annotations[i].replaceAll("\\s+","").replace("GO:", "").replace("Path:", "").replace("TIGR:", "").replace("TIGRrole:", "");
+                    String annot = annotations[i].replaceAll("\\s+", "").replace("GO:", "").replace("Path:", "").replace("TIGR:", "").replace("TIGRrole:", "");
                     int ac = 1;
                     if (map_a.get(annot) != null) {
                         int tmp = (Integer) map_a.get(annot);
@@ -87,7 +87,7 @@ public class SummarizeBuildGraphResults {
                     map_a.put(annot, ac);
                 }
             }
-            count ++;
+            count++;
         }
 
         FileReader file_b = new FileReader(fileB);
@@ -96,16 +96,16 @@ public class SummarizeBuildGraphResults {
         count = 0;
         while ((bLine = bf_b.readLine()) != null) {
             if (count > 0) {
-                String [] annotations = bLine.split("=")[1].split("_");
+                String[] annotations = bLine.split("=")[1].split("_");
                 for (int i = 0; i < annotations.length; i++) {
-                    String annot = annotations[i].replaceAll("\\s+","").replace("GO:", "").replace("Path:", "").replace("TIGR:", "").replace("TIGRrole:", "");
+                    String annot = annotations[i].replaceAll("\\s+", "").replace("GO:", "").replace("Path:", "").replace("TIGR:", "").replace("TIGRrole:", "");
                     int ac = 1;
                     if (map_b.get(annot) != null) {
                         int tmp = (Integer) map_b.get(annot);
                         ac = tmp + 1;
                     } else {
                         boolean flag = false;
-                        for (int j=0; j < keywords.length; j++) {
+                        for (int j = 0; j < keywords.length; j++) {
                             if (annot.equalsIgnoreCase(keywords[j])) {
                                 flag = true;
                             }
@@ -118,7 +118,7 @@ public class SummarizeBuildGraphResults {
                     map_b.put(annot, ac);
                 }
             }
-            count ++;
+            count++;
         }
 
         for (int k = 0; k < keywords.length; k++) {
@@ -140,18 +140,18 @@ public class SummarizeBuildGraphResults {
     private void getFileMap(String indir, HashMap dictionary) {
         File directory = new File(indir);
         File[] myarray;
-        myarray=new File[10];
+        myarray = new File[10];
         myarray = directory.listFiles();
         int count = 0;
         for (int i = 0; i < myarray.length; i++) {
             File curr_file = myarray[i];
-            String [] cs1 = ("" + curr_file).split("/");
-            String curr_file_name = ("" + curr_file).split("/")[cs1.length-1];
-            String [] cs2 = (curr_file_name).split("_");
+            String[] cs1 = ("" + curr_file).split("/");
+            String curr_file_name = ("" + curr_file).split("/")[cs1.length - 1];
+            String[] cs2 = (curr_file_name).split("_");
             if (curr_file_name.endsWith(".noa")) {
-                String key = curr_file_name.split("_")[cs2.length-1].split("\\.")[0];
+                String key = curr_file_name.split("_")[cs2.length - 1].split("\\.")[0];
                 boolean flag = false;
-                for (int j=0; j < bad_nodes.length; j++) {
+                for (int j = 0; j < bad_nodes.length; j++) {
                     if (key.equalsIgnoreCase(bad_nodes[j])) {
                         flag = true;
                     }
@@ -204,9 +204,9 @@ public class SummarizeBuildGraphResults {
             SummarizeBuildGraphResults rm = new SummarizeBuildGraphResults(args);
         } else {
             System.out.println("syntax: java DataMining.func.SummarizeBuildGraphResults\n" +
-                            "<-setA_dir>\n" +
-                            "<-setB_dir>\n" +
-                            "<-outfile>\n"
+                    "<-setA_dir>\n" +
+                    "<-setB_dir>\n" +
+                    "<-outfile>\n"
             );
         }
     }

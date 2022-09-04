@@ -57,7 +57,7 @@ public class EvalUniBicRelevRecover {
         if (args[1].indexOf("narrow") != -1)
             limit = 3;
 
-        if(args.length == 3)
+        if (args.length == 3)
             topN = Integer.parseInt(args[2]);
 
         for (int i = 0; i < limit; i++) {
@@ -67,10 +67,10 @@ public class EvalUniBicRelevRecover {
             String readtest = args[1] + "/" + dirs[i] + "/level14.1/" + "results_" + prefix + "_" + files[i] + "_cut_scoreperc66.0_exprNaN_0.0__nr_0.25_score_root.txt";
             System.out.println("test " + readtest);
             File testf = new File(readtest);
-            if(!testf.exists()) {
+            if (!testf.exists()) {
                 readtest = args[1] + "/" + dirs[i] + "/level14.1/" + "results_" + prefix + "_" + files[i] + "_cut_scoreperc90.0.0_exprNaN_0.0__nr_0.25_score_root.txt";
                 testf = new File(readtest);
-                if(!testf.exists()) {
+                if (!testf.exists()) {
                     readtest = args[1] + "/" + dirs[i] + "/level14.1/" + "results_" + prefix + "_" + files[i] + "_cut_scoreperc80.0.0_exprNaN_0.0__nr_0.25_score_root.txt";
                     /*testf = new File(readtest);
                     if(!testf.exists()) {
@@ -109,7 +109,7 @@ public class EvalUniBicRelevRecover {
             int max_recovery_pos = -1;
             double[] recovery_vals_d = new double[refvbl.size()];
 
-            int maxTest = topN != -1? Math.min(topN, testvbl.size()):testvbl.size();
+            int maxTest = topN != -1 ? Math.min(topN, testvbl.size()) : testvbl.size();
 
             for (int a = 0; a < refvbl.size(); a++) {
                 for (int b = 0; b < maxTest; b++) {
@@ -119,7 +119,7 @@ public class EvalUniBicRelevRecover {
                         max_recovery_pos = b;
                     }
                 }
-                System.out.println("ref "+max_recovery_pos + "\t" + jaccard_max_recovery);
+                System.out.println("ref " + max_recovery_pos + "\t" + jaccard_max_recovery);
                 recovery_vals_d[a] = jaccard_max_recovery;
             }
 
@@ -135,7 +135,7 @@ public class EvalUniBicRelevRecover {
                         max_relevance_pos = a;
                     }
                 }
-                System.out.println("test "+max_relevance_pos + "\t" + jaccard_max_relevance);
+                System.out.println("test " + max_relevance_pos + "\t" + jaccard_max_relevance);
                 relevance_vals_d[b] = jaccard_max_relevance;
             }
             double mean_recovery = mathy.stat.avg(recovery_vals_d);
@@ -154,11 +154,11 @@ public class EvalUniBicRelevRecover {
         }
 
 
-        String outpath1 = unique_label+"_"+unique_prefix + "__" + prefix + "_recovery.txt";
+        String outpath1 = unique_label + "_" + unique_prefix + "__" + prefix + "_recovery.txt";
         System.out.println("outpath1");
         System.out.println(outpath1);
         TextFile.write(MoreArray.toStringArray(MoreArray.ArrayListtoDouble(recovery_vals)), outpath1);
-        String outpath2 = unique_label+"_"+unique_prefix + "__" + prefix + "_relevance.txt";
+        String outpath2 = unique_label + "_" + unique_prefix + "__" + prefix + "_relevance.txt";
         TextFile.write(MoreArray.toStringArray(MoreArray.ArrayListtoDouble(relevance_vals)), outpath2);
 
         MoreArray.printArray(MoreArray.ArrayListtoDouble(recovery_vals));
@@ -169,20 +169,20 @@ public class EvalUniBicRelevRecover {
         double rec_sd = stat.SD(MoreArray.ArrayListtoDouble(recovery_vals), rec_avg);
         recov_stats.add(rec_avg);
         recov_stats.add(rec_sd);
-        System.out.println("Recovery "+rec_avg+"\t"+rec_sd);
+        System.out.println("Recovery " + rec_avg + "\t" + rec_sd);
 
         ArrayList relev_stats = new ArrayList();
         double relev_avg = stat.avg(MoreArray.ArrayListtoDouble(relevance_vals));
         double relev_sd = stat.SD(MoreArray.ArrayListtoDouble(relevance_vals), relev_avg);
         relev_stats.add(relev_avg);
         relev_stats.add(relev_sd);
-        System.out.println("Relevance "+relev_avg+"\t"+relev_sd);
+        System.out.println("Relevance " + relev_avg + "\t" + relev_sd);
 
-        String outpath1s = unique_label+"_"+unique_prefix + "__" + prefix + "_recovery_stats.txt";
+        String outpath1s = unique_label + "_" + unique_prefix + "__" + prefix + "_recovery_stats.txt";
         System.out.println("outpath1s");
         System.out.println(outpath1s);
         TextFile.write(MoreArray.toStringArray(MoreArray.ArrayListtoDouble(recov_stats)), outpath1s);
-        String outpath2s = unique_label+"_"+unique_prefix + "__" + prefix + "_relevance_stats.txt";
+        String outpath2s = unique_label + "_" + unique_prefix + "__" + prefix + "_relevance_stats.txt";
         TextFile.write(MoreArray.toStringArray(MoreArray.ArrayListtoDouble(relev_stats)), outpath2s);
     }
 
@@ -213,7 +213,7 @@ public class EvalUniBicRelevRecover {
         } else {
             System.out.println("syntax: java DataMining.util.EvalUniBicRelevRecover\n" +
                     "<ref biclusters dir>\n" +
-                    "<test biclusters dir>\n"+
+                    "<test biclusters dir>\n" +
                     "<optional top N>"
             );
         }

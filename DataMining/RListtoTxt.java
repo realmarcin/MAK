@@ -45,7 +45,7 @@ public class RListtoTxt {
         System.out.println(f);
         ArrayList pass = TextFile.readtoList(f);
         ArrayList out = new ArrayList();
-        for (int j = 0; j < pass.size();) {
+        for (int j = 0; j < pass.size(); ) {
 
             String cur1 = (String) pass.get(j + 1);
             System.out.println("first " + j + "\t" + (j + 1) + "\t" + cur1);

@@ -50,7 +50,7 @@ public class EvalCOALESCE {
         //with.pcl_00.txt
         String coalescedata = args[3];
 
-        if(args.length == 5) {
+        if (args.length == 5) {
             suffix = args[4];
         }
 
@@ -177,31 +177,31 @@ public class EvalCOALESCE {
             }
 
             typelabel = "2D-HCL";
-                        for (int a = 0; a < mlist.size(); a++) {
-                            ValueBlockList vblj = new ValueBlockList();
-                            ValueBlock curblock = (ValueBlock) mlist.get(a);
-                            vblj.add(curblock);
-                            int mmax = -1;
-                            double dmmax = -1;
-                            ArrayList mcur = new ArrayList();
-                            for (int j = 0; j < reflist.size(); j++) {
-                                ValueBlock vj = (ValueBlock) reflist.get(j);
-                                System.out.println("reflist m " + j + "\t" + vj.blockId());
-                                double[] add2 = BlockMethods.summarizeResults(vj, curblock, typelabel, -1,
-                                        vblj, mfile, sm.ylabels.length, sm.xlabels.length, null, false);
+            for (int a = 0; a < mlist.size(); a++) {
+                ValueBlockList vblj = new ValueBlockList();
+                ValueBlock curblock = (ValueBlock) mlist.get(a);
+                vblj.add(curblock);
+                int mmax = -1;
+                double dmmax = -1;
+                ArrayList mcur = new ArrayList();
+                for (int j = 0; j < reflist.size(); j++) {
+                    ValueBlock vj = (ValueBlock) reflist.get(j);
+                    System.out.println("reflist m " + j + "\t" + vj.blockId());
+                    double[] add2 = BlockMethods.summarizeResults(vj, curblock, typelabel, -1,
+                            vblj, mfile, sm.ylabels.length, sm.xlabels.length, null, false);
 
-                                if (add2[add2.length - 3] + add2[add2.length - 4] > dmmax) {
-                                    dmmax = add2[add2.length - 3] + add2[add2.length - 4];
-                                    mmax = j;
-                                    System.out.println("reflist max m " + j + "\t" + dmmax + "\t" + mmax + "\t" + vj.blockId());
-                                }
-                                //System.out.println(typelabel);
-                                //MoreArray.printArray(add2);
+                    if (add2[add2.length - 3] + add2[add2.length - 4] > dmmax) {
+                        dmmax = add2[add2.length - 3] + add2[add2.length - 4];
+                        mmax = j;
+                        System.out.println("reflist max m " + j + "\t" + dmmax + "\t" + mmax + "\t" + vj.blockId());
+                    }
+                    //System.out.println(typelabel);
+                    //MoreArray.printArray(add2);
 
-                                mcur.add(typelabel + "\t" + i + "\t" + j + "\t" + a + "\t" + MoreArray.toString(add2, "\t"));
-                            }
-                            out.add(mcur.get(mmax));
-                        }
+                    mcur.add(typelabel + "\t" + i + "\t" + j + "\t" + a + "\t" + MoreArray.toString(add2, "\t"));
+                }
+                out.add(mcur.get(mmax));
+            }
         }
 
         String sout = "eval_COALESCE_out.txt";
@@ -222,7 +222,7 @@ public class EvalCOALESCE {
                     "<ref dir>\n" +
                     "<COALESCE dir>\n" +
                     "<MAK dir>\n" +
-                    "<COALESCE data dir>\n"       +
+                    "<COALESCE data dir>\n" +
                     "<OPTIONAL SUFFIX to '00'>"
             );
         }

@@ -70,7 +70,7 @@ public class SubWaves {
 
         for (int w = 0; w < global_waves; w++) {
             //loop over all param files
-            for (int i = 0; i < flist.length + wave_size - 1;) {
+            for (int i = 0; i < flist.length + wave_size - 1; ) {
                 System.out.println("wave " + i + "\t" + wavecount);
                 File tod = new File(submitpath);
                 System.out.println("clearing dir " + submitpath);

@@ -82,7 +82,7 @@ class BootBlocks extends Program {
                     for (int m = 0; m < M; m++) {
                         System.out.print(".");
                         //System.out.println("createRandomBlock");
-                    /*TODO  createRandomBlock broken? */
+                        /*TODO  createRandomBlock broken? */
                         ValueBlock randsamp = BlockMethods.createRandomBlock(current.genes.length, current.exps.length,
                                 rmb.expr_matrix.ylabels.length, rmb.expr_matrix.xlabels.length, rand);
                         //System.out.println("refforsamp " + current.blockId());
@@ -92,7 +92,7 @@ class BootBlocks extends Program {
                         //System.out.println("sampfromref " + randsamp.full_criterion);
 
 
-                    /*for resampling and recentering*/
+                        /*for resampling and recentering*/
                     /*
                     ArrayList nowdata = new ArrayList();
                     //N subsamples of cursamp

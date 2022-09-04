@@ -297,7 +297,7 @@ public class CompareSummary {
      */
     private void doOne(int i, String[] DATA_A, int j, String[] DATA_B, String label, String shortlabel) {
         System.out.println("start " + shortlabel);
-                    /*TODO also compare unsplit enrichment strings */
+        /*TODO also compare unsplit enrichment strings */
 
         boolean added_match = false;
         boolean added_nomatch = false;

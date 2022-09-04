@@ -70,6 +70,7 @@ public class PrepareYeastPathways {
     }
 
     /**
+     *
      */
     private void createParamFiles() {
         int count_smallpath = 0;
@@ -190,9 +191,7 @@ public class PrepareYeastPathways {
                 }
             }
             pw.close();
-        }
-
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 

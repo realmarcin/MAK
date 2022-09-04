@@ -27,7 +27,7 @@ public class EvaluateIncrNonoRand {
     public final static ValueBlock true2 = new ValueBlock(trueblock2);
     public final static ValueBlock true3 = new ValueBlock(trueblock3);
     public final static ValueBlock true4 = new ValueBlock(trueblock4);
-    
+
     double[] expr_cor = {0.3, 0.5, 0.7, 0.9};
     double[] interact_prob = {0.04, 0.04, 0.04, 0.04};
 

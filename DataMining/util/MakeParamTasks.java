@@ -51,7 +51,7 @@ public class MakeParamTasks {
 
         }
         //if (files.length > 0)
-            TextFile.write(out, outfile);
+        TextFile.write(out, outfile);
     }
 
 
