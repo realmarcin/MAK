@@ -101,12 +101,7 @@
         <javac destdir="${out-dir}/classes" debug="${compiler.debug}" sourcepath=""
                nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}"
                fork="true" includeantruntime="true">
-
-
-            <!-- encoding="UTF-8" -->
-
-
-            <classpath refid="build.classpath"/>
+            
 
             <src>
                 <pathelement location="${out-dir}/MAK_source"/>
