@@ -72,7 +72,7 @@ public class RTest {
 
             // push a boolean array
             boolean by[] = {true, false, false};
-            re.assign("bool", by);
+            boolean retjri = re.assign("bool", by);
             System.out.println(x = re.eval("bool"));
             // asBool returns the first element of the array as RBool
             // (mostly useful for boolean arrays of the length 1). is should return true

@@ -419,7 +419,7 @@ public class RunMinerBack {
 
             // push a boolean array
             boolean by[] = {true, false, false};
-            irv.Rengine.assign("bool", by);
+            boolean retjri = irv.Rengine.assign("bool", by);
             System.out.println("testR " + (x = irv.Rengine.eval("bool")));
             // asBool returns the first element of the array as RBool
             // (mostly useful for boolean arrays of the length 1). is should return true

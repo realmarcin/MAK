@@ -1049,9 +1049,6 @@ public class ScoreBlocks extends Program {
                 }
             }
         }
-        /*irv.Rengine.assign("data", passdata);
-  irv.Rexpr = irv.Rengine.eval("fisher.test(data, alternative="greater")");
-  ftest = irv.Rexpr.asDouble();*/
         return curgolab;
     }
 
@@ -1094,9 +1091,6 @@ public class ScoreBlocks extends Program {
             }
         }
 
-        /*irv.Rengine.assign("data", passdata);
-  irv.Rexpr = irv.Rengine.eval("fisher.test(data, alternative="greater")");
-  ftest = irv.Rexpr.asDouble();*/
         return curgolab;
     }
 
@@ -1186,10 +1180,6 @@ public class ScoreBlocks extends Program {
                     }
                 }
             }
-
-            /*irv.Rengine.assign("data", passdata);
-            irv.Rexpr = irv.Rengine.eval("fisher.test(data, alternative="greater")");
-            ftest = irv.Rexpr.asDouble();*/
         } else {
             curTIGRlab = "noTIGR";
         }
@@ -1288,10 +1278,6 @@ public class ScoreBlocks extends Program {
                     }
                 }
             }
-
-            /*irv.Rengine.assign("data", passdata);
-            irv.Rexpr = irv.Rengine.eval("fisher.test(data, alternative="greater")");
-            ftest = irv.Rexpr.asDouble();*/
         } else {
             curTIGRlab = "noTIGR";
         }

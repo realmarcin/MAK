@@ -437,7 +437,7 @@ public class AllvsAll {
      * @param bindtotal_pvals_index
      */
     private void doPvals(ArrayList pvals_final, ArrayList counts_final, HashMap bindtotal_pvals_index, ArrayList map_size_final, ArrayList map_size_total) {
-        irv.Rengine.assign("data", MoreArray.ArrayListtoDouble(pvals_final));
+        boolean retjri =  irv.Rengine.assign("data", MoreArray.ArrayListtoDouble(pvals_final));
         //irv.Rengine.eval("data <- c(" + MoreArray.toString(TFlabelpval, ",") + ")");
         String rcall2 = "p.adjust(data,\"fdr\")";
         irv.Rexpr = irv.Rengine.eval(rcall2);

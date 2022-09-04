@@ -983,10 +983,10 @@ public class MakeNull extends Program {
                 //System.out.print(".");
                 if (debug)
                     System.out.println("R: Ic<-c(" + MoreArray.toString(VBPInitial[0], ",") + ")");
-                Rengine.assign("Ic", VBPInitial[0]);
+                boolean retjri = Rengine.assign("Ic", VBPInitial[0]);
                 if (debug)
                     System.out.println("R: Jc<-c(" + MoreArray.toString(VBPInitial[1], ",") + ")");
-                Rengine.assign("Jc", VBPInitial[1]);
+                boolean retjri2 = Rengine.assign("Jc", VBPInitial[1]);
                 if (debug)
                     System.out.println("R: nullRegData <- NULL");
                 Rengine.eval("nullRegData <- NULL");
@@ -1190,10 +1190,10 @@ public class MakeNull extends Program {
                         //System.out.print(".");
                         if (debug)
                             System.out.println("R: Ic<-c(" + MoreArray.toString(VBPInitial[0], ",") + ")");
-                        Rengine.assign("Ic", VBPInitial[0]);
+                        boolean retjri = Rengine.assign("Ic", VBPInitial[0]);
                         if (debug)
                             System.out.println("R: Jc<-c(" + MoreArray.toString(VBPInitial[1], ",") + ")");
-                        Rengine.assign("Jc", VBPInitial[1]);
+                        boolean retjri2 = Rengine.assign("Jc", VBPInitial[1]);
                         if (debug)
                             System.out.println("R: nullRegData <- NULL");
                         Rengine.eval("nullRegData <- NULL");
@@ -1424,11 +1424,8 @@ public class MakeNull extends Program {
             System.out.println("R: Ic<-c(" + MoreArray.toString(VBPInitial[0], ",") + ")");
             System.out.println("R: Jc<-c(" + MoreArray.toString(VBPInitial[1], ",") + ")");
         }
-        Rengine.assign("Ic", VBPInitial[0]);
-        Rengine.assign("Jc", VBPInitial[1]);
-        /*if (debug)
-            System.out.println("R: Jc<-c(" + MoreArray.toString(VBPInitial[1], ",") + ")");
-        Rengine.assign("Jc", VBPInitial[1]);*/
+        boolean retjri = Rengine.assign("Ic", VBPInitial[0]);
+        boolean retjri2 = Rengine.assign("Jc", VBPInitial[1]);
 
         Rengine.eval("nullRegData <- NULL");
 
@@ -1467,50 +1464,8 @@ public class MakeNull extends Program {
      * @return
      */
     private double[] critFeat(int[][] VBPInitial, double[] critsraw) {
-      /*  if (debug)
-            System.out.println("R: Ic<-c(" + MoreArray.toString(VBPInitial[0], ",") + ")");
-        Rengine.assign("Ic", VBPInitial[0]);
-        *//*if (debug)
-            System.out.println("R: Jc<-c(" + MoreArray.toString(VBPInitial[1], ",") + ")");
-        Rengine.assign("Jc", VBPInitial[1]);*//*
-
-        Rengine.eval("nullRegData <- NULL");
-
-        int onlymean = 0;
-        int arrayInd = 0;
-        try {
-            arrayInd = MoreArray.getArrayInd(MINER_STATIC.MEANCrit, CRIT_MASTER_IND);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (arrayInd != -1)
-            onlymean = 1;
-        String rcall = ComputeCrit.buildCritCallTotal(false, false, onlymean, criterion);
-
-        if (debug)
-            System.out.println("R: " + rcall);
-        Rexpr = Rengine.eval(rcall);
-
-        try {
-            RList rl = Rexpr.asList();
-            critsraw = (rl.at(1)).asDoubleArray();
-            *//*if (debug) {
-                System.out.println("criterion wo null " + CRIT_MASTER_IND + "\t" +
-                        MINER_STATIC.CRIT_LABELS[CRIT_MASTER_IND - 1]);
-                MoreArray.printArray(critsraw);
-            }*//*
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-
         if (critsraw == null)
             critsraw = new double[9];
-
-       /* System.out.println("VBPInitial[0]");
-        MoreArray.printArray(VBPInitial[0]);
-
-        System.out.println("critsraw");
-        MoreArray.printArray(critsraw);*/
 
         critsraw = ComputeCrit.computeFeat(critsraw, VBPInitial[0], feat_data.data, debug);
 
@@ -1588,7 +1543,7 @@ public class MakeNull extends Program {
                             System.out.println("meanAndSDExpCrit i " + i + "\tj " + j);
                             e.printStackTrace();
                         }
-                    Rengine.assign("vals", vals);
+                    boolean retjri = Rengine.assign("vals", vals);
 
                     String rcall1 = "median(vals)";
                     if (debug)
@@ -1703,7 +1658,7 @@ public class MakeNull extends Program {
                                 System.out.println("meanAndSDExpCrit i " + i + "\tj " + j);
                                 e.printStackTrace();
                             }
-                        Rengine.assign("vals", vals);
+                        boolean retjri = Rengine.assign("vals", vals);
 
                         String rcall1 = "median(vals)";
                         if (debug)
@@ -1795,7 +1750,7 @@ public class MakeNull extends Program {
                     System.out.println("meanAndSDExpCritSpecial curCRITlabel " + CRIT_IND + "\t" + CRIT_MASTER_IND);
                     e.printStackTrace();
                 }
-            Rengine.assign("vals", vals);
+            boolean retjri = Rengine.assign("vals", vals);
 
             String rcall1 = "median(vals)";
             if (debug)
@@ -1902,7 +1857,7 @@ public class MakeNull extends Program {
                             System.out.println("meanAndSDExpCritSpecial curCRITlabel " + CRIT_IND + "\t" + CRIT_MASTER_IND);
                             e.printStackTrace();
                         }
-                    Rengine.assign("vals", vals);
+                    boolean retjri = Rengine.assign("vals", vals);
 
                     String rcall1 = "median(vals)";
                     if (debug)

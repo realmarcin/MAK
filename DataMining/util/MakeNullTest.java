@@ -1004,10 +1004,10 @@ public class MakeNullTest extends Program {
                 //System.out.print(".");
                 if (debug)
                     System.out.println("R: Ic<-c(" + MoreArray.toString(VBPInitial[0], ",") + ")");
-                Rengine.assign("Ic", VBPInitial[0]);
+                boolean retjri = Rengine.assign("Ic", VBPInitial[0]);
                 if (debug)
                     System.out.println("R: Jc<-c(" + MoreArray.toString(VBPInitial[1], ",") + ")");
-                Rengine.assign("Jc", VBPInitial[1]);
+                boolean retjri2 = Rengine.assign("Jc", VBPInitial[1]);
                 if (debug)
                     System.out.println("R: nullRegData <- NULL");
                 Rengine.eval("nullRegData <- NULL");
@@ -1416,10 +1416,7 @@ public class MakeNullTest extends Program {
     private double[] critInter(int[][] VBPInitial, double[] critsraw) {
         if (debug)
             System.out.println("R: Ic<-c(" + MoreArray.toString(VBPInitial[0], ",") + ")");
-        Rengine.assign("Ic", VBPInitial[0]);
-            /*if (debug)
-                System.out.println("R: Jc<-c(" + MoreArray.toString(VBPInitial[1], ",") + ")");
-            Rengine.assign("Jc", VBPInitial[1]);*/
+        boolean retjri = Rengine.assign("Ic", VBPInitial[0]);
 
         Rengine.eval("nullRegData <- NULL");
 
@@ -1579,7 +1576,7 @@ public class MakeNullTest extends Program {
                             System.out.println("meanAndSDExpCrit i " + i + "\tj " + j);
                             e.printStackTrace();
                         }
-                    Rengine.assign("vals", vals);
+                    boolean retjri = Rengine.assign("vals", vals);
 
                     String rcall1 = "median(vals)";
                     if (debug)
@@ -1694,7 +1691,7 @@ public class MakeNullTest extends Program {
                                 System.out.println("meanAndSDExpCrit i " + i + "\tj " + j);
                                 e.printStackTrace();
                             }
-                        Rengine.assign("vals", vals);
+                        boolean retjri = Rengine.assign("vals", vals);
 
                         String rcall1 = "median(vals)";
                         if (debug)
@@ -1786,7 +1783,7 @@ public class MakeNullTest extends Program {
                     System.out.println("meanAndSDExpCritSpecial curCRITlabel " + CRIT_IND + "\t" + CRIT_MASTER_IND);
                     e.printStackTrace();
                 }
-            Rengine.assign("vals", vals);
+            boolean retjri = Rengine.assign("vals", vals);
 
             String rcall1 = "median(vals)";
             if (debug)
@@ -1893,7 +1890,7 @@ public class MakeNullTest extends Program {
                             System.out.println("meanAndSDExpCritSpecial curCRITlabel " + CRIT_IND + "\t" + CRIT_MASTER_IND);
                             e.printStackTrace();
                         }
-                    Rengine.assign("vals", vals);
+                    boolean retjri = Rengine.assign("vals", vals);
 
                     String rcall1 = "median(vals)";
                     if (debug)

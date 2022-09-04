@@ -47,12 +47,6 @@ public class TestJRIList {
         REXP thisrexp = rl.at(0);
         thisrexp.asList();
 
-        RList passin = new RList();
-
-        REXP passinlist = new REXP();
-        //passinlist.
-        //Rengine.assign();
-
         System.exit(0);
     }
 

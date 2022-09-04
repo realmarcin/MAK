@@ -128,7 +128,7 @@ public class ObtainNullValues {
             if (nullMeanData != null) {
                 if (debug)
                     System.out.println("R: nullMeanData<-c(" + MoreArray.toString(nullMeanData, ",") + ")");
-                re.assign("nullMeanData", nullMeanData);
+                boolean retjri = re.assign("nullMeanData", nullMeanData);
             } else {
                 if (debug)
                     System.out.println("R: nullMeanData <- NULL");
@@ -146,7 +146,7 @@ public class ObtainNullValues {
             if (nullMSEData != null) {
                 if (debug)
                     System.out.println("R: nullMSEData<-c(" + MoreArray.toString(nullMSEData, ",") + ")");
-                re.assign("nullMSEData", nullMSEData);
+                boolean retjri = re.assign("nullMSEData", nullMSEData);
             } else {
                 if (debug)
                     System.out.println("R: nullMSEData <- NULL");
@@ -165,7 +165,7 @@ public class ObtainNullValues {
             if (nullRegData != null) {
                 if (debug)
                     System.out.println("R: nullRegData<-c(" + MoreArray.toString(nullRegData, ",") + ")");
-                re.assign("nullRegData", nullRegData);
+                boolean retjri = re.assign("nullRegData", nullRegData);
             } else {
                 if (debug)
                     System.out.println("R: nullRegData <- NULL");
@@ -183,7 +183,7 @@ public class ObtainNullValues {
             if (nullBinaryData != null) {
                 if (debug)
                     System.out.println("R: nullBinaryData<-c(" + MoreArray.toString(nullBinaryData, ",") + ")");
-                re.assign("nullBinaryData", nullBinaryData);
+                boolean retjri = re.assign("nullBinaryData", nullBinaryData);
             } else {
                 if (debug)
                     System.out.println("R: nullBinaryData <- NULL");
@@ -201,7 +201,7 @@ public class ObtainNullValues {
             if (nullKendData != null) {
                 if (debug)
                     System.out.println("R: nullKendData<-c(" + MoreArray.toString(nullKendData, ",") + ")");
-                re.assign("nullKendData", nullKendData);
+                boolean retjri = re.assign("nullKendData", nullKendData);
             } else {
                 if (debug)
                     System.out.println("R: nullKendData <- NULL");
@@ -218,7 +218,7 @@ public class ObtainNullValues {
             if (nullCorData != null) {
                 if (debug)
                     System.out.println("R: nullCorData<-c(" + MoreArray.toString(nullCorData, ",") + ")");
-                re.assign("nullCorData", nullCorData);
+                boolean retjri = re.assign("nullCorData", nullCorData);
             } else {
                 if (debug)
                     System.out.println("R: nullCorData <- NULL");
@@ -234,7 +234,7 @@ public class ObtainNullValues {
             if (nullEucData != null) {
                 if (debug)
                     System.out.println("R: nullEucData<-c(" + MoreArray.toString(nullEucData, ",") + ")");
-                re.assign("nullEucData", nullEucData);
+                boolean retjri = re.assign("nullEucData", nullEucData);
             } else {
                 if (debug)
                     System.out.println("R: nullEucData <- NULL");
@@ -250,7 +250,7 @@ public class ObtainNullValues {
             if (nullSpearData != null) {
                 if (debug)
                     System.out.println("R: nullSpearData<-c(" + MoreArray.toString(nullSpearData, ",") + ")");
-                re.assign("nullSpearData", nullSpearData);
+                boolean retjri = re.assign("nullSpearData", nullSpearData);
             } else {
                 if (debug)
                     System.out.println("R: nullSpearData <- NULL");
@@ -267,7 +267,7 @@ public class ObtainNullValues {
             if (nullInteractData != null) {
                 if (debug)
                     System.out.println("R: nullInteractData<-c(" + MoreArray.toString(nullInteractData, ",") + ")");
-                re.assign("nullInteractData", nullInteractData);
+                boolean retjri = re.assign("nullInteractData", nullInteractData);
             } else {
                 if (debug)
                     System.out.println("R: nullInteractData <- NULL");
@@ -284,7 +284,7 @@ public class ObtainNullValues {
             if (nullFeatData != null) {
                 if (debug)
                     System.out.println("R: nullFeatData<-c(" + MoreArray.toString(nullFeatData, ",") + ")");
-                re.assign("nullFeatData", nullFeatData);
+                boolean retjri = re.assign("nullFeatData", nullFeatData);
             } else {
                 if (debug)
                     System.out.println("R: nullFeatData <- NULL");
@@ -301,7 +301,7 @@ public class ObtainNullValues {
             if (nullTFData != null) {
                 if (debug)
                     System.out.println("R: nullTFData<-c(" + MoreArray.toString(nullTFData, ",") + ")");
-                re.assign("nullTFData", nullTFData);
+                boolean retjri = re.assign("nullTFData", nullTFData);
             } else {
                 if (debug)
                     System.out.println("R: nullTFData <- NULL");
@@ -658,11 +658,6 @@ public class ObtainNullValues {
         } catch (Exception e) {
             nullData[1] = Double.NaN;
         }
-
-        /*if (nullInteractData != null)
-            Rengine.assign("nullInteractData", nullInteractData);
-        else
-            System.out.println("ERROR: isInter == true but nullInteractData is null");*/
 
         if (Double.isNaN(nullData[0]) || Double.isNaN(nullData[1]))
             nullData = null;

@@ -896,7 +896,7 @@ public class FindCombRegbySite {
             System.out.println("irv == null");
         if (irv.Rengine == null)
             System.out.println("irv.Rengine == null");
-        irv.Rengine.assign("data", MoreArray.ArrayListtoDouble(pvals_raw));
+        boolean retjri = irv.Rengine.assign("data", MoreArray.ArrayListtoDouble(pvals_raw));
         //irv.Rengine.eval("data <- c(" + MoreArray.toString(TFlabelpval, ",") + ")");
         String rcall2 = "p.adjust(data,\"fdr\")";
         irv.Rexpr = irv.Rengine.eval(rcall2);

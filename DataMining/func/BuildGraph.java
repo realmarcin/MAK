@@ -2477,7 +2477,7 @@ for (int j = i + 1; j < size; j++) {
             /*TODO replace back with 4M limit or so */
             if (unadjustallpvals.length < 2000000) {
                 //System.out.println("unadjusted unsorted " + MoreArray.toString(unadjustallpvals, ","));
-                irv.Rengine.assign("data", unadjustallpvals);
+                boolean retjri = irv.Rengine.assign("data", unadjustallpvals);
                 //irv.Rengine.eval("data <- c(" + MoreArray.toString(TFlabelpval, ",") + ")");
                 System.out.println(irv.Rengine.eval("gc()"));
                 //System.out.println(irv.Rengine.eval("memory.limit()"));
@@ -2814,7 +2814,7 @@ for (int j = i + 1; j < size; j++) {
         if (TFfreqar.size() > 0) {
             double[] unadjustallpvals = MoreArray.ArrayListtoDouble(TFfreqar);
             //System.out.println("assignPairTF unadjusted unsorted " + MoreArray.toString(unadjustallpvals, ","));
-            irv.Rengine.assign("data", unadjustallpvals);
+            boolean retjri = irv.Rengine.assign("data", unadjustallpvals);
             //irv.Rengine.eval("data <- c(" + MoreArray.toString(TFlabelpval, ",") + ")");
             String rcall2 = "p.adjust(data,\"fdr\")";
             irv.Rexpr = irv.Rengine.eval(rcall2);
@@ -3132,7 +3132,7 @@ for (int j = i + 1; j < size; j++) {
             //FDR correction of Fisher exact p-values
             double[] unadjustallpvals = MoreArray.ArrayListtoDouble(GOfreqar);
             //System.out.println("unadjusted unsorted " + MoreArray.toString(unadjustallpvals, ","));
-            irv.Rengine.assign("data", unadjustallpvals);
+            boolean retjri = irv.Rengine.assign("data", unadjustallpvals);
             //irv.Rengine.eval("data <- c(" + MoreArray.toString(GOlabelpval, ",") + ")");
             String rcall2 = "p.adjust(data,\"fdr\")";
             irv.Rexpr = irv.Rengine.eval(rcall2);
@@ -3418,7 +3418,7 @@ for (int j = i + 1; j < size; j++) {
         if (GMTfreqar.size() > 0) {
             double[] unadjustallpvals = MoreArray.ArrayListtoDouble(GMTfreqar);
             //System.out.println("unadjusted unsorted " + MoreArray.toString(unadjustallpvals, ","));
-            irv.Rengine.assign("data", unadjustallpvals);
+            boolean retjri = irv.Rengine.assign("data", unadjustallpvals);
             //irv.Rengine.eval("data <- c(" + MoreArray.toString(TIGRrolelabelfreq, ",") + ")");
             String rcall2 = "p.adjust(data,\"fdr\")";
             irv.Rexpr = irv.Rengine.eval(rcall2);
@@ -3710,7 +3710,7 @@ for (int j = i + 1; j < size; j++) {
             double[] unadjustallpvals = MoreArray.ArrayListtoDouble(TIGRfreqar);
             //System.out.println("unadjusted unsorted " + unadjustallpvals.length);// + "\t" + MoreArray.toString(unadjustallpvals, ","));
             //System.out.println("unadjusted unsorted " + MoreArray.toString(unadjustallpvals, ","));
-            irv.Rengine.assign("data", unadjustallpvals);
+            boolean retjri = irv.Rengine.assign("data", unadjustallpvals);
             //irv.Rengine.eval("data <- c(" + MoreArray.toString(TIGRlabelfreq, ",") + ")");
             String rcall2 = "p.adjust(data,\"fdr\")";
             irv.Rexpr = irv.Rengine.eval(rcall2);
@@ -3926,7 +3926,7 @@ for (int j = i + 1; j < size; j++) {
         if (TIGRrolefreqar.size() > 0) {
             double[] unadjustallpvals = MoreArray.ArrayListtoDouble(TIGRrolefreqar);
             //System.out.println("unadjusted unsorted " + MoreArray.toString(unadjustallpvals, ","));
-            irv.Rengine.assign("data", unadjustallpvals);
+            boolean retjri = irv.Rengine.assign("data", unadjustallpvals);
             //irv.Rengine.eval("data <- c(" + MoreArray.toString(TIGRrolelabelfreq, ",") + ")");
             String rcall2 = "p.adjust(data,\"fdr\")";
             irv.Rexpr = irv.Rengine.eval(rcall2);
@@ -4197,7 +4197,7 @@ for (int j = i + 1; j < size; j++) {
 
         if (Pathfreqar.size() > 0) {
             System.out.println("unadjusted unsorted " + MoreArray.toString(unadjustallpvals, ","));
-            irv.Rengine.assign("data", unadjustallpvals);
+            boolean retjri = irv.Rengine.assign("data", unadjustallpvals);
             //irv.Rengine.eval("data <- c(" + MoreArray.toString(Pathlabelfreq, ",") + ")");
             String rcall2 = "p.adjust(data,\"fdr\")";
             irv.Rexpr = irv.Rengine.eval(rcall2);
@@ -4453,7 +4453,7 @@ for (int j = i + 1; j < size; j++) {
         //FDR correction of Fisher exact p-values
         double[] unadjustallpvals = MoreArray.ArrayListtoDouble(COGfreqar);
         System.out.println("unadjusted unsorted " + MoreArray.toString(unadjustallpvals, ","));
-        irv.Rengine.assign("data", unadjustallpvals);
+        boolean retjri = irv.Rengine.assign("data", unadjustallpvals);
         //irv.Rengine.eval("data <- c(" + MoreArray.toString(COGlabelfreq, ",") + ")");
         String rcall2 = "p.adjust(data,\"fdr\")";
         irv.Rexpr = irv.Rengine.eval(rcall2);

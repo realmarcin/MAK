@@ -955,10 +955,10 @@ public class MinerFast {
     private void setGenesExps(int[] genes, int[] exps) {
         if (debug_getCriteriaForBlock)
             System.out.println("R: Ic<-c(" + MoreArray.toString(genes, ",") + ")");
-        rmb.irv.Rengine.assign("Ic", genes);
+        boolean retjri = rmb.irv.Rengine.assign("Ic", genes);
         if (debug_getCriteriaForBlock)
             System.out.println("R: Jc<-c(" + MoreArray.toString(exps, ",") + ")");
-        rmb.irv.Rengine.assign("Jc", exps);
+        boolean retjri2 = rmb.irv.Rengine.assign("Jc", exps);
     }
 
     /**
@@ -2062,13 +2062,13 @@ public class MinerFast {
             if (diff >Parameters.MIN_NONMISSING_FOR_BATCH) {*/
         ArrayList[] ret = null;
         ret = new ArrayList[2];
-        rmb.irv.Rengine.assign("Iibatch", Ic);
+        boolean retjri = rmb.irv.Rengine.assign("Iibatch", Ic);
         if (debug_createPreCritTopList)
             System.out.println("R: Iibatch <- c(" + MoreArray.toString(Ic, ",") + ")");
-        rmb.irv.Rengine.assign("Jjbatch", Jc);
+        boolean retjri2 = rmb.irv.Rengine.assign("Jjbatch", Jc);
         if (debug_createPreCritTopList)
             System.out.println("R: Jjbatch <- c(" + MoreArray.toString(Jc, ",") + ")");
-        rmb.irv.Rengine.assign("missvec", missvec);
+        boolean retjri3 = rmb.irv.Rengine.assign("missvec", missvec);
         if (debug_createPreCritTopList)
             System.out.println("R: missvec <- c(" + MoreArray.toString(missvec, ",") + ")");
             /*
@@ -2159,13 +2159,13 @@ public class MinerFast {
             if (diff > MINER_STATIC.MIN_NONMISSING_FOR_BATCH) {*/
         ArrayList[] ret = null;
         ret = new ArrayList[2];
-        rmb.irv.Rengine.assign("Iibatch", Ic);
+        boolean retjri = rmb.irv.Rengine.assign("Iibatch", Ic);
         if (debug_getCriteriaForBlock)
             System.out.println("R: Iibatch <- c(" + MoreArray.toString(Ic, ",") + ")");
-        rmb.irv.Rengine.assign("Jjbatch", Jc);
+        boolean retjri2 = rmb.irv.Rengine.assign("Jjbatch", Jc);
         if (debug_getCriteriaForBlock)
             System.out.println("R: Jjbatch <- c(" + MoreArray.toString(Jc, ",") + ")");
-        rmb.irv.Rengine.assign("missvec", missvec);
+        boolean retjri3 = rmb.irv.Rengine.assign("missvec", missvec);
         if (debug_getCriteriaForBlock)
             System.out.println("R: missvec <- c(" + MoreArray.toString(missvec, ",") + ")");
 
@@ -2231,10 +2231,10 @@ public class MinerFast {
      */
     public ArrayList[] batchGD(int[] Ic, int[] Jc) {
         ArrayList[] ret = new ArrayList[2];
-        rmb.irv.Rengine.assign("Iibatch", Ic);
+        boolean retjri = rmb.irv.Rengine.assign("Iibatch", Ic);
         if (debug_getCriteriaForBlock)
             System.out.println("R: Iibatch <- c(" + MoreArray.toString(Ic, ",") + ")");
-        rmb.irv.Rengine.assign("Jjbatch", Jc);
+        boolean retjri2 = rmb.irv.Rengine.assign("Jjbatch", Jc);
         if (debug_getCriteriaForBlock)
             System.out.println("R: Jjbatch <- c(" + MoreArray.toString(Jc, ",") + ")");
 
@@ -2308,10 +2308,10 @@ public class MinerFast {
     public ArrayList[] batchED(int[] Ic, int[] Jc) {
 
         ArrayList[] ret = new ArrayList[2];
-        rmb.irv.Rengine.assign("Iibatch", Ic);
+        boolean retjri = rmb.irv.Rengine.assign("Iibatch", Ic);
         if (debug_getCriteriaForBlock)
             System.out.println("R: Iibatch <- c(" + MoreArray.toString(Ic, ",") + ")");
-        rmb.irv.Rengine.assign("Jjbatch", Jc);
+        boolean retjri2 = rmb.irv.Rengine.assign("Jjbatch", Jc);
         if (debug_getCriteriaForBlock)
             System.out.println("R: Jjbatch <- c(" + MoreArray.toString(Jc, ",") + ")");
 
@@ -2867,12 +2867,12 @@ public class MinerFast {
                 if (debug_createPreCritTopList) {
                     System.out.println("R: " + s1);
                 }
-                rmb.irv.Rengine.assign("Ic", curIc);
+                boolean retjri = rmb.irv.Rengine.assign("Ic", curIc);
                 String s2 = "Jc<-c(" + MoreArray.toString(curJc, ",") + ")";
                 if (debug_createPreCritTopList) {
                     System.out.println("R: " + s2);
                 }
-                rmb.irv.Rengine.assign("Jc", curJc);
+                boolean retjri2 = rmb.irv.Rengine.assign("Jc", curJc);
 
     /*TODO : This loops over the rows of preCriteria (rows=no.Ids) and sums them. Should allow a weighted sum */
                 double[] cur_pCritDouble = getCriteriaForBlock(curIc, curJc, rmb.irv.prm.precrit)[0];
@@ -3140,8 +3140,8 @@ public class MinerFast {
             //if (rmb.irv.prm.PRECRIT_TYPE_INDEX != rmb.orig_rmb.irv.prm.CRIT_TYPE_INDEX) {
             if (debug && i % 10 == 0)
                 System.out.print(".");
-            rmb.irv.Rengine.assign("Ic", vbnow.genes);
-            rmb.irv.Rengine.assign("Jc", vbnow.exps);
+            boolean retjri = rmb.irv.Rengine.assign("Ic", vbnow.genes);
+            boolean retjri2 = rmb.irv.Rengine.assign("Jc", vbnow.exps);
             getFinalCriteriaForBlock(vbnow);
                 /* } else {
                     boolean[] passcrits = Criterion.getExprCritTypes(rmb.irv.prm.crit, rmb.irv.prm.WEIGH_EXPR,

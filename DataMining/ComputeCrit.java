@@ -83,8 +83,8 @@ public class ComputeCrit {
             System.out.println("R: Ic<-c(" + MoreArray.toString(ic, ",") + ")");
             System.out.println("R: Jc<-c(" + MoreArray.toString(jc, ",") + ")");
         }
-        irv.Rengine.assign("Ic", ic);
-        irv.Rengine.assign("Jc", jc);
+        boolean retjri = irv.Rengine.assign("Ic", ic);
+        boolean retjri2 = irv.Rengine.assign("Jc", jc);
 
         //case for only MEAN criteria
         if ((MINER_STATIC.CRIT_LABELS[criterion.crit - 1].contains("MEDRMEAN") ||

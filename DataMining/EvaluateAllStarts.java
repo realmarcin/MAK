@@ -141,7 +141,7 @@ public class EvaluateAllStarts {
                         int w = ints.length;
                         curclusterData.add(ints);
 
-                        irv.Rengine.assign("sel_cols", MoreArray.ArrayListtoInt(curcluster));
+                        boolean retjri = irv.Rengine.assign("sel_cols", MoreArray.ArrayListtoInt(curcluster));
                         irv.Rengine.eval("row_sums <- rowSums(data)");
                         irv.Rengine.eval("sel_rows <- which(row_sums > 1)");
 
