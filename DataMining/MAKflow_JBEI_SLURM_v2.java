@@ -509,7 +509,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 }
 
                 try {
-                    run_ht_helper(localpath + input + basename + "_make_nulls.tasks", scriptbox, default_walltime, null,
+                    run_ht_helper(localpath + input + basename + "_make_nulls.tasks", scriptbox, max_walltime, null,
                             Math.min(maxnulljobs, max_jobs), null_mem_per_cpu, false, (int) setLevel);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -1213,7 +1213,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 }
 
                 try {
-                    run_ht_helper(localpath + input + basename + "_run_miner.tasks", scriptbox, default_walltime,
+                    run_ht_helper(localpath + input + basename + "_run_miner.tasks", scriptbox, max_walltime,
                             null, max_jobs, mem_per_cpu, false, (int) setLevel);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -1352,7 +1352,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 System.out.println("missing task len " + len);
                 if (len > 0) {
                     try {
-                        run_ht_helper(localpath + input + basename + "_rerun_miner.tasks", scriptbox, default_walltime,
+                        run_ht_helper(localpath + input + basename + "_rerun_miner.tasks", scriptbox, max_walltime,
                                 null, max_jobs, mem_per_cpu, false, (int) setLevel);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -2045,7 +2045,7 @@ public class MAKflow_JBEI_SLURM_v2 {
                 }
 
                 try {
-                    run_ht_helper(localpath + input + basename + "_refine.tasks", scriptbox, default_walltime, null,
+                    run_ht_helper(localpath + input + basename + "_refine.tasks", scriptbox, max_walltime, null,
                             max_jobs, mem_per_cpu, false, (int) setLevel);
                 } catch (IOException e) {
                     e.printStackTrace();
