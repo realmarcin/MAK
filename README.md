@@ -62,7 +62,7 @@ https://github.com/realmarcin/MAK_results/raw/master/results/yeast/input/example
 ```
 tar zxf MAK_example.tar.gz
 ```
-3. Run a single MAK trajectory:
+3. Run a single MAK trajectory (about 30 min. on a MacBook Pro 2.4Ghz Intel Core i9):
 ```
 cd MAK_example
 source run.sh
