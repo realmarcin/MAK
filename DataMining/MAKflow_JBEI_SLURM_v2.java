@@ -61,7 +61,7 @@ public class MAKflow_JBEI_SLURM_v2 {
             "Create RunMiner task file", //8
             "Execute task file", //9
             "Check that all tasks complete successfully. (ParamforErrMiss)", //10
-            "Rerun tFasks which did not produce results successfully. (RunMiner)", //11
+            "Rerun tasks which did not produce results successfully. (RunMiner)", //11
             "Collects trajectory endpoints. (ListfromDir)", //12
             "Filter endpoints by mean and percent of starting point. (ApplyCut)", //13
             "Bicluster list merge and reconstruction. (ListMergeMembers)", //14
@@ -3287,6 +3287,10 @@ public class MAKflow_JBEI_SLURM_v2 {
             sl_header += "#SBATCH --qos=" + qos + "" + "\n";
         if (constraint != null)
             sl_header += "#SBATCH --constraint=" + constraint + "\n";
+
+        sl_header += "module load orca/5.0.3-openmpi411\n";
+        sl_header += "module load java/1.8.0_121\n";
+        sl_header += "module load R/2.15.1\n";
 
         String loc_dir_1 = localpath + scriptbox + "/sl_script/";
         System.out.println(loc_dir_1);

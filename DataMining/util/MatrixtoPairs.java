@@ -26,9 +26,17 @@ public class MatrixtoPairs {
 
         for (int i = 0; i < sm.ylabels.length; i++) {
             String ylab = sm.ylabels[i];
+            if(!ylab.startsWith("\""))
+                ylab = "\"" + ylab;
+            if(!ylab.endsWith("\""))
+                ylab =  ylab+"\"";
             for (int j = i + 1; j < sm.xlabels.length; j++) {
                 if (sm.data[i][j] > cutoff) {
                     String xlab = sm.xlabels[j];
+                    if(!xlab.startsWith("\""))
+                        xlab = "\"" + xlab;
+                    if(!xlab.endsWith("\""))
+                        xlab =  xlab+"\"";
                     //out.add(ylab + " has a " + xlab + " and ");
                     out.add(ylab + "\t" + xlab + "\t" + sm.data[i][j]);
                 }

@@ -1220,8 +1220,10 @@ public class MakeNull extends Program {
                             Rexpr = Rengine.eval(rcall);
                             try {
                                 RList rl = Rexpr.asList();
-                                critsraw = (rl.at(1)).asDoubleArray();
-                                break;
+                                if(!MoreArray.hasNaN(critsraw)) {
+                                    critsraw = (rl.at(1)).asDoubleArray();
+                                    break;
+                                }
                             } catch (Exception e) {
                                 /*System.out.println("R: " + rcall);
                              System.out.println("Ic " + Rengine.eval("Ic"));
